@@ -3,7 +3,7 @@ Availability: .NET9, .NET 8, .NET 6 and .NET Standard 2.0
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
-
+ 
 # Breaking Changes
 - REMOVED DefaultYamlConverter class from the Cuemon.Runtime.Serialization.Converters namespace
 - REMOVED YamlSerializer class from the Cuemon.Runtime.Serialization namespace
@@ -19,6 +19,10 @@ Availability: .NET9, .NET 8, .NET 6 and .NET Standard 2.0
 - REMOVED YamlConverterFactory class from the Cuemon.Text.Yaml namespace
 - REMOVED YamlNamingPolicy class from the Cuemon.Text.Yaml namespace
 - RENAMED ReservedKeywordException class in the Cuemon namespace to ArgumentReservedKeywordException
+ 
+# New Features
+- ADDED Failure record in the Cuemon.Diagnostics namespace that represents a failure model with detailed information about an exception
+
  
 # Improvements
 - EXTENDED Condition class in the Cuemon namespace with an additional method: HasDifference

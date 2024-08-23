@@ -37,14 +37,17 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
 
             TestOutput.WriteLine(formattersAndResponseHandlers.ToDelimitedString(o => o.Delimiter = Environment.NewLine));
 
-            Assert.Equal(11, formattersAndResponseHandlers.Count);
+            Assert.Equal(14, formattersAndResponseHandlers.Count);
             Assert.Equal("""
                          XmlFormatterOptions -> application/xml
                          XmlFormatterOptions -> text/xml
+                         XmlFormatterOptions -> application/problem+xml
                          JsonFormatterOptions -> application/json
                          JsonFormatterOptions -> text/json
+                         JsonFormatterOptions -> application/problem+json
                          NewtonsoftJsonFormatterOptions -> application/json
                          NewtonsoftJsonFormatterOptions -> text/json
+                         NewtonsoftJsonFormatterOptions -> application/problem+json
                          YamlFormatterOptions -> text/plain; charset=utf-8
                          YamlFormatterOptions -> text/plain
                          YamlFormatterOptions -> application/yaml

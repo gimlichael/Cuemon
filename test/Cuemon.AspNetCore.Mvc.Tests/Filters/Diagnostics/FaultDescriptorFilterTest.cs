@@ -51,8 +51,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 				TestOutput.WriteLine(body);
 
 				Condition.FlipFlop(useBaseException,
-					() => Assert.Equal(@"{
+					() => Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/400"",
     ""status"": 400,
     ""code"": ""BadRequest"",
     ""message"": ""Value cannot be null."",
@@ -60,11 +61,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
       ""type"": ""System.ArgumentNullException"",
       ""message"": ""Value cannot be null.""
     }
-  }
-}".ReplaceLineEndings(), body),
-					() => Assert.Equal("""
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body, o => o.ThrowOnNoMatch = true)),
+					() => Assert.True(Match("""
                                        {
                                          "error": {
+                                           "instance": "http://localhost/statuscodes/400",
                                            "status": 400,
                                            "code": "BadRequest",
                                            "message": "The request could not be understood by the server due to malformed syntax.",
@@ -80,9 +83,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                                "message": "Value cannot be null."
                                              }
                                            }
-                                         }
+                                         },
+                                         "traceId": "*"
                                        }
-                                       """.ReplaceLineEndings(), body.ReplaceLineEndings()));
+                                       """.ReplaceLineEndings(), body.ReplaceLineEndings(), o => o.ThrowOnNoMatch = true)));
 
 				Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
 			}
@@ -115,13 +119,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/fake/it"",
     ""status"": 400,
     ""code"": ""BadRequest"",
     ""message"": ""The requirements of the request was not met.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
 			}
@@ -157,13 +163,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/fake/it"",
     ""status"": 429,
     ""code"": ""TooManyRequests"",
     ""message"": ""Throttling rate limit quota violation. Quota limit exceeded.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
 			}
@@ -189,13 +197,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/400"",
     ""status"": 400,
     ""code"": ""BadRequest"",
     ""message"": ""The request could not be understood by the server due to malformed syntax.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
 			}
@@ -221,13 +231,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/409"",
     ""status"": 409,
     ""code"": ""Conflict"",
     ""message"": ""The request could not be completed due to a conflict with the current state of the resource.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status409Conflict, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(409), result.ReasonPhrase);
 			}
@@ -253,13 +265,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/403"",
     ""status"": 403,
     ""code"": ""Forbidden"",
     ""message"": ""The server understood the request, but is refusing to fulfill it.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status403Forbidden, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(403), result.ReasonPhrase);
 			}
@@ -285,13 +299,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/410"",
     ""status"": 410,
     ""code"": ""Gone"",
     ""message"": ""The requested resource is no longer available at the server and no forwarding address is known.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status410Gone, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(410), result.ReasonPhrase);
 			}
@@ -317,13 +333,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/404"",
     ""status"": 404,
     ""code"": ""NotFound"",
     ""message"": ""The server has not found anything matching the request URI.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status404NotFound, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(404), result.ReasonPhrase);
 			}
@@ -349,13 +367,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/413"",
     ""status"": 413,
     ""code"": ""PayloadTooLarge"",
     ""message"": ""The server is refusing to process a request because the request entity is larger than the server is willing or able to process.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status413PayloadTooLarge, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(413), result.ReasonPhrase);
 			}
@@ -381,13 +401,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/412"",
     ""status"": 412,
     ""code"": ""PreconditionFailed"",
     ""message"": ""The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status412PreconditionFailed, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(412), result.ReasonPhrase);
 			}
@@ -413,13 +435,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/428"",
     ""status"": 428,
     ""code"": ""PreconditionRequired"",
     ""message"": ""No conditional request-header fields was supplied to the server.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status428PreconditionRequired, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(428), result.ReasonPhrase);
 			}
@@ -445,13 +469,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/429"",
     ""status"": 429,
     ""code"": ""TooManyRequests"",
     ""message"": ""The allowed number of requests has been exceeded.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
 			}
@@ -477,13 +503,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/401"",
     ""status"": 401,
     ""code"": ""Unauthorized"",
     ""message"": ""The request requires user authentication.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status401Unauthorized, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(401), result.ReasonPhrase);
 			}
@@ -509,13 +537,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/405"",
     ""status"": 405,
     ""code"": ""MethodNotAllowed"",
     ""message"": ""The method specified in the request is not allowed for the resource identified by the request URI.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status405MethodNotAllowed, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(405), result.ReasonPhrase);
 			}
@@ -541,13 +571,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/406"",
     ""status"": 406,
     ""code"": ""NotAcceptable"",
     ""message"": ""The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status406NotAcceptable, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(406), result.ReasonPhrase);
 			}
@@ -575,6 +607,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				Assert.Contains(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/XXX"",
     ""status"": 500,
     ""code"": ""InternalServerError"",
     ""message"": ""An unhandled exception was raised by ".ReplaceLineEndings(), body);
@@ -603,13 +636,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
 				TestOutput.WriteLine(body);
 
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/statuscodes/415"",
     ""status"": 415,
     ""code"": ""UnsupportedMediaType"",
     ""message"": ""The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.""
-  }
-}".ReplaceLineEndings(), body);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), body));
 				Assert.Equal(StatusCodes.Status415UnsupportedMediaType, (int)result.StatusCode);
 				Assert.Equal(HttpStatusDescription.Get(415), result.ReasonPhrase);
 			}

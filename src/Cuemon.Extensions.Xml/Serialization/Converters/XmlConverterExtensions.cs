@@ -182,5 +182,19 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddExceptionConverter(includeStackTrace, includeData).Inner;
         }
+
+        /// <summary>
+        /// Adds an <see cref="Failure" /> XML converter to the list.
+        /// </summary>
+        /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="converters"/> cannot be null.
+        /// </exception>
+        public static IList<XmlConverter> AddFailureConverter(this IList<XmlConverter> converters)
+        {
+            Validator.ThrowIfNull(converters);
+            return Decorator.Enclose(converters).AddFailureConverter().Inner;
+        }
     }
 }

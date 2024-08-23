@@ -40,10 +40,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         {
             var sut = new XmlSerializationInputFormatter(new XmlFormatterOptions());
 
-            Assert.Equal(2, sut.SupportedMediaTypes.Count);
+            Assert.Equal(3, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes,
                 s => Assert.Contains("application/xml", s),
-                s => Assert.Contains("text/xml", s));
+                s => Assert.Contains("text/xml", s),
+                s => Assert.Contains("application/problem+xml", s));
         }
 
         [Fact]

@@ -54,6 +54,10 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///         <description><see cref="FaultSensitivityDetails.None"/></description>
         ///     </item>
         ///     <item>
+        ///         <term><see cref="FaultDescriptor"/></term>
+        ///         <description><see cref="PreferredFaultDescriptor.FaultDetails"/></description>
+        ///     </item>
+        ///     <item>
         ///         <term><see cref="RequestEvidenceProvider"/></term>
         ///         <description><c>request => new HttpRequestEvidence(request)</c></description>
         ///     </item>
@@ -90,10 +94,11 @@ namespace Cuemon.AspNetCore.Diagnostics
                         if (resolver.TryResolveFault(e, out var descriptor)) { return descriptor; }
                     }
                 }
-                return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: string.Create(CultureInfo.InvariantCulture, $"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
+                return new HttpExceptionDescriptor(e, message: string.Create(CultureInfo.InvariantCulture, $"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
             };
             RequestEvidenceProvider = request => new HttpRequestEvidence(request);
             SensitivityDetails = FaultSensitivityDetails.None;
+            FaultDescriptor = PreferredFaultDescriptor.FaultDetails;
         }
 
         /// <summary>
@@ -143,6 +148,12 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </summary>
         /// <value>The enumeration values that specify which sensitive details to include in the serialized result.</value>
         public FaultSensitivityDetails SensitivityDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the preferred fault descriptor to use when serializing exceptions. Default is <see cref="PreferredFaultDescriptor.FaultDetails"/>, e.g., <see cref="HttpExceptionDescriptor"/>.
+        /// </summary>
+        /// <value>The preferred fault descriptor to use when serializing exceptions.</value>
+        public PreferredFaultDescriptor FaultDescriptor { get; set; }
 
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.

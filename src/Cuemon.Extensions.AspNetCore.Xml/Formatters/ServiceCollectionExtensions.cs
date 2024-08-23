@@ -2,7 +2,6 @@
 using System.Net.Http;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Xml.Converters;
-using Cuemon.Extensions.DependencyInjection;
 using Cuemon.Net.Http;
 using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +36,7 @@ namespace Cuemon.Extensions.AspNetCore.Xml.Formatters
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);
-            services.TryConfigure(setup ?? (o =>
+            services.Configure(setup ?? (o =>
             {
                 o.Settings = options.Settings;
                 o.SensitivityDetails = options.SensitivityDetails;
@@ -60,13 +59,14 @@ namespace Cuemon.Extensions.AspNetCore.Xml.Formatters
         public static IServiceCollection AddXmlExceptionResponseFormatter(this IServiceCollection services, Action<XmlFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
-            services.AddXmlFormatterOptions(setup);
+            AddXmlFormatterOptions(services, setup);
             services.TryAddSingleton(provider =>
             {
                 var options = provider.GetService<IOptions<XmlFormatterOptions>>().Value;
+                var faultDescriptorOptions = provider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
                 return new HttpExceptionDescriptorResponseFormatter<XmlFormatterOptions>(options)
                     .Adjust(o => o.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = o.SensitivityDetails))
-                    .Populate((descriptor, contentType) => new StreamContent(XmlFormatter.SerializeObject(descriptor, options))
+                    .Populate((descriptor, contentType) => new StreamContent(XmlFormatter.SerializeObject(faultDescriptorOptions.FaultDescriptor == PreferredFaultDescriptor.FaultDetails ? descriptor : Decorator.Enclose(descriptor).ToProblemDetails(options.SensitivityDetails), options))
                     {
                         Headers = { { HttpHeaderNames.ContentType, contentType.MediaType } }
                     });
