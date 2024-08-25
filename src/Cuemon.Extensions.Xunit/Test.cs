@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Xunit
 
             var pattern = $"^{Regex.Escape(expected).Replace(options.SingleCharacter, ".").Replace(options.GroupOfCharacters, ".*")}$";
 
-            if (Regex.IsMatch(actual, pattern)) { return true; }
+            if (Regex.IsMatch(actual, pattern, RegexOptions.None, TimeSpan.FromSeconds(2))) { return true; }
 
             var e = expected.Split(Environment.NewLine.ToCharArray());
             var a = actual.Split(Environment.NewLine.ToCharArray());
