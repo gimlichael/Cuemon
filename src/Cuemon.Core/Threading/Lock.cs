@@ -4,7 +4,6 @@
 
 using System.Runtime.CompilerServices;
 using System.Security;
-[assembly: SecurityTransparent()]
 #if NET9_0_OR_GREATER
 [assembly: TypeForwardedTo(typeof(System.Threading.Lock))]
 #else
