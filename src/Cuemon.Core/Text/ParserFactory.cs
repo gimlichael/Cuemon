@@ -408,7 +408,7 @@ namespace Cuemon.Text
         /// <exception cref="NotSupportedException">
         /// <see cref="string"/> cannot be converted to the specified <see cref="Type"/>.
         /// </exception>
-        /// <remarks>If the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion.</remarks>
+        /// <remarks>If the underlying <see cref="IFormatProvider"/> of <see cref="FormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion.</remarks>
         public static IConfigurableParser<ObjectFormattingOptions> FromObject()
         {
             return CreateConfigurableParser<ObjectFormattingOptions>((input, targetType, setup) =>

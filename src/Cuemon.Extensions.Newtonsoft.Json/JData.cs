@@ -145,7 +145,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
     internal static class RegexExtensions
     {
-        internal static readonly Lazy<Regex> LazySquareBracketsRemover = new(() => new Regex(@"\[[^]]*\]", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled));
+        internal static readonly Lazy<Regex> LazySquareBracketsRemover = new(() => new Regex(@"\[[^]]*\]", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled, TimeSpan.FromSeconds(2)));
 
         internal static string RemoveBrackets(this string path)
         {

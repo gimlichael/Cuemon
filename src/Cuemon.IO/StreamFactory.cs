@@ -222,31 +222,12 @@ namespace Cuemon.IO
         private static Stream CreateBufferStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<BufferWriterOptions> setup = null) where TTuple : Template<IBufferWriter<byte>>
         {
             var options = Patterns.Configure(setup);
-            return Patterns.SafeInvoke(() => new MemoryStream(options.BufferSize), (ms, f) =>
+            return CreateStreamCore<TTuple, IBufferWriter<byte>>(factory, options, options.BufferSize, (f, ms) =>
             {
                 var writer = new ArrayBufferWriter<byte>(options.BufferSize);
-
                 f.GenericArguments.Arg1 = writer;
                 f.ExecuteMethod();
-
                 ms.Write(writer.WrittenSpan);
-                ms.Flush();
-                ms.Position = 0;
-                if (options.Preamble == PreambleSequence.Remove)
-                {
-                    var preamble = options.Encoding.GetPreamble();
-                    if (preamble.Length > 0)
-                    {
-                        return ByteOrderMark.Remove(ms, options.Encoding) as MemoryStream;
-                    }
-                }
-                return ms;
-            }, factory, (ex, f) =>
-            {
-                var parameters = new List<object>();
-                parameters.AddRange(f.GenericArguments.ToArray());
-                parameters.Add(options);
-                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray());
             });
         }
 
@@ -255,13 +236,20 @@ namespace Cuemon.IO
         private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
         {
             var options = Patterns.Configure(setup);
-            return Patterns.SafeInvoke(() => new MemoryStream(options.BufferSize), (ms, f) =>
+            return CreateStreamCore<TTuple, StreamWriter>(factory, options, options.BufferSize, (f, ms) =>
             {
                 var writer = new InternalStreamWriter(ms, options);
-
                 f.GenericArguments.Arg1 = writer;
                 f.ExecuteMethod();
                 writer.Flush();
+            });
+        }
+
+        private static Stream CreateStreamCore<TTuple, TWriter>(ActionFactory<TTuple> factory, StreamEncodingOptions options, int bufferSize, Action<ActionFactory<TTuple>, MemoryStream> writerFactory) where TTuple : Template<TWriter>
+        {
+            return Patterns.SafeInvoke(() => new MemoryStream(bufferSize), (ms, f) =>
+            {
+                writerFactory(f, ms);
 
                 ms.Flush();
                 ms.Position = 0;

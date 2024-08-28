@@ -442,7 +442,7 @@ namespace Cuemon.Extensions
         {
             Validator.ThrowIfNull(value);
             var builder = new StringBuilder(value);
-            var unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase);
+            var unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(2));
             var matches = unicode.Matches(value);
             foreach (Match unicodeMatch in matches)
             {
