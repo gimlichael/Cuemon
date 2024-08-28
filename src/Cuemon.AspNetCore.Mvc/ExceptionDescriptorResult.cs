@@ -13,8 +13,16 @@ namespace Cuemon.AspNetCore.Mvc
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptorResult"/> class.
         /// </summary>
-        /// <param name="value">The descriptor value to return.</param>
+        /// <param name="value">The <see cref="HttpExceptionDescriptor"/> value to return.</param>
         public ExceptionDescriptorResult(HttpExceptionDescriptor value) : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExceptionDescriptorResult"/> class.
+        /// </summary>
+        /// <param name="value">The <see cref="ProblemDetails"/> value to return.</param>
+        public ExceptionDescriptorResult(ProblemDetails value) : base(Decorator.Enclose(value)) // IMPORTANT: we need to wrap the value in IDecorator<ProblemDetails> to avoid Microsoft taking over the serialization process
         {
         }
     }

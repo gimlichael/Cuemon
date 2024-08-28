@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
-using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
@@ -49,19 +48,12 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                     var ehf = context.Features.Get<IExceptionHandlerFeature>();
                     if (ehf != null)
                     {
-						var faultDescriptorOptions = context.RequestServices.GetRequiredService<IOptions<FaultDescriptorOptions>>();
+                        var options = context.RequestServices.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
                         var nonMvcResponseHandlers = context.RequestServices.GetExceptionResponseFormatters().SelectExceptionDescriptorHandlers();
-                        var options = faultDescriptorOptions.Value;
-						var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
-                        if (exceptionDescriptor == null) { return; }
-                        if (options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = options.RootHelpLink; }
-                        if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
-                        if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
-                        options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
-                        if (options.RequestEvidenceProvider != null && options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence)) { exceptionDescriptor.AddEvidence("Request", context.Request, options.RequestEvidenceProvider); }
-                        if (ehf.Error is HttpStatusCodeException httpFault)
+
+                        if (Decorator.Enclose(options).TryResolveHttpExceptionDescriptor(ehf.Error, context, null, out var descriptor))
                         {
-                            Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
+                            context.Response.StatusCode = descriptor.StatusCode;
                         }
 
                         var handlers = new List<HttpExceptionDescriptorResponseHandler>();
@@ -74,13 +66,13 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                             var handler = handlers.FirstOrDefault(rh => rh.ContentType.MediaType != null && rh.ContentType.MediaType.Equals(accept, StringComparison.OrdinalIgnoreCase));
                             if (handler != null)
                             {
-                                await WriteResponseAsync(context, handler, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false);
+                                await WriteResponseAsync(context, handler, descriptor, options.CancellationToken).ConfigureAwait(false);
                                 return;
                             }
                         }
 
                         var fallback = HttpExceptionDescriptorResponseHandler.CreateDefaultFallbackHandler(context.RequestServices.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value.SensitivityDetails);
-                        await WriteResponseAsync(context, fallback, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false); // fallback in case no match from Accept header
+                        await WriteResponseAsync(context, fallback, descriptor, options.CancellationToken).ConfigureAwait(false); // fallback in case no match from Accept header
                     }
                 }
             };

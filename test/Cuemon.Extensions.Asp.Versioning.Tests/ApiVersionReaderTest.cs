@@ -144,13 +144,15 @@ namespace Cuemon.Extensions.Asp.Versioning
 				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
 				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
 				Assert.EndsWith(jsonAccept, sut.Content.Headers.ContentType.ToString());
-				Assert.Equal(@"{
+				Assert.True(Match(@"{
   ""error"": {
+    ""instance"": ""http://localhost/fake/throw"",
     ""status"": 400,
     ""code"": ""BadRequest"",
     ""message"": ""The HTTP resource that matches the request URI \u0027http://localhost/fake/throw\u0027 does not support the API version \u0027d3\u0027.""
-  }
-}", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+  },
+  ""traceId"": ""*""
+}".ReplaceLineEndings(), (await sut.Content.ReadAsStringAsync()).ReplaceLineEndings()));
 			}
 		}
 
@@ -186,7 +188,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
 				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
 				Assert.EndsWith(xmlAccept, sut.Content.Headers.ContentType.ToString());
-				Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?><HttpExceptionDescriptor><Error><Status>400</Status><Code>BadRequest</Code><Message>The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.</Message></Error></HttpExceptionDescriptor>", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+				Assert.True(Match(@"<?xml version=""1.0"" encoding=""utf-8""?><HttpExceptionDescriptor><Error><Instance>http://localhost/fake/throw</Instance><Status>400</Status><Code>BadRequest</Code><Message>The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.</Message></Error><TraceId>*</TraceId></HttpExceptionDescriptor>", await sut.Content.ReadAsStringAsync()));
 			}
 		}
 
@@ -266,9 +268,10 @@ namespace Cuemon.Extensions.Asp.Versioning
 				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
 				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
 				Assert.EndsWith(jsonAccept, sut.Content.Headers.ContentType.ToString());
-				Assert.Equal($$"""
+				Assert.True(Match($$"""
                              {
                                "error": {
+                                 "instance": "http://localhost/fake/throw",
                                  "status": 400,
                                  "code": "BadRequest",
                                  "message": "The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'."
@@ -294,9 +297,10 @@ namespace Cuemon.Extensions.Asp.Versioning
                                    "cookies": [],
                                    "body": ""
                                  }
-                               }
+                               },
+                               "traceId": "*"
                              }
-                             """, await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+                             """.ReplaceLineEndings(), (await sut.Content.ReadAsStringAsync()).ReplaceLineEndings()));
 			}
 		}
 

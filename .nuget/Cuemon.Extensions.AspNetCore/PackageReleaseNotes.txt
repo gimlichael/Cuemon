@@ -3,9 +3,12 @@ Availability: .NET9, .NET 8 and .NET 6
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
-
+ 
 # Breaking Changes
 - REMOVED HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Diagnostics namespace
+ 
+# Improvements
+- CHANGED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails) in the UseFaultDescriptorExceptionHandler extension method
  
 Version 8.3.2
 Availability: .NET 8 and .NET 6

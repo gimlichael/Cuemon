@@ -28,6 +28,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             DefaultConverters = list =>
             {
                 Decorator.Enclose(list)
+                    .AddFailureConverter()
                     .AddEnumerableConverter()
                     .AddUriConverter()
                     .AddDateTimeConverter()
@@ -80,7 +81,8 @@ namespace Cuemon.Xml.Serialization.Formatters
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
                 DefaultMediaType,
-                new("text/xml")
+                new("text/xml"),
+                new("application/problem+xml")
             };
         }
 

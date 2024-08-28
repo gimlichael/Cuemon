@@ -34,6 +34,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 list.AddStringEnumConverter();
                 list.AddStringFlagsEnumConverter();
                 list.AddTransientFaultExceptionConverter();
+                list.AddFailureConverter();
             };
         }
 
@@ -86,7 +87,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
                 DefaultMediaType,
-                new("text/json")
+                new("text/json"),
+                new("application/problem+json")
             };
         }
 

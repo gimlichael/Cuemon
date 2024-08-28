@@ -3,9 +3,16 @@ Availability: .NET9, .NET 8 and .NET 6
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
-
+ 
 # Breaking Changes
 - REMOVED BadRequestMessage property from the class from the ApiKeySentinelOptions class in the Cuemon.AspNetCore.Http.Headers namespace
+ 
+# New Features
+- ADDED PreferredFaultDescriptor enum in the Cuemon.AspNetCore.Diagnostics namespace that specifies the preferred output format of an Exception raised in the context of either vanilla ASP.NET or ASP.NET MVC
+ 
+# Improvements
+- EXTENDED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a property named FaultDescriptor (PreferredFaultDescriptor); default is PreferredFaultDescriptor.FaultDetails
+- EXTENDED HttpExceptionDescriptor class in the Cuemon.AspNetCore.Diagnostics namespace to include two new properties; Instance (Uri) and TraceId (string)
  
 Version 8.3.2
 Availability: .NET 8 and .NET 6

@@ -64,6 +64,12 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <value>The HTTP status code of the service request the caller made.</value>
         public int StatusCode { get; set; }
 
+        /// <summary>  
+        /// Gets or sets the URI that identifies the specific occurrence of the problem.  
+        /// </summary>  
+        /// <value>The URI that identifies the specific occurrence of the problem.</value>  
+        public Uri Instance { get; set; }
+
         /// <summary>
         /// Gets or sets the request identifier that uniquely identifies the service request the caller made.
         /// </summary>
@@ -75,5 +81,11 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </summary>
         /// <value>An identifier that allows a reference to a particular transaction or event chain the caller made.</value>
         public string CorrelationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the trace identifier that uniquely identifies the trace of the service request the caller made.
+        /// </summary>
+        /// <value>A trace identifier that uniquely identifies the trace of the service request the caller made.</value>
+        public string TraceId { get; set; }
     }
 }

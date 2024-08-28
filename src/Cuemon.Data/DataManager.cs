@@ -264,7 +264,7 @@ namespace Cuemon.Data
         /// <exception cref="AggregateException">
         /// The first column of the first row in the result set could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="FormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
         public virtual TResult ExecuteScalarAs<TResult>(DataStatement statement, Action<ObjectFormattingOptions> setup = null)
@@ -285,7 +285,7 @@ namespace Cuemon.Data
         /// <exception cref="AggregateException">
         /// The first column of the first row in the result set could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="FormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
         public virtual async Task<TResult> ExecuteScalarAsAsync<TResult>(DataStatement statement, Action<ObjectFormattingOptions> setup = null, CancellationToken ct = default)

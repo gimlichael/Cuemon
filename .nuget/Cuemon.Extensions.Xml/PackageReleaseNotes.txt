@@ -1,4 +1,13 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET9, .NET 8, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- EXTENDED XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace to include one new extension method: AddFailureConverter
+ 
+Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
 # ALM

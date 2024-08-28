@@ -21,6 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json
                         JsonFormatterOptions.DefaultConverters += list =>
                         {
                             list.AddStringValuesConverter();
+                            list.AddProblemDetailsConverter();
                         };
                     }
                 }

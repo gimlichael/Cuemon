@@ -1,4 +1,14 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET9, .NET 8 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- EXTENDED ExceptionDescriptorResult class in the Cuemon.AspNetCore.Mvc namespace to have an extra overload that accepts ProblemDetails
+- CHANGED FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails)
+ 
+Version 8.3.2
 Availability: .NET 8 and .NET 6
  
 # ALM

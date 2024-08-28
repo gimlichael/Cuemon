@@ -1,14 +1,6 @@
 name: Cuemon CI/CD Pipeline
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - .codecov/**
-      - .docfx/**
-      - .github/**
-      - .nuget/**
-      - '**.md'
-  pull_request:
+  pull_request_target:
     branches: [main]
     paths-ignore:
       - .codecov/**
@@ -31,6 +23,7 @@ jobs:
   prepare_linux:
     name: 🐧 Prepare Linux
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
     steps:
@@ -51,6 +44,7 @@ jobs:
   prepare_windows:
     name: 🪟 Prepare Windows
     runs-on: windows-2022
+    timeout-minutes: 15
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
     steps:
@@ -71,6 +65,7 @@ jobs:
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     strategy:
       matrix:
         configuration: [Debug, Release]
@@ -165,6 +160,7 @@ jobs:
   pack:
     name: 📦 Pack
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     strategy:
       matrix:
         configuration: [Debug, Release]
@@ -196,6 +192,7 @@ jobs:
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.build.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -244,6 +241,7 @@ jobs:
     name: 🔬 Code Quality Analysis
     needs: [prepare_linux, build, test]
     runs-on: ubuntu-22.04
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -285,6 +283,7 @@ jobs:
     name: 📊 Code Coverage Analysis
     needs: [build, test]
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -299,6 +298,7 @@ jobs:
     name: 🛡️ Security Analysis
     needs: [prepare_linux, build, test]
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -330,6 +330,7 @@ jobs:
     if: github.event_name != 'pull_request'
     name: 🚀 Deploy v${{ needs.build.outputs.version }}
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     needs: [build, pack, test, sonarcloud, codecov, codeql]
     environment: Production
     steps:

@@ -21,6 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Newtonsoft.Json
                         NewtonsoftJsonFormatterOptions.DefaultConverters += list =>
                         {
                             list.AddStringValuesConverter();
+                            list.AddProblemDetailsConverter();
                         };
                     }
                 }

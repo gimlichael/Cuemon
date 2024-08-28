@@ -9,12 +9,12 @@ Please review our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Our Development Process
 We use GitHub with a simple GitFlow inspired flow.
-All new features and/or fixes are merged into the `development` branch by creating a Pull Request.
+All new features and/or fixes are merged into the `main` branch by creating a Pull Request.
 
 ## Pull Requests
 We actively welcome your pull requests.
 
-1. Fork the repo and create your branch from `development`
+1. Fork the repo and create your branch from `main`
 2. If you've added code that should be tested, add tests (DO follow [Microsoft Engineering Guidelines](https://github.com/dotnet/aspnetcore/wiki/Engineering-guidelines))
 3. Any changes or additions requires documentation in the form of documenting public members
 4. Ensure that all existing as well as new test passes

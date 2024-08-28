@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Diagnostics;
+using Cuemon.Resilience;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -100,7 +101,18 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         }
 
         /// <summary>
-        /// Adds an <see cref="Exception" /> JSON converter to the list.
+        /// Adds a <see cref="Failure"/> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddFailureConverter(this ICollection<JsonConverter> converters)
+        {
+            converters.Add(new FailureConverter());
+            return converters;
+        }
+
+        /// <summary>
+        /// Adds an <see cref="TransientFaultException" /> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>

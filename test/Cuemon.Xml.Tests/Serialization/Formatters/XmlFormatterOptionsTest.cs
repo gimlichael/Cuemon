@@ -72,7 +72,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             x.GetType().GetMethod("RefreshWithConverterDependencies", MemberReflection.Everything).Invoke(x, new object[] { });
             y.GetType().GetMethod("RefreshWithConverterDependencies", MemberReflection.Everything).Invoke(y, new object[] { });
 
-            Assert.Equal(5, defaultConverters.Count);
+            Assert.Equal(6, defaultConverters.Count);
             Assert.Equal(1, bootstrapInvocationList);
             Assert.Equal(2, x.Settings.Converters.Count - defaultConverters.Count);
             Assert.Equal(2, y.Settings.Converters.Count - defaultConverters.Count);

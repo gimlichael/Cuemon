@@ -24,7 +24,8 @@ namespace Cuemon.Extensions.AspNetCore.Xml
                                 .AddHeaderDictionaryConverter()
                                 .AddFormCollectionConverter()
                                 .AddQueryCollectionConverter()
-                                .AddCookieCollectionConverter();
+                                .AddCookieCollectionConverter()
+                                .AddProblemDetailsConverter();
                         };
                     }
                 }

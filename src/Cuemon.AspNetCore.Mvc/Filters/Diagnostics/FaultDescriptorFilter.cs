@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
-using Cuemon.AspNetCore.Http;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
@@ -41,21 +41,22 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
             {
-                var exceptionDescriptor = Options.ExceptionDescriptorResolver?.Invoke(Options.UseBaseException ? context.Exception.GetBaseException() : context.Exception);
-                if (exceptionDescriptor == null) { return; }
-                context.HttpContext.Response.StatusCode = exceptionDescriptor.StatusCode;
-                exceptionDescriptor.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>());
-                if (Options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = Options.RootHelpLink; }
-                if (context.HttpContext.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
-                if (context.HttpContext.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
-                Options.ExceptionCallback?.Invoke(context.HttpContext, context.Exception, exceptionDescriptor);
-                if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
-                if (Options.RequestEvidenceProvider != null && Options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence)) { exceptionDescriptor.AddEvidence("Request", context.HttpContext.Request, Options.RequestEvidenceProvider); }
-                if (exceptionDescriptor.Failure is HttpStatusCodeException httpFault)
+                if (Decorator.Enclose(Options).TryResolveHttpExceptionDescriptor(context.Exception, context.HttpContext, ed => ed.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>()), out var descriptor))
                 {
-                    Decorator.Enclose(context.HttpContext.Response.Headers).AddRange(httpFault.Headers);
+                    context.HttpContext.Response.StatusCode = descriptor.StatusCode;
+
+                    if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
+
+                    switch (Options.FaultDescriptor)
+                    {
+                        case PreferredFaultDescriptor.FaultDetails:
+                            context.Result = new ExceptionDescriptorResult(descriptor);
+                            break;
+                        default:
+                            context.Result = new ExceptionDescriptorResult(Decorator.Enclose(descriptor).ToProblemDetails(Options.SensitivityDetails));
+                            break;
+                    }
                 }
-                context.Result = new ExceptionDescriptorResult(exceptionDescriptor);
             }
         }
     }

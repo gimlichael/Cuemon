@@ -46,8 +46,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         public static IMvcCoreBuilder AddNewtonsoftJsonFormattersOptions(this IMvcCoreBuilder builder, Action<NewtonsoftJsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            builder.Services.AddNewtonsoftJsonFormatterOptions(setup);
-            builder.Services.AddNewtonsoftJsonExceptionResponseFormatter();
+            builder.Services.AddNewtonsoftJsonExceptionResponseFormatter(setup);
             return builder;
         }
     }
