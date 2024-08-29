@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Text.Json.Converters;
@@ -16,7 +17,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
     /// </summary>
     public class JsonFormatterOptions : IContentNegotiation, IExceptionDescriptorOptions, IValidatableParameterObject
     {
-        private readonly object _locker = new();
+        private readonly Lock _locker = new();
         private bool _refreshed;
 
         /// <summary>

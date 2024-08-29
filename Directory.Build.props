@@ -5,7 +5,7 @@
     <IsWindows>$([MSBuild]::IsOSPlatform('Windows'))</IsWindows>
     <IsMainAuthor Condition="'$(EMAIL)' == 'michael@geekle.io'">true</IsMainAuthor>
     <SkipSignAssembly>false</SkipSignAssembly>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(CI)' == 'true'">

@@ -1,11 +1,12 @@
 ﻿using Cuemon.Extensions.AspNetCore.Xml.Converters;
 using Cuemon.Xml.Serialization.Formatters;
+using System.Threading;
 
 namespace Cuemon.Extensions.AspNetCore.Xml
 {
     internal static class Bootstrapper
     {
-        private static readonly object PadLock = new();
+        private static readonly Lock PadLock = new();
         private static bool _initialized;
 
         internal static void Initialize()

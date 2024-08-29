@@ -10,7 +10,7 @@ namespace Cuemon.Runtime
     /// </summary>
     public abstract class Watcher : Disposable, IWatcher
     {
-        private readonly object _locker = new();
+        private readonly Lock _locker = new();
         private Timer _watcherTimer;
         private Timer _watcherPostponingTimer;
 

@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Cuemon.Data
 {
@@ -14,7 +15,7 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class BulkCopyDataReader : DbDataReader
     {
-        private static readonly object PadLock = new();
+        private static readonly Lock PadLock = new();
         private IOrderedDictionary _defaultFields;
 
         /// <summary>
