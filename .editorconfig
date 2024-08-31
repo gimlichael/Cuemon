@@ -32,3 +32,16 @@ dotnet_diagnostic.S3267.severity = none
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1859
 [*.{cs,vb}]
 dotnet_diagnostic.CA1859.severity = none
+
+# IDE0008: Use explicit type
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0007-ide0008
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0008.severity = none
+
+[*.{cs,vb}]
+indent_style = space
+indent_size = 4
+
+[*.xml]
+indent_style = space
+indent_size = 2
