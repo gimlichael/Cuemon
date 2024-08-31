@@ -94,7 +94,7 @@ namespace Cuemon.Extensions.Xml
             var options = Patterns.CreateInstance(setup);
             var navigable = XPathDocumentFactory.CreateDocument(value, true);
             var navigator = navigable.CreateNavigator();
-            return Patterns.SafeInvoke(() => new MemoryStream(), ms => 
+            return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 using (var writer = XmlWriter.Create(ms, options))
                 {

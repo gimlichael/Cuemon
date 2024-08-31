@@ -156,7 +156,7 @@ namespace Cuemon.Threading
         {
             var options = Patterns.Configure(setup);
             var readForward = true;
-            
+
             while (true)
             {
                 var workChunks = options.PartitionSize;

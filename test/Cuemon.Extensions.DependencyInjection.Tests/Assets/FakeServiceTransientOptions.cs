@@ -2,7 +2,7 @@
 {
     public class FakeServiceTransientOptions : FakeOptions
     {
-        public FakeServiceTransientOptions() 
+        public FakeServiceTransientOptions()
         {
         }
     }

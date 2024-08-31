@@ -32,7 +32,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         {
             foreach (var groupName in _provider.ApiVersionDescriptions.Select(description => description.GroupName))
             {
-                options.SwaggerEndpoint( $"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant() );
+                options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
             }
         }
     }

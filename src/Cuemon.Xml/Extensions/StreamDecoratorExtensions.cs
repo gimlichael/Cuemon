@@ -6,7 +6,7 @@ using Cuemon.Text;
 
 namespace Cuemon.Xml
 {
-/// <summary>
+    /// <summary>
     /// Extension methods for the <see cref="Stream"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>

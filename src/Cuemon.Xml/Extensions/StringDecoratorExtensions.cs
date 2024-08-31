@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Cuemon.Xml
 {
-/// <summary>
+    /// <summary>
     /// Extension methods for the <see cref="string"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
     public static class StringDecoratorExtensions
     {
-        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] {"<", ">", "\"", "'", "&"} };
+        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] { "<", ">", "\"", "'", "&" } };
         private static readonly char[] AdditionalInclusiveChars = new[] { '_', ':', '.', '-' };
         private static readonly char[] DotExclusiveChar = new[] { '.' };
         private static readonly string[] DotExclusiveString = new[] { "." };

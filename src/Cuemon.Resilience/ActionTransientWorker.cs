@@ -12,7 +12,7 @@ namespace Cuemon.Resilience
 
         public void ResilientAction(Action operation)
         {
-            for (var attempts = 0;;)
+            for (var attempts = 0; ;)
             {
                 var waitTime = Options.RetryStrategy(attempts);
                 try

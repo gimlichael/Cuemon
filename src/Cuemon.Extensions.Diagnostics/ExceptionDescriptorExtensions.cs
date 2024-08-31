@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Diagnostics
         {
             Validator.ThrowIfNull(descriptor);
             var formatter = new YamlFormatter(o => o.Settings.Converters.Add(new ExceptionDescriptorConverter(setup)));
-             return formatter.Serialize(descriptor).ToEncodedString();
+            return formatter.Serialize(descriptor).ToEncodedString();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Cuemon.Extensions.AspNetCore.Configuration
             var sut1 = new AssemblyCacheBusting(new OptionsWrapper<AssemblyCacheBustingOptions>(options));
             var sut2 = File.ReadAllBytes(typeof(AssemblyCacheBustingTest).Assembly.Location).Concat(Convertible.GetBytes(Generate.HashCode64(typeof(AssemblyCacheBustingTest).Assembly.FullName))).ToArray();
             var sut3 = UnkeyedHashFactory.CreateCrypto(options.Algorithm).ComputeHash(sut2).ToHexadecimalString();
-            
+
             TestOutput.WriteLine(sut1.Version);
 
             Assert.Equal(sut3, sut1.Version);

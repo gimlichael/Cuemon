@@ -21,17 +21,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
         }
 
-		/// <summary>
-		/// Gets or sets the server-specified metric name. Defaults to the name of the action method.
-		/// </summary>
-		/// <value>The server-specified metric name.</value>
-		public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the server-specified metric name. Defaults to the name of the action method.
+        /// </summary>
+        /// <value>The server-specified metric name.</value>
+        public string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the server-specified metric description. Defaults the request URI of the action method.
-		/// </summary>
-		/// <value>The server-specified metric description.</value>
-		public string Description { get; set; }
+        /// <summary>
+        /// Gets or sets the server-specified metric description. Defaults the request URI of the action method.
+        /// </summary>
+        /// <value>The server-specified metric description.</value>
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the value that in combination with <see cref="ThresholdTimeUnit" /> specifies the threshold of the action method.
@@ -45,18 +45,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <value>The <see cref="TimeUnit"/> that defines the actual <see cref="Threshold"/>.</value>
         public TimeUnit ThresholdTimeUnit { get; set; } = TimeUnit.Ticks;
 
-		/// <summary>
-		/// Gets or sets the <see cref="LogLevel"/> of server-timing metrics. Defaults to <see cref="LogLevel.Debug"/>, which means logs are written with a severity level of debug.
-		/// </summary>
-		/// <value>The  <see cref="LogLevel"/> of server-timing metrics.</value>
-		public LogLevel DesiredLogLevel { get; set; } = LogLevel.Debug;
+        /// <summary>
+        /// Gets or sets the <see cref="LogLevel"/> of server-timing metrics. Defaults to <see cref="LogLevel.Debug"/>, which means logs are written with a severity level of debug.
+        /// </summary>
+        /// <value>The  <see cref="LogLevel"/> of server-timing metrics.</value>
+        public LogLevel DesiredLogLevel { get; set; } = LogLevel.Debug;
 
-		/// <summary>
-		/// Gets or sets the name of the environment to suppress the Server-Timing header from. Default is "Production".
-		/// </summary>
-		/// <value>The name of the environment to suppress the Server-Timing header from.</value>
-		/// <remarks>To always include the Server-Timing header, set this property to <c>null</c> or an <c>empty</c> string.</remarks>
-		public string EnvironmentName { get; set; } = "Production";
+        /// <summary>
+        /// Gets or sets the name of the environment to suppress the Server-Timing header from. Default is "Production".
+        /// </summary>
+        /// <value>The name of the environment to suppress the Server-Timing header from.</value>
+        /// <remarks>To always include the Server-Timing header, set this property to <c>null</c> or an <c>empty</c> string.</remarks>
+        public string EnvironmentName { get; set; } = "Production";
 
         /// <summary>
 		/// Creates an instance of the executable filter.
@@ -67,13 +67,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             var logger = serviceProvider.GetService<ILogger<ServerTimingFilter>>();
-			var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
+            var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
             {
                 SuppressHeaderPredicate = string.IsNullOrEmpty(EnvironmentName)
                 ? _ => false
                 : env => env.EnvironmentName.Equals(EnvironmentName, StringComparison.OrdinalIgnoreCase),
-				LogLevelSelector = metric => metric.Duration.HasValue ? DesiredLogLevel : LogLevel.None,
-				TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit),
+                LogLevelSelector = metric => metric.Duration.HasValue ? DesiredLogLevel : LogLevel.None,
+                TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit),
                 UseTimeMeasureProfiler = true
             }), environment, logger)
             {

@@ -33,7 +33,7 @@ namespace Cuemon
             modifier?.Invoke(value);
             return value;
         }
-        
+
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a value of <typeparamref name="TResult"/>. 
         /// </summary>

@@ -32,7 +32,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var pipeline = _pipeline.Build();
 
             await pipeline(context);
-            
+
             Assert.True(context.Response.Headers.TryGetValue(options.Value.HeaderName, out var xCorrelationIdHeader));
             Assert.True(ParserFactory.FromGuid().TryParse(xCorrelationIdHeader.Single(), out var correlationId, o => o.Formats = GuidFormats.N));
 
@@ -50,7 +50,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             context.Request.Headers.Add(options.Value.HeaderName, expected);
 
             await pipeline(context);
-            
+
             Assert.True(context.Response.Headers.TryGetValue(options.Value.HeaderName, out var xCorrelationIdHeader));
             Assert.True(ParserFactory.FromGuid().TryParse(xCorrelationIdHeader.Single(), out var correlationId, o => o.Formats = GuidFormats.N));
             Assert.Equal(expected, correlationId.ToString("N"));

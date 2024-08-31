@@ -279,7 +279,7 @@ namespace Cuemon.Resilience
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
                 var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, TransientOperationOptionsCallback));
-                
+
                 TestOutput.WriteLine(aex.ToString());
 
                 Assert.IsType<LatencyException>(aex.InnerExceptions.First());
@@ -315,7 +315,7 @@ namespace Cuemon.Resilience
         {
             var id = Guid.NewGuid();
             _retryTracker.TryAdd(id, -1);
-            
+
             var profiler = await TimeMeasure.WithFuncAsync(ct => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
 
             Assert.Equal(ExpectedResult, profiler.Result);

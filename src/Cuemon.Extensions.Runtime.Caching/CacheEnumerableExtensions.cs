@@ -201,7 +201,7 @@ namespace Cuemon.Extensions.Runtime.Caching
         {
             return Memoize(cache, Arguments.Yield(dependency), valueFactory);
         }
-        
+
         /// <summary>
         /// Memoizes the specified <paramref name="valueFactory"/> in the cache for fast access.
         /// </summary>

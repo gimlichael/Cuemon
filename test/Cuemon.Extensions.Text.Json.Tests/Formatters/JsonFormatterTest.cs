@@ -120,7 +120,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                     o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
                 });
                 var r = f.Serialize(e);
-                
+
                 var x = new StreamReader(r).ReadAllLines().ToList();
                 Assert.Contains(e.Data.Keys.Cast<string>(), s => s.Equals("Cuemon"));
                 Assert.Contains(e.Data.Values.Cast<string>(), s => s.Equals("JsonFormatterTest"));

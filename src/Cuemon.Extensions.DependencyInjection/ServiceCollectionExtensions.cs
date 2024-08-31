@@ -488,65 +488,65 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryConfigure<TOptions>(this IServiceCollection services, Action<TOptions> setup) where TOptions : class, new()
         {
-	        if (services != null && !services.Any(descriptor => descriptor.ServiceType == typeof(IConfigureOptions<TOptions>)))
-	        {
-		        services.Configure(setup);
-	        }
-	        return services;
+            if (services != null && !services.Any(descriptor => descriptor.ServiceType == typeof(IConfigureOptions<TOptions>)))
+            {
+                services.Configure(setup);
+            }
+            return services;
         }
 
-	    /// <summary>
-		/// Registers an action used to post-configure all instances of a specific <typeparamref name="TOptions"/> type in the <paramref name="services"/> collection.
-		/// These are run after <see cref="OptionsServiceCollectionExtensions.Configure{TOptions}(IServiceCollection,Action{TOptions})"/>.
-		/// </summary>
-		/// <typeparam name="TOptions">The options type to be configured.</typeparam>
-		/// <param name="services">The <see cref="IServiceCollection" /> to extend.</param>
-		/// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-		/// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
-		/// <remarks>Iterates over all the services in the collection, and if the service is of type <see cref="IConfigureOptions{TOptions}"/> and its generic type argument matches the specified <typeparamref name="TOptions"/> type, it creates a new instance of <see cref="PostConfigureOptions{TOptions}"/> for that service and adds it to the <paramref name="services"/> collection.</remarks>
-		public static IServiceCollection PostConfigureAllOf<TOptions>(this IServiceCollection services, Action<TOptions> setup) where TOptions : class
-		{
-			var baseOptionsType = typeof(TOptions);
-			var configureOptionsType = typeof(IConfigureOptions<>);
-			var options = services.Where(descriptor =>
-			{
-				if (Decorator.Enclose(descriptor.ServiceType).HasInterfaces(configureOptionsType))
-				{
-					return baseOptionsType.IsInterface
-						? Decorator.Enclose(descriptor.ServiceType.GenericTypeArguments[0]).HasInterfaces(baseOptionsType)
-						: Decorator.Enclose(descriptor.ServiceType.GenericTypeArguments[0]).HasTypes(baseOptionsType);
+        /// <summary>
+        /// Registers an action used to post-configure all instances of a specific <typeparamref name="TOptions"/> type in the <paramref name="services"/> collection.
+        /// These are run after <see cref="OptionsServiceCollectionExtensions.Configure{TOptions}(IServiceCollection,Action{TOptions})"/>.
+        /// </summary>
+        /// <typeparam name="TOptions">The options type to be configured.</typeparam>
+        /// <param name="services">The <see cref="IServiceCollection" /> to extend.</param>
+        /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        /// <remarks>Iterates over all the services in the collection, and if the service is of type <see cref="IConfigureOptions{TOptions}"/> and its generic type argument matches the specified <typeparamref name="TOptions"/> type, it creates a new instance of <see cref="PostConfigureOptions{TOptions}"/> for that service and adds it to the <paramref name="services"/> collection.</remarks>
+        public static IServiceCollection PostConfigureAllOf<TOptions>(this IServiceCollection services, Action<TOptions> setup) where TOptions : class
+        {
+            var baseOptionsType = typeof(TOptions);
+            var configureOptionsType = typeof(IConfigureOptions<>);
+            var options = services.Where(descriptor =>
+            {
+                if (Decorator.Enclose(descriptor.ServiceType).HasInterfaces(configureOptionsType))
+                {
+                    return baseOptionsType.IsInterface
+                        ? Decorator.Enclose(descriptor.ServiceType.GenericTypeArguments[0]).HasInterfaces(baseOptionsType)
+                        : Decorator.Enclose(descriptor.ServiceType.GenericTypeArguments[0]).HasTypes(baseOptionsType);
 
-				}
-				return false;
-			}).ToList();
+                }
+                return false;
+            }).ToList();
 
-			foreach (var option in options)
-			{
-				var instance = option.ImplementationInstance;
-				if (instance != null)
-				{
-					var instanceType = instance.GetType();
-					if (instanceType.IsGenericType)
-					{
-						var optionType = instanceType.GenericTypeArguments[0];
-						if (instanceType == typeof(ConfigureNamedOptions<>).MakeGenericType(optionType))
-						{
-							var name = instanceType.GetProperty(nameof(ConfigureNamedOptions<TOptions>.Name))!.GetValue(instance);
-							var postConfigureOptionsType = typeof(IPostConfigureOptions<>).MakeGenericType(optionType);
-							var postConfigureOptions = Activator.CreateInstance(
-								typeof(PostConfigureOptions<>).MakeGenericType(optionType),
-								BindingFlags.Instance | BindingFlags.Public,
-								binder: null,
-								args: new[] { name, setup },
-								culture: null);
-							services.AddSingleton(postConfigureOptionsType, postConfigureOptions!);
-						}
-					}
-				}
-			}
+            foreach (var option in options)
+            {
+                var instance = option.ImplementationInstance;
+                if (instance != null)
+                {
+                    var instanceType = instance.GetType();
+                    if (instanceType.IsGenericType)
+                    {
+                        var optionType = instanceType.GenericTypeArguments[0];
+                        if (instanceType == typeof(ConfigureNamedOptions<>).MakeGenericType(optionType))
+                        {
+                            var name = instanceType.GetProperty(nameof(ConfigureNamedOptions<TOptions>.Name))!.GetValue(instance);
+                            var postConfigureOptionsType = typeof(IPostConfigureOptions<>).MakeGenericType(optionType);
+                            var postConfigureOptions = Activator.CreateInstance(
+                                typeof(PostConfigureOptions<>).MakeGenericType(optionType),
+                                BindingFlags.Instance | BindingFlags.Public,
+                                binder: null,
+                                args: new[] { name, setup },
+                                culture: null);
+                            services.AddSingleton(postConfigureOptionsType, postConfigureOptions!);
+                        }
+                    }
+                }
+            }
 
-			return services;
-		}
+            return services;
+        }
 
         private static void AddServices(this IServiceCollection services, Type service, Type implementation, ServiceLifetime lifetime, bool useTesterDoerPattern)
         {

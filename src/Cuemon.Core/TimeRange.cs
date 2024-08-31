@@ -20,7 +20,7 @@ namespace Cuemon
         internal TimeRange(TimeSpan start, TimeSpan end, Func<TimeSpan> duration) : base(start, end, duration)
         {
         }
-        
+
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>

@@ -9,7 +9,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
     /// </summary>
     /// <seealso cref="LinkTagHelper{TOptions}" />
     [HtmlTargetElement("app-link")]
-    public sealed class AppLinkTagHelper :  LinkTagHelper<AppTagHelperOptions>
+    public sealed class AppLinkTagHelper : LinkTagHelper<AppTagHelperOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AppLinkTagHelper"/> class.

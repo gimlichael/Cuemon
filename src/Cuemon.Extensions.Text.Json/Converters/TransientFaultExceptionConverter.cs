@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             var innerExceptionJson = jo["inner"];
             Exception innerException = null;
             TransientFaultEvidence evidence = null;
-            
+
             if (evidenceJson != null)
             {
                 var attempts = evidenceJson["attempts"].GetValue<int>();
@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
 
             if (innerExceptionJson != null)
             {
-                var converter = options.Converters.FirstOrDefault(converter => converter.CanConvert(typeof(Exception))) as JsonConverter<Exception>;;
+                var converter = options.Converters.FirstOrDefault(converter => converter.CanConvert(typeof(Exception))) as JsonConverter<Exception>; ;
                 var innerExceptionReader = new Utf8JsonReader(new ReadOnlySpan<byte>(Decorator.Enclose(innerExceptionJson.ToJsonString()).ToByteArray()));
                 innerException = converter?.Read(ref innerExceptionReader, Formatter.GetType(innerExceptionJson["type"].GetValue<string>()), options);
             }
@@ -62,7 +62,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
         public override void Write(Utf8JsonWriter writer, TransientFaultException value, JsonSerializerOptions options)
         {
-            var converter =  options.Converters.FirstOrDefault(converter => converter.CanConvert(typeof(Exception))) as JsonConverter<Exception>;
+            var converter = options.Converters.FirstOrDefault(converter => converter.CanConvert(typeof(Exception))) as JsonConverter<Exception>;
             converter?.Write(writer, value, options);
         }
     }

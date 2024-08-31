@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         {
         }
 
-         [Fact]
+        [Fact]
         public void CorrelationIdentifierOptions_HeaderNameIsNull_ShouldThrowInvalidOperationException()
         {
             var sut1 = new CorrelationIdentifierOptions

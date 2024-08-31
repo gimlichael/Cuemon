@@ -33,6 +33,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="ExceptionContext.ExceptionHandled"/> to <c>true</c>.
         /// </summary>
         /// <value><c>true</c> if <see cref="ExceptionContext.ExceptionHandled"/> should be set; otherwise, <c>false</c>.</value>
-        public bool MarkExceptionHandled  { get; set; }
+        public bool MarkExceptionHandled { get; set; }
     }
 }

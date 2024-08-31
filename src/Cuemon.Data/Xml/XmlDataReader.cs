@@ -78,7 +78,7 @@ namespace Cuemon.Data.Xml
             var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
             var skipIterateForward = false;
             string elementName = null;
-            
+
             while (Reader.Read())
             {
                 CurrentDepth = Reader.Depth;
@@ -102,7 +102,7 @@ namespace Cuemon.Data.Xml
 
                 if (skipIterateForward) { break; }
             }
-            
+
             return ReadNextIncrementRows(fields);
         }
 

@@ -23,8 +23,8 @@ namespace Cuemon.Extensions.Data.Integrity
             if (assembly == null || assembly.IsDynamic) { return CacheValidator.Default; }
             var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
             var assemblyLocation = assembly.Location;
-            return string.IsNullOrEmpty(assemblyLocation) 
-                ? new CacheValidator(new EntityInfo(DateTime.MinValue, DateTime.MaxValue, Convertible.GetBytes(assemblyHashCode64)), hashFactory) 
+            return string.IsNullOrEmpty(assemblyLocation)
+                ? new CacheValidator(new EntityInfo(DateTime.MinValue, DateTime.MaxValue, Convertible.GetBytes(assemblyHashCode64)), hashFactory)
                 : new FileInfo(assemblyLocation).GetCacheValidator(hashFactory, setup).CombineWith(assemblyHashCode64);
         }
     }

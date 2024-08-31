@@ -31,8 +31,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            if (Options.HasLastModifiedProvider && 
-                Decorator.Enclose(context.HttpContext.Request).IsGetOrHeadMethod() && 
+            if (Options.HasLastModifiedProvider &&
+                Decorator.Enclose(context.HttpContext.Request).IsGetOrHeadMethod() &&
                 Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode())
             {
                 if (context.Result is ObjectResult result && result.Value is IEntityDataTimestamp timestamp) { Options.LastModifiedProvider.Invoke(timestamp, context.HttpContext); }

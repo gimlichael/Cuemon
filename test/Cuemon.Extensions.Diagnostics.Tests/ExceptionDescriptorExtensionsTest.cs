@@ -71,7 +71,7 @@ namespace Cuemon.Extensions.Diagnostics
             {
                 throw new InsufficientMemoryException()
                 {
-                    Data = { {"Name", "Cuemon"}, }
+                    Data = { { "Name", "Cuemon" }, }
                 };
             }
             catch (InsufficientMemoryException e)
@@ -132,7 +132,7 @@ namespace Cuemon.Extensions.Diagnostics
       - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
             });
 
-            
+
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithData), () =>
             {
                 Assert.Contains(@"    Data:
@@ -157,7 +157,7 @@ namespace Cuemon.Extensions.Diagnostics
                     new ExceptionDescriptorOptions()
                     {
                         SensitivityDetails = FaultSensitivityDetails.FailureWithStackTrace | FaultSensitivityDetails.Evidence
-                    }, 
+                    },
                     SystemSnapshots.CaptureAll },
                 new object[]
                 {

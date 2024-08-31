@@ -39,7 +39,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ExceptionContext" />.</param>
         public virtual void OnException(ExceptionContext context)
         {
-            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor 
+            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor
                 && Decorator.Enclose(Options).TryResolveHttpExceptionDescriptor(context.Exception, context.HttpContext, ed => ed.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>()), out var descriptor))
             {
                 context.HttpContext.Response.StatusCode = descriptor.StatusCode;

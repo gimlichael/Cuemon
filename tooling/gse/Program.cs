@@ -40,7 +40,7 @@ namespace gse
                         o.Settings.ReflectionRules = new MemberReflection();
                         o.Settings.IndentSequences = false;
                     });
-                    
+
                     using var fsRawYaml = new FileStream(Path.Combine(SurrogatesPathRaw, $"{cultureInfo.Name.ToLowerInvariant()}.yml"), FileMode.Create);
                     fsRawYaml.Write(ms.ToByteArray(o => o.LeaveOpen = true), 0, (int)ms.Length);
                     fsRawYaml.Flush();

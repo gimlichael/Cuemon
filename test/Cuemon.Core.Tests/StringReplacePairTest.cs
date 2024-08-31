@@ -60,11 +60,11 @@ namespace Cuemon
             Assert.NotEqual(loremIpsumWords, sutWords);
             Assert.NotEqual(loremIpsumDifference.Select(s => s.ReplaceAll("cuemon", "", comparison)), sutDifference.Select(s => s.ReplaceAll("ut", "", comparison)));
             Assert.NotEqual(loremIpsumDifference.Count, sutDifference.Count);
-            
+
             Assert.Equal(loremIpsumWords.Length, sutWords.Length);
             Assert.Equal(utCountBeforeSut, cuemonCountAfterSut);
             Assert.Equal(cuemonCountBeforeSut, utCountAfterSut);
-            
+
             TestOutput.WriteLine(sut);
         }
 
@@ -83,7 +83,7 @@ namespace Cuemon
             Assert.NotEqual(loremIpsumWords, sutWords);
 
             Assert.Equal(loremIpsumWords.Length, sutWords.Length);
-            
+
             Assert.Equal(111, ametCountBeforeSut);
             Assert.Equal(0, ametCountAfterSut);
             Assert.Equal(53, scelerisqueCountBeforeSut);
@@ -107,7 +107,7 @@ namespace Cuemon
             Assert.NotEqual(loremIpsumWords, sutWords);
 
             Assert.Equal(loremIpsumWords.Length, sutWords.Length);
-            
+
             Assert.Equal(100, ametCountBeforeSut);
             Assert.Equal(0, ametCountAfterSut);
             Assert.Equal(49, scelerisqueCountBeforeSut);

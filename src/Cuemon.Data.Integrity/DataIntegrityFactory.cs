@@ -8,7 +8,7 @@ namespace Cuemon.Data.Integrity
     /// </summary>
     public static class DataIntegrityFactory
     {
-        
+
         /// <summary>
         /// Creates and returns an object implementing the <see cref="IDataIntegrity"/> interface from the specified <paramref name="file"/>.
         /// </summary>

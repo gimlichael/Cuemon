@@ -43,7 +43,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             rm.Headers.Location = new Uri("https://docs.cuemon.net/");
             rm.Headers.Date = DateTimeOffset.UnixEpoch;
             rm.Headers.ETag = EntityTagHeaderValue.Any;
-            
+
             var sut1 = new HeaderDictionary();
             var sut2 = rm.Headers;
 

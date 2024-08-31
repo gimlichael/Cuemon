@@ -37,7 +37,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         /// <remarks>This implementation will, when <see cref="ValidAcceptHeaders"/> has values, filter <paramref name="accept"/> to only include valid <see cref="HeaderNames.Accept"/> headers.</remarks>
         protected override string ReadAcceptHeader(ICollection<MediaTypeHeaderValue> accept)
         {
-            var filteredAcceptHeaders = new List<MediaTypeHeaderValue>(ValidAcceptHeaders != null && ValidAcceptHeaders.Count > 0 
+            var filteredAcceptHeaders = new List<MediaTypeHeaderValue>(ValidAcceptHeaders != null && ValidAcceptHeaders.Count > 0
                 ? accept.Where(ah => ValidAcceptHeaders.Any(vah => ah.MediaType.Value != null && ah.MediaType.Value.StartsWith(vah, StringComparison.OrdinalIgnoreCase)))
                 : accept);
             return base.ReadAcceptHeader(filteredAcceptHeaders);

@@ -45,19 +45,19 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// <value>The realm that defines the protection space.</value>
         public string Realm { get; set; }
 
-		/// <summary>
-		/// Determines whether the public read-write properties of this instance are in a valid state.
-		/// </summary>
-		/// <exception cref="InvalidOperationException">
-		/// <seealso cref="Authenticator"/> cannot be null - or -
-		/// <seealso cref="Realm"/> cannot be null, empty or consist only of white-space characters.
-		/// </exception>
-		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
-		public override void ValidateOptions()
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <seealso cref="Authenticator"/> cannot be null - or -
+        /// <seealso cref="Realm"/> cannot be null, empty or consist only of white-space characters.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public override void ValidateOptions()
         {
             Validator.ThrowIfInvalidState(Authenticator == null);
             Validator.ThrowIfInvalidState(string.IsNullOrWhiteSpace(Realm));
-	        base.ValidateOptions();
+            base.ValidateOptions();
         }
     }
 }

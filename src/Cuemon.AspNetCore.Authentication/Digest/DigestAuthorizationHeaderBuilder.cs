@@ -121,8 +121,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(HttpResponseHeaders headers)
         {
-	        Validator.ThrowIfNull(headers);
-	        return AddFromWwwAuthenticateHeader(headers.WwwAuthenticate.ToString());
+            Validator.ThrowIfNull(headers);
+            return AddFromWwwAuthenticateHeader(headers.WwwAuthenticate.ToString());
         }
 
         /// <summary>
@@ -138,19 +138,19 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
         private DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(string wwwAuthenticateHeader)
         {
-	        Validator.ThrowIfNull(wwwAuthenticateHeader);
-	        Validator.ThrowIfFalse(() => wwwAuthenticateHeader.StartsWith(AuthenticationScheme), nameof(wwwAuthenticateHeader), $"Header did not start with {AuthenticationScheme}.");
-	        var headerWithoutScheme = wwwAuthenticateHeader.Remove(0, AuthenticationScheme.Length + 1);
-	        var fields = DelimitedString.Split(headerWithoutScheme);
-	        foreach (var field in fields)
-	        {
-		        var kvp = DelimitedString.Split(field, o => o.Delimiter = "=");
-		        var key = kvp[0].Trim();
-		        var value = kvp[1].Trim('"');
-		        if (key == DigestFields.QualityOfProtection) { continue; }
-		        AddOrUpdate(key, value);
-	        }
-	        return this;
+            Validator.ThrowIfNull(wwwAuthenticateHeader);
+            Validator.ThrowIfFalse(() => wwwAuthenticateHeader.StartsWith(AuthenticationScheme), nameof(wwwAuthenticateHeader), $"Header did not start with {AuthenticationScheme}.");
+            var headerWithoutScheme = wwwAuthenticateHeader.Remove(0, AuthenticationScheme.Length + 1);
+            var fields = DelimitedString.Split(headerWithoutScheme);
+            foreach (var field in fields)
+            {
+                var kvp = DelimitedString.Split(field, o => o.Delimiter = "=");
+                var key = kvp[0].Trim();
+                var value = kvp[1].Trim('"');
+                if (key == DigestFields.QualityOfProtection) { continue; }
+                AddOrUpdate(key, value);
+            }
+            return this;
         }
 
         /// <summary>

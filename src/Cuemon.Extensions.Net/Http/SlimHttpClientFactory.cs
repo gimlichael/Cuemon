@@ -23,7 +23,7 @@ namespace Cuemon.Extensions.Net.Http
 #endif
     public class SlimHttpClientFactory : IHttpClientFactory
 #if NET6_0_OR_GREATER
-        , IHttpMessageHandlerFactory 
+        , IHttpMessageHandlerFactory
 #endif
     {
         private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new();

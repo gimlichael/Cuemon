@@ -31,7 +31,7 @@ namespace Cuemon.AspNetCore.Hosting
             var pipeline = _pipeline.Build();
 
             await pipeline(context);
-            
+
             Assert.True(context.Response.Headers.TryGetValue(options.Value.HeaderName, out var xHostingEnvironmentHeader));
             Assert.Equal(HostingEnvironment.EnvironmentName, xHostingEnvironmentHeader.Single());
         }

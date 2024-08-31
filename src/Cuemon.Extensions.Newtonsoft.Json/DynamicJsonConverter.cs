@@ -34,8 +34,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <returns>An <see cref="JsonConverter" /> implementation of <typeparamref name="T"/>.</returns>
         public static JsonConverter Create<T>(Func<Type, bool> predicate, Action<JsonWriter, T, JsonSerializer> writer = null, Func<JsonReader, Type, T, JsonSerializer, T> reader = null)
         {
-            var castedWriter = writer == null ? (Action<JsonWriter, object, JsonSerializer>) null : (w, t, s) => writer(w, (T)t, s);
-            var castedReader = reader == null ? (Func<JsonReader, Type, object, JsonSerializer, object>) null : (r, t, o, s) => reader(r, t, (T)o, s);
+            var castedWriter = writer == null ? (Action<JsonWriter, object, JsonSerializer>)null : (w, t, s) => writer(w, (T)t, s);
+            var castedReader = reader == null ? (Func<JsonReader, Type, object, JsonSerializer, object>)null : (r, t, o, s) => reader(r, t, (T)o, s);
             return new DynamicJsonConverterCore(predicate, castedWriter, castedReader, typeof(T));
         }
 

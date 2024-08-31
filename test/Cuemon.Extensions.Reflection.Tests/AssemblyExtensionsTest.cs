@@ -9,7 +9,7 @@ namespace Cuemon.Extensions.Reflection
     {
         public AssemblyExtensionsTest(ITestOutputHelper output) : base(output)
         {
-            
+
         }
 
         [Fact]

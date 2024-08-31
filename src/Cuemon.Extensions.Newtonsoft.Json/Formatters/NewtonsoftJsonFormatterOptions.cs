@@ -129,7 +129,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             };
 
             var skipSerialization = skipProperty(pi) || skipPropertyType(pi.PropertyType);
-            jp.ShouldSerialize =  _ => !skipSerialization;
+            jp.ShouldSerialize = _ => !skipSerialization;
             jp.ShouldDeserialize = _ => !skipSerialization;
         }
 
@@ -176,7 +176,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 return Settings;
             }
         }
-        
+
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>

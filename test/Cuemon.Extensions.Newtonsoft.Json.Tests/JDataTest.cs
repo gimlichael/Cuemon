@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                 var r = f.Serialize(p);
 
                 var x0 = JData.ReadAll(r, o => o.LeaveOpen = true);
-            
+
                 TestOutput.WriteLine(DelimitedString.Create(x0, o => o.Delimiter = Environment.NewLine));
                 TestOutput.WriteLine(r.ToEncodedString());
             }
@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             var f = new NewtonsoftJsonFormatter();
             var r = f.Serialize(e);
             var x0 = JData.ReadAll(r, o => o.LeaveOpen = true);
-            
+
             TestOutput.WriteLine(DelimitedString.Create(x0, o => o.Delimiter = Environment.NewLine));
 
             TestOutput.WriteLine(r.ToEncodedString());

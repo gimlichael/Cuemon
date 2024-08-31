@@ -67,11 +67,11 @@ namespace Cuemon.AspNetCore.Http.Headers
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
-                
+
                 context.Request.Headers.Add(HeaderNames.UserAgent, "Invalid-Agent");
 
                 var uae = await Assert.ThrowsAsync<UserAgentException>(async () => await pipeline(context));
-                
+
                 Assert.Equal(uae.Message, options.Value.ForbiddenMessage);
                 Assert.Equal(uae.StatusCode, StatusCodes.Status403Forbidden);
                 Assert.True(options.Value.RequireUserAgentHeader);
@@ -103,9 +103,9 @@ namespace Cuemon.AspNetCore.Http.Headers
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(HeaderNames.UserAgent, "Invalid-Agent");
-                
+
                 await pipeline(context);
-                
+
                 Assert.True(options.Value.RequireUserAgentHeader);
                 Assert.True(options.Value.ValidateUserAgentHeader);
                 Assert.True(options.Value.AllowedUserAgents.Any());
@@ -135,7 +135,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);
-                
+
                 Assert.True(options.Value.RequireUserAgentHeader);
                 Assert.False(options.Value.ValidateUserAgentHeader);
                 Assert.False(options.Value.AllowedUserAgents.Any());

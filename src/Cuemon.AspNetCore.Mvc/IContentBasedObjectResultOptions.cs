@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// </summary>
         /// <value>The function delegate that resolves a checksum defining the data integrity of the specified <typeparamref name="T"/>.</value>
         Func<T, byte[]> ChecksumProvider { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the function delegate that resolves a value hinting whether the specified <see cref="ChecksumProvider"/> resembles a weak or a strong checksum strength.
         /// </summary>

@@ -97,7 +97,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="instance">The instance that this wrapper object represents.</param>
         /// <param name="memberReference">The member from where <paramref name="instance"/> was referenced.</param>
-        public Wrapper(T instance, MemberInfo memberReference = null) 
+        public Wrapper(T instance, MemberInfo memberReference = null)
         {
             _instance = instance;
             _instanceType = instance.GetType();
@@ -188,7 +188,7 @@ namespace Cuemon
         public TResult InstanceAs<TResult>(IFormatProvider provider)
         {
             var presult = Decorator.Enclose<object>(Instance).ChangeType(InstanceType, o => o.FormatProvider = provider);
-            return  Decorator.Enclose(presult).ChangeTypeOrDefault<TResult>();
+            return Decorator.Enclose(presult).ChangeTypeOrDefault<TResult>();
         }
 
         /// <summary>

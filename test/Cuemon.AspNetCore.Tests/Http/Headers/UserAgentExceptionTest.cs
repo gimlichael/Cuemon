@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         public UserAgentExceptionTest(ITestOutputHelper output) : base(output)
         {
         }
-        
+
         [Fact]
         public void UserAgentException_ShouldBeSerializable_Json()
         {

@@ -36,19 +36,19 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <value>The function delegate that will perform the authentication.</value>
         public HmacAuthenticator Authenticator { get; set; }
 
-		/// <summary>
-		/// Determines whether the public read-write properties of this instance are in a valid state.
-		/// </summary>
-		/// <exception cref="InvalidOperationException">
-		/// <seealso cref="Authenticator"/> cannot be null - or -
-		/// <seealso cref="AuthenticationScheme"/> cannot be null, empty or consist only of white-space characters.
-		/// </exception>
-		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
-		public override void ValidateOptions()
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <seealso cref="Authenticator"/> cannot be null - or -
+        /// <seealso cref="AuthenticationScheme"/> cannot be null, empty or consist only of white-space characters.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public override void ValidateOptions()
         {
-	        Validator.ThrowIfInvalidState(Authenticator == null);
-	        Validator.ThrowIfInvalidState(string.IsNullOrWhiteSpace(AuthenticationScheme));
-	        base.ValidateOptions();
+            Validator.ThrowIfInvalidState(Authenticator == null);
+            Validator.ThrowIfInvalidState(string.IsNullOrWhiteSpace(AuthenticationScheme));
+            base.ValidateOptions();
         }
     }
 }

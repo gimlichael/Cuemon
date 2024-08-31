@@ -62,7 +62,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <param name="source">The sequence of <see cref="JDataResult"/> to parse.</param>
         /// <param name="propertyNames">The comma-delimited property names (JSON path) to math in a JSON document.</param>
         /// <param name="extractor">The delegate that will extract values from <paramref name="propertyNames"/>.</param>
-        public static void ExtractArrayValues(this IEnumerable<JDataResult> source, string propertyNames, Action<IDictionary<string, IEnumerable<JDataResult>>> extractor) 
+        public static void ExtractArrayValues(this IEnumerable<JDataResult> source, string propertyNames, Action<IDictionary<string, IEnumerable<JDataResult>>> extractor)
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNullOrWhitespace(propertyNames);

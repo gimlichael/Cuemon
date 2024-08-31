@@ -22,14 +22,14 @@ namespace Cuemon.Data.SqlClient
         [Fact]
         public void BuildSelectQuery_ShouldSelectStateProvince()
         {
-            var builder = new SqlQueryBuilder("[Person].[StateProvince]", new Dictionary<string, string>(), new Dictionary<string, string>() { { "name", null } } )
+            var builder = new SqlQueryBuilder("[Person].[StateProvince]", new Dictionary<string, string>(), new Dictionary<string, string>() { { "name", null } })
             {
                 EnableDirtyReads = true,
                 EnableReadLimit = true,
                 ReadLimit = 10,
                 EnableTableAndColumnEncapsulation = true
             };
-            
+
             Assert.True(builder.EnableDirtyReads);
             Assert.True(builder.EnableReadLimit);
             Assert.True(builder.EnableTableAndColumnEncapsulation);

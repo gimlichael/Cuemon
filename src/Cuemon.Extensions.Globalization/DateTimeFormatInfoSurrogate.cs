@@ -38,25 +38,25 @@ namespace Cuemon.Extensions.Globalization
         public string DateSeparator { get; set; }
 
         public DayOfWeek FirstDayOfWeek { get; set; }
-        
+
         public string FullDateTimePattern { get; set; }
-        
+
         public string LongDatePattern { get; set; }
-        
+
         public string LongTimePattern { get; set; }
-        
+
         public string MonthDayPattern { get; set; }
-        
+
         public string PMDesignator { get; set; }
-        
+
         public string ShortDatePattern { get; set; }
-        
+
         public string ShortTimePattern { get; set; }
-        
+
         public string TimeSeparator { get; set; }
-        
+
         public string YearMonthPattern { get; set; }
-        
+
         public string[] ShortestDayNames { get; set; }
 
         public string[] AbbreviatedDayNames { get; set; }

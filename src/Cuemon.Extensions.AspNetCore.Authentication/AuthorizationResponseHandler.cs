@@ -65,7 +65,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 {
                     failure = Options.AuthorizationFailureHandler.Invoke(authorizeResult.AuthorizationFailure);
                 }
-                
+
                 var exceptionDescriptor = new HttpExceptionDescriptor(failure);
                 if (authorizeResult.Challenged) { exceptionDescriptor.StatusCode = StatusCodes.Status401Unauthorized; } // do not allow anything but 401 for challenged (WWW-Authenticate)
                 var handlers = context.RequestServices.GetExceptionResponseFormatters().SelectExceptionDescriptorHandlers();

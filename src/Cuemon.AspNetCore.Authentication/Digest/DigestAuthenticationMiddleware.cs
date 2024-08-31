@@ -46,12 +46,12 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <remarks><c>qop</c> is included and supported to be compliant with RFC 2617 (hence, this implementation cannot revert to reduced legacy RFC 2069 mode).</remarks>
         public override async Task InvokeAsync(HttpContext context, INonceTracker di)
         {
-	        if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
-	        
-	        context.Items.TryAdd(nameof(DigestAuthenticationOptions), Options);
-	        context.Items.TryAdd(nameof(INonceTracker), di);
+            if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
 
-	        if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
+            context.Items.TryAdd(nameof(DigestAuthenticationOptions), Options);
+            context.Items.TryAdd(nameof(INonceTracker), di);
+
+            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
                 await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, principal.Failure, dc =>
                 {
@@ -66,18 +66,18 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             }
 
             context.User = principal.Result;
-			await Next.Invoke(context).ConfigureAwait(false);
+            await Next.Invoke(context).ConfigureAwait(false);
         }
 
         internal static bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ConditionalValue<ClaimsPrincipal> result)
         {
-	        var options = context.Items[nameof(DigestAuthenticationOptions)] as DigestAuthenticationOptions;
+            var options = context.Items[nameof(DigestAuthenticationOptions)] as DigestAuthenticationOptions;
             var nonceTracker = context.Items[nameof(INonceTracker)] as INonceTracker;
-			if (options?.Authenticator == null)
-	        {
+            if (options?.Authenticator == null)
+            {
                 result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"{nameof(options.Authenticator)} was unexpectedly set to null."));
-		        return false;
-	        }
+                return false;
+            }
 
             if (header == null)
             {

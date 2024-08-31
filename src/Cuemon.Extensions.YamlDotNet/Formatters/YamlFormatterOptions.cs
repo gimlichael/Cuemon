@@ -16,17 +16,17 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
     /// </summary>
     public class YamlFormatterOptions : EncodingOptions, IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
-	    private readonly Lock _locker = new();
-	    private bool _refreshed;
+        private readonly Lock _locker = new();
+        private bool _refreshed;
 
-		/// <summary>
-		/// Provides the default/fallback media type that the associated formatter should use when content negotiation either fails or is absent.
-		/// </summary>
-		/// <value>The media type that the associated formatter should use when content negotiation either fails or is absent.</value>
-		public static MediaTypeHeaderValue DefaultMediaType { get; } = new("text/plain")
+        /// <summary>
+        /// Provides the default/fallback media type that the associated formatter should use when content negotiation either fails or is absent.
+        /// </summary>
+        /// <value>The media type that the associated formatter should use when content negotiation either fails or is absent.</value>
+        public static MediaTypeHeaderValue DefaultMediaType { get; } = new("text/plain")
         {
             CharSet = "utf-8"
-		};
+        };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YamlFormatterOptions"/> class.
@@ -67,12 +67,12 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
             SensitivityDetails = FaultSensitivityDetails.None;
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
-	            DefaultMediaType,
-	            new("text/plain"),
-	            new("application/yaml"),
-	            new("text/yaml"),
+                DefaultMediaType,
+                new("text/plain"),
+                new("application/yaml"),
+                new("text/yaml"),
                 new("*/*")
-			};
+            };
         }
 
         /// <summary>
@@ -101,16 +101,16 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
 
         internal YamlSerializerOptions RefreshWithConverterDependencies()
         {
-	        lock (_locker)
-	        {
-		        if (!_refreshed)
-		        {
-			        _refreshed = true;
-			        if (Settings.Converters.All(c => c.GetType() != typeof(ExceptionConverter))) { Settings.Converters.Add(new ExceptionConverter(SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), SensitivityDetails.HasFlag(FaultSensitivityDetails.Data))); }
+            lock (_locker)
+            {
+                if (!_refreshed)
+                {
+                    _refreshed = true;
+                    if (Settings.Converters.All(c => c.GetType() != typeof(ExceptionConverter))) { Settings.Converters.Add(new ExceptionConverter(SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), SensitivityDetails.HasFlag(FaultSensitivityDetails.Data))); }
                     if (Settings.Converters.All(c => c.GetType() != typeof(ExceptionDescriptorConverter))) { Settings.Converters.Add(new ExceptionDescriptorConverter(o => o.SensitivityDetails = SensitivityDetails)); }
-		        }
-		        return Settings;
-	        }
+                }
+                return Settings;
+            }
         }
 
         /// <summary>

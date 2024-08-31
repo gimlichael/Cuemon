@@ -41,7 +41,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                 };
                 list.Add(bc);
             }
-           
+
             Decorator.Enclose(viewData).AddOrUpdate(BreadcrumbKey, list);
         }
 

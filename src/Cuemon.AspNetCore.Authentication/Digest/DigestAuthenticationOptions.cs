@@ -135,34 +135,34 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <value>The function delegate for parsing nonce string values for expiration.</value>
         public Func<string, TimeSpan, bool> NonceExpiredParser { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether the server should bypass the calculation of HA1 password representation.
-		/// </summary>
-		/// <value><c>true</c> if the server should bypass the calculation of HA1 password representation; otherwise, <c>false</c>.</value>
-		/// <remarks>When enabled, the server reads the HA1 value directly from a secured storage.</remarks>
-		public bool UseServerSideHa1Storage { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the server should bypass the calculation of HA1 password representation.
+        /// </summary>
+        /// <value><c>true</c> if the server should bypass the calculation of HA1 password representation; otherwise, <c>false</c>.</value>
+        /// <remarks>When enabled, the server reads the HA1 value directly from a secured storage.</remarks>
+        public bool UseServerSideHa1Storage { get; set; }
 
-		/// <summary>
-		/// Determines whether the public read-write properties of this instance are in a valid state.
-		/// </summary>
-		/// <exception cref="InvalidOperationException">
-		/// <seealso cref="Authenticator"/> cannot be null - or -
-		/// <seealso cref="NonceExpiredParser"/> cannot be null - or -
-		/// <seealso cref="NonceGenerator"/> cannot be null - or -
-		/// <seealso cref="NonceSecret"/> cannot be null - or -
-		/// <seealso cref="OpaqueGenerator"/> cannot be null - or -
-		/// <seealso cref="Realm"/> cannot be null, empty or consist only of white-space characters.
-		/// </exception>
-		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <seealso cref="Authenticator"/> cannot be null - or -
+        /// <seealso cref="NonceExpiredParser"/> cannot be null - or -
+        /// <seealso cref="NonceGenerator"/> cannot be null - or -
+        /// <seealso cref="NonceSecret"/> cannot be null - or -
+        /// <seealso cref="OpaqueGenerator"/> cannot be null - or -
+        /// <seealso cref="Realm"/> cannot be null, empty or consist only of white-space characters.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public override void ValidateOptions()
         {
-	        Validator.ThrowIfInvalidState(Authenticator == null);
-	        Validator.ThrowIfInvalidState(string.IsNullOrWhiteSpace(Realm));
-			Validator.ThrowIfInvalidState(NonceExpiredParser == null);
-			Validator.ThrowIfInvalidState(NonceGenerator == null);
-			Validator.ThrowIfInvalidState(NonceSecret == null);
-			Validator.ThrowIfInvalidState(OpaqueGenerator == null);
-			base.ValidateOptions();
+            Validator.ThrowIfInvalidState(Authenticator == null);
+            Validator.ThrowIfInvalidState(string.IsNullOrWhiteSpace(Realm));
+            Validator.ThrowIfInvalidState(NonceExpiredParser == null);
+            Validator.ThrowIfInvalidState(NonceGenerator == null);
+            Validator.ThrowIfInvalidState(NonceSecret == null);
+            Validator.ThrowIfInvalidState(OpaqueGenerator == null);
+            base.ValidateOptions();
         }
     }
 }

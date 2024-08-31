@@ -14,12 +14,12 @@ namespace Cuemon.AspNetCore.Mvc.Assets
     [Route("[controller]")]
     public class FakeController : ControllerBase
     {
-	    private readonly IServerTiming _serverTiming;
+        private readonly IServerTiming _serverTiming;
 
-	    public FakeController(IServerTiming serverTiming = null)
-	    {
-		    _serverTiming = serverTiming;
-	    }
+        public FakeController(IServerTiming serverTiming = null)
+        {
+            _serverTiming = serverTiming;
+        }
 
         [HttpGet]
         [BearerThrottlingSentinel(10, 5, TimeUnit.Seconds)]
@@ -38,13 +38,13 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         [HttpGet("it-apikeysentinelattribute")]
         public IActionResult GetItApiKeySentinelAttribute()
         {
-	        return Ok("Unit Test");
+            return Ok("Unit Test");
         }
 
         [HttpGet("oneSecond")]
         public async Task<IActionResult> GetAfter1Second()
         {
-	        var delay = TimeSpan.FromSeconds(1);
+            var delay = TimeSpan.FromSeconds(1);
             await Task.Delay(delay);
             _serverTiming?.AddServerTiming("sapIntegration", delay);
             return Ok("Unit Test");
@@ -70,8 +70,8 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         [HttpGet("oneSecondAttributeWithDefaults")]
         public async Task<IActionResult> GetAfter1SecondDecoratedWithDefaults()
         {
-	        await Task.Delay(TimeSpan.FromSeconds(1));
-	        return Ok("Unit Test");
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            return Ok("Unit Test");
         }
 
         [HttpGet("getResponse400")]

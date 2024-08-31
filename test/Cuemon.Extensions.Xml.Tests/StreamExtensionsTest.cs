@@ -82,7 +82,7 @@ namespace Cuemon.Extensions.Xml
             {
                 var original = file.ToEncodedString(o => o.LeaveOpen = true);
                 var sanitized = file.RemoveXmlNamespaceDeclarations().ToEncodedString();
-                
+
                 TestOutput.WriteLine(original);
                 TestOutput.WriteLine("");
                 TestOutput.WriteLine(sanitized);

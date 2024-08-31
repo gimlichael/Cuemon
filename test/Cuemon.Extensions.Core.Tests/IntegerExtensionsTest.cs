@@ -70,7 +70,7 @@ namespace Cuemon.Extensions
         {
             var sut1 = Enumerable.Range(1, 20);
 
-            Assert.Collection(sut1, 
+            Assert.Collection(sut1,
                 i => Assert.False(i.IsPrime()),
                 i => Assert.True(i.IsPrime()),
                 i => Assert.True(i.IsPrime()),
@@ -140,7 +140,7 @@ namespace Cuemon.Extensions
 
             TestOutput.WriteLines(sut1.Cast<object>().ToArray());
 
-            Assert.Collection(sut1, 
+            Assert.Collection(sut1,
                 i => Assert.False(i.IsEven()),
                 i => Assert.True(i.IsEven()),
                 i => Assert.False(i.IsEven()),
@@ -170,7 +170,7 @@ namespace Cuemon.Extensions
 
             TestOutput.WriteLines(sut1);
 
-            Assert.Collection(sut1, 
+            Assert.Collection(sut1,
                 i => Assert.False(i.IsOdd()),
                 i => Assert.True(i.IsOdd()),
                 i => Assert.False(i.IsOdd()),

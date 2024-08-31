@@ -162,7 +162,7 @@ namespace Cuemon.Runtime.Caching
         /// <param name="e">The <see cref="CacheEntryEventArgs"/> instance containing the event data.</param>
         protected virtual void OnExpiredRaised(CacheEntryEventArgs e)
         {
-             Expired?.Invoke(this, e);
+            Expired?.Invoke(this, e);
         }
     }
 }

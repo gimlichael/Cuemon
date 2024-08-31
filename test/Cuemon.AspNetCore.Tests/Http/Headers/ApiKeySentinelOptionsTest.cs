@@ -91,19 +91,19 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public void ApiKeySentinelOptions_GenericClientStatusCodeIsOutOfRange_ShouldThrowInvalidOperationException()
         {
-	        var sut1 = new ApiKeySentinelOptions
-	        {
-		        GenericClientStatusCode = HttpStatusCode.Ambiguous
-	        };
-	        var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-	        var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
+            var sut1 = new ApiKeySentinelOptions
+            {
+                GenericClientStatusCode = HttpStatusCode.Ambiguous
+            };
+            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             TestOutput.WriteLine(sut2.Message);
-			
 
-	        Assert.Equal("Operation is not valid due to the current state of the object. (Expression '(int)GenericClientStatusCode < 400 || (int)GenericClientStatusCode > 499')", sut2.Message);
-	        Assert.Equal("ApiKeySentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
-	        Assert.IsType<InvalidOperationException>(sut3.InnerException);
+
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression '(int)GenericClientStatusCode < 400 || (int)GenericClientStatusCode > 499')", sut2.Message);
+            Assert.Equal("ApiKeySentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
 
         [Fact]

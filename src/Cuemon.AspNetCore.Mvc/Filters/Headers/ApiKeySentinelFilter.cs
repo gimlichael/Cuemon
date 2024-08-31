@@ -21,22 +21,22 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         {
         }
 
-		/// <summary>
-		/// Called early in the filter pipeline to confirm request is authorized.
-		/// </summary>
-		/// <param name="context">The <see cref="AuthorizationFilterContext" />.</param>
-		/// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
-		public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
+        /// <summary>
+        /// Called early in the filter pipeline to confirm request is authorized.
+        /// </summary>
+        /// <param name="context">The <see cref="AuthorizationFilterContext" />.</param>
+        /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
+        public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-	        try
-	        {
-		        await Decorator.Enclose(context.HttpContext).InvokeApiKeySentinelAsync(Options).ConfigureAwait(false);
-	        }
-	        catch (ApiKeyException ex)
-	        {
-		        context.Result = new ForbiddenObjectResult(ex.Message, ex.StatusCode);
-	        }
-	        
+            try
+            {
+                await Decorator.Enclose(context.HttpContext).InvokeApiKeySentinelAsync(Options).ConfigureAwait(false);
+            }
+            catch (ApiKeyException ex)
+            {
+                context.Result = new ForbiddenObjectResult(ex.Message, ex.StatusCode);
+            }
+
         }
     }
 }

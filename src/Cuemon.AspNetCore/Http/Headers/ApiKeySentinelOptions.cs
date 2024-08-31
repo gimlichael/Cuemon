@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Http.Headers
     /// </summary>
     public class ApiKeySentinelOptions : IValidatableParameterObject
     {
-	    /// <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApiKeySentinelOptions"/> class.
         /// </summary>
         /// <remarks>
@@ -116,7 +116,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </summary>
         /// <value>The generic message of a request without a valid key in <see cref="AllowedKeys"/>.</value>
         public string GenericClientMessage { get; set; }
-        
+
 
         /// <summary>
         /// Gets or sets a list of whitelisted API keys.

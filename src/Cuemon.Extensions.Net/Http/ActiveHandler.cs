@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.Net.Http
 
         public string Name { get; }
 
-        public DateTime Expires { get;  }
+        public DateTime Expires { get; }
 
         public TrackingHttpMessageHandler Handler { get; }
     }

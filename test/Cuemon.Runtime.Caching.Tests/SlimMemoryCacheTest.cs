@@ -46,7 +46,7 @@ namespace Cuemon.Runtime.Caching
                 }
                 else
                 {
-                    Assert.NotEqual(nw, _cache[key]);   
+                    Assert.NotEqual(nw, _cache[key]);
                 }
             });
 
@@ -65,7 +65,7 @@ namespace Cuemon.Runtime.Caching
             var key = "cuemon";
             var expectedPriorToVersionSix = "Cuemon .NET Standard";
             var expectedFromVersionSix = "Cuemon for .NET";
-            
+
             _cache.Add(key, expectedPriorToVersionSix, DateTime.MaxValue);
 
             Assert.True(_cache.Contains(key));
@@ -84,7 +84,7 @@ namespace Cuemon.Runtime.Caching
         public void Clear_ShouldRemoveAllCacheEntriesBothLogicalAndActual()
         {
             var values = Enumerable.Range(0, 10000).ToList();
-            
+
             foreach (var value in values)
             {
                 _cache.Add(Guid.NewGuid().ToString("N"), value, DateTime.MaxValue);
@@ -204,7 +204,7 @@ namespace Cuemon.Runtime.Caching
             Assert.Equal(items * 5, _cache.ToList().Count);
             Assert.True(bag.OrderBy(l => l).SequenceEqual(_cache.Where(pair => pair.Value.Namespace == Dependency60Namespace).Select(pair => pair.Key).OrderBy(l => l))); // insure thread safety validation
         }
-        
+
         [Fact, Priority(7)]
         public void Add_ShouldHandleLargeLoadWithoutCollisionUsingDependencyExpirationOfThirtySecondsWithNamespaceSpecification()
         {
@@ -240,7 +240,7 @@ namespace Cuemon.Runtime.Caching
             Assert.Equal(NumberOfItemsToCache, _cache.Where(pair => pair.Value.Namespace == Absolute30Namespace).ToList().Count);
 
             Thread.Sleep(TimeSpan.FromSeconds(10));
-            
+
             Assert.Equal(0, _cache.Where(pair => pair.Value.Namespace == Dependency30Namespace).ToList().Count);
             Assert.Equal(0, _cache.Where(pair => pair.Value.Namespace == Sliding30Namespace).ToList().Count);
             Assert.Equal(0, _cache.Where(pair => pair.Value.Namespace == Absolute30Namespace).ToList().Count);
@@ -260,7 +260,7 @@ namespace Cuemon.Runtime.Caching
             Assert.Equal(NumberOfItemsToCache, _cache.Where(pair => pair.Value.Namespace == Absolute60Namespace).ToList().Count);
 
             Thread.Sleep(TimeSpan.FromSeconds(10));
-            
+
             Assert.Equal(0, _cache.Where(pair => pair.Value.Namespace == Dependency60Namespace).ToList().Count);
             Assert.Equal(0, _cache.Where(pair => pair.Value.Namespace == Sliding60Namespace).ToList().Count);
             Assert.Equal(0, _cache.Where(pair => pair.Value.Namespace == Absolute60Namespace).ToList().Count);

@@ -132,7 +132,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
 
             context.Response.OnStartingInvokeTransformer(sut, async (message, response) =>
             {
-                response.StatusCode = (int) message.StatusCode;
+                response.StatusCode = (int)message.StatusCode;
                 var content = await message.Content.ReadAsByteArrayAsync();
                 await response.WriteBodyAsync(() => content);
             });

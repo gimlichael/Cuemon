@@ -58,19 +58,19 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 switch (reader.TokenType)
                 {
                     case JsonTokenType.String:
-                        #if NET8_0_OR_GREATER
+#if NET8_0_OR_GREATER
                         result |= (int)Enum.Parse(TypeToConvert, reader.GetString(), true);
-                        #else
+#else
                         result |= (int)Enum.Parse(typeToConvert, reader.GetString(), true);
-                        #endif
+#endif
                         break;
                 }
             }
-            #if NET8_0_OR_GREATER
+#if NET8_0_OR_GREATER
             return Enum.ToObject(TypeToConvert, result) as Enum;
-            #else
+#else
             return Enum.ToObject(typeToConvert, result) as Enum;
-            #endif
+#endif
         }
 
         public override void Write(Utf8JsonWriter writer, Enum value, JsonSerializerOptions options)

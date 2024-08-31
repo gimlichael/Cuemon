@@ -77,13 +77,13 @@ namespace Cuemon.Data
                 {
                     if (!Options.LeaveConnectionOpen && command.Connection != null && command.Connection.State != ConnectionState.Closed)
                     {
-                        
+
 #if NETSTANDARD2_0_OR_GREATER
                         command.Connection.Close();
 #else
                         await command.Connection.CloseAsync().ConfigureAwait(false);
 #endif
-                        
+
                     }
                 }
             });
@@ -292,7 +292,7 @@ namespace Cuemon.Data
         {
             return (TResult)await ExecuteScalarAsTypeAsync(statement, typeof(TResult), setup, ct).ConfigureAwait(false);
         }
-        
+
         /// <summary>
         /// Core method for executing methods on the <see cref="IDbCommand"/> interface resolved from the abstract <see cref="GetDbCommand"/> method.
         /// </summary>

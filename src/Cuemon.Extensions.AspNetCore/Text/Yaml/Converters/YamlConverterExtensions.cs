@@ -41,7 +41,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
             {
                 writer.WriteStartObject();
                 writer.WritePropertyName(options.SetPropertyName("Error"));
-                
+
                 writer.WriteStartObject();
                 writer.WriteString(options.SetPropertyName("Status"), value.StatusCode.ToString());
                 writer.WriteString(options.SetPropertyName("Code"), value.Code);

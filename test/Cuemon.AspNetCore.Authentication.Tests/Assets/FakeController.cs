@@ -19,18 +19,18 @@ namespace Cuemon.AspNetCore.Authentication.Assets
         [HttpPost]
         public IActionResult Post()
         {
-	        using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
-	        {  
-		        var body = reader.ReadToEndAsync().GetAwaiter().GetResult();
-	        }
-	        return Ok("Unit Test");
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                var body = reader.ReadToEndAsync().GetAwaiter().GetResult();
+            }
+            return Ok("Unit Test");
         }
 
         [AllowAnonymous]
         [HttpGet("anonymous")]
         public IActionResult GetAnonymous()
         {
-	        return Ok("Unit Test");
+            return Ok("Unit Test");
         }
     }
 }

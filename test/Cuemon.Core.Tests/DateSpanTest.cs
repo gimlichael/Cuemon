@@ -173,8 +173,8 @@ namespace Cuemon
             var sut0 = new DateTime(2020, 5, 12);
             var sut1 = Generate.RangeOf(5, i => new DateTime(2021, 5, i + 10));
 
-            Assert.Collection(sut1, 
-                dt => Assert.Equal("0:11:363:00:00:00.0", new DateSpan(sut0, dt).ToString()), 
+            Assert.Collection(sut1,
+                dt => Assert.Equal("0:11:363:00:00:00.0", new DateSpan(sut0, dt).ToString()),
                 dt => Assert.Equal("0:11:364:00:00:00.0", new DateSpan(sut0, dt).ToString()),
                 dt => Assert.Equal("1:12:365:00:00:00.0", new DateSpan(sut0, dt).ToString()),
                 dt => Assert.Equal("1:12:366:00:00:00.0", new DateSpan(sut0, dt).ToString()),

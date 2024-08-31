@@ -176,7 +176,7 @@ namespace Cuemon.Extensions
             var sut8 = sut1.Floor(1, TimeUnit.Hours);
             var sut9 = sut1.Floor(1, TimeUnit.Days);
 
-            
+
             Assert.Equal("2021-04-08T21:44:30", sut2.ToString("s"));
             Assert.Equal("2021-04-08T21:30:00", sut3.ToString("s"));
             Assert.Equal("2021-04-08T21:00:00", sut4.ToString("s"));
@@ -201,7 +201,7 @@ namespace Cuemon.Extensions
             var sut8 = sut1.Ceiling(1, TimeUnit.Hours);
             var sut9 = sut1.Ceiling(1, TimeUnit.Days);
 
-            
+
             Assert.Equal("2021-04-08T21:44:40", sut2.ToString("s"));
             Assert.Equal("2021-04-08T21:45:00", sut3.ToString("s"));
             Assert.Equal("2021-04-08T22:00:00", sut4.ToString("s"));

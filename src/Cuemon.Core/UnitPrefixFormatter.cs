@@ -21,7 +21,7 @@ namespace Cuemon
             .Concat(BinaryPrefix.BinaryPrefixes.Select(dp => $"{dp.Symbol}{BitUnit.Symbol}"))
             .Concat(BinaryPrefix.BinaryPrefixes.Select(dp => $"{dp.Symbol}{BitUnit.Name}"))
             .Concat(BinaryPrefix.BinaryPrefixes.Select(dp => $"{dp.Symbol}{ByteUnit.Symbol}"));
-        
+
         /// <summary>
         /// Returns an object that provides formatting services for the specified type.
         /// </summary>

@@ -53,15 +53,15 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <returns>A reference to this instance so that additional calls can be chained.</returns>
         public HmacAuthorizationHeaderBuilder AddFromRequest(HttpRequestMessage request)
         {
-	        var queryNvc = HttpUtility.ParseQueryString(request.RequestUri?.Query ?? "");
-			return AddOrUpdate(HmacFields.HttpMethod, request.Method.Method)
-				.AddOrUpdate(HmacFields.UriPath, request.RequestUri!.AbsolutePath)
-				.AddOrUpdate(HmacFields.UriQuery, string.Concat(queryNvc.Cast<string>().Select((s, i) => new KeyValuePair<string, StringValues>(s, queryNvc[i]?.Split(','))).OrderBy(pair => pair.Key).Select(pair => $"{Decorator.Enclose(pair.Key).UrlEncode()}={Decorator.Enclose(pair.Value.ToString()).UrlEncode()}")))
-				.AddOrUpdate(HmacFields.HttpHeaders, !request.Headers.Any() ? null : string.Concat(request.Headers.OrderBy(pair => pair.Key).Select(pair => $"{pair.Key.ToLowerInvariant()}:{DelimitedString.Create(pair.Value, o => o.StringConverter = s => $"{s.Trim()}{Alphanumeric.Linefeed}")}")))
-				.AddOrUpdate(HmacFields.Payload, UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(request.Content?.ReadAsStream() ?? new MemoryStream()).ToHexadecimalString())
-				.AddOrUpdate(HmacFields.ServerDateTime, request.Headers.Date?.UtcDateTime.ToString("O", CultureInfo.InvariantCulture));
-		}
-	
+            var queryNvc = HttpUtility.ParseQueryString(request.RequestUri?.Query ?? "");
+            return AddOrUpdate(HmacFields.HttpMethod, request.Method.Method)
+                .AddOrUpdate(HmacFields.UriPath, request.RequestUri!.AbsolutePath)
+                .AddOrUpdate(HmacFields.UriQuery, string.Concat(queryNvc.Cast<string>().Select((s, i) => new KeyValuePair<string, StringValues>(s, queryNvc[i]?.Split(','))).OrderBy(pair => pair.Key).Select(pair => $"{Decorator.Enclose(pair.Key).UrlEncode()}={Decorator.Enclose(pair.Value.ToString()).UrlEncode()}")))
+                .AddOrUpdate(HmacFields.HttpHeaders, !request.Headers.Any() ? null : string.Concat(request.Headers.OrderBy(pair => pair.Key).Select(pair => $"{pair.Key.ToLowerInvariant()}:{DelimitedString.Create(pair.Value, o => o.StringConverter = s => $"{s.Trim()}{Alphanumeric.Linefeed}")}")))
+                .AddOrUpdate(HmacFields.Payload, UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(request.Content?.ReadAsStream() ?? new MemoryStream()).ToHexadecimalString())
+                .AddOrUpdate(HmacFields.ServerDateTime, request.Headers.Date?.UtcDateTime.ToString("O", CultureInfo.InvariantCulture));
+        }
+
         /// <summary>
         /// Adds the necessary fields that is part of an HTTP request.
         /// </summary>
@@ -151,7 +151,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         {
             ValidateData(HmacFields.ClientId, HmacFields.ServerDateTime, HmacFields.ClientSecret, HmacFields.UriPath, HmacFields.UriQuery, HmacFields.HttpHeaders, HmacFields.Payload);
             EnsureSignedHeaders(out var signedHeaders);
-            return new HmacAuthorizationHeader(Data[HmacFields.ClientId], Decorator.Enclose(Data).GetValueOrDefault(HmacFields.CredentialScope), signedHeaders, ComputeSignature(), AuthenticationScheme); 
+            return new HmacAuthorizationHeader(Data[HmacFields.ClientId], Decorator.Enclose(Data).GetValueOrDefault(HmacFields.CredentialScope), signedHeaders, ComputeSignature(), AuthenticationScheme);
         }
 
         private void EnsureSignedHeaders(out string signedHeaders)

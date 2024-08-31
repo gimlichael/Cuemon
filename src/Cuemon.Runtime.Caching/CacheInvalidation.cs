@@ -37,7 +37,7 @@ namespace Cuemon.Runtime.Caching
             Validator.ThrowIfGreaterThan(slidingExpiration.Ticks, TimeSpan.FromDays(365).Ticks, nameof(slidingExpiration), "The specified sliding expiration cannot exceed one year.");
             SlidingExpiration = slidingExpiration;
         }
-        
+
         /// <summary>
         /// Gets a sequence of objects implementing the <see cref="IDependency"/> interface assigned to a <see cref="CacheEntry"/>.
         /// </summary>

@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             var innerExceptionJson = jo["inner"];
             Exception innerException = null;
             TransientFaultEvidence evidence = null;
-            
+
             if (evidenceJson != null)
             {
                 var attempts = evidenceJson["attempts"].Value<int>();

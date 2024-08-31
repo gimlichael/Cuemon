@@ -266,7 +266,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 Assert.Contains("\"name\": \"AnswerToEverything\"", json);
                 Assert.Contains("\"value\": 42", json);
                 Assert.Contains("\"type\": \"Int32\"", json);
-                
+
                 TestOutput.WriteLine(json);
             });
         }

@@ -95,7 +95,7 @@ namespace Cuemon
             return TryInvoke(method, out var result) ? result : fallbackResult;
         }
 
-        
+
         /// <summary>
         /// Provides a generic way to initialize the default, parameterless constructed instance of <typeparamref name="T"/>.
         /// </summary>
@@ -177,7 +177,7 @@ namespace Cuemon
         /// <paramref name="options"/> cannot be null -or-
         /// <paramref name="initializer"/> cannot be null.
         /// </exception>
-        public static Action<TResult> ConfigureRevertExchange<TSource, TResult>(TSource options, Action<TSource, TResult> initializer = null) 
+        public static Action<TResult> ConfigureRevertExchange<TSource, TResult>(TSource options, Action<TSource, TResult> initializer = null)
             where TSource : class, IParameterObject, new()
             where TResult : class, new()
         {

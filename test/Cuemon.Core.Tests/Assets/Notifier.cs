@@ -4,7 +4,7 @@
     {
         public Notifier()
         {
-            
+
         }
 
         public string Send(string message)

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Hosting
 {
-    
+
     /// <summary>
     /// Extension methods for the <see cref="IHostEnvironment"/> interface.
     /// </summary>

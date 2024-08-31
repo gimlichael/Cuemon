@@ -11,7 +11,7 @@ namespace Cuemon.Assets
         {
             Id = Guid.Empty;
         }
-        
+
         [XmlAttribute]
         public Guid Id { get; }
 
@@ -28,11 +28,11 @@ namespace Cuemon.Assets
         public Person Owner => new Person(
                 new Address()
                 {
-                    City = "Gilleleje", 
+                    City = "Gilleleje",
                     PostalCode = "3250"
                 })
         {
-            Age = 42, 
+            Age = 42,
             Name = "Gimlichael"
         };
 
@@ -77,7 +77,7 @@ namespace Cuemon.Assets
         [XmlAttribute]
         public int Age { get; set; }
 
-        public Address Address { get;  }
+        public Address Address { get; }
     }
 
     public class Address

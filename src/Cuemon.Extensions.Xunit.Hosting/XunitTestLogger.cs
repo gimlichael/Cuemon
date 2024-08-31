@@ -5,37 +5,37 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-	internal class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
-	{
-		private readonly ITestOutputHelper _output;
+    internal class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
+    {
+        private readonly ITestOutputHelper _output;
 
-		public XunitTestLogger(ITestOutputHelper output)
-		{
-			_output = output;
-		}
+        public XunitTestLogger(ITestOutputHelper output)
+        {
+            _output = output;
+        }
 
-		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-		{
-			var builder = new StringBuilder($"{logLevel}: {formatter(state, exception)}");
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            var builder = new StringBuilder($"{logLevel}: {formatter(state, exception)}");
             if (exception != null) { builder.AppendLine().Append(exception).AppendLine(); }
 
             var message = builder.ToString();
-			_output.WriteLine(message);
-			Add(new XunitTestLoggerEntry(logLevel, eventId, message));
-		}
+            _output.WriteLine(message);
+            Add(new XunitTestLoggerEntry(logLevel, eventId, message));
+        }
 
-		public bool IsEnabled(LogLevel logLevel)
-		{
-			return logLevel != LogLevel.None;
-		}
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            return logLevel != LogLevel.None;
+        }
 
-		public IDisposable BeginScope<TState>(TState state) where TState : notnull
-		{
-			return this;
-		}
+        public IDisposable BeginScope<TState>(TState state) where TState : notnull
+        {
+            return this;
+        }
 
-		public void Dispose()
-		{
-		}
-	}
+        public void Dispose()
+        {
+        }
+    }
 }

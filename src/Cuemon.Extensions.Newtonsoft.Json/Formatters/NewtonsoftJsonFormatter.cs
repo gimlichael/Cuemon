@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// <summary>
         /// Initializes a new instance of the <see cref="NewtonsoftJsonFormatter"/> class.
         /// </summary>
-        public NewtonsoftJsonFormatter() : this((Action<NewtonsoftJsonFormatterOptions>) null)
+        public NewtonsoftJsonFormatter() : this((Action<NewtonsoftJsonFormatterOptions>)null)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// <param name="options">The configured <see cref="NewtonsoftJsonFormatterOptions"/>.</param>
         public NewtonsoftJsonFormatter(NewtonsoftJsonFormatterOptions options) : base(options)
         {
-	        Options.RefreshWithConverterDependencies();
+            Options.RefreshWithConverterDependencies();
             if (Options.SynchronizeWithJsonConvert) { Options.Settings.ApplyToDefaultSettings(); }
         }
 

@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                 Example = new OpenApiString(Options.Example),
                 Required = Options.Required
             });
-            
+
             foreach (var operation in swaggerDoc.Paths.SelectMany(path => path.Value.Operations.Select(x => x.Value)))
             {
                 operation.Parameters.Insert(0, new OpenApiParameter

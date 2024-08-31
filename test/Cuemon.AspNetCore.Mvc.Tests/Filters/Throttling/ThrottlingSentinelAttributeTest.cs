@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
 
 
             var ce = cache[nameof(Bearer_ShouldThrottleWhenQuotaIsExceeded)];
-            
+
             Assert.InRange(ce.Total, te.RateLimit, 15);
             Assert.Equal(ce.Quota.RateLimit, te.RateLimit);
             Assert.Equal(ce.Quota.Window, TimeSpan.FromSeconds(5));
@@ -71,7 +71,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
 
 
             var ce = cache[nameof(Bearer_ShouldThrottleAndThenRehydrateAfterWindowHasPassed)];
-            
+
             Assert.InRange(ce.Total, te.RateLimit, 15);
             Assert.Equal(ce.Quota.RateLimit, te.RateLimit);
             Assert.Equal(ce.Quota.Window, TimeSpan.FromSeconds(5));
@@ -114,7 +114,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                     Assert.Equal("Unit Test", await result.Content.ReadAsStringAsync());
                 }
 
-                result = await client.GetAsync("/fake"); 
+                result = await client.GetAsync("/fake");
 
                 var retryAfter = result.Headers.RetryAfter.Delta.Value.TotalSeconds;
                 var ratelimitReset = result.Headers.GetValues("RateLimit-Reset").Single().As<int>();

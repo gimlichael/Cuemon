@@ -43,7 +43,7 @@ namespace Cuemon.Xml.Serialization
             Reader = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
             Converters = new List<XmlConverter>();
         }
-        
+
         /// <summary>
         /// Gets a <see cref="XmlConverter" /> collection that will be used during serialization.
         /// </summary>

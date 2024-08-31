@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Reflection
         {
             var sut1 = new ClassWithAttributeDecorations();
             var sut2 = sut1.GetType();
-            
+
             Assert.True(sut2.HasAttributes(typeof(CLSCompliantAttribute)), "sut2.HasAttributes(typeof(CLSCompliantAttribute))");
             Assert.False(sut2.HasAttributes(typeof(ObsoleteAttribute)), "sut2.HasAttributes(typeof(ObsoleteAttribute))");
 

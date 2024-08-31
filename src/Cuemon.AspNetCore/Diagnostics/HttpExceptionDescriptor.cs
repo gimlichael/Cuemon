@@ -42,18 +42,18 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///     </item>
         /// </list>
         /// </remarks>
-        public HttpExceptionDescriptor(Exception failure, int statusCode = StatusCodes.Status500InternalServerError, string code = null, string message = null, Uri helpLink = null) 
-	        : base(
-		        failure, 
-		        Validator.CheckParameter(() =>
-		        {
-			        if (failure is HttpStatusCodeException httpException)
-			        {
-				        statusCode = httpException.StatusCode;
-			        }
-			        return code ?? ReasonPhrases.GetReasonPhrase(statusCode);
-		        }),
-		        message ?? failure.Message, helpLink)
+        public HttpExceptionDescriptor(Exception failure, int statusCode = StatusCodes.Status500InternalServerError, string code = null, string message = null, Uri helpLink = null)
+            : base(
+                failure,
+                Validator.CheckParameter(() =>
+                {
+                    if (failure is HttpStatusCodeException httpException)
+                    {
+                        statusCode = httpException.StatusCode;
+                    }
+                    return code ?? ReasonPhrases.GetReasonPhrase(statusCode);
+                }),
+                message ?? failure.Message, helpLink)
         {
             StatusCode = statusCode;
         }

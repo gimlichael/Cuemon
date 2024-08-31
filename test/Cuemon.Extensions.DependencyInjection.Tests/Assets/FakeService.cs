@@ -13,9 +13,9 @@ namespace Cuemon.Extensions.DependencyInjection.Assets
         }
 
         public Guid Id { get; }
-        
+
         public abstract string Lifetime { get; }
-        
+
         public string Greeting { get; }
 
         public override string ToString()

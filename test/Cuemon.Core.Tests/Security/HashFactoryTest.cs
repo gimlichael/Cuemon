@@ -17,7 +17,7 @@ namespace Cuemon.Security
             var s1 = "957-KEY";
             var s2 = "958-KEY";
             var hf = HashFactory.CreateFnv64(o => o.Algorithm = FowlerNollVoAlgorithm.Fnv1a);
-            
+
             TestOutput.WriteLine(hf.ComputeHash(s1).ToHexadecimalString());
             TestOutput.WriteLine(hf.ComputeHash(s2).ToHexadecimalString());
         }
@@ -237,7 +237,7 @@ namespace Cuemon.Security
             Assert.Equal("e2bdd7f76e05160bc86d1ed1120d59e6a397a0c3284fbcafaaa8566d5f79ebd2", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
             Assert.Equal("63323fb0f35303ec28dc561d0a33bdfa4de6a99b7266494f6183b2716811387f", h.ComputeHash(byte.MinValue).ToHexadecimalString());
         }
-        
+
         [Fact]
         public void CreateFnv512_Fnv1a_ShouldBeValidHashResult()
         {
@@ -254,7 +254,7 @@ namespace Cuemon.Security
             Assert.Equal("199c0ace56c5c33d8bce6f7cf4bc4b555e0fc3ae8d37c4b7384678a34d96ae8192825ae6bcda63dbb9e3417d0980de290e79de582d88c97e17c9535950c35f4f16d311bc66d1ac2892d59f7b0697257eba9fc1e3accbc85729218306b34996eedf99292c814e8a75f41ddc5a5b5177b6e60c0211ad8d8f78395c7c2d2c483e7e", h.ComputeHash(Decorator.Enclose(Alphanumeric.LettersAndNumbers).ToStream()).ToHexadecimalString());
             Assert.Equal("c801f8e08ae91b180b98dd7d9f65ceb687ca86358c6905f60a7d1014c182b04ee2ab1bd0066e9857a7f7de000000000000000000000000000000000000000000000000000000000000000000000000000000018045149ade1c79abe3b709a406f7d9205169bec59b126140bcb96f9d5d3e2ea91dfc0f40af8e7e3f25d14c3186", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
             Assert.Equal("000000000000000098d7c19fbce653df221b9f717d3490ff95ca87fdaef30d1b823372f85b24a372f50e380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007685cd81a491dbccc21ad06648d09a5c8cf5a78482054e91470b33dde77252caef66597", h.ComputeHash(byte.MinValue).ToHexadecimalString());
-            
+
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             Assert.Equal(499, sut.Max());
             Assert.All(sut, i => Assert.True(i.IsClientErrorStatusCode()));
         }
-        
+
         [Fact]
         public void IsServerErrorStatusCode_ShouldBeInRangeOf500To599()
         {
@@ -68,6 +68,6 @@ namespace Cuemon.Extensions.AspNetCore.Http
 
             Assert.True(sut.IsNotModifiedStatusCode());
         }
-        
+
     }
 }

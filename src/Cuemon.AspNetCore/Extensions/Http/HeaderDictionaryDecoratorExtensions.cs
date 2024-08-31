@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Http
             return decorator.Inner;
         }
 
-                /// <summary>
+        /// <summary>
         /// Attempts to add or update an existing element with the provided key and value to the enclosed <see cref="IHeaderDictionary"/> of the <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>

@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         {
             Validator.ThrowIfNullOrWhitespace(name);
             if (duration.HasValue && duration <= TimeSpan.Zero) { duration = TimeSpan.Zero; }
-            
+
             var metric = name;
             if (duration.HasValue) { metric = string.Concat(metric, ";", string.Create(CultureInfo.InvariantCulture, $"dur={duration.Value.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture)}")); }
             if (description != null) { metric = string.Concat(metric, ";", $"desc=\"{description}\""); }

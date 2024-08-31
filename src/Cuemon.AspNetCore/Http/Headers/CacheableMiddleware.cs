@@ -46,7 +46,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var bodyStream = new MemoryStream())
             {
                 var body = context.Response.Body;
-                context.Features.Set<IHttpResponseBodyFeature>(new StreamResponseBodyFeature(bodyStream));                
+                context.Features.Set<IHttpResponseBodyFeature>(new StreamResponseBodyFeature(bodyStream));
 
                 var serverTiming = context.RequestServices.GetService(typeof(IServerTiming)) as IServerTiming;
                 await Condition.FlipFlopAsync(serverTiming == null, () => Next(context), async () =>
@@ -54,7 +54,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     var requestTiming = await TimeMeasure.WithActionAsync(async _ => await Next(context).ConfigureAwait(false)).ConfigureAwait(false);
                     serverTiming.AddServerTiming("entity-body", requestTiming.Elapsed);
                 }).ConfigureAwait(false);
-                
+
                 foreach (var validator in Options.Validators)
                 {
                     bodyStream.Seek(0, SeekOrigin.Begin);

@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                        """;
 
             List<Book> books = new List<Book>();
-            
+
             YamlFormatter.DeserializeObject(yaml.ToStream(), (serializer, parser) =>
             {
                 parser.Consume<StreamStart>();
@@ -51,7 +51,8 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
             {
                 Assert.Equal("Title A", book.Title);
                 Assert.Equal("Summary A", book.Summary);
-            }, book => {
+            }, book =>
+            {
                 Assert.Equal("Title B", book.Title);
                 Assert.Equal("Summary B", book.Summary);
             }, book =>
@@ -191,7 +192,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
 
                               """.ReplaceLineEndings(), yamlString, o => o.ThrowOnNoMatch = true));
 #endif
-#else 
+#else
             Assert.True(Match("""
                          type: System.ArgumentOutOfRangeException
                          source: Cuemon.Core
@@ -206,7 +207,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                          
                          """.ReplaceLineEndings(), yamlString, o => o.ThrowOnNoMatch = true));
 #endif
-            
+
         }
     }
 }

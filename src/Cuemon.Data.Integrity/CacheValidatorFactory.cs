@@ -64,7 +64,7 @@ namespace Cuemon.Data.Integrity
 
         private static Func<Hash> DefaultFactoryProvider(int bytesToRead)
         {
-            return () =>  Condition.TernaryIf(bytesToRead < 256, () => HashFactory.CreateFnv64(), HashFactory.CreateCrc64);
+            return () => Condition.TernaryIf(bytesToRead < 256, () => HashFactory.CreateFnv64(), HashFactory.CreateCrc64);
         }
     }
 }

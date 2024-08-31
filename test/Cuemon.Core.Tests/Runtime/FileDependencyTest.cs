@@ -23,7 +23,7 @@ namespace Cuemon.Runtime
             var sut3 = new FileDependency(sut2);
 
             File.WriteAllText(sut1, "Unit Test is key to ensure high code quality.");
-            
+
             Assert.False(sut2.IsValueCreated);
             Assert.False(sut3.HasChanged);
             Assert.Null(sut3.UtcLastModified);
@@ -47,7 +47,7 @@ namespace Cuemon.Runtime
             sut3.DependencyChanged += sut6;
 
             File.WriteAllText(sut1, "Unit Test is key to ensure high code quality.");
-            
+
             await sut3.StartAsync();
 
             await Task.Delay(TimeSpan.FromSeconds(1));
@@ -59,7 +59,7 @@ namespace Cuemon.Runtime
             File.WriteAllText(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
 
             var signaled = ce.Wait(TimeSpan.FromSeconds(15));
-            
+
             TestOutput.WriteLines(sut5);
 
             sut3.DependencyChanged -= sut6;
@@ -90,7 +90,7 @@ namespace Cuemon.Runtime
             sut3.DependencyChanged += sut6;
 
             File.WriteAllText(sut1, "Unit Test is key to ensure high code quality.");
-            
+
             await sut3.StartAsync();
 
             await Task.Delay(TimeSpan.FromSeconds(1));
@@ -102,7 +102,7 @@ namespace Cuemon.Runtime
             File.WriteAllText(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
 
             var signaled = are.WaitOne(TimeSpan.FromSeconds(15));
-            
+
             TestOutput.WriteLines(sut5);
 
             sut3.DependencyChanged -= sut6;

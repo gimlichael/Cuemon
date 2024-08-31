@@ -9,7 +9,7 @@ using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Xml
 {
-/// <summary>
+    /// <summary>
     /// Extension methods for the <see cref="IHierarchy{T}"/> interface hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
@@ -62,11 +62,11 @@ namespace Cuemon.Xml
             Validator.ThrowIfNull(decorator);
 
             if (qualifiedEntity != null && !string.IsNullOrWhiteSpace(qualifiedEntity.LocalName)) { return qualifiedEntity; }
-            
+
             if (decorator.Inner.Instance is XmlQualifiedEntity qre && !string.IsNullOrWhiteSpace(qre.LocalName)) { return qre; }
 
-            var defaultLocalName = decorator.Inner.HasMemberReference 
-                ? Decorator.Enclose(decorator.Inner.MemberReference.Name).SanitizeXmlElementName() 
+            var defaultLocalName = decorator.Inner.HasMemberReference
+                ? Decorator.Enclose(decorator.Inner.MemberReference.Name).SanitizeXmlElementName()
                 : Decorator.Enclose(Decorator.Enclose(decorator.Inner.InstanceType).ToFriendlyName(o => o.ExcludeGenericArguments = true)).SanitizeXmlElementName();
 
 

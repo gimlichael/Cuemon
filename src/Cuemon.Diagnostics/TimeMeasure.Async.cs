@@ -299,7 +299,7 @@ namespace Cuemon.Diagnostics
         /// </summary>
         /// <typeparam name="TResult">The type of the return value of the <paramref name="function"/> delegate.</typeparam>
         /// <param name="function">The function delegate to time measure.</param>
-        
+
         /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<TResult>(Func<CancellationToken, Task<TResult>> function, Action<AsyncTimeMeasureOptions> setup = null)

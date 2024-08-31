@@ -27,7 +27,7 @@ namespace Cuemon.Assets
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ClassWithDefaultValue) obj);
+            return Equals((ClassWithDefaultValue)obj);
         }
 
         public override int GetHashCode()

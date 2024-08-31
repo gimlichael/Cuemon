@@ -24,7 +24,7 @@
         /// The canonical headers.
         /// </summary>
         public const string HttpHeaders = "canonicalHeaders";
-        
+
         /// <summary>
         /// The delimiter used to separate the key-value pairs of <see cref="HttpHeaders"/>.
         /// </summary>

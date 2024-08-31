@@ -142,7 +142,7 @@ namespace Cuemon.IO
 
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove)
             {
-                throw new InvalidEnumArgumentException(nameof(setup), (int) options.Preamble, typeof(PreambleSequence));
+                throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence));
             }
 
             var bytes = Decorator.Enclose(decorator.Inner).ToByteArray(o =>
@@ -181,7 +181,7 @@ namespace Cuemon.IO
 
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove)
             {
-                throw new InvalidEnumArgumentException(nameof(setup), (int) options.Preamble, typeof(PreambleSequence));
+                throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence));
             }
 
             return ToEncodedStringAsyncCore(decorator, options);
