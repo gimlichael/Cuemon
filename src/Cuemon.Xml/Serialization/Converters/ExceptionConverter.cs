@@ -79,13 +79,12 @@ namespace Cuemon.Xml.Serialization.Converters
                     case XmlNodeType.Element:
                         exception = reader.Name.EndsWith("Exception") ? reader.Name : lastException;
 
-                        if (blueprints.Count > 0 && blueprints.Single(ma => ma.Name == "Type") is { } typeOfException)
+                        if (blueprints.Count > 0
+                            && blueprints.Single(ma => ma.Name == "Type") is { } typeOfException
+                            && !((Type)typeOfException.Value).Name.Equals(exception, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (!((Type)typeOfException.Value).Name.Equals(exception, StringComparison.OrdinalIgnoreCase))
-                            {
-                                stack.Push(blueprints);
-                                blueprints = new List<MemberArgument>();
-                            }
+                            stack.Push(blueprints);
+                            blueprints = new List<MemberArgument>();
                         }
 
                         var memberName = MapOrDefault(reader.Name);
@@ -138,7 +137,7 @@ namespace Cuemon.Xml.Serialization.Converters
                     return memberName;
             }
         }
-        
+
         private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace, bool includeData)
         {
             if (!string.IsNullOrEmpty(exception.Source))

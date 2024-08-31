@@ -21,15 +21,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// <seealso cref="CorrelationIdentifierMiddleware"/>
     public class FaultDescriptorFilter : Configurable<MvcFaultDescriptorOptions>, IExceptionFilter
     {
-	    /// <summary>
-	    /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
-	    /// </summary>
-	    /// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> which need to be configured.</param>
-	    public FaultDescriptorFilter(IOptions<MvcFaultDescriptorOptions> setup) : base(Validator.CheckParameter(() =>
-	    {
-			Validator.ThrowIfInvalidOptions(setup.Value, paramName: nameof(setup));
-		    return setup.Value;
-	    }))
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
+        /// </summary>
+        /// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> which need to be configured.</param>
+        public FaultDescriptorFilter(IOptions<MvcFaultDescriptorOptions> setup) : base(Validator.CheckParameter(() =>
+        {
+            Validator.ThrowIfInvalidOptions(setup.Value, paramName: nameof(setup));
+            return setup.Value;
+        }))
         {
         }
 
@@ -39,23 +39,21 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ExceptionContext" />.</param>
         public virtual void OnException(ExceptionContext context)
         {
-            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
+            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor 
+                && Decorator.Enclose(Options).TryResolveHttpExceptionDescriptor(context.Exception, context.HttpContext, ed => ed.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>()), out var descriptor))
             {
-                if (Decorator.Enclose(Options).TryResolveHttpExceptionDescriptor(context.Exception, context.HttpContext, ed => ed.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>()), out var descriptor))
+                context.HttpContext.Response.StatusCode = descriptor.StatusCode;
+
+                if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
+
+                switch (Options.FaultDescriptor)
                 {
-                    context.HttpContext.Response.StatusCode = descriptor.StatusCode;
-
-                    if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
-
-                    switch (Options.FaultDescriptor)
-                    {
-                        case PreferredFaultDescriptor.FaultDetails:
-                            context.Result = new ExceptionDescriptorResult(descriptor);
-                            break;
-                        default:
-                            context.Result = new ExceptionDescriptorResult(Decorator.Enclose(descriptor).ToProblemDetails(Options.SensitivityDetails));
-                            break;
-                    }
+                    case PreferredFaultDescriptor.FaultDetails:
+                        context.Result = new ExceptionDescriptorResult(descriptor);
+                        break;
+                    default:
+                        context.Result = new ExceptionDescriptorResult(Decorator.Enclose(descriptor).ToProblemDetails(Options.SensitivityDetails));
+                        break;
                 }
             }
         }
