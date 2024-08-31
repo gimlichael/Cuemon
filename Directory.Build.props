@@ -37,7 +37,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>Recommended</AnalysisMode>
-    <NoWarn>7035,IDE0305,S6618</NoWarn>
+    <NoWarn>7035,IDE0305,S6618,CA1200</NoWarn>
     <MinVerTagPrefix>v</MinVerTagPrefix>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
