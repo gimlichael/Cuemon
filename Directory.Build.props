@@ -36,9 +36,10 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
-    <AnalysisMode>Minimum</AnalysisMode>
+    <AnalysisMode>Recommended</AnalysisMode>
     <NoWarn>7035,IDE0305,S6618</NoWarn>
     <MinVerTagPrefix>v</MinVerTagPrefix>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(NuGetPackageRoot)' != ''">
