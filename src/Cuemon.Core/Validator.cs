@@ -1088,7 +1088,7 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// There is a difference between <paramref name="second"/> and <paramref name="first"/>.
         /// </exception>
-        public static void ThrowIfNotDifferent(string first, string second, string paramName, string message = null)
+        public static void ThrowIfDifferent(string first, string second, string paramName, string message = null)
         {
             message ??= FormattableString.Invariant($"Specified arguments has a difference between {nameof(second)} and {nameof(first)}.");
             if (Condition.HasDifference(first, second, out var invalidCharacters)) { throw new ArgumentOutOfRangeException(paramName, invalidCharacters, message); }
@@ -1104,7 +1104,7 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// There is no difference between <paramref name="second"/> and <paramref name="first"/>.
         /// </exception>
-        public static void ThrowIfDifferent(string first, string second, string paramName, string message = null)
+        public static void ThrowIfNotDifferent(string first, string second, string paramName, string message = null)
         {
             message ??= FormattableString.Invariant($"Specified arguments does not have a difference between {nameof(second)} and {nameof(first)}.");
             if (!Condition.HasDifference(first, second, out _)) { throw new ArgumentOutOfRangeException(paramName, message); }

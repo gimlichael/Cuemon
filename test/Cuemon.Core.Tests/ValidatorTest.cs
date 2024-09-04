@@ -992,7 +992,7 @@ namespace Cuemon
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.ThrowIfNotDifferent("aaabbbccc", "dddeeefff", "paramName");
+                Validator.ThrowIfNotDifferent("aaabbbccc", "cccbbbbaaaa", "paramName");
             });
         }
 
@@ -1001,7 +1001,7 @@ namespace Cuemon
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.ThrowIfDifferent("aaabbbccc", "cccbbbbaaaa", "paramName");
+                Validator.ThrowIfDifferent("aaabbbccc", "dddeeefff", "paramName");
             });
         }
 
