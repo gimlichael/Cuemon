@@ -13,10 +13,7 @@ namespace Cuemon.Collections.Generic
         /// <summary>
         /// Returns a default comparer for the type specified by the generic argument.
         /// </summary>
-        public static new IComparer<T> Default
-        {
-            get { return new EnumerableSizeComparer<T>(); }
-        }
+        public static new IComparer<T> Default => new EnumerableSizeComparer<T>();
 
         /// <summary>
         /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -28,11 +25,16 @@ namespace Cuemon.Collections.Generic
         /// </returns>
         public override int Compare(T x, T y)
         {
-            var depthOfX = x.OfType<T>().Count();
-            var depthOfY = y.OfType<T>().Count();
+            if (EqualityComparer<T>.Default.Equals(x, y)) { return 0; } // equivalent to both x and y are null
+            if (EqualityComparer<T>.Default.Equals(x, default)) { return -1; } // equivalent to x == null
+            if (EqualityComparer<T>.Default.Equals(default, y)) { return 1; } // equivalent to y == null
+
+            var depthOfX = x!.Cast<T>().Count();
+            var depthOfY = y!.Cast<T>().Count();
 
             if (depthOfX > depthOfY) { return 1; }
             if (depthOfX < depthOfY) { return -1; }
+            
             return 0;
         }
     }

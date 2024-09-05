@@ -12,10 +12,7 @@ namespace Cuemon.Collections.Generic
         /// <summary>
         /// Returns a default comparer for the type specified by the generic argument.
         /// </summary>
-        public static new IComparer<T> Default
-        {
-            get { return new ReferenceComparer<T>(); }
-        }
+        public static new IComparer<T> Default => new ReferenceComparer<T>();
 
         /// <summary>
         /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -32,6 +29,7 @@ namespace Cuemon.Collections.Generic
 
             if (depthOfX > depthOfY) { return 1; }
             if (depthOfX < depthOfY) { return -1; }
+            
             return 0;
         }
 
