@@ -29,7 +29,7 @@ namespace Cuemon.Collections.Generic
 
             if (depthOfX > depthOfY) { return 1; }
             if (depthOfX < depthOfY) { return -1; }
-            
+
             return 0;
         }
 

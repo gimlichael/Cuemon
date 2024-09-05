@@ -6,7 +6,6 @@ using Cuemon.Diagnostics;
 using Cuemon.Extensions.YamlDotNet;
 using Cuemon.Extensions.YamlDotNet.Converters;
 using Cuemon.Extensions.YamlDotNet.Formatters;
-using YamlDotNet.Core;
 
 namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
 {
