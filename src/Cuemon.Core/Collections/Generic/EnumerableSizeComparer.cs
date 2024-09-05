@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Cuemon.Collections.Generic
 {
@@ -29,13 +28,20 @@ namespace Cuemon.Collections.Generic
             if (EqualityComparer<T>.Default.Equals(x, default)) { return -1; } // equivalent to x == null
             if (EqualityComparer<T>.Default.Equals(default, y)) { return 1; } // equivalent to y == null
 
-            var depthOfX = x!.Cast<T>().Count();
-            var depthOfY = y!.Cast<T>().Count();
+            var depthOfX = Count(x);
+            var depthOfY = Count(y);
 
             if (depthOfX > depthOfY) { return 1; }
             if (depthOfX < depthOfY) { return -1; }
 
             return 0;
+        }
+
+        private static int Count(IEnumerable sequence) // compatible with netstandard2.0 --> ne9.0
+        {
+            var i = 0;
+            foreach (var _ in sequence) { i++; }
+            return i;
         }
     }
 }
