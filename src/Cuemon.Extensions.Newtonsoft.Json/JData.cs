@@ -81,7 +81,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                     {
                         return FillArrayHierarchy(reader, jr);
                     }
-                    
+
                     if (reader.TokenType == JsonToken.StartObject)
                     {
                         return FillObjectHierarchy(reader, jr);

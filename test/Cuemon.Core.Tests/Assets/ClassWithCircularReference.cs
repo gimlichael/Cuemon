@@ -7,6 +7,6 @@
             Reference = this;
         }
 
-        public ClassWithCircularReference Reference { get; set; } 
+        public ClassWithCircularReference Reference { get; set; }
     }
 }

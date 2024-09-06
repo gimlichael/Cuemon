@@ -5,14 +5,17 @@ using System.Text;
 
 namespace Cuemon.Xml
 {
-/// <summary>
+    /// <summary>
     /// Extension methods for the <see cref="string"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
     public static class StringDecoratorExtensions
     {
-        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] {"<", ">", "\"", "'", "&"} };
+        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] { "<", ">", "\"", "'", "&" } };
+        private static readonly char[] AdditionalInclusiveChars = new[] { '_', ':', '.', '-' };
+        private static readonly char[] DotExclusiveChar = new[] { '.' };
+        private static readonly string[] DotExclusiveString = new[] { "." };
 
         /// <summary>
         /// Escapes the given XML of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.
@@ -69,10 +72,10 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(decorator);
             var value = decorator.Inner;
-            if (Decorator.Enclose(value).StartsWith(StringComparison.OrdinalIgnoreCase, Decorator.Enclose(Alphanumeric.Numbers).ToEnumerable().Concat(new[] { "." } )))
+            if (Decorator.Enclose(value).StartsWith(StringComparison.OrdinalIgnoreCase, Decorator.Enclose(Alphanumeric.Numbers).ToEnumerable().Concat(DotExclusiveString)))
             {
                 var startIndex = 0;
-                var numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(new[] { '.' }));
+                var numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(DotExclusiveChar));
                 foreach (var c in value)
                 {
                     if (numericsAndPunctual.Contains(c))
@@ -88,7 +91,7 @@ namespace Cuemon.Xml
             var validElementName = new StringBuilder();
             foreach (var c in value)
             {
-                var validCharacters = new List<char>(Alphanumeric.LettersAndNumbers.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
+                var validCharacters = new List<char>(Alphanumeric.LettersAndNumbers.ToCharArray().Concat(AdditionalInclusiveChars));
                 if (validCharacters.Contains(c)) { validElementName.Append(c); }
             }
             return validElementName.ToString();

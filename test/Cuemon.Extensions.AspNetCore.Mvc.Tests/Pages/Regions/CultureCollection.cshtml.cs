@@ -18,6 +18,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Pages.Regions
             Region = new RegionInfo(regionName);
         }
 
-        public RegionInfo Region { get; set; } 
+        public RegionInfo Region { get; set; }
     }
 }

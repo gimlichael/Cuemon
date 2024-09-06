@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
             Assert.IsAssignableFrom<ICacheableAsyncResultFilter>(sut2.Single());
             Assert.ThrowsAsync<NotImplementedException>(() => sut2.Single().OnResultExecutionAsync(null, null));
         }
-        
+
         [Fact]
         public void AddFilter_ShouldAddFilterWithOptions()
         {
@@ -68,7 +68,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
             Assert.IsType<FakeCacheableFilter>(sut2.First());
             Assert.IsType<ConfigurableFakeCacheableFilter>(sut2.Last());
         }
-        
+
         [Fact]
         public void InsertFilter_ShouldInsertFilterWithOptions()
         {

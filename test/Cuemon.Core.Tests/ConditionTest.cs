@@ -10,7 +10,7 @@ namespace Cuemon
         {
         }
 
-        
+
         [Fact]
         public void HasDifference_ShouldProvideDifferenceBetweenFirstAndSecond()
         {

@@ -16,7 +16,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
         /// </summary>
-        public XmlFormatter() : this((Action<XmlFormatterOptions>) null)
+        public XmlFormatter() : this((Action<XmlFormatterOptions>)null)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <param name="options">The configured <see cref="XmlFormatterOptions"/>.</param>
         public XmlFormatter(XmlFormatterOptions options) : base(options)
         {
-	        Options.RefreshWithConverterDependencies();
+            Options.RefreshWithConverterDependencies();
             if (Options.SynchronizeWithXmlConvert) { Decorator.Enclose(Options.Settings).ApplyToDefaultSettings(); }
         }
 

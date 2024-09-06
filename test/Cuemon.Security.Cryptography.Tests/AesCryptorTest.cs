@@ -22,7 +22,7 @@ namespace Cuemon.Security.Cryptography
         {
             var cryptor = new AesCryptor(_secretKey, _iv);
             var secretMessage = Decorator.Enclose("This is my secret message that needs encryption!").ToByteArray();
-            
+
             Assert.True(_secretKey.SequenceEqual(cryptor.Key));
             Assert.True(_iv.SequenceEqual(cryptor.InitializationVector));
 
@@ -31,7 +31,7 @@ namespace Cuemon.Security.Cryptography
 
             var dec = cryptor.Decrypt(enc);
             TestOutput.WriteLine(Convert.ToBase64String(dec));
-            
+
             Assert.True(dec.SequenceEqual(secretMessage));
         }
     }

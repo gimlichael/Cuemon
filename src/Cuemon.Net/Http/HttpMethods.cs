@@ -14,38 +14,38 @@ namespace Cuemon.Net.Http
     /// </remarks>
     [Flags]
     public enum HttpMethods
-	{
-		/// <summary>
-		/// Represents an HTTP OPTIONS protocol method.
-		/// </summary>
-		Options = 1,
-		/// <summary>
-		/// Represents an HTTP GET protocol method.
-		/// </summary>
-		Get = 2,
-		/// <summary>
-		/// Represents an HTTP HEAD protocol method. The HEAD method is identical to GET except that the server only returns message-headers in the response, without a message-body.
-		/// </summary>
-		Head = 4,
-		/// <summary>
-		/// Represents an HTTP POST protocol method that is used to post a new entity as an addition to a URI.
-		/// </summary>
-		Post = 8,
-		/// <summary>
-		/// Represents an HTTP PUT protocol method that is used to replace an entity identified by a URI.
-		/// </summary>
-		Put = 16,
-		/// <summary>
-		/// Represents an HTTP DELETE protocol method.
-		/// </summary>
-		Delete = 32,
-		/// <summary>
-		/// Represents an HTTP TRACE protocol method.
-		/// </summary>
-		Trace = 64,
+    {
+        /// <summary>
+        /// Represents an HTTP OPTIONS protocol method.
+        /// </summary>
+        Options = 1,
+        /// <summary>
+        /// Represents an HTTP GET protocol method.
+        /// </summary>
+        Get = 2,
+        /// <summary>
+        /// Represents an HTTP HEAD protocol method. The HEAD method is identical to GET except that the server only returns message-headers in the response, without a message-body.
+        /// </summary>
+        Head = 4,
+        /// <summary>
+        /// Represents an HTTP POST protocol method that is used to post a new entity as an addition to a URI.
+        /// </summary>
+        Post = 8,
+        /// <summary>
+        /// Represents an HTTP PUT protocol method that is used to replace an entity identified by a URI.
+        /// </summary>
+        Put = 16,
+        /// <summary>
+        /// Represents an HTTP DELETE protocol method.
+        /// </summary>
+        Delete = 32,
+        /// <summary>
+        /// Represents an HTTP TRACE protocol method.
+        /// </summary>
+        Trace = 64,
         /// <summary>
         /// Represents an HTTP PATCH protocol method.
         /// </summary>
         Patch = 128
-	}
+    }
 }

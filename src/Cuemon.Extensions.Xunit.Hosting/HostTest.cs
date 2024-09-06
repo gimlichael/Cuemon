@@ -83,7 +83,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
         /// <value>The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</value>
-        public IHostEnvironment HostingEnvironment 
+        public IHostEnvironment HostingEnvironment
         {
             get;
             private set;

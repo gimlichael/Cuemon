@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.IO
             while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
                 lines.Add(line);
-            } 
+            }
             return lines;
         }
     }

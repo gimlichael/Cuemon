@@ -9,18 +9,18 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Runtime.Caching
 {
-	public class CachingManagerTest : Test
-	{
-		public CachingManagerTest(ITestOutputHelper output) : base(output)
-		{
-		}
+    public class CachingManagerTest : Test
+    {
+        public CachingManagerTest(ITestOutputHelper output) : base(output)
+        {
+        }
 
-		[Fact]
-		public void CachingManager_Cache_ShouldGetFromSingleton()
-		{
-			var sut = CachingManager.Cache;
+        [Fact]
+        public void CachingManager_Cache_ShouldGetFromSingleton()
+        {
+            var sut = CachingManager.Cache;
 
-			Assert.NotNull(sut);
-		}
-	}
+            Assert.NotNull(sut);
+        }
+    }
 }

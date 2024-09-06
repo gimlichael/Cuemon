@@ -103,7 +103,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// </summary>
         /// <value>The enumeration values that specify which sensitive details to include in the serialized result.</value>
         public FaultSensitivityDetails SensitivityDetails { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the settings to support the <see cref="JsonFormatter"/>.
         /// </summary>

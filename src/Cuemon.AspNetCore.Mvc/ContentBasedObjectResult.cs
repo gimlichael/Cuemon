@@ -8,8 +8,8 @@ namespace Cuemon.AspNetCore.Mvc
         internal ContentBasedObjectResult(object instance, byte[] checksum, bool isWeak = false) : base(instance)
         {
             Checksum = new HashResult(checksum);
-            Validation = checksum == null || checksum.Length == 0 
-                ? EntityDataIntegrityValidation.Unspecified 
+            Validation = checksum == null || checksum.Length == 0
+                ? EntityDataIntegrityValidation.Unspecified
                 : isWeak
                     ? EntityDataIntegrityValidation.Weak
                     : EntityDataIntegrityValidation.Strong;

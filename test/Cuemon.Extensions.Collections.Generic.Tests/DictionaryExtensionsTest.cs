@@ -102,7 +102,7 @@ namespace Cuemon.Extensions.Collections.Generic
             Assert.IsAssignableFrom<IEnumerable<KeyValuePair<int, string>>>(sut2);
         }
 
-        #if NET461
+#if NET461
         [Fact]
         public void TryAdd_ShouldNotSucceed()
         {
@@ -124,12 +124,12 @@ namespace Cuemon.Extensions.Collections.Generic
             Assert.True(sut2);
             Assert.True(sut1.Count == 11);
         }
-        #endif
+#endif
 
         [Fact]
         public void TryAddWithCondition_ShouldNotSucceed()
         {
-            
+
             var sut1 = Enumerable.Range(1, 10).ToDictionary(i => i, Generate.RandomString);
             var sut2 = sut1.TryAdd(1, "Cuemon", d => !d.ContainsKey(1));
 
@@ -140,7 +140,7 @@ namespace Cuemon.Extensions.Collections.Generic
         [Fact]
         public void TryAddWithCondition_ShouldSucceed()
         {
-            
+
             var sut1 = Enumerable.Range(1, 10).ToDictionary(i => i, Generate.RandomString);
             var sut2 = sut1.TryAdd(11, "Cuemon", d => !d.ContainsKey(11));
 
@@ -151,7 +151,7 @@ namespace Cuemon.Extensions.Collections.Generic
         [Fact]
         public void AddOrUpdate_ShouldAddNewItem()
         {
-            
+
             var sut1 = Enumerable.Range(1, 10).ToDictionary(i => i, Generate.RandomString);
             sut1.AddOrUpdate(11, "Cuemon");
 
@@ -163,7 +163,7 @@ namespace Cuemon.Extensions.Collections.Generic
         [Fact]
         public void AddOrUpdate_ShouldUpdateExistingItem()
         {
-            
+
             var sut1 = Enumerable.Range(1, 10).ToDictionary(i => i, Generate.RandomString);
             sut1.AddOrUpdate(1, "Cuemon");
 

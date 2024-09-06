@@ -70,7 +70,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                 Assert.Contains("<TemperatureC>", model);
                 Assert.Contains("<TemperatureF>", model);
                 Assert.Contains("<Summary>", model);
-                
+
                 Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
                 Assert.Equal(HttpMethod.Get, result.RequestMessage.Method);
             }

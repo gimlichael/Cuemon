@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Collections.Generic
 
             Assert.False(sut1.HasPartitions);
             Assert.Equal(128, sut1.PartitionSize);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(0, i),
                 i => Assert.Equal(128, i),
                 i => Assert.Equal(256, i),
@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.Collections.Generic
 
             Assert.False(sut1.HasPartitions);
             Assert.Equal(256, sut1.PartitionSize);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(0, i),
                 i => Assert.Equal(256, i),
                 i => Assert.Equal(512, i),
@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Collections.Generic
             {
                 TestOutput.WriteLine(DelimitedString.Create(sut3));
             }
-            
+
 
             Assert.Equal(sut1.Count, sut2.Count);
             Assert.NotEqual(sut1, sut2);
@@ -92,7 +92,7 @@ namespace Cuemon.Extensions.Collections.Generic
             var sut1 = Enumerable.Range(0, 1024).ToList();
             var sut2 = sut1.Shuffle().ToList();
             var sut3 = sut2.OrderAscending().ToList();
-            
+
             Assert.Equal(sut2.Count, sut3.Count);
             Assert.Equal(sut1, sut3);
             Assert.NotEqual(sut2, sut3);
@@ -106,7 +106,7 @@ namespace Cuemon.Extensions.Collections.Generic
             var sut1 = Enumerable.Range(0, 1024).ToList();
             var sut2 = sut1.Shuffle().ToList();
             var sut3 = sut2.OrderDescending().ToList();
-            
+
             Assert.Equal(sut2.Count, sut3.Count);
             Assert.NotEqual(sut1, sut3);
             Assert.NotEqual(sut2, sut3);
@@ -178,7 +178,7 @@ namespace Cuemon.Extensions.Collections.Generic
 
             Assert.False(sut1.HasPartitions);
             Assert.Equal(128, sut1.PartitionSize);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(0, i),
                 i => Assert.Equal(128, i),
                 i => Assert.Equal(256, i),
@@ -207,7 +207,7 @@ namespace Cuemon.Extensions.Collections.Generic
 
             Assert.False(sut1.HasPartitions);
             Assert.Equal(256, sut1.PartitionSize);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(0, i),
                 i => Assert.Equal(256, i),
                 i => Assert.Equal(512, i),
@@ -260,7 +260,7 @@ namespace Cuemon.Extensions.Collections.Generic
             Assert.False(sut1.LastPage);
             Assert.False(sut1.HasPreviousPage);
             Assert.True(sut1.HasNextPage);
-            Assert.Collection(sut1, 
+            Assert.Collection(sut1,
                 i => Assert.Equal(0, i),
                 i => Assert.Equal(1, i),
                 i => Assert.Equal(2, i),
@@ -291,7 +291,7 @@ namespace Cuemon.Extensions.Collections.Generic
             Assert.True(sut1.LastPage);
             Assert.True(sut1.HasPreviousPage);
             Assert.False(sut1.HasNextPage);
-            Assert.Collection(sut1, 
+            Assert.Collection(sut1,
                 i => Assert.Equal(1020, i),
                 i => Assert.Equal(1021, i),
                 i => Assert.Equal(1022, i),

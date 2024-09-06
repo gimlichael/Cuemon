@@ -500,7 +500,7 @@ namespace Cuemon.Extensions
             }
             return false;
         }
-        
+
         /// <summary>
         /// Returns a value indicating whether the specified <paramref name="find"/> occurs within the <paramref name="value"/>.
         /// </summary>
@@ -521,7 +521,7 @@ namespace Cuemon.Extensions
             return (value.IndexOf(find, comparison) >= 0);
         }
 
-        
+
         /// <summary>
         /// Returns a value indicating whether the specified <paramref name="values"/> occurs within the <paramref name="value"/> object.
         /// </summary>

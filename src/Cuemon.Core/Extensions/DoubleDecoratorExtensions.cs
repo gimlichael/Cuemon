@@ -43,8 +43,8 @@ namespace Cuemon
                     return TimeSpan.FromMilliseconds(input);
                 case TimeUnit.Ticks:
                     if (input < long.MinValue || input > long.MaxValue) { throw new OverflowException(FormattableString.Invariant($"The specified input, {input}, having a time unit specified as Ticks cannot be less than {long.MinValue} or be greater than {long.MaxValue}.")); }
-                    if (input == long.MaxValue) { return TimeSpan.MaxValue; } 
-                    if (input == long.MinValue) { return TimeSpan.MinValue; } 
+                    if (input == long.MaxValue) { return TimeSpan.MaxValue; }
+                    if (input == long.MinValue) { return TimeSpan.MinValue; }
                     return TimeSpan.FromTicks((long)input);
                 default:
                     throw new InvalidEnumArgumentException(nameof(unitOfTime), (int)unitOfTime, typeof(TimeUnit));

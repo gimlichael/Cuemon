@@ -29,7 +29,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             {
                 services.AddControllers(o => { o.Filters.AddHttpCacheable(); }).AddApplicationPart(typeof(FakeController).Assembly).AddHttpCacheableOptions(o =>
                 {
-	                o.Filters.AddEntityTagHeader(io => io.UseEntityTagResponseParser = true);
+                    o.Filters.AddEntityTagHeader(io => io.UseEntityTagResponseParser = true);
                 });
             }, app =>
                    {
@@ -41,13 +41,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 var result = await client.GetAsync(relativeEndpoint);
                 var etag = result.Headers.ETag.ToString();
 
-                Assert.Equal(StatusCodes.Status200OK, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
                 TestOutput.WriteLine(etag);
 
                 client.DefaultRequestHeaders.Add(HeaderNames.IfNoneMatch, etag);
-                
+
                 result = await client.GetAsync(relativeEndpoint);
-                Assert.Equal(StatusCodes.Status304NotModified, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status304NotModified, (int)result.StatusCode);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             {
                 services.AddControllers(o => { o.Filters.AddHttpCacheable(); }).AddApplicationPart(typeof(FakeController).Assembly).AddHttpCacheableOptions(o =>
                 {
-	                o.Filters.AddLastModifiedHeader();
+                    o.Filters.AddLastModifiedHeader();
                 });
             }, app =>
                    {
@@ -70,13 +70,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 var result = await client.GetAsync("/fake/getCacheByLastModified");
                 var lastModified = result.Content.Headers.LastModified.Value;
 
-                Assert.Equal(StatusCodes.Status200OK, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
                 TestOutput.WriteLine(lastModified.ToString("O"));
 
                 client.DefaultRequestHeaders.Add(HeaderNames.IfModifiedSince, lastModified.ToString("R"));
-                
+
                 result = await client.GetAsync("/fake/getCacheByLastModified");
-                Assert.Equal(StatusCodes.Status304NotModified, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status304NotModified, (int)result.StatusCode);
             }
         }
     }

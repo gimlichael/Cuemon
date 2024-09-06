@@ -1,6 +1,6 @@
 name: Cuemon CI/CD Pipeline
 on:
-  pull_request_target:
+  pull_request:
     branches: [main]
     paths-ignore:
       - .codecov/**

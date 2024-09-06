@@ -8,7 +8,7 @@ namespace Cuemon.AspNetCore.Mvc
     /// <seealso cref="IEntityDataTimestamp"/>.
     /// <seealso cref="IEntityDataIntegrity"/>.
     /// <seealso cref="IEntityInfo"/>.
-    public interface ICacheableObjectResult 
+    public interface ICacheableObjectResult
     {
         /// <summary>
         /// Gets or sets the value of the cacheable object.

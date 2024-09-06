@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Collections.Generic
             }
 
             Assert.Equal(1018, sut1.Count);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(true, i),
                 i => Assert.Equal(true, i),
                 i => Assert.Equal(true, i),
@@ -49,7 +49,7 @@ namespace Cuemon.Extensions.Collections.Generic
             }
 
             Assert.Equal(1024, sut1.Count);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(true, i),
                 i => Assert.Equal(true, i),
                 i => Assert.Equal(true, i),
@@ -74,7 +74,7 @@ namespace Cuemon.Extensions.Collections.Generic
             }
 
             Assert.Equal(1024, sut1.Count);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(1018, i),
                 i => Assert.Equal(1019, i),
                 i => Assert.Equal(1020, i),
@@ -99,7 +99,7 @@ namespace Cuemon.Extensions.Collections.Generic
             }
 
             Assert.Equal(1024, sut1.Count);
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 i => Assert.Equal(1018, i),
                 i => Assert.Equal(1019, i),
                 i => Assert.Equal(1020, i),

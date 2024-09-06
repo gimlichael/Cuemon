@@ -71,7 +71,7 @@ namespace Cuemon.Extensions.Asp.Versioning
             Assert.Equal("RestfulApiVersioningOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
-        
+
         [Fact]
         public void RestfulApiVersioningOptions_ShouldHaveDefaultValues()
         {

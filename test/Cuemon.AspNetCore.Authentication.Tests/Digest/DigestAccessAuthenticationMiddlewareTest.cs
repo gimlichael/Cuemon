@@ -152,7 +152,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
                 {
-	                o.UseServerSideHa1Storage = true;
+                    o.UseServerSideHa1Storage = true;
                     o.Authenticator = (string username, out string password) =>
                    {
                        if (username == "Agent")

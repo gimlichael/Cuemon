@@ -128,7 +128,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
         {
             ValidateData(HmacFields.UriPath, HmacFields.UriQuery, HmacFields.HttpHeaders, HmacFields.Payload, Aws4HmacFields.DateTimeStamp, HmacFields.ClientSecret, Aws4HmacFields.DateStamp, Aws4HmacFields.Region, Aws4HmacFields.Service);
             EnsureSignedHeaders(out var signedHeaders);
-            return new Aws4HmacAuthorizationHeader(Data[HmacFields.ClientId], Decorator.Enclose(Data).GetValueOrDefault(HmacFields.CredentialScope), signedHeaders, ComputeSignature()); 
+            return new Aws4HmacAuthorizationHeader(Data[HmacFields.ClientId], Decorator.Enclose(Data).GetValueOrDefault(HmacFields.CredentialScope), signedHeaders, ComputeSignature());
         }
 
         private void EnsureSignedHeaders(out string signedHeaders)

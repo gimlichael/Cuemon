@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
             }, "controller", "action");
             return result;
         }
-        
+
         /// <summary>
         /// Creates a value of <typeparamref name="T"/> when the specified <paramref name="target"/> name is matched in <see cref="ActionContext.RouteData"/>.
         /// </summary>

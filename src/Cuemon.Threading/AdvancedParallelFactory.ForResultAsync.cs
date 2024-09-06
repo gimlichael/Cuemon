@@ -10,7 +10,7 @@ namespace Cuemon.Threading
 {
     public static partial class AdvancedParallelFactory
     {
-        
+
         /// <summary>
         /// Executes a parallel for loop that offers control of the loop control variable and loop sections where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.
         /// </summary>
@@ -181,7 +181,7 @@ namespace Cuemon.Threading
             var options = Patterns.Configure(setup);
             var result = new ConcurrentDictionary<TOperand, TResult>();
             TOperand processed = default;
-            
+
             while (true)
             {
                 var workChunks = options.PartitionSize;

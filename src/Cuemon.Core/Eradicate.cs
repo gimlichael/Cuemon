@@ -42,14 +42,14 @@ namespace Cuemon
             Validator.ThrowIfNull(bytes);
             Validator.ThrowIfNull(trailingBytes);
             Validator.ThrowIfLowerThanOrEqual(bytes.Length, 1, nameof(bytes), "The byte array must have a length larger than 1.");
-            
+
             Array.Reverse(trailingBytes);
             var hasTrailingBytes = false;
             var marker = bytes.Length - 1;
             var size = trailingBytes.Length - 1;
             while (marker > size && HasMatch(marker, bytes, trailingBytes))
             {
-                if (!hasTrailingBytes) { hasTrailingBytes = true; }  
+                if (!hasTrailingBytes) { hasTrailingBytes = true; }
                 marker -= trailingBytes.Length;
             }
             if (!hasTrailingBytes) { return bytes; }

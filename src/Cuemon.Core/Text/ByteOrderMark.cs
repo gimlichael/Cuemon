@@ -148,7 +148,7 @@ namespace Cuemon.Text
         {
             Validator.ThrowIfNull(value);
             Validator.ThrowIfNull(encoding);
-            
+
             var option = Patterns.Configure(setup);
             var bytes = Decorator.Enclose(value).InvokeToByteArray(leaveOpen: option.LeaveOpen);
             bytes = Remove(bytes, encoding);

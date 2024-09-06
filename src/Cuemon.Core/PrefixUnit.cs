@@ -73,7 +73,7 @@ namespace Cuemon
         /// </summary>
         /// <value>The prefix value of this unit.</value>
         public double PrefixValue { get; }
-        
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -84,7 +84,7 @@ namespace Cuemon
             if (other == null) { return false; }
             return UnitValue.Equals(other.UnitValue);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>

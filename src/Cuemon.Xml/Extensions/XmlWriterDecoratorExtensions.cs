@@ -2,14 +2,13 @@
 using System.Reflection;
 using System.Xml;
 using Cuemon.Collections.Generic;
-using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Formatters;
 
 namespace Cuemon.Xml
 {
-/// <summary>
+    /// <summary>
     /// Extension methods for the <see cref="XmlWriter"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>

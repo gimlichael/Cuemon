@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Application = hostFixture.Application;
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
-        
+
         /// <summary>
         /// Gets the <see cref="IApplicationBuilder"/> initialized by the <see cref="IHost"/>.
         /// </summary>

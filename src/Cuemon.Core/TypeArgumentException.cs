@@ -10,7 +10,7 @@ namespace Cuemon
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeArgumentException"/> class.
         /// </summary>
-        public TypeArgumentException() 
+        public TypeArgumentException()
         {
         }
 

@@ -20,7 +20,7 @@ namespace Cuemon
             Assert.Equal("0.93 GiB", x.Gibi.ToString());
             Assert.Equal("953.67 MiB", x.Mebi.ToString());
             Assert.Equal("976,562.5 KiB", x.Kibi.ToString());
-            
+
             Assert.Equal("0 PB", x.Peta.ToString());
             Assert.Equal("0 TB", x.Tera.ToString());
             Assert.Equal("1 GB", x.Giga.ToString());
@@ -42,7 +42,7 @@ namespace Cuemon
             Assert.Equal("0.93 gibibyte", x.Gibi.ToString());
             Assert.Equal("953.67 mebibyte", x.Mebi.ToString());
             Assert.Equal("976,562.5 kibibyte", x.Kibi.ToString());
-            
+
             Assert.Equal("0 petabyte", x.Peta.ToString());
             Assert.Equal("0 terabyte", x.Tera.ToString());
             Assert.Equal("1 gigabyte", x.Giga.ToString());

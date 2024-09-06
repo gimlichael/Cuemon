@@ -54,7 +54,7 @@ namespace Cuemon.Reflection
             }
             else
             {
-                var processedConstructorMembers = Populate(predicate ?? (_ => true) , MemberArguments, out instance);
+                var processedConstructorMembers = Populate(predicate ?? (_ => true), MemberArguments, out instance);
                 var processedMembers = Populate(instance, MemberArguments.Except(processedConstructorMembers, DynamicEqualityComparer.Create<MemberArgument>(member => member.Name.GetHashCode(), (m1, m2) => m1.Name.Equals(m2.Name, StringComparison.Ordinal))));
                 ProcessedMemberArguments = processedConstructorMembers.Concat(processedMembers);
             }
@@ -119,8 +119,8 @@ namespace Cuemon.Reflection
                 var property = properties.SingleOrDefault(pi => pi.Name.Equals(member.Name, StringComparison.OrdinalIgnoreCase));
                 if (property != null && property.CanWrite)
                 {
-                    property.SetValue(instance, Decorator.Enclose(property.PropertyType).IsComplex() 
-                        ? member.Value 
+                    property.SetValue(instance, Decorator.Enclose(property.PropertyType).IsComplex()
+                        ? member.Value
                         : Decorator.Enclose(member.Value).ChangeType(property.PropertyType));
                     processedMembers.Add(member);
                 }

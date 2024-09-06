@@ -11,7 +11,7 @@ namespace Cuemon.Text
     {
         public ParserFactoryTest(ITestOutputHelper output) : base(output)
         {
-            
+
         }
 
         [Fact]
@@ -224,7 +224,7 @@ namespace Cuemon.Text
         public void ParserFactory_ShouldConvertUriString_ToUri()
         {
             var cuemon = "https://www.cuemon.net/";
-            Assert.Equal(new Uri("https://www.cuemon.net/"),  ParserFactory.FromUri().Parse(cuemon));
+            Assert.Equal(new Uri("https://www.cuemon.net/"), ParserFactory.FromUri().Parse(cuemon));
             Assert.Throws<InvalidEnumArgumentException>(() => ParserFactory.FromUri().Parse(cuemon, o =>
             {
                 o.Schemes.Clear();

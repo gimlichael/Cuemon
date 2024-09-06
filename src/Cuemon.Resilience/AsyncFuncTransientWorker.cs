@@ -14,7 +14,7 @@ namespace Cuemon.Resilience
         public async Task<TResult> ResilientFuncAsync(Func<CancellationToken, Task<TResult>> operation)
         {
             var result = default(TResult);
-            for (var attempts = 0;;)
+            for (var attempts = 0; ;)
             {
                 var waitTime = Options.RetryStrategy(attempts);
                 try

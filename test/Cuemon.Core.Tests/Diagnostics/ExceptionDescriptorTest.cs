@@ -29,7 +29,7 @@ namespace Cuemon.Diagnostics
             Assert.Equal("UnhandledException", ed.Code);
             Assert.Equal("An unhandled exception occurred.", ed.Message);
             Assert.Equal(4, ed.Evidence.Count);
-            var me = ed.Evidence.Single(pair => pair.Key == "Thrower") .Value as MemberEvidence;
+            var me = ed.Evidence.Single(pair => pair.Key == "Thrower").Value as MemberEvidence;
             Assert.Equal(me.MemberSignature, "Cuemon.Diagnostics.ExceptionDescriptorTest.Extract_VerifyThatInlineExceptionIncludesSystemSnapshot()");
             Assert.Equal(3, me.RuntimeParameters.Count);
             Assert.True(me.RuntimeParameters.ContainsKey("arg1"));
@@ -58,7 +58,7 @@ namespace Cuemon.Diagnostics
             var hu = new Uri("https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.ExceptionDescriptor.html");
             var ex = new InvalidOperationException("Invalid operation test.");
             var ed = new ExceptionDescriptor(ex, "Invalid Operation Exception", "Developer did something unexpected.", hu);
-            
+
             Assert.Equal(ex.ToString(), ed.ToString());
             Assert.Equal("InvalidOperationException", ed.Code);
             Assert.Equal("Developer did something unexpected.", ed.Message);
@@ -74,7 +74,7 @@ namespace Cuemon.Diagnostics
             var hu = new Uri("https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.ExceptionDescriptor.html");
             var ex = Assert.Throws<ArgumentNullException>(() => sc.StringToArray(null));
             var ed = new ExceptionDescriptor(ex, "Not Null Exception", "Null is not allowed.", hu);
-            
+
             Assert.StartsWith("Null is a no-go!", ex.Message);
             Assert.Contains("value", ex.Message);
             Assert.Equal(ex.ToString(), ed.ToString());
@@ -108,7 +108,7 @@ namespace Cuemon.Diagnostics
             var hu = new Uri("https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.ExceptionDescriptor.html");
             var ex = Assert.Throws<ArgumentNullException>(() => sc.Shuffle(null));
             var ed = new ExceptionDescriptor(ex, "Not Null Exception", "Null is not allowed.", hu);
-            
+
             Assert.StartsWith("Null is a no-go!", ex.Message);
             Assert.Contains("value", ex.Message);
             Assert.Equal(ex.ToString(), ed.ToString());
@@ -142,7 +142,7 @@ namespace Cuemon.Diagnostics
             var hu = new Uri("https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.ExceptionDescriptor.html");
             var ex = Assert.Throws<ArgumentNullException>(() => sc.ShuffleNoLoc(null));
             var ed = new ExceptionDescriptor(ex, "Not Null Exception", "Null is not allowed.", hu);
-            
+
             Assert.StartsWith("Null is a no-go!", ex.Message);
             Assert.Contains("value", ex.Message);
             Assert.Equal(ex.ToString(), ed.ToString());

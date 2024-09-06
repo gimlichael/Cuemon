@@ -102,7 +102,7 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(input).ToByteArray(setup);
         }
 
-        
+
         /// <summary>
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
         /// </summary>

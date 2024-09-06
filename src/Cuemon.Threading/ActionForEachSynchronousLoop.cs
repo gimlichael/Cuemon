@@ -16,7 +16,7 @@ namespace Cuemon.Threading
 
         protected override void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker, long sorter)
         {
-            if (worker is ActionFactory<TWorker> wf) { wf.ExecuteMethod(); }        
+            if (worker is ActionFactory<TWorker> wf) { wf.ExecuteMethod(); }
         }
     }
 }

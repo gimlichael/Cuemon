@@ -197,7 +197,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         public void Serialize_ShouldSerializeUsingEnumerableConverter()
         {
             var sut = new XmlFormatter();
-            var result = sut.Serialize(Generate.RangeOf(5, i => i+1));
+            var result = sut.Serialize(Generate.RangeOf(5, i => i + 1));
             var x = new XmlDocument();
             x.Load(result);
 
@@ -208,12 +208,12 @@ namespace Cuemon.Xml.Serialization.Formatters
 
             result.Dispose();
         }
-        
+
         [Fact]
         public void Serialize_ShouldSerializeUsingEnumerableConverter_List()
         {
             var sut = new XmlFormatter();
-            var result = sut.Serialize(Generate.RangeOf(5, i => i+1).ToList());
+            var result = sut.Serialize(Generate.RangeOf(5, i => i + 1).ToList());
             var x = new XmlDocument();
             x.Load(result);
 
@@ -228,9 +228,9 @@ namespace Cuemon.Xml.Serialization.Formatters
         [Fact]
         public void Serialize_ShouldSerializeUsingEnumerableConverter_Dictionary()
         {
-            var keys = new [] { "A", "B", "C", "D", "E" };
+            var keys = new[] { "A", "B", "C", "D", "E" };
             var sut = new XmlFormatter();
-            var result = sut.Serialize(Generate.RangeOf(5, i => i+1).ToDictionary(i => keys[i - 1], i =>  i));
+            var result = sut.Serialize(Generate.RangeOf(5, i => i + 1).ToDictionary(i => keys[i - 1], i => i));
             var x = new XmlDocument();
             x.Load(result);
 

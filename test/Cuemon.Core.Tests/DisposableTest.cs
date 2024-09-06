@@ -15,7 +15,7 @@ namespace Cuemon
     {
         public DisposableTest(ITestOutputHelper output) : base(output)
         {
-            
+
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace Cuemon
                     msRef = ms;
                     Assert.Equal(guid, g);
                     await Task.Delay(TimeSpan.FromSeconds(1));
-                    await ms.WriteAllAsync(new byte[] {1}, ct);
+                    await ms.WriteAllAsync(new byte[] { 1 }, ct);
                     ms.Position = 0;
                     return ms;
                 }, guid, ctsShouldFail.Token, (exception, g, ct) =>

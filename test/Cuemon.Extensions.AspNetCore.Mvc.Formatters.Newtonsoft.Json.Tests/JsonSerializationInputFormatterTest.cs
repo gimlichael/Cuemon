@@ -30,8 +30,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             var sut = new JsonSerializationInputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedEncodings.Count);
-            Assert.Collection(sut.SupportedEncodings, 
-                e => Assert.Equal(Encoding.UTF8, e), 
+            Assert.Collection(sut.SupportedEncodings,
+                e => Assert.Equal(Encoding.UTF8, e),
                 e => Assert.Equal(Encoding.Unicode, e));
         }
 
@@ -41,8 +41,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             var sut = new JsonSerializationInputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(3, sut.SupportedMediaTypes.Count);
-            Assert.Collection(sut.SupportedMediaTypes, 
-                s => Assert.Contains("application/json", s), 
+            Assert.Collection(sut.SupportedMediaTypes,
+                s => Assert.Contains("application/json", s),
                 s => Assert.Contains("text/json", s),
                 s => Assert.Contains("application/problem+json", s));
         }

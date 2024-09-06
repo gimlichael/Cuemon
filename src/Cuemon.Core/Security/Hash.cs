@@ -25,7 +25,7 @@ namespace Cuemon.Security
         {
             Options = Patterns.Configure(setup);
         }
-        
+
         /// <summary>
         /// Gets the configured options of this instance.
         /// </summary>
@@ -56,7 +56,7 @@ namespace Cuemon.Security
         {
         }
 
-         /// <summary>
+        /// <summary>
         /// Computes the hash value for the specified <see cref="bool"/>.
         /// </summary>
         /// <param name="input">The <see cref="bool"/> to compute the hash code for.</param>

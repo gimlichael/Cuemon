@@ -9,7 +9,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
     /// </summary>
     /// <seealso cref="LinkTagHelper{TOptions}" />
     [HtmlTargetElement("cdn-link")]
-    public sealed class CdnLinkTagHelper :  LinkTagHelper<CdnTagHelperOptions>
+    public sealed class CdnLinkTagHelper : LinkTagHelper<CdnTagHelperOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CdnLinkTagHelper"/> class.

@@ -53,7 +53,7 @@ namespace Cuemon.Data.SqlClient
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(o => o.ConnectionString =_connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")))); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString = _connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")))); // should trigger last modified
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
@@ -101,11 +101,11 @@ namespace Cuemon.Data.SqlClient
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(o => o.ConnectionString =_connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")))); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString = _connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")))); // should trigger last modified
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(o => o.ConnectionString =_connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Lieutenant Commander - {Generate.RandomString(5)}")))); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString = _connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Lieutenant Commander - {Generate.RandomString(5)}")))); // should trigger last modified
 
             var signaled = are.WaitOne(TimeSpan.FromSeconds(15));
 

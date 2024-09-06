@@ -75,13 +75,15 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// <value>The password of the credentials.</value>
         public string Password { get; }
 
+        private static readonly char[] ColonSeparator = new[] { ':' };
+
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            var credentials =  Convert.ToBase64String(Decorator.Enclose($"{UserName}:{Password}").ToByteArray());
+            var credentials = Convert.ToBase64String(Decorator.Enclose($"{UserName}:{Password}").ToByteArray());
             return $"{AuthenticationScheme} {credentials}";
         }
 
@@ -117,7 +119,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                 {
                     options.Encoding = Encoding.ASCII;
                     options.Preamble = PreambleSequence.Remove;
-                }).Split(new [] { ':' }, 2);
+                }).Split(ColonSeparator, 2);
 
                 if (plainCredentials.Length == 2 &&
                     !string.IsNullOrWhiteSpace(plainCredentials[0]) &&

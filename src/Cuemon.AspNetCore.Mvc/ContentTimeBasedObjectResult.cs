@@ -4,7 +4,7 @@ using Cuemon.Security;
 
 namespace Cuemon.AspNetCore.Mvc
 {
-    internal class ContentTimeBasedObjectResult :  CacheableObjectResult, IEntityInfo
+    internal class ContentTimeBasedObjectResult : CacheableObjectResult, IEntityInfo
     {
         internal ContentTimeBasedObjectResult(object instance, IEntityDataTimestamp timestamp, IEntityDataIntegrity dataIntegrity) : base(instance)
         {

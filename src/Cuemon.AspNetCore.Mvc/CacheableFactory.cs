@@ -59,7 +59,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <seealso cref="HttpCacheableFilter"/>
         public static ICacheableObjectResult Create<T>(T instance, Action<CacheableObjectResultOptions<T>> setup)
         {
-            return new ContentTimeBasedObjectResult<T>(instance, 
+            return new ContentTimeBasedObjectResult<T>(instance,
                 (IEntityDataTimestamp)CreateHttpLastModified(instance, Patterns.ConfigureExchange<CacheableObjectResultOptions<T>, TimeBasedObjectResultOptions<T>>(setup)),
                 (IEntityDataIntegrity)CreateHttpEntityTag(instance, Patterns.ConfigureExchange<CacheableObjectResultOptions<T>, ContentBasedObjectResultOptions<T>>(setup)));
         }

@@ -29,7 +29,7 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(totalElementCounter);
             source ??= Enumerable.Empty<T>();
             var options = Patterns.Configure(setup);
-            _source = options.PageNumber == 1  
+            _source = options.PageNumber == 1
                 ? source.Take(options.PageSize)
                 : source.Skip((options.PageNumber - 1) * options.PageSize).Take(options.PageSize);
             _pageSize = options.PageSize;
@@ -77,7 +77,7 @@ namespace Cuemon.Collections.Generic
         /// Gets a value indicating whether this instance has a previous paged data sequence.
         /// </summary>
         /// <value><c>true</c> if this instance has a previous paged data sequence; otherwise, <c>false</c>.</value>
-        public bool HasPreviousPage => _pageNumber > 1 && 
+        public bool HasPreviousPage => _pageNumber > 1 &&
                                        _pageNumber <= PageCount;
 
         /// <summary>

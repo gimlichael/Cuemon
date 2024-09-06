@@ -80,6 +80,8 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <value>The signature that represents the integrity of this header.</value>
         public string Signature { get; }
 
+        private static readonly char[] ForwardSlashSeparator = new[] { '/' };
+
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
@@ -88,7 +90,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         {
             return $"{AuthenticationScheme} {CredentialComponent}={ClientId}/{CredentialScope}, {SignedHeadersComponent}={string.Join(";", SignedHeaders)}, {SignatureComponent}={Signature}";
         }
-        
+
         /// <summary>
         /// The core parser that resolves an <see cref="AuthorizationHeader" /> from a set of <paramref name="credentials" />.
         /// </summary>
@@ -104,7 +106,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 
                 if (key == CredentialComponent)
                 {
-                    var cs = value.Split(new [] { '/' }, 2);
+                    var cs = value.Split(ForwardSlashSeparator, 2);
                     clientId = cs[0];
                     credentialScope = cs[1];
                 }
@@ -119,7 +121,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                     signature = value;
                 }
             }
-            
+
             if (!string.IsNullOrWhiteSpace(clientId) &&
                 credentialScope != null &&
                 !string.IsNullOrEmpty(signedHeaders) &&

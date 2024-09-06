@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using Cuemon.AspNetCore.Configuration;
 using Cuemon.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.RazorPages;

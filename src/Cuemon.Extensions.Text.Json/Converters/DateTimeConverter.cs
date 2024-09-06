@@ -35,8 +35,8 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// <returns>The converted value.</returns>
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return DateTime.TryParse(reader.GetString(), Provider, DateTimeStyles.RoundtripKind, out var value) 
-                ? value 
+            return DateTime.TryParse(reader.GetString(), Provider, DateTimeStyles.RoundtripKind, out var value)
+                ? value
                 : reader.GetDateTime(); // official fallback incl. possible thrown exceptions
         }
 

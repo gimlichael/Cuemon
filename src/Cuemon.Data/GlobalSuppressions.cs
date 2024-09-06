@@ -11,3 +11,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Major Code Smell", "S907:\"goto\" statement should not be used", Justification = "Legacy implementation.", Scope = "member", Target = "~M:Cuemon.Data.Xml.XmlDataReader.ReadNext(System.Boolean)~System.Boolean")]
 [assembly: SuppressMessage("Major Code Smell", "S1168:Empty arrays and collections should be returned instead of null", Justification = "By design. Not relevant in this context.", Scope = "member", Target = "~P:Cuemon.Data.DsvDataReader.NullRead")]
 [assembly: SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Intentional.", Scope = "member", Target = "~M:Cuemon.Data.DataManager.OpenConnection(System.Data.IDbCommand)")]
+[assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "Intentional as these embark on IDecorator.", Scope = "namespace", Target = "~N:Cuemon.Data")]

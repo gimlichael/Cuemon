@@ -82,7 +82,7 @@ namespace Cuemon.Resilience
             var descriptor = Descriptor.ToString();
             return FormattableString.Invariant($"{descriptor} was invoked {Attempts} time(s) over a period of {Latency.Add(TotalRecoveryWaitTime)}. Last recovery wait time was {RecoveryWaitTime}, giving a total recovery wait time of {TotalRecoveryWaitTime}. Latency was {Latency}.");
         }
-        
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -105,7 +105,7 @@ namespace Cuemon.Resilience
             if (obj is null) { return false; }
             if (ReferenceEquals(this, obj)) { return true; }
             if (obj.GetType() != this.GetType()) { return false; }
-            return Equals((TransientFaultEvidence) obj);
+            return Equals((TransientFaultEvidence)obj);
         }
 
         /// <summary>

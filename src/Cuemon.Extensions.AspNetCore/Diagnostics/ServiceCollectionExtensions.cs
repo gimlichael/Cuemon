@@ -61,16 +61,16 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             return services;
         }
 
-		/// <summary>
-		/// Registers the specified <paramref name="setup" /> to configure <see cref="FaultDescriptorOptions"/> in the <paramref name="services"/> collection.
-		/// </summary>
-		/// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
-		/// <param name="setup">The <see cref="FaultDescriptorOptions"/> that may be configured.</param>
-		/// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
-		/// <exception cref="ArgumentException">
-		/// <paramref name="setup"/> failed to configure an instance of <see cref="FaultDescriptorOptions"/> in a valid state.
-		/// </exception>
-		public static IServiceCollection AddFaultDescriptorOptions(this IServiceCollection services, Action<FaultDescriptorOptions> setup = null)
+        /// <summary>
+        /// Registers the specified <paramref name="setup" /> to configure <see cref="FaultDescriptorOptions"/> in the <paramref name="services"/> collection.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <param name="setup">The <see cref="FaultDescriptorOptions"/> that may be configured.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <see cref="FaultDescriptorOptions"/> in a valid state.
+        /// </exception>
+        public static IServiceCollection AddFaultDescriptorOptions(this IServiceCollection services, Action<FaultDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);

@@ -53,7 +53,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 };
 
                 sut1.AddEvidence("Request", context.Request, request => new HttpRequestEvidence(request));
-                
+
                 // TODO: look into IncludeException* and Include equivalents
 
                 var sut2 = new NewtonsoftJsonFormatterOptions()

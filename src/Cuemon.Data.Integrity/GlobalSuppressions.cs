@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Major Bug", "S2259:Null pointers should not be dereferenced", Justification = "False-Positive", Scope = "member", Target = "~M:Cuemon.Data.Integrity.CacheValidator.#ctor(Cuemon.Data.Integrity.EntityInfo,System.Func{Cuemon.Security.Hash},Cuemon.Data.Integrity.EntityDataIntegrityMethod)")]
+[assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "Intentional as these embark on IDecorator.", Scope = "namespace", Target = "~N:Cuemon.Data.Integrity")]

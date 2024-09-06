@@ -105,13 +105,13 @@ namespace Cuemon.Extensions
             var s3 = s1.ToCasing(CasingMethod.LowerCase);
             var s4 = s1.ToCasing(CasingMethod.TitleCase);
             var s5 = s1.ToCasing(CasingMethod.UpperCase);
-            
+
             Assert.Equal(s1, s2);
             Assert.Equal(s1.ToLowerInvariant(), s3);
             Assert.Equal(CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s1), s4);
             Assert.Equal(s1.ToUpperInvariant(), s5);
         }
-        
+
         [Fact]
         public void ToUri_ShouldConvertToUri()
         {
@@ -282,7 +282,7 @@ namespace Cuemon.Extensions
             var sut3 = "noreply@";
             var sut4 = "noreply";
             var sut5 = "noreply@gmail.";
-            
+
             Assert.True(sut1.IsEmailAddress());
             Assert.False(sut2.IsEmailAddress());
             Assert.False(sut3.IsEmailAddress());
@@ -415,7 +415,7 @@ namespace Cuemon.Extensions
 
             Assert.True(sut2);
         }
-        
+
         [Fact]
         public void ContainsAny_ShouldFindAtLeastOneMatchFromString()
         {
@@ -446,7 +446,7 @@ namespace Cuemon.Extensions
             ex = Assert.Throws<ArgumentNullException>(() => value.ContainsAny(StringComparison.OrdinalIgnoreCase, 'a'));
             Assert.Equal(nameof(value), ex.ParamName);
         }
-        
+
         [Fact]
         public void ContainsAny_Char_ShouldFindOneMatch()
         {
@@ -487,8 +487,8 @@ namespace Cuemon.Extensions
         {
             var sut1 = $"This is a string that will be converted back and forth. Lets add some foreign characters: æøå and some punctuations as well: {Alphanumeric.PunctuationMarks}.";
             var sut2 = sut1.ContainsAll(StringComparison.Ordinal, "may", "the", "forth", "be", "with", "you");
-            var sut3 = sut1.ContainsAll(StringComparison.Ordinal,"This", "is", "forth", "be", "converted", "punctuations");
-            var sut4 = sut1.ContainsAll(StringComparison.Ordinal,"THIS", "IS", "CONVERTED");
+            var sut3 = sut1.ContainsAll(StringComparison.Ordinal, "This", "is", "forth", "be", "converted", "punctuations");
+            var sut4 = sut1.ContainsAll(StringComparison.Ordinal, "THIS", "IS", "CONVERTED");
 
             Assert.False(sut2);
             Assert.True(sut3);
@@ -615,7 +615,7 @@ namespace Cuemon.Extensions
             Assert.Equal(AssignmentOperator.Multiplication, sut3.ToEnum<AssignmentOperator>());
             Assert.Equal(AssignmentOperator.Subtraction, sut4.ToEnum<AssignmentOperator>());
 
-            Assert.Throws<ArgumentNullException>(() => ((string) null).ToEnum<AssignmentOperator>());
+            Assert.Throws<ArgumentNullException>(() => ((string)null).ToEnum<AssignmentOperator>());
             Assert.Throws<TypeArgumentException>(() => sut4.ToEnum<DateTime>());
             Assert.Throws<ArgumentException>(() => sut5.ToEnum<AssignmentOperator>());
         }

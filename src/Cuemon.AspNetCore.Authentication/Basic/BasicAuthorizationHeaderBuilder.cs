@@ -34,7 +34,7 @@
         {
             return AddOrUpdate(BasicFields.Password, password);
         }
-        
+
         /// <summary>
         /// Builds an instance of <see cref="BasicAuthorizationHeader"/> that implements <see cref="AuthorizationHeader" />.
         /// </summary>
@@ -42,7 +42,7 @@
         public override BasicAuthorizationHeader Build()
         {
             ValidateData(BasicFields.UserName, BasicFields.Password);
-            return new BasicAuthorizationHeader(Data[BasicFields.UserName], Data[BasicFields.Password]); 
+            return new BasicAuthorizationHeader(Data[BasicFields.UserName], Data[BasicFields.Password]);
         }
     }
 }

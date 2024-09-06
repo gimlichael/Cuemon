@@ -167,7 +167,7 @@ namespace Cuemon.Extensions.AspNetCore.Xml.Converters
                 }
             });
         }
-        
+
         /// <summary>
         /// Adds an <see cref="IRequestCookieCollection"/> XML converter to the list.
         /// </summary>

@@ -17,12 +17,12 @@ using Microsoft.Extensions.Primitives;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
-	/// <summary>
-	/// A filter that performs time measure profiling of action methods.
-	/// </summary>
-	/// <seealso cref="ConfigurableActionFilter{TOptions}"/>
-	/// <seealso cref="IActionFilter" />
-	public class ServerTimingFilter : ConfigurableActionFilter<ServerTimingOptions>
+    /// <summary>
+    /// A filter that performs time measure profiling of action methods.
+    /// </summary>
+    /// <seealso cref="ConfigurableActionFilter{TOptions}"/>
+    /// <seealso cref="IActionFilter" />
+    public class ServerTimingFilter : ConfigurableActionFilter<ServerTimingOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
@@ -34,8 +34,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
             Profiler = new TimeMeasureProfiler();
             Environment = environment;
-			Logger = logger;
-		}
+            Logger = logger;
+        }
 
         private ILogger<ServerTimingFilter> Logger { get; }
 
@@ -55,19 +55,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ActionExecutingContext" />.</param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-	        if (Options.UseTimeMeasureProfiler)
-	        {
-		        Profiler.Timer.Start();
-		        if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
-		        {
-			        var expectedObjects = ParseRuntimeParameters(context, descriptor);
-			        var verifiedObjects = context.ActionArguments.Values.ToArray();
-			        if (verifiedObjects.Length == expectedObjects.Length) { expectedObjects = verifiedObjects; }
-			        var md = Options.MethodDescriptor?.Invoke() ?? ParseMethodDescriptor(descriptor);
-			        Profiler.Member = md;
-			        Profiler.Data = md.MergeParameters(Options.RuntimeParameters ?? expectedObjects);
-		        }
-	        }
+            if (Options.UseTimeMeasureProfiler)
+            {
+                Profiler.Timer.Start();
+                if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
+                {
+                    var expectedObjects = ParseRuntimeParameters(context, descriptor);
+                    var verifiedObjects = context.ActionArguments.Values.ToArray();
+                    if (verifiedObjects.Length == expectedObjects.Length) { expectedObjects = verifiedObjects; }
+                    var md = Options.MethodDescriptor?.Invoke() ?? ParseMethodDescriptor(descriptor);
+                    Profiler.Member = md;
+                    Profiler.Data = md.MergeParameters(Options.RuntimeParameters ?? expectedObjects);
+                }
+            }
         }
 
         /// <summary>
@@ -81,16 +81,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             var hasGlobalFilter = context.Filters.Any(filter => filter is ServerTimingFilter serverTimingFilter && !serverTimingFilter.FromAttributeDecoration);
             var skipExecutionDueToDoubleFilterRegistration = hasGlobalFilter && FromAttributeDecoration;
             var serverTiming = context.HttpContext.RequestServices.GetRequiredService<IServerTiming>();
-            
+
             if (Options.UseTimeMeasureProfiler)
             {
-	            serverTiming.AddServerTiming(Name ?? Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString(),
-		            Profiler.Elapsed,
-		            Description ?? $"{context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()}");
-	            if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
-	            {
-		            TimeMeasure.CompletedCallback?.Invoke(Profiler);
-	            }
+                serverTiming.AddServerTiming(Name ?? Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString(),
+                    Profiler.Elapsed,
+                    Description ?? $"{context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()}");
+                if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
+                {
+                    TimeMeasure.CompletedCallback?.Invoke(Profiler);
+                }
             }
 
             if (skipExecutionDueToDoubleFilterRegistration) { return; }
@@ -99,14 +99,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             if (!Options.SuppressHeaderPredicate(Environment)) { context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTimingMetrics.Select(metric => metric.ToString()).ToArray()); }
             if (Logger != null && Options.LogLevelSelector != null)
             {
-	            foreach (var metric in serverTimingMetrics)
-	            {
+                foreach (var metric in serverTimingMetrics)
+                {
                     var logLevel = Options.LogLevelSelector(metric);
-					Logger.Log(logLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: \"{Description}\" }}", 
-			            metric.Name,
-			            metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1"),
-			            metric.Description ?? "N/A");
-	            }
+                    Logger.Log(logLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: \"{Description}\" }}",
+                        metric.Name,
+                        metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1"),
+                        metric.Description ?? "N/A");
+                }
             }
         }
 

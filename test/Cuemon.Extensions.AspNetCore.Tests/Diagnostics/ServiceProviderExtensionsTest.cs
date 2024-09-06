@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         public void GetExceptionResponseFormatters_ShouldGetAllRegisteredServicesOf_IExceptionResponseFormatter()
         {
             var services = new ServiceCollection();
-            
+
             services.AddOptions();
             services.AddXmlExceptionResponseFormatter();
             services.AddJsonExceptionResponseFormatter();

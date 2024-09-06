@@ -71,7 +71,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
 
                 Assert.Equal(StatusCodes.Status304NotModified, (int)result.StatusCode);
                 Assert.Equal("", body);
-                
+
                 TestOutput.WriteLine(body);
             }
         }

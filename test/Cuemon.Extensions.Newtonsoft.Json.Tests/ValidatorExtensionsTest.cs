@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public void InvalidJsonDocument_ShouldThrowArgumentException()
         {
             var sut = Assert.Throws<ArgumentException>(() => Validator.ThrowIf.InvalidJsonDocument($$"""{ "id" "{{Guid.NewGuid():D}}"  }""", "paramName"));
-            
+
             Assert.Equal("paramName", sut.ParamName);
             Assert.StartsWith("Value must be a JSON representation that complies with RFC 8259.", sut.Message);
 

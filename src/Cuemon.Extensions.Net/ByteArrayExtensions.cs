@@ -30,6 +30,6 @@ namespace Cuemon.Extensions.Net
         {
             Validator.ThrowIfNull(bytes);
             return Decorator.Enclose(bytes).UrlEncode(position, bytesToRead, setup);
-        } 
+        }
     }
 }

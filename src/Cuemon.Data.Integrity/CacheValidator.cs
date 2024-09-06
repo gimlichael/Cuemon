@@ -86,7 +86,7 @@ namespace Cuemon.Data.Integrity
         public CacheValidator(EntityInfo entity, Func<Hash> hashFactory, EntityDataIntegrityMethod method = EntityDataIntegrityMethod.Unaltered) : base(entity?.Checksum.GetBytes(), hashFactory)
         {
             Validator.ThrowIfNull(entity);
-            
+
             Created = entity.Created;
             Modified = entity.Modified;
             Validation = entity.Validation;

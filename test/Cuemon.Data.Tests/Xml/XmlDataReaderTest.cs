@@ -37,7 +37,7 @@ namespace Cuemon.Data.Xml
                 {
                     elementName = xmlReader.LocalName;
                 }
-                
+
                 if (xmlReader.HasAttributes)
                 {
                     while (xmlReader.MoveToNextAttribute())

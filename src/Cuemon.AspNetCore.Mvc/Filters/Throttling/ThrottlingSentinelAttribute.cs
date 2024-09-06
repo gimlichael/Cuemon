@@ -22,7 +22,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// <param name="windowUnit">One of the enumeration values that specifies the time unit of <paramref name="window"/>.</param>
         protected ThrottlingSentinelAttribute(int rateLimit, double window, TimeUnit windowUnit)
         {
-            var options= new ThrottlingSentinelOptions();
+            var options = new ThrottlingSentinelOptions();
             RateLimit = rateLimit;
             Window = window;
             WindowUnit = windowUnit;
@@ -75,7 +75,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// Gets or sets the name of the rate limit reset HTTP header.
         /// </summary>
         /// <value>The name of the rate limit reset HTTP header.</value>
-        public string RateLimitResetHeaderName  { get; set; }
+        public string RateLimitResetHeaderName { get; set; }
 
         /// <summary>
         /// Gets or sets the preferred rate limit reset HTTP header value that conforms with RFC 7231.

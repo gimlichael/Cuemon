@@ -33,7 +33,7 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(sut1.Message, original.Message);
             Assert.Equal(StatusCodes.Status400BadRequest, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
-            
+
             Assert.Equal("""
                          {
                            "type": "Cuemon.AspNetCore.Http.BadRequestException",
@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(sut1.Message, original.Message);
             Assert.Equal(StatusCodes.Status400BadRequest, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
-            
+
             Assert.Equal("""
                          <?xml version="1.0" encoding="utf-8"?>
                          <BadRequestException namespace="Cuemon.AspNetCore.Http">

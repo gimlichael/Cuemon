@@ -84,7 +84,7 @@ namespace Cuemon.Data
                 }
                 finally
                 {
-                    Connection.Close();    
+                    Connection.Close();
                 }
             }
             return Task.CompletedTask;

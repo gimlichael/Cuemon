@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Xml
             Assert.Equal(sut1.Length, sut3.Length);
             Assert.Equal(sut1.ToEncodedString(), sut3.ToEncodedString());
         }
-        
+
         [Fact]
         public void Chunk_ShouldSplitOneXmlReaderIntoThreeSmaller()
         {

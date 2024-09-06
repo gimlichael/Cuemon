@@ -42,7 +42,7 @@ namespace Cuemon.Extensions
         {
             var sut1 = Generate.RangeOf(21, i => Convert.ToDouble(i).Factorial());
 
-            Assert.Collection(sut1, 
+            Assert.Collection(sut1,
                 d => Assert.Equal(1, d),
                 d => Assert.Equal(1, d),
                 d => Assert.Equal(2, d),

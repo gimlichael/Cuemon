@@ -69,4 +69,4 @@ namespace Cuemon.AspNetCore.Diagnostics
             return _responseMessageFactory(descriptor);
         }
     }
-}   
+}

@@ -46,7 +46,7 @@ namespace Cuemon.Runtime
         /// <remarks>Specify negative one (-1) milliseconds to prevent the signaling from starting. Specify zero (0) to start the signaling immediately.</remarks>
         public TimeSpan DueTime { get; set; }
 
-        
+
         /// <summary>
         /// Gets or sets the amount of time to postpone a <see cref="IWatcher.Changed"/> event.
         /// </summary>

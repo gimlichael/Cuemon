@@ -97,7 +97,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// </summary>
         /// <value>The enumeration values that specify which sensitive details to include in the serialized result.</value>
         public FaultSensitivityDetails SensitivityDetails { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Settings"/> should be synchronized on <see cref="XmlConvert.DefaultSettings"/>.
         /// </summary>

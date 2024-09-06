@@ -61,7 +61,7 @@ namespace Cuemon.Resilience
             if (IsTransientFault)
             {
                 var runtimeArguments = RuntimeArguments;
-                if (Options is AsyncTransientOperationOptions asyncOptions){ runtimeArguments = Arguments.Concat(RuntimeArguments, Arguments.ToArray(asyncOptions.CancellationToken)); } // we need to match the signature of async methods on TransientOperation
+                if (Options is AsyncTransientOperationOptions asyncOptions) { runtimeArguments = Arguments.Concat(RuntimeArguments, Arguments.ToArray(asyncOptions.CancellationToken)); } // we need to match the signature of async methods on TransientOperation
                 var evidence = new TransientFaultEvidence(attempts, LastWaitTime, TotalWaitTime, Latency, new MethodDescriptor(DelegateInfo).AppendRuntimeArguments(runtimeArguments));
                 var transientException = new TransientFaultException("The amount of retry attempts has been reached.", evidence);
                 lock (AggregatedExceptions) { AggregatedExceptions.Insert(0, transientException); }

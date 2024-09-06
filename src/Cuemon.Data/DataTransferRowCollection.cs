@@ -24,7 +24,7 @@ namespace Cuemon.Data
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
 
             Columns = new DataTransferColumnCollection(reader);
-            
+
             var rowNumber = 1;
             while (reader.Read())
             {

@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Net.Security
         {
             Validator.ThrowIfNullOrWhitespace(uriString);
             Validator.ThrowIfNull(secret);
-            
+
             var options = Patterns.Configure(setup);
             var qsc = uriString.ToQueryStringCollection();
             if (start.HasValue) { qsc.Add(options.StartFieldName, Decorator.Enclose(start.Value).ToUtcKind().ToString("s") + "Z"); }
@@ -80,7 +80,7 @@ namespace Cuemon.Extensions.Net.Security
             Validator.ThrowIfNull(uriString);
             return new QueryStringCollection(uriString.TakeQueryString());
         }
-        
+
         private static string TakeQueryString(this string uriString)
         {
             Validator.ThrowIfNull(uriString);

@@ -30,7 +30,7 @@ namespace Cuemon
             { typeof(Enum), (i, o) => i is Enum x ? GetBytes(x, o) : null }
         };
 
-        private static readonly Dictionary<Type, Func<IConvertible, byte[]>> ByteArrayConverters =  new()
+        private static readonly Dictionary<Type, Func<IConvertible, byte[]>> ByteArrayConverters = new()
         {
             { typeof(string), input => input is string x ? GetBytes(x) : null },
             { typeof(DateTime), input => input is DateTime x ? GetBytes(x) : null },
@@ -236,7 +236,7 @@ namespace Cuemon
         {
             return GetBytesCore(input, BitConverter.GetBytes, setup);
         }
-        
+
         /// <summary>
         /// Returns the specified <see cref="short"/> as a <see cref="T:byte[]"/>.
         /// </summary>
@@ -374,33 +374,33 @@ namespace Cuemon
             switch (tc)
             {
                 case TypeCode.Byte:
-                {
-                    return GetBytes(c.ToByte(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToByte(CultureInfo.InvariantCulture), setup);
+                    }
                 case TypeCode.Int16:
-                {
-                    return GetBytes(c.ToInt16(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToInt16(CultureInfo.InvariantCulture), setup);
+                    }
                 case TypeCode.Int64:
-                {
-                    return GetBytes(c.ToInt64(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToInt64(CultureInfo.InvariantCulture), setup);
+                    }
                 case TypeCode.UInt16:
-                {
-                    return GetBytes(c.ToUInt16(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToUInt16(CultureInfo.InvariantCulture), setup);
+                    }
                 case TypeCode.UInt32:
-                {
-                    return GetBytes(c.ToUInt32(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToUInt32(CultureInfo.InvariantCulture), setup);
+                    }
                 case TypeCode.UInt64:
-                {
-                    return GetBytes(c.ToUInt64(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToUInt64(CultureInfo.InvariantCulture), setup);
+                    }
                 case TypeCode.SByte:
-                {
-                    return GetBytes(c.ToSByte(CultureInfo.InvariantCulture), setup);
-                }
+                    {
+                        return GetBytes(c.ToSByte(CultureInfo.InvariantCulture), setup);
+                    }
                 default:
                     return GetBytes(c.ToInt32(CultureInfo.InvariantCulture), setup);
             }

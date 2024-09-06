@@ -146,7 +146,7 @@ namespace Cuemon.Extensions
             Assert.True(truetype.IsComplex());
             Assert.False(falseType.IsComplex());
         }
-        
+
         [Fact]
         public void IsSimple()
         {

@@ -45,7 +45,7 @@ namespace Cuemon.Data
                 Fields.Count != Mappings.Count) { throw new InvalidOperationException("Mappings must be either all name or all ordinal based."); }
             UseOrdinal = Fields.Count == 0;
         }
-        
+
         private DbDataReader Reader { get; set; }
 
         private void SetFields(IOrderedDictionary fields)

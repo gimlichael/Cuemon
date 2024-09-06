@@ -105,7 +105,7 @@ namespace Cuemon.IO
             TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
             TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
-        
+
         [Fact]
         public async Task CompressGZipAsync_ShouldCompressAndDecompress()
         {
@@ -229,7 +229,7 @@ namespace Cuemon.IO
             var fsBytes = Convertible.GetBytes(fs);
             var s = new MemoryStream(fsBytes);
             var sb = await Decorator.Enclose(s).ToByteArrayAsync();
-            
+
             Assert.Throws<ObjectDisposedException>(() => s.Capacity);
             Assert.Equal(fsBytes, sb);
             Assert.Equal(size, sb.Length);
@@ -256,7 +256,7 @@ namespace Cuemon.IO
             });
             var wrongDecodedUnicodeResult = Decorator.Enclose(sUnicode).ToEncodedString(o => o.Encoding = Encoding.ASCII);
             var wrongDecodedIso88591Result = Decorator.Enclose(sIso88591).ToEncodedString(o => o.Encoding = Encoding.ASCII);
-            
+
             Assert.Throws<ObjectDisposedException>(() => sIso88591.Length);
             Assert.Throws<ObjectDisposedException>(() => sUnicode.Length);
             Assert.Equal(fsBytesIso88591.Length, sIso88591Length);
@@ -289,7 +289,7 @@ namespace Cuemon.IO
             });
             var wrongDecodedUnicodeResult = await Decorator.Enclose(sUnicode).ToEncodedStringAsync(o => o.Encoding = Encoding.ASCII);
             var wrongDecodedIso88591Result = await Decorator.Enclose(sIso88591).ToEncodedStringAsync(o => o.Encoding = Encoding.ASCII);
-            
+
             Assert.Throws<ObjectDisposedException>(() => sIso88591.Length);
             Assert.Throws<ObjectDisposedException>(() => sUnicode.Length);
             Assert.Equal(fsBytesIso88591.Length, sIso88591Length);

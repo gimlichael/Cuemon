@@ -10,7 +10,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="FinalizeDisposable"/> class.
         /// </summary>
-        protected FinalizeDisposable() 
+        protected FinalizeDisposable()
         {
         }
 

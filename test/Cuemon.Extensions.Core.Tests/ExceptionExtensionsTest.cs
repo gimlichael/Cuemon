@@ -22,7 +22,7 @@ namespace Cuemon.Extensions
 
             TestOutput.WriteLines(sut2);
 
-            Assert.Collection(sut2, 
+            Assert.Collection(sut2,
                 e => Assert.IsType<AmbiguousMatchException>(e),
                 e => Assert.IsType<OutOfMemoryException>(e),
                 e => Assert.IsType<AggregateException>(e),

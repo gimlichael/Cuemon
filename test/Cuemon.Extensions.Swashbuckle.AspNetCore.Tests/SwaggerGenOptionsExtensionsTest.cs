@@ -49,7 +49,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
 
                 TestOutput.WriteLine(result);
 
-              
+
                 Assert.Equal(@"{
   ""openapi"": ""3.0.1"",
   ""info"": {

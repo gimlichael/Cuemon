@@ -18,7 +18,7 @@ namespace Cuemon
         {
             Action<AsyncOptions> sut = null;
             var ao = new AsyncOptions();
-            
+
             var options = Patterns.Configure(sut);
 
             Assert.NotNull(options);

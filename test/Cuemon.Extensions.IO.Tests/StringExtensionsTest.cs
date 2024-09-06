@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.IO
             {
                 sut3 = sut2.ReadToEnd();
             }
-            
+
             Assert.Equal(sut1, sut3);
             Assert.Throws<ObjectDisposedException>(() => sut2.Peek());
         }

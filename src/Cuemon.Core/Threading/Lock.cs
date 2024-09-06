@@ -3,7 +3,6 @@
 // NuGet package: https://www.nuget.org/packages/Backport.System.Threading.Lock
 
 using System.Runtime.CompilerServices;
-using System.Security;
 #if NET9_0_OR_GREATER
 [assembly: TypeForwardedTo(typeof(System.Threading.Lock))]
 #else

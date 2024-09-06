@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.DependencyInjection
                 provider = embeddedProvider.ServiceProvider;
                 providerType = embeddedProvider.ProviderType;
             }
-            
+
             var callSiteFactory = Decorator.Enclose(providerType).GetAllProperties().SingleOrDefault(pi => pi.Name == "CallSiteFactory")?.GetValue(provider);
             if (callSiteFactory != null)
             {
@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.DependencyInjection
 
         private static bool TryLocateEmbeddedServiceProvider(IServiceProvider originatingProvider, Type originatingProviderType, out (IServiceProvider ServiceProvider, Type ProviderType) embeddedProvider)
         {
-            if (originatingProviderType.Name == "ServiceProviderEngineScope" && 
+            if (originatingProviderType.Name == "ServiceProviderEngineScope" &&
                 Decorator.Enclose(originatingProviderType).GetAllProperties().SingleOrDefault(pi => pi.Name == "RootProvider")?.GetValue(originatingProvider) is IServiceProvider rootProvider)
             {
                 embeddedProvider = new ValueTuple<IServiceProvider, Type>(rootProvider, rootProvider.GetType());

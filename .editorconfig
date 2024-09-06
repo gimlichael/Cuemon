@@ -32,3 +32,66 @@ dotnet_diagnostic.S3267.severity = none
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1859
 [*.{cs,vb}]
 dotnet_diagnostic.CA1859.severity = none
+
+# IDE0008: Use explicit type
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0007-ide0008
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0008.severity = none
+
+[*.{cs,vb}]
+indent_style = space
+indent_size = 4
+
+[*.xml]
+indent_style = space
+indent_size = 2
+
+# IDE0078: Use pattern matching
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0078
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0078.severity = none
+
+# IDE0290: Use primary constructor
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0290
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0290.severity = none
+
+# CA1200: Avoid using cref tags with a prefix
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1200
+[*.{cs,vb}]
+dotnet_diagnostic.CA1200.severity = none
+
+# IDE0305: Use collection expression for fluent
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0305
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0305.severity = none
+
+# IDE0011: Add braces
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0011
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0011.severity = none
+
+# IDE0028: Use collection initializers or expressions
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0028
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0028.severity = none
+
+# IDE0039: Use collection expression for array
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0300
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0300.severity = none
+
+# IDE0031: Use collection expression for empty
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0301
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0301.severity = none
+
+# IDE0046: Use conditional expression for return
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0046
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0046.severity = none
+
+# IDE0047: Parentheses preferences
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0047-ide0048
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0047.severity = none

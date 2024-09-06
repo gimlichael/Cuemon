@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.DependencyInjection
             sut1.AddSingleton<IService<int>, DefaultService<int>>();
             sut1.AddSingleton<IService<Guid>, DefaultService<Guid>>();
             var sut2 = sut1.BuildServiceProvider();
-            
+
             Assert.IsType<DefaultService>(sut2.GetRequiredService<IService>());
             Assert.IsType<DefaultService<int>>(sut2.GetRequiredService<IService<int>>());
             Assert.IsType<DefaultService<long>>(sut2.GetRequiredService<IService<long>>());

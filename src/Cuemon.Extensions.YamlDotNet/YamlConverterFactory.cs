@@ -68,7 +68,7 @@ namespace Cuemon.Extensions.YamlDotNet
             Writer = writer;
             Reader = reader;
         }
-        
+
         private Func<Type, bool> Predicate { get; }
 
         private Action<IEmitter, object> Writer { get; }

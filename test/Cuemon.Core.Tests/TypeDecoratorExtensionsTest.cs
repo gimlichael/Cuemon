@@ -71,7 +71,7 @@ namespace Cuemon
         [Fact]
         public void HasAnonymousCharacteristics_ShouldBeTrueForTypeDelegateAndLambda()
         {
-            var at = new {Id = 1, Name = "Cuemon"};
+            var at = new { Id = 1, Name = "Cuemon" };
             var am = new Action(() => { });
             var nat = new MimicAnonymousType();
             var nam = new Action(NamedMethod);
@@ -123,7 +123,7 @@ namespace Cuemon
         public void HasEnumerableImplementation_ShouldBeTrueForEnumerableTypes()
         {
             var s = "Cuemon";
-            var a = new[] {"C", "u", "e", "m", "o", "n"};
+            var a = new[] { "C", "u", "e", "m", "o", "n" };
 
             Assert.True(Decorator.Enclose(s.GetType()).HasEnumerableImplementation());
             Assert.True(Decorator.Enclose(a.GetType()).HasEnumerableImplementation());
@@ -237,7 +237,7 @@ namespace Cuemon
             {
                 Assert.True(Decorator.Enclose(vt).HasDefaultConstructor());
             }
-            
+
             var referenceTypes = Decorator.Enclose(typeof(object)).GetDerivedTypes().Where(t => !t.IsValueType && t.IsPublic && t.GetConstructor(Type.EmptyTypes) != null);
             foreach (var rt in referenceTypes)
             {
@@ -285,7 +285,7 @@ namespace Cuemon
             Assert.Equal(TimeSpan.Zero, Decorator.Enclose(typeof(TimeSpan)).GetDefaultValue());
             Assert.Null(Decorator.Enclose(typeof(int?)).GetDefaultValue());
             Assert.Null(Decorator.Enclose(typeof(bool?)).GetDefaultValue());
-            Assert.Equal(new ClassWithDefaultValue(),  Decorator.Enclose(typeof(ClassWithDefaultValue)).GetDefaultValue());
+            Assert.Equal(new ClassWithDefaultValue(), Decorator.Enclose(typeof(ClassWithDefaultValue)).GetDefaultValue());
         }
 
         [Theory, MemberData(nameof(Randomizer))]
@@ -310,7 +310,7 @@ namespace Cuemon
             Assert.Throws<ArgumentException>(() => Decorator.Enclose(typeof(ClassWithAmbiguousMethods)).MatchMember(""));
             Assert.Throws<AmbiguousMatchException>(() => Decorator.Enclose(typeof(ClassWithAmbiguousMethods)).MatchMember("MethodA"));
 
-            var mb = Decorator.Enclose(typeof(ClassWithAmbiguousMethods)).MatchMember("MethodA", o => o.Types = new [] { typeof(Guid) });
+            var mb = Decorator.Enclose(typeof(ClassWithAmbiguousMethods)).MatchMember("MethodA", o => o.Types = new[] { typeof(Guid) });
             var args = mb.GetParameters();
 
             Assert.NotNull(mb);

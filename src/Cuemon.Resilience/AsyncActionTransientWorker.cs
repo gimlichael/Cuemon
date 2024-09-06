@@ -13,7 +13,7 @@ namespace Cuemon.Resilience
 
         public async Task ResilientActionAsync(Func<CancellationToken, Task> operation)
         {
-            for (var attempts = 0;;)
+            for (var attempts = 0; ;)
             {
                 var waitTime = Options.RetryStrategy(attempts);
                 try

@@ -38,7 +38,7 @@ namespace Cuemon.Data
             }
 
             if (!header!.Contains(options.Delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
-            
+
             Reader = reader;
             var headerFields = DelimitedString.Split(header, setup);
             Header = headerFields;
@@ -68,7 +68,7 @@ namespace Cuemon.Data
         /// Gets the qualifier that surrounds a field.
         /// </summary>
         /// <value>The qualifier that surrounds a field.</value>
-        public string Qualifier { get;  }
+        public string Qualifier { get; }
 
         /// <summary>
         /// Gets the currently processed row count of this instance.

@@ -23,7 +23,7 @@
         /// Gets the unit prefix multiplier.
         /// </summary>
         /// <value>The unit prefix multiplier.</value>
-        double Multiplier { get;}
+        double Multiplier { get; }
 
         /// <summary>
         /// Converts the unit base <paramref name="value"/> to a unit prefix value.

@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// <param name="options">The configured <see cref="JsonFormatterOptions"/>.</param>
         public JsonFormatter(JsonFormatterOptions options) : base(options)
         {
-	        Options.RefreshWithConverterDependencies();
+            Options.RefreshWithConverterDependencies();
         }
 
         /// <summary>
@@ -52,10 +52,10 @@ namespace Cuemon.Extensions.Text.Json.Formatters
             return StreamFactory.Create(writer =>
             {
                 using (var jsonWriter = new Utf8JsonWriter(writer, new JsonWriterOptions()
-                       {
-                           Indented = Options.Settings.WriteIndented,
-                           Encoder = Options.Settings.Encoder
-				}))
+                {
+                    Indented = Options.Settings.WriteIndented,
+                    Encoder = Options.Settings.Encoder
+                }))
                 {
                     JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
                 }

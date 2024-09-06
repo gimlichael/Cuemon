@@ -59,7 +59,7 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <value>The initialization vector (IV) of this instance.</value>
         public byte[] InitializationVector { get; }
-        
+
         /// <summary>
         /// Encrypts the specified <paramref name="value"/>.
         /// </summary>
@@ -76,7 +76,7 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="value">The encrypted value that needs to be decrypted.</param>
         /// <param name="setup">The <see cref="AesCryptorOptions" /> which may be configured.</param>
-       /// <returns>The decrypted value.</returns>
+        /// <returns>The decrypted value.</returns>
         public byte[] Decrypt(byte[] value, Action<AesCryptorOptions> setup = null)
         {
             return CryptoTransformCore(value, AesMode.Decrypt, setup);

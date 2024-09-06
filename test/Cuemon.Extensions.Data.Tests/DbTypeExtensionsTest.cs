@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.Data
             Assert.Equal(typeof(string), DbType.StringFixedLength.ToType());
             Assert.Equal(typeof(string), DbType.String.ToType());
             Assert.Equal(typeof(string), DbType.Xml.ToType());
-            
+
             var sut = Assert.Throws<ArgumentOutOfRangeException>(() => ((DbType)42).ToType());
             Assert.Equal("dbType", sut.ParamName);
             Assert.StartsWith("DbType, '42', is not supported.", sut.Message);

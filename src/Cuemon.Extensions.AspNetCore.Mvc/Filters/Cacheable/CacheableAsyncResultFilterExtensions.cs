@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
         /// <typeparam name="T">The type of the <see cref="ICacheableAsyncResultFilter"/>.</typeparam>
         /// <param name="filters">The list of cache related HTTP filters.</param>
         /// <param name="index">The zero-based index at which a HTTP related filter should be inserted.</param>
-        public static void InsertFilter<T>(this IList<ICacheableAsyncResultFilter> filters, int index) 
+        public static void InsertFilter<T>(this IList<ICacheableAsyncResultFilter> filters, int index)
             where T : ICacheableAsyncResultFilter
         {
             filters.Insert(index, ActivatorFactory.CreateInstance<T>());
@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
         /// <param name="filters">The list of cache related HTTP filters.</param>
         /// <param name="index">The zero-based index at which a HTTP related filter should be inserted.</param>
         /// <param name="setup">The <see cref="Action{TOptions}"/> which may be configured.</param>
-        public static void InsertFilter<T, TOptions>(this IList<ICacheableAsyncResultFilter> filters, int index, Action<TOptions> setup = null) 
+        public static void InsertFilter<T, TOptions>(this IList<ICacheableAsyncResultFilter> filters, int index, Action<TOptions> setup = null)
             where T : ICacheableAsyncResultFilter
             where TOptions : class, IParameterObject, new()
         {
