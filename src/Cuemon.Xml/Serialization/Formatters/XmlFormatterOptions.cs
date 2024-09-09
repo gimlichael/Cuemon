@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
-using System.Threading;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Net.Http;
@@ -14,7 +13,7 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// </summary>
     public class XmlFormatterOptions : IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
-        private readonly Lock _locker = new();
+        private readonly object _locker = new();
         private bool _refreshed;
 
         /// <summary>
