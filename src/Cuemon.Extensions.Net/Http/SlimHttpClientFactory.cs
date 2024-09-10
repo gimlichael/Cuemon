@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Net.Http
         private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new();
         private readonly ConcurrentQueue<ExpiredHandler> _expiredHandlers = new();
         private readonly Func<HttpClientHandler> _handlerFactory;
-        private readonly Lock _locker = new();
+        private readonly object _locker = new();
         private readonly SlimHttpClientFactoryOptions _options;
         internal static readonly TimeSpan ExpirationTimerDueTime = TimeSpan.FromSeconds(15);
         private Timer _expirationTimer;

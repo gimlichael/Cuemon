@@ -1,12 +1,11 @@
 ﻿using Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Converters;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
-using System.Threading;
 
 namespace Cuemon.Extensions.AspNetCore.Newtonsoft.Json
 {
     internal static class Bootstrapper
     {
-        private static readonly Lock PadLock = new();
+        private static readonly object PadLock = new();
         private static bool _initialized;
 
         internal static void Initialize()

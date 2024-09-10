@@ -1,4 +1,13 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET 9, .NET 8, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED support for System.Threading.Lock object that targets .NET TFM prior to .NET 9 (credits to Mark Cilia Vincenti, https://github.com/MarkCiliaVincenti/Backport.System.Threading.Lock)
+ 
+Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
 # ALM

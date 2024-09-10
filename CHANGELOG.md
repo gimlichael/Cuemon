@@ -24,6 +24,7 @@ New features:
 - FailureConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to convert FailureConverter to JSON
 - FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
 - FailureConverter class in the Cuemon.Xml.Serialization.Converters namespace to convert FailureConverter to XML
+- Support for System.Threading.Lock object that targets TFMs prior to .NET 9 (credits to Mark Cilia Vincenti, https://github.com/MarkCiliaVincenti/Backport.System.Threading.Lock)
 
 ### Changed
 

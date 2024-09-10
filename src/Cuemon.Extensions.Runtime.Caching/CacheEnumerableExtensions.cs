@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 using Cuemon.Runtime;
@@ -707,7 +706,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             };
         }
 
-        private static readonly Lock PadLock = new();
+        private static readonly object PadLock = new();
 
         private static TResult Memoize<TKey, TTuple, TResult>(ICacheEnumerable<TKey> cache, string key, CacheInvalidation invalidation, FuncFactory<TTuple, TResult> valueFactory) where TTuple : Template
         {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
-using System.Threading;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.YamlDotNet.Converters;
@@ -16,7 +15,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
     /// </summary>
     public class YamlFormatterOptions : EncodingOptions, IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
-        private readonly Lock _locker = new();
+        private readonly object _locker = new();
         private bool _refreshed;
 
         /// <summary>
