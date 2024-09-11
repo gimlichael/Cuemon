@@ -1,22 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
     internal class XunitTestLoggerProvider : ILoggerProvider
     {
         private readonly ConcurrentDictionary<string, XunitTestLogger> _loggers = new();
-        private readonly ITestOutputHelper _output;
+        private readonly ITestOutputHelperAccessor _accessor;
 
-        public XunitTestLoggerProvider(ITestOutputHelper output)
+        public XunitTestLoggerProvider(ITestOutputHelperAccessor accessor)
         {
-            _output = output;
+            _accessor = accessor;
         }
 
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, s => new XunitTestLogger(_output));
+            return _loggers.GetOrAdd(categoryName, s => new XunitTestLogger(_accessor));
         }
 
         public void Dispose()

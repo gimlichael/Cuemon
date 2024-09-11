@@ -28,8 +28,35 @@ namespace Cuemon.Extensions.Xunit.Hosting
             services.AddLogging(builder =>
             {
                 builder.SetMinimumLevel(minimumLevel);
-                builder.AddProvider(new XunitTestLoggerProvider(output));
+                builder.AddProvider(new XunitTestLoggerProvider(new TestOutputHelperAccessor(output)));
             });
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a default implementation of <see cref="ITestOutputHelperAccessor"/> to the <paramref name="services"/> collection.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        public static IServiceCollection AddTestOutputHelperAccessor(this IServiceCollection services)
+        {
+            services.AddTestOutputHelperAccessor<TestOutputHelperAccessor>();
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a specified implementation of <see cref="ITestOutputHelperAccessor"/> to the <paramref name="services"/> collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the implementation of <see cref="ITestOutputHelperAccessor"/>.</typeparam>
+        /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="services"/> cannot be null.
+        /// </exception>
+        public static IServiceCollection AddTestOutputHelperAccessor<T>(this IServiceCollection services) where T : class, ITestOutputHelperAccessor
+        {
+            Validator.ThrowIfNull(services);
+            services.AddSingleton<ITestOutputHelperAccessor, T>();
             return services;
         }
     }

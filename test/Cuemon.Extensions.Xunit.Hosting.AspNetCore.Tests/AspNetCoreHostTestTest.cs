@@ -6,6 +6,7 @@ using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xunit;
 using Xunit.Abstractions;
@@ -21,6 +22,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         {
             _pipeline = hostFixture.Application;
             _provider = hostFixture.ServiceProvider;
+            
+            _provider.GetRequiredService<ITestOutputHelperAccessor>().TestOutput = output;
         }
 
         [Fact]
@@ -44,8 +47,16 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Assert.False(options.Value.F);
         }
 
+        [Fact]
+        public void ShouldLogToXunitTestLogging()
+        {
+            var logger = _pipeline.ApplicationServices.GetRequiredService<ILogger<AspNetCoreHostTestTest>>();
+            logger.LogInformation("Hello from {0}", nameof(ShouldLogToXunitTestLogging));
+        }
+
         public override void ConfigureApplication(IApplicationBuilder app)
         {
+            app.ApplicationServices.GetRequiredService<ILogger<AspNetCoreHostTestTest>>().LogInformation(nameof(ConfigureApplication));
             app.UseMiddleware<BoolMiddleware>();
         }
 
@@ -58,6 +69,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 o.C = true;
                 o.E = true;
             });
+            services.AddTestOutputHelperAccessor();
+            services.AddXunitTestLogging(TestOutput);
         }
     }
 }
