@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             var options = _provider.GetRequiredService<IOptions<BoolOptions>>();
             var pipeline = _pipeline.Build();
 
-            Assert.Equal("Hello awesome developers!", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
+            Assert.Equal("Hello awesome developers!", context!.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
 
             await pipeline(context);
 
@@ -69,8 +69,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 o.C = true;
                 o.E = true;
             });
-            services.AddTestOutputHelperAccessor();
-            services.AddXunitTestLogging(TestOutput);
+            services.AddXunitTestOutputHelperAccessor();
+            services.AddXunitTestLogging(new TestOutputHelperAccessor(TestOutput));
         }
     }
 }

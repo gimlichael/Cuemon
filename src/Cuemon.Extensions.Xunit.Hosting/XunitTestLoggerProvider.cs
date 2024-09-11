@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
@@ -7,6 +8,12 @@ namespace Cuemon.Extensions.Xunit.Hosting
     {
         private readonly ConcurrentDictionary<string, XunitTestLogger> _loggers = new();
         private readonly ITestOutputHelperAccessor _accessor;
+        private readonly ITestOutputHelper _output;
+
+        public XunitTestLoggerProvider(ITestOutputHelper output)
+        {
+            _output = output;
+        }
 
         public XunitTestLoggerProvider(ITestOutputHelperAccessor accessor)
         {
@@ -15,7 +22,9 @@ namespace Cuemon.Extensions.Xunit.Hosting
 
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, s => new XunitTestLogger(_accessor));
+            return _loggers.GetOrAdd(categoryName, _ => _accessor != null 
+                ? new XunitTestLogger(_accessor)
+                : new XunitTestLogger(_output));
         }
 
         public void Dispose()

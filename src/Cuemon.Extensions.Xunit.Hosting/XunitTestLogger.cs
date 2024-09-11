@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
     internal class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
     {
         private readonly ITestOutputHelperAccessor _accessor;
+        private readonly ITestOutputHelper _output;
+
+        public XunitTestLogger(ITestOutputHelper output)
+        {
+            _output = output;
+        }
 
         public XunitTestLogger(ITestOutputHelperAccessor accessor)
         {
@@ -19,7 +26,14 @@ namespace Cuemon.Extensions.Xunit.Hosting
             if (exception != null) { builder.AppendLine().Append(exception).AppendLine(); }
 
             var message = builder.ToString();
-            _accessor.TestOutput.WriteLine(message);
+            if (_accessor != null)
+            {
+                _accessor.TestOutput.WriteLine(message);
+            }
+            else
+            {
+                _output.WriteLine(message);
+            }
             Add(new XunitTestLoggerEntry(logLevel, eventId, message));
         }
 
