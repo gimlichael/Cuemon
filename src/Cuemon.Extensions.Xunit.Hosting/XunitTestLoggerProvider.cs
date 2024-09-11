@@ -7,6 +7,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
     internal class XunitTestLoggerProvider : ILoggerProvider
     {
         private readonly ConcurrentDictionary<string, XunitTestLogger> _loggers = new();
+        private readonly ITestOutputHelperAccessor _accessor;
         private readonly ITestOutputHelper _output;
 
         public XunitTestLoggerProvider(ITestOutputHelper output)
@@ -14,9 +15,16 @@ namespace Cuemon.Extensions.Xunit.Hosting
             _output = output;
         }
 
+        public XunitTestLoggerProvider(ITestOutputHelperAccessor accessor)
+        {
+            _accessor = accessor;
+        }
+
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, s => new XunitTestLogger(_output));
+            return _loggers.GetOrAdd(categoryName, _ => _accessor != null 
+                ? new XunitTestLogger(_accessor)
+                : new XunitTestLogger(_output));
         }
 
         public void Dispose()

@@ -7,11 +7,17 @@ namespace Cuemon.Extensions.Xunit.Hosting
 {
     internal class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
     {
+        private readonly ITestOutputHelperAccessor _accessor;
         private readonly ITestOutputHelper _output;
 
         public XunitTestLogger(ITestOutputHelper output)
         {
             _output = output;
+        }
+
+        public XunitTestLogger(ITestOutputHelperAccessor accessor)
+        {
+            _accessor = accessor;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
@@ -20,7 +26,14 @@ namespace Cuemon.Extensions.Xunit.Hosting
             if (exception != null) { builder.AppendLine().Append(exception).AppendLine(); }
 
             var message = builder.ToString();
-            _output.WriteLine(message);
+            if (_accessor != null)
+            {
+                _accessor.TestOutput.WriteLine(message);
+            }
+            else
+            {
+                _output.WriteLine(message);
+            }
             Add(new XunitTestLoggerEntry(logLevel, eventId, message));
         }
 
