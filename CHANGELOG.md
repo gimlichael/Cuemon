@@ -25,6 +25,10 @@ New features:
 - FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
 - FailureConverter class in the Cuemon.Xml.Serialization.Converters namespace to convert FailureConverter to XML
 - Support for System.Threading.Lock object that targets TFMs prior to .NET 9 (credits to Mark Cilia Vincenti, https://github.com/MarkCiliaVincenti/Backport.System.Threading.Lock)
+- ITestOutputHelperAccessor interface in the Cuemon.Extensions.Xunit namespace that provides access to the ITestOutputHelper instance
+- TestOutputHelperAccessor class in the Cuemon.Extensions.Xunit namespace that provides a default implementation of the ITestOutputHelper interface
+- ServiceProviderExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of one extension method for the IServiceProvider interface: GetRequiredScopedService
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace was extended with three new extension methods for the IServiceCollection interface: AddXunitTestOutputHelperAccessor, AddXunitTestOutputHelperAccessor{T} and an overload of AddXunitTestOutputHelperAccessor
 
 ### Changed
 

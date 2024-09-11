@@ -7,6 +7,10 @@ Availability: .NET 9, .NET 8, .NET 6 and .NET Standard 2.0
 # Improvements
 - EXTENDED TestOutputHelperExtensions class in the Cuemon.Extensions.Xunit namespace with an additional overloaded method: WriteLines
  
+# New Features
+- ADDED ITestOutputHelperAccessor interface in the Cuemon.Extensions.Xunit namespace that provides access to the ITestOutputHelper instance
+- ADDED TestOutputHelperAccessor class in the Cuemon.Extensions.Xunit namespace that provides a default implementation of the ITestOutputHelper interface
+ 
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
