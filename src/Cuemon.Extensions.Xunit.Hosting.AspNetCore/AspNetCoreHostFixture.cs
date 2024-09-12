@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -88,7 +89,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 o.ValidateScopes = true;
             });
 
-            Host = hb.Start();
+            var host = hb.Build();
+            Task.Run(() => host.StartAsync()).GetAwaiter().GetResult();
+            Host = host;
         }
 
         /// <summary>
