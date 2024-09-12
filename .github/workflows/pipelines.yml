@@ -22,7 +22,7 @@ on:
 jobs:
   prepare_linux:
     name: 🐧 Prepare Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
@@ -64,7 +64,7 @@ jobs:
 
   build:
     name: 🛠️ Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       matrix:
@@ -159,7 +159,7 @@ jobs:
 
   pack:
     name: 📦 Pack
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       matrix:
@@ -188,7 +188,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.build.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
@@ -240,7 +240,7 @@ jobs:
   sonarcloud:
     name: 🔬 Code Quality Analysis
     needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout
@@ -282,7 +282,7 @@ jobs:
   codecov:
     name: 📊 Code Coverage Analysis
     needs: [build, test]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -297,7 +297,7 @@ jobs:
   codeql:
     name: 🛡️ Security Analysis
     needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -329,7 +329,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     name: 🚀 Deploy v${{ needs.build.outputs.version }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     needs: [build, pack, test, sonarcloud, codecov, codeql]
     environment: Production
