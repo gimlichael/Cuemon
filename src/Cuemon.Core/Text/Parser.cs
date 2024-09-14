@@ -33,7 +33,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class Parser<TResult> : IParser<TResult>
+    internal sealed class Parser<TResult> : IParser<TResult>
     {
         private readonly Func<string, TResult> _parser;
 
