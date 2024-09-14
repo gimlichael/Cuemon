@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Resources;
 
@@ -47,7 +48,7 @@ namespace Cuemon.Reflection
                         argParamName = argParamName.Remove(argParamName.IndexOf(argParamNameIndexOf));
                         int indexOfMicrosoftParamName;
 #if NETSTANDARD2_0_OR_GREATER
-                        indexOfMicrosoftParamName = messageValue.LastIndexOf(string.Format("{0}", parseAsXml ? "\n" : Environment.NewLine) + argParamName);
+                        indexOfMicrosoftParamName = messageValue.LastIndexOf(string.Format(CultureInfo.InvariantCulture, "{0}", parseAsXml ? "\n" : Environment.NewLine) + argParamName);
 #else
                         indexOfMicrosoftParamName = messageValue.LastIndexOf(" " + argParamName);
 #endif

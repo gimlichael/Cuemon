@@ -37,7 +37,7 @@ namespace Cuemon.Extensions.AspNetCore.Xml.Converters
             writer.WriteStartElement(nameof(ProblemDetails));
             if (pd.Type != null) { writer.WriteElementString(nameof(ProblemDetails.Type), pd.Type); }
             if (pd.Title != null) { writer.WriteElementString(nameof(ProblemDetails.Title), pd.Title); }
-            if (pd.Status.HasValue) { writer.WriteElementString(nameof(ProblemDetails.Status), pd.Status.Value.ToString()); }
+            if (pd.Status.HasValue) { writer.WriteElementString(nameof(ProblemDetails.Status), pd.Status.Value.ToString(CultureInfo.InvariantCulture)); }
             if (pd.Detail != null) { writer.WriteElementString(nameof(ProblemDetails.Detail), pd.Detail); }
             if (pd.Instance != null) { writer.WriteElementString(nameof(ProblemDetails.Instance), pd.Instance); }
 

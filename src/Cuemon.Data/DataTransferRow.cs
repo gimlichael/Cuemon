@@ -126,7 +126,7 @@ namespace Cuemon.Data
             for (var i = 0; i < Columns.Count; i++)
             {
                 var column = Columns[i];
-                builder.AppendFormat("{0}={1} [{2}],", column.Name, Main.Data[GetIndexLocation(column.Ordinal)], column.DataType.Name);
+                builder.AppendFormat(CultureInfo.InvariantCulture, "{0}={1} [{2}],", column.Name, Main.Data[GetIndexLocation(column.Ordinal)], column.DataType.Name);
             }
             return builder.ToString(0, builder.Length - 1);
         }

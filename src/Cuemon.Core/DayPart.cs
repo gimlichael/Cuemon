@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Cuemon
 {
@@ -88,7 +89,7 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return FormattableString.Invariant($"{Name} ({Range.Start.ToString("t")} - {Range.End.ToString("t")})");
+            return FormattableString.Invariant($"{Name} ({Range.Start.ToString("t", CultureInfo.InvariantCulture)} - {Range.End.ToString("t", CultureInfo.InvariantCulture)})");
         }
     }
 }

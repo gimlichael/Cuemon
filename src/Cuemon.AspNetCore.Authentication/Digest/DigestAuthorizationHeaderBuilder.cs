@@ -82,7 +82,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         public DigestAuthorizationHeaderBuilder AddNc(int nonceCount)
         {
             Validator.ThrowIfLowerThan(nonceCount, 0, nameof(nonceCount));
-            return AddOrUpdate(DigestFields.NonceCount, nonceCount.ToString("x8"));
+            return AddOrUpdate(DigestFields.NonceCount, nonceCount.ToString("x8", CultureInfo.InvariantCulture));
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
@@ -42,7 +43,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
                 writer.WritePropertyName(options.SetPropertyName("Error"));
 
                 writer.WriteStartObject();
-                writer.WriteString(options.SetPropertyName("Status"), value.StatusCode.ToString());
+                writer.WriteString(options.SetPropertyName("Status"), value.StatusCode.ToString(CultureInfo.InvariantCulture));
                 writer.WriteString(options.SetPropertyName("Code"), value.Code);
                 writer.WriteString(options.SetPropertyName("Message"), value.Message);
                 if (value.HelpLink != null)

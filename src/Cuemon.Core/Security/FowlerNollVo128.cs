@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 
 namespace Cuemon.Security
@@ -14,7 +15,10 @@ namespace Cuemon.Security
         /// Initializes a new instance of the <see cref="FowlerNollVo128"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="FowlerNollVoOptions" /> which may be configured.</param>
-        public FowlerNollVo128(Action<FowlerNollVoOptions> setup = null) : base(128, BigInteger.Parse("309485009821345068724781371"), BigInteger.Parse("144066263297769815596495629667062367629"), setup)
+        public FowlerNollVo128(Action<FowlerNollVoOptions> setup = null) : base(128, 
+            BigInteger.Parse("309485009821345068724781371", CultureInfo.InvariantCulture),
+            BigInteger.Parse("144066263297769815596495629667062367629", CultureInfo.InvariantCulture), 
+            setup)
         {
         }
     }

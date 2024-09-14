@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Cuemon.Net.Http;
 
@@ -177,7 +178,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
         private static void AppendField(StringBuilder sb, string fn, string fv)
         {
-            if (!string.IsNullOrWhiteSpace(fv)) { sb.Append($" {fn}=\"{fv}\""); }
+            if (!string.IsNullOrWhiteSpace(fv)) { sb.Append(CultureInfo.InvariantCulture, $" {fn}=\"{fv}\""); }
         }
     }
 }

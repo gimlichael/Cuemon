@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text;
 
 namespace Cuemon.Net.Collections.Specialized
@@ -24,8 +25,7 @@ namespace Cuemon.Net.Collections.Specialized
         /// </exception>
         public static string ToString(this IDecorator<NameValueCollection> decorator, FieldValueSeparator separator, bool urlEncode)
         {
-            Validator.ThrowIfNull(decorator);
-            var fieldValuePairs = decorator.Inner;
+            Validator.ThrowIfNull(decorator, out var fieldValuePairs);
             var characterSeparator = GetSeparator(separator);
             var builder = new StringBuilder(separator == FieldValueSeparator.Ampersand ? "?" : "");
             foreach (string item in fieldValuePairs)
@@ -33,7 +33,7 @@ namespace Cuemon.Net.Collections.Specialized
                 var values = fieldValuePairs[item].Split(',');
                 foreach (var value in values)
                 {
-                    builder.AppendFormat("{0}={1}", item, urlEncode ? Decorator.Enclose(Decorator.Enclose(value).UrlDecode()).UrlEncode() : value);
+                    builder.AppendFormat(CultureInfo.InvariantCulture, "{0}={1}", item, urlEncode ? Decorator.Enclose(Decorator.Enclose(value).UrlDecode()).UrlEncode() : value);
                     builder.Append(characterSeparator);
                 }
             }
