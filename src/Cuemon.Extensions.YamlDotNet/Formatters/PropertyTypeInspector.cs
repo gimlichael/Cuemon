@@ -7,7 +7,7 @@ using YamlDotNet.Serialization.TypeInspectors;
 
 namespace Cuemon.Extensions.YamlDotNet.Formatters
 {
-    internal class PropertyTypeInspector : TypeInspectorSkeleton
+    internal sealed class PropertyTypeInspector : TypeInspectorSkeleton
     {
         private readonly ITypeInspector _inspector;
 

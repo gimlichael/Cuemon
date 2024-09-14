@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.Text.Json
         }
     }
 
-    internal class DynamicJsonConverterFactory : JsonConverterFactory
+    internal sealed class DynamicJsonConverterFactory : JsonConverterFactory
     {
         public DynamicJsonConverterFactory(Func<Type, bool> predicate, Func<Type, JsonSerializerOptions, JsonConverter> converterFactory)
         {
@@ -84,7 +84,7 @@ namespace Cuemon.Extensions.Text.Json
         }
     }
 
-    internal class DynamicJsonConverter<T> : JsonConverter<T>
+    internal sealed class DynamicJsonConverter<T> : JsonConverter<T>
     {
         internal DynamicJsonConverter(Func<Type, bool> predicate, Utf8JsonWriterAction<T> writer, Utf8JsonReaderFunc<T> reader)
         {

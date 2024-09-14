@@ -2,7 +2,7 @@
 
 namespace Cuemon.Extensions.Net.Http
 {
-    internal class TrackingHttpMessageHandler : DelegatingHandler
+    internal sealed class TrackingHttpMessageHandler : DelegatingHandler
     {
         public TrackingHttpMessageHandler(HttpMessageHandler inner) : base(inner)
         {

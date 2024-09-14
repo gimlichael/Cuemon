@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Cuemon
 {
-    internal class StringReplaceEngine
+    internal sealed class StringReplaceEngine
     {
         internal StringReplaceEngine(string value, IEnumerable<StringReplacePair> replacePairs, StringComparison comparison)
         {

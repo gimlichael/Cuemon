@@ -2,7 +2,7 @@
 
 namespace Cuemon.Threading
 {
-    internal class ForwardIterator<TReader, TElement>
+    internal sealed class ForwardIterator<TReader, TElement>
     {
         internal ForwardIterator(TReader reader, Func<bool> condition, Func<TReader, TElement> provider)
         {

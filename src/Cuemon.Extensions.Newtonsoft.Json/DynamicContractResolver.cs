@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         }
     }
 
-    internal class DynamicDefaultContractResolver : DefaultContractResolver
+    internal sealed class DynamicDefaultContractResolver : DefaultContractResolver
     {
         internal DynamicDefaultContractResolver(IEnumerable<Action<PropertyInfo, JsonProperty>> jsonPropertyHandlers)
         {
@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         }
     }
 
-    internal class DynamicCamelCasePropertyNamesContractResolver : CamelCasePropertyNamesContractResolver
+    internal sealed class DynamicCamelCasePropertyNamesContractResolver : CamelCasePropertyNamesContractResolver
     {
         internal DynamicCamelCasePropertyNamesContractResolver(IEnumerable<Action<PropertyInfo, JsonProperty>> jsonPropertyHandlers)
         {

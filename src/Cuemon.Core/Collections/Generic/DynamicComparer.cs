@@ -20,7 +20,7 @@ namespace Cuemon.Collections.Generic
         }
     }
 
-    internal class DynamicComparer<T> : Comparer<T>
+    internal sealed class DynamicComparer<T> : Comparer<T>
     {
         internal DynamicComparer(Func<T, T, int> comparer)
         {

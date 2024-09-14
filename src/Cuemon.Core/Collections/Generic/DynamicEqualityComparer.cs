@@ -22,7 +22,7 @@ namespace Cuemon.Collections.Generic
         }
     }
 
-    internal class DynamicEqualityComparer<T> : EqualityComparer<T>
+    internal sealed class DynamicEqualityComparer<T> : EqualityComparer<T>
     {
         internal DynamicEqualityComparer(Func<T, int> hashCalculator, Func<T, T, bool> equalityComparer)
         {

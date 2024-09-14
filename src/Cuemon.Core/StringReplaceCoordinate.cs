@@ -1,6 +1,6 @@
 ﻿namespace Cuemon
 {
-    internal class StringReplaceCoordinate
+    internal sealed class StringReplaceCoordinate
     {
         internal StringReplaceCoordinate(int startIndex, int length, string value)
         {

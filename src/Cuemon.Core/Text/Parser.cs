@@ -3,7 +3,7 @@ using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
-    internal class Parser : IParser
+    internal sealed class Parser : IParser
     {
         private readonly Func<string, Type, object> _parser;
 

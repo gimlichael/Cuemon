@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Cuemon.Diagnostics
 {
-    internal class ProcessInfo
+    internal sealed class ProcessInfo
     {
         internal ProcessInfo(Process process = null)
         {

@@ -26,7 +26,7 @@ namespace Cuemon.Xml.Serialization
         }
     }
 
-    internal class DynamicXmlSerializable<T> : IXmlSerializable
+    internal sealed class DynamicXmlSerializable<T> : IXmlSerializable
     {
         internal DynamicXmlSerializable(T source, Action<XmlWriter, T> writer, Action<XmlReader> reader, Func<XmlSchema> schema)
         {

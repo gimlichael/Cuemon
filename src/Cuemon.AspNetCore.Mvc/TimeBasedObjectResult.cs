@@ -16,7 +16,7 @@ namespace Cuemon.AspNetCore.Mvc
         public DateTime? Modified { get; }
     }
 
-    internal class TimeBasedObjectResult<T> : TimeBasedObjectResult
+    internal sealed class TimeBasedObjectResult<T> : TimeBasedObjectResult
     {
         internal TimeBasedObjectResult(T instance, DateTime created, DateTime? modified) : base(instance, created, modified)
         {
