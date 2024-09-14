@@ -121,8 +121,7 @@ namespace Cuemon.Text
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryDetectEncoding(Stream value, out Encoding result)
         {
-            Validator.ThrowIfNull(value);
-            if (!value.CanSeek)
+            if (value == null || !value.CanSeek)
             {
                 result = null;
                 return false;
