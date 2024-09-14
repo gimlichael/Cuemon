@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Cuemon.Net.Collections.Specialized;
 
 namespace Cuemon.Net
@@ -9,7 +12,7 @@ namespace Cuemon.Net
     /// Implements the <see cref="NameValueCollection" />
     /// </summary>
     /// <seealso cref="NameValueCollection" />
-    public class QueryStringCollection : NameValueCollection
+    public class QueryStringCollection : NameValueCollection, IReadOnlyCollection<KeyValuePair<string, string>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryStringCollection"/> class.
@@ -34,6 +37,21 @@ namespace Cuemon.Net
         public QueryStringCollection(string query, bool urlDecode = false)
         {
             Add(Decorator.Enclose(query, false).ToQueryString(urlDecode));
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+
+        public new IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+        {
+            return base.AllKeys.Select(key => new KeyValuePair<string, string>(key, base[key])).GetEnumerator();
         }
 
         /// <summary>
