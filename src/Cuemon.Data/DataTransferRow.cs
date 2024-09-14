@@ -40,13 +40,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="column">The column from which to return the value from.</param>
         /// <returns>An <see cref="object"/> that contains the data of the column.</returns>
-        public object this[DataTransferColumn column]
-        {
-            get
-            {
-                return column == null ? null : this[column.Ordinal];
-            }
-        }
+        public object this[DataTransferColumn column] => column == null ? null : this[column.Ordinal];
 
         /// <summary>
         /// Gets the value of a <see cref="DataTransferColumn"/> from the <see cref="Columns"/> with the specified <paramref name="name"/>.
@@ -67,10 +61,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="index">The zero-based index of the column from which to return the value from.</param>
         /// <returns>An <see cref="object"/> that contains the data of the column.</returns>
-        public object this[int index]
-        {
-            get { return index < 0 ? null : Main.Data[GetIndexLocation(index)]; }
-        }
+        public object this[int index] => index < 0 ? null : Main.Data[GetIndexLocation(index)];
 
         /// <summary>
         /// Gets the value of a <see cref="DataTransferColumn"/> from the <see cref="Columns"/> with the specified <paramref name="column"/>.
