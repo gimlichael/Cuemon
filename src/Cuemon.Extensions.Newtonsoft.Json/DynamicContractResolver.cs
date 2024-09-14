@@ -15,10 +15,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// Creates the specified resolver.
         /// </summary>
         /// <typeparam name="T">The type that inherits from <see cref="IContractResolver"/>.</typeparam>
-        /// <param name="resolver">The instance of an <see cref="IContractResolver"/> implementation.</param>
         /// <param name="jsonPropertyHandlers">The array of delegates that will handle custom rules of a <see cref="JsonProperty"/>.</param>
         /// <returns>An <see cref="IContractResolver"/> implementation of <typeparamref name="T"/>.</returns>
-        public static IContractResolver Create<T>(T resolver, params Action<PropertyInfo, JsonProperty>[] jsonPropertyHandlers) where T : IContractResolver
+        public static IContractResolver Create<T>(params Action<PropertyInfo, JsonProperty>[] jsonPropertyHandlers) where T : IContractResolver
         {
             switch (typeof(T).Name)
             {

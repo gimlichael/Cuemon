@@ -63,7 +63,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         public static async Task<HttpResponseMessage> RunWithHostBuilderContextAsync(Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<IHostBuilder> hostSetup = null, Func<HttpClient, Task<HttpResponseMessage>> responseFactory = null)
         {
             using var client = CreateWithHostBuilderContext(serviceSetup, pipelineSetup, hostSetup).Host.GetTestClient();
-            return await client.ToHttpResponseMessageAsync().ConfigureAwait(false);
+            return await client.ToHttpResponseMessageAsync(responseFactory).ConfigureAwait(false);
         }
     }
 }
