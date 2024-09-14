@@ -17,7 +17,7 @@ namespace Cuemon.Reflection
         /// <param name="alphanumericVersion">The <see cref="string"/> that represents a potential alphanumeric version.</param>
         public VersionResult(string alphanumericVersion)
         {
-            if (Version.TryParse(alphanumericVersion, out var version) && version.ToString().Equals(alphanumericVersion))
+            if (Version.TryParse(alphanumericVersion, out var version) && version.ToString().Equals(alphanumericVersion, StringComparison.Ordinal))
             {
                 _version = version;
             }

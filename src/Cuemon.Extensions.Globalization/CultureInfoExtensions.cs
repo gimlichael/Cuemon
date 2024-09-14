@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Globalization
             var enrichedCultures = new List<CultureInfo>();
             foreach (var culture in cultures)
             {
-                var enrichedCulture = EnrichedCultureInfos.Find(ci => ci.Name.Equals(culture.Name));
+                var enrichedCulture = EnrichedCultureInfos.Find(ci => ci.Name.Equals(culture.Name, StringComparison.Ordinal));
                 if (enrichedCulture != null)
                 {
                     enrichedCultures.Add(enrichedCulture);

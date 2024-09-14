@@ -92,7 +92,10 @@ namespace Cuemon.Resilience
         {
             if (other is null) { return false; }
             if (ReferenceEquals(this, other)) { return true; }
-            return Attempts == other.Attempts && RecoveryWaitTime.Equals(other.RecoveryWaitTime) && TotalRecoveryWaitTime.Equals(other.TotalRecoveryWaitTime) && Latency.Equals(other.Latency) && Descriptor.ToString().Equals(other.Descriptor.ToString());
+            return Attempts == other.Attempts && 
+                   RecoveryWaitTime.Equals(other.RecoveryWaitTime) && 
+                   TotalRecoveryWaitTime.Equals(other.TotalRecoveryWaitTime) && 
+                   Latency.Equals(other.Latency) && Descriptor.ToString().Equals(other.Descriptor.ToString(), StringComparison.Ordinal);
         }
 
         /// <summary>

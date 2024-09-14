@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Http
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfEndQuote, 1);
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfStartQuote, 1);
                 }
-                return builder.Checksum.ToHexadecimalString().Equals(clientSideEntityTag);
+                return builder.Checksum.ToHexadecimalString().Equals(clientSideEntityTag, StringComparison.Ordinal);
             }
             return false;
         }
