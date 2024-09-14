@@ -53,7 +53,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class ConfigurableParser<TResult, TOptions> : IConfigurableParser<TResult, TOptions> where TOptions : class, IParameterObject, new()
+    internal sealed class ConfigurableParser<TResult, TOptions> : IConfigurableParser<TResult, TOptions> where TOptions : class, IParameterObject, new()
     {
         private readonly Func<string, Action<TOptions>, TResult> _parser;
 
@@ -73,7 +73,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class ConfigurableParser<TOptions> : IConfigurableParser<TOptions> where TOptions : class, IParameterObject, new()
+    internal sealed class ConfigurableParser<TOptions> : IConfigurableParser<TOptions> where TOptions : class, IParameterObject, new()
     {
         private readonly Func<string, Type, Action<TOptions>, object> _parser;
 
