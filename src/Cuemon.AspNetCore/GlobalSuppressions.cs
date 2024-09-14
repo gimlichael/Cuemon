@@ -19,3 +19,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "Intentional as these embark on IDecorator.", Scope = "namespace", Target = "~N:Cuemon.AspNetCore.Diagnostics")]
 [assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "Intentional as these embark on IDecorator.", Scope = "namespace", Target = "~N:Cuemon.AspNetCore.Http")]
 [assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "Intentional as these embark on IDecorator.", Scope = "namespace", Target = "~N:Cuemon.AspNetCore.Http.Headers")]
+[assembly: SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Not relevant in this context.", Scope = "member", Target = "~P:Cuemon.AspNetCore.Configuration.DynamicCacheBusting.Version")]
