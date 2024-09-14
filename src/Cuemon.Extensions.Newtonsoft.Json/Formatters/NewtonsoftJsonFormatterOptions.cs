@@ -103,17 +103,12 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 
         private void JsonPropertyHandler(PropertyInfo pi, JsonProperty jp)
         {
-            Func<Type, bool> skipPropertyType = source =>
-            {
-                switch (Type.GetTypeCode(source))
-                {
-                    default:
-                        if (Decorator.Enclose(source).HasKeyValuePairImplementation()) { return true; }
-                        if (Decorator.Enclose(source).HasTypes(typeof(MemberInfo)) && source != typeof(Type)) { return true; }
-                        return false;
-                }
-            };
-            Func<PropertyInfo, bool> skipProperty = property =>
+            var skipSerialization = SkipProperty(pi) || SkipPropertyType(pi.PropertyType);
+            jp.ShouldSerialize = _ => !skipSerialization;
+            jp.ShouldDeserialize = _ => !skipSerialization;
+            return;
+
+            bool SkipProperty(PropertyInfo property)
             {
                 return (property.PropertyType.GetTypeInfo().IsMarshalByRef ||
                         property.PropertyType.GetTypeInfo().IsSubclassOf(typeof(Delegate)) ||
@@ -125,11 +120,18 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                         property.Name.Equals("HResult", StringComparison.Ordinal) ||
                         property.Name.Equals("Parent", StringComparison.Ordinal) ||
                         property.Name.Equals("TargetSite", StringComparison.Ordinal));
-            };
+            }
 
-            var skipSerialization = skipProperty(pi) || skipPropertyType(pi.PropertyType);
-            jp.ShouldSerialize = _ => !skipSerialization;
-            jp.ShouldDeserialize = _ => !skipSerialization;
+            bool SkipPropertyType(Type source)
+            {
+                switch (Type.GetTypeCode(source))
+                {
+                    default:
+                        if (Decorator.Enclose(source).HasKeyValuePairImplementation()) { return true; }
+                        if (Decorator.Enclose(source).HasTypes(typeof(MemberInfo)) && source != typeof(Type)) { return true; }
+                        return false;
+                }
+            }
         }
 
         /// <summary>
