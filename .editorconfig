@@ -137,3 +137,19 @@ dotnet_diagnostic.CA2263.severity = none
 # Excluded while TFMs include netstandard2.0
 [*.{cs,vb}]
 dotnet_diagnostic.CA2249.severity = none
+
+# IDE0022: Use expression body for methods
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0022
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0022.severity = none
+
+# IDE0032: Use auto-property
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0032
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0032.severity = none
+
+# Order modifiers
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0036
+# Excluded becuase of inconsistency with other analyzers
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0036.severity = none
