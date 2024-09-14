@@ -86,10 +86,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DateFormatString = "O",
                 DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind,
-                ContractResolver = DynamicContractResolver.Create(new CamelCasePropertyNamesContractResolver()
-                {
-                    IgnoreSerializableInterface = true
-                }, JsonPropertyHandler)
+                ContractResolver = DynamicContractResolver.Create<CamelCasePropertyNamesContractResolver>(JsonPropertyHandler)
             };
             DefaultConverters?.Invoke(Settings.Converters);
             SensitivityDetails = FaultSensitivityDetails.None;

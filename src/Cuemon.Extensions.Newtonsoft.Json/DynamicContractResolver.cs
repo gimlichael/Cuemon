@@ -34,6 +34,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         internal DynamicDefaultContractResolver(IEnumerable<Action<PropertyInfo, JsonProperty>> jsonPropertyHandlers)
         {
             JsonPropertyHandlers = jsonPropertyHandlers;
+            IgnoreSerializableInterface = true;
         }
 
         private IEnumerable<Action<PropertyInfo, JsonProperty>> JsonPropertyHandlers { get; set; }
@@ -54,6 +55,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         internal DynamicCamelCasePropertyNamesContractResolver(IEnumerable<Action<PropertyInfo, JsonProperty>> jsonPropertyHandlers)
         {
             JsonPropertyHandlers = jsonPropertyHandlers;
+            IgnoreSerializableInterface = true;
         }
 
         private IEnumerable<Action<PropertyInfo, JsonProperty>> JsonPropertyHandlers { get; set; }
