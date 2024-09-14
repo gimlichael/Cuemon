@@ -136,7 +136,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         /// Gets or sets a value indicating whether responses will be based on the built in support for RFC 7807.
         /// </summary>
         /// <value><c>true</c> if the responses will be based on the built in support for RFC 7807; otherwise, <c>false</c>.</value>
-        public bool UseBuiltInRfc7807 { get; set; } = false;
+        public bool UseBuiltInRfc7807 { get; set; }
 #endif
 
         /// <summary>
