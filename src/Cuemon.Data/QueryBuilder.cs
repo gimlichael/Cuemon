@@ -105,10 +105,7 @@ namespace Cuemon.Data
         /// <value>The key columns to be used in the <see cref="QueryBuilder"/> instance.</value>
         public IDictionary<string, string> KeyColumns { get; }
 
-        private StringBuilder Query
-        {
-            get { return _query ??= new StringBuilder(100); }
-        }
+        private StringBuilder Query => _query ??= new StringBuilder(100);
         #endregion
 
         #region Methods

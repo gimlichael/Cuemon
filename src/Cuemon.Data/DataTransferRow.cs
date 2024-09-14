@@ -22,19 +22,13 @@ namespace Cuemon.Data
         /// <value>The row number.</value>
         public int Number { get; private set; }
 
-        private int NumberFromZero
-        {
-            get { return Number - 1; }
-        }
+        private int NumberFromZero => Number - 1;
 
         /// <summary>
         /// Gets the associated columns of this row.
         /// </summary>
         /// <value>The associated columns of this row.</value>
-        public DataTransferColumnCollection Columns
-        {
-            get { return Main.Columns; }
-        }
+        public DataTransferColumnCollection Columns => Main.Columns;
 
         private int GetIndexLocation(int ordinal)
         {
