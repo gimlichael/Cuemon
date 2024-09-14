@@ -88,8 +88,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
         private static bool HasMatchWithAsterisk(string s, string path)
         {
-            return s.EndsWith("*", StringComparison.Ordinal) && 
-                   path.Contains('.') && 
+            return s.EndsWith("*", StringComparison.Ordinal) &&
+                   path.Contains('.') &&
                    s.Remove(s.LastIndexOf('.')).Equals(path.Remove(path.LastIndexOf('.')), StringComparison.Ordinal);
         }
     }

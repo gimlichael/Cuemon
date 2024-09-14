@@ -15,9 +15,9 @@ namespace Cuemon.Security
         /// Initializes a new instance of the <see cref="FowlerNollVo32"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="FowlerNollVoOptions" /> which may be configured.</param>
-        public FowlerNollVo32(Action<FowlerNollVoOptions> setup = null) : base(32, 
-            BigInteger.Parse("16777619", CultureInfo.InvariantCulture), 
-            BigInteger.Parse("2166136261", CultureInfo.InvariantCulture), 
+        public FowlerNollVo32(Action<FowlerNollVoOptions> setup = null) : base(32,
+            BigInteger.Parse("16777619", CultureInfo.InvariantCulture),
+            BigInteger.Parse("2166136261", CultureInfo.InvariantCulture),
             setup)
         {
         }

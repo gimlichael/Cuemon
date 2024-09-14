@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         {
             _pipeline = hostFixture.Application;
             _provider = hostFixture.ServiceProvider;
-            
+
             _provider.GetRequiredService<ITestOutputHelperAccessor>().TestOutput = output;
         }
 

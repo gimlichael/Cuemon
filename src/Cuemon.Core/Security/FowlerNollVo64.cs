@@ -16,8 +16,8 @@ namespace Cuemon.Security
         /// </summary>
         /// <param name="setup">The <see cref="FowlerNollVoOptions" /> which may be configured.</param>
         public FowlerNollVo64(Action<FowlerNollVoOptions> setup = null) : base(64,
-            BigInteger.Parse("1099511628211", CultureInfo.InvariantCulture), 
-            BigInteger.Parse("14695981039346656037", CultureInfo.InvariantCulture), 
+            BigInteger.Parse("1099511628211", CultureInfo.InvariantCulture),
+            BigInteger.Parse("14695981039346656037", CultureInfo.InvariantCulture),
             setup)
         {
         }

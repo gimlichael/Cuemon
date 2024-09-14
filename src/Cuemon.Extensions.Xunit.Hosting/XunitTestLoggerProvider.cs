@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
 
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, _ => _accessor != null 
+            return _loggers.GetOrAdd(categoryName, _ => _accessor != null
                 ? new XunitTestLogger(_accessor)
                 : new XunitTestLogger(_output));
         }
