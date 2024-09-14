@@ -33,7 +33,7 @@ namespace Cuemon.Xml.Linq
         {
             result = null;
             if (string.IsNullOrWhiteSpace(decorator.Inner)) { return false; }
-            if (decorator.Inner.IndexOf("<", StringComparison.Ordinal) == 0)
+            if (decorator.Inner.StartsWith("<", StringComparison.Ordinal))
             {
                 try
                 {
