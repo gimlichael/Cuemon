@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
                 .OrderByDescending(accept =>
                 {
                     var values = accept.Split(';').Select(raw => raw.Trim());
-                    return values.FirstOrDefault(quality => quality.StartsWith("q=")) ?? "q=0.0";
+                    return values.FirstOrDefault(quality => quality.StartsWith("q=", StringComparison.OrdinalIgnoreCase)) ?? "q=0.0";
                 })
                 .Select(accept => accept.Split(';')[0])
                 .ToList();

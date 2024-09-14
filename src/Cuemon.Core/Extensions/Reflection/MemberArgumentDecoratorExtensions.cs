@@ -45,12 +45,12 @@ namespace Cuemon.Reflection
 #endif
                         var rm = new ResourceManager(resName, typeof(ArgumentException).Assembly);
                         var argParamName = rm.GetString("Arg_ParamName_Name");
-                        argParamName = argParamName.Remove(argParamName.IndexOf(argParamNameIndexOf));
+                        argParamName = argParamName.Remove(argParamName.IndexOf(argParamNameIndexOf, StringComparison.Ordinal));
                         int indexOfMicrosoftParamName;
 #if NETSTANDARD2_0_OR_GREATER
-                        indexOfMicrosoftParamName = messageValue.LastIndexOf(string.Format(CultureInfo.InvariantCulture, "{0}", parseAsXml ? "\n" : Environment.NewLine) + argParamName);
+                        indexOfMicrosoftParamName = messageValue.LastIndexOf(string.Format(CultureInfo.InvariantCulture, "{0}", parseAsXml ? "\n" : Environment.NewLine) + argParamName, StringComparison.Ordinal);
 #else
-                        indexOfMicrosoftParamName = messageValue.LastIndexOf(" " + argParamName);
+                        indexOfMicrosoftParamName = messageValue.LastIndexOf(" " + argParamName, StringComparison.Ordinal);
 #endif
                         if (indexOfMicrosoftParamName > 0) { message.Value = messageValue.Remove(indexOfMicrosoftParamName); }
                     }
