@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         public const string Scheme = HttpAuthenticationSchemes.Digest;
 
-        DigestAuthorizationHeader() : base(Scheme)
+        private DigestAuthorizationHeader() : base(Scheme)
         {
         }
 

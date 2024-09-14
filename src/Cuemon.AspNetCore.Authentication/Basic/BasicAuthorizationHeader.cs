@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// </summary>
         public const string Scheme = HttpAuthenticationSchemes.Basic;
 
-        BasicAuthorizationHeader() : base(Scheme)
+        private BasicAuthorizationHeader() : base(Scheme)
         {
         }
 
