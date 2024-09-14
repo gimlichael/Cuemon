@@ -41,7 +41,7 @@ namespace Cuemon.Diagnostics
                 {
                     var memberSignature = Convertible.ToString(Convert.FromBase64String(insights[IndexOfThrower]));
                     var runtimeParameters = Convertible.ToString(Convert.FromBase64String(insights[IndexOfRuntimeParameters]));
-                    ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v =>
+                    ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v =>
                     {
                         var t = v.Substring(v.IndexOf('=') + 1);
                         if (t == "null") { return null; }
@@ -78,7 +78,7 @@ namespace Cuemon.Diagnostics
             var info = Convertible.ToString(Convert.FromBase64String(base64));
             if (!string.IsNullOrWhiteSpace(info))
             {
-                ed.AddEvidence(context, info.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
+                ed.AddEvidence(context, info.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
                 {
                     var presult = v.Substring(v.IndexOf(' ') + 1);
                     return ParserFactory.FromValueType().Parse(presult == "null" ? null : presult);
