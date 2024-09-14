@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
@@ -8,7 +6,6 @@ using Cuemon.Data.Assets;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Data;
 using Cuemon.Extensions.Xunit.Hosting;
-using Cuemon.Reflection;
 using Cuemon.Resilience;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
@@ -393,121 +390,9 @@ namespace Cuemon.Data
                 o.LeaveCommandOpen = true; // do not release our command as it will trigger errors from data readers (for normal dbs - always leave false)
                 o.ConnectionString = "Data Source=InMemory;Mode=Memory;Cache=Shared";
             });
-            InitSqliteDatabase(manager);
+            SqliteDatabase.Create(manager, TestOutput);
             services.AddSingleton(manager);
         }
 
-        private void InitSqliteDatabase(DataManager manager)
-        {
-
-            manager.Execute(new DataStatement("""
-                                                      CREATE TABLE Product (
-                                                      	ProductID INTEGER PRIMARY KEY,
-                                                      	Name TEXT NOT NULL,
-                                                      	ProductNumber TEXT NOT NULL,
-                                                      	MakeFlag INTEGER NOT NULL,
-                                                      	FinishedGoodsFlag INTEGER NOT NULL,
-                                                      	Color TEXT NULL,
-                                                      	SafetyStockLevel INTEGER NOT NULL,
-                                                      	ReorderPoint INTEGER NOT NULL,
-                                                      	StandardCost REAL NOT NULL,
-                                                      	ListPrice REAL NOT NULL,
-                                                      	Size TEXT NULL,
-                                                      	SizeUnitMeasureCode TEXT NULL,
-                                                      	WeightUnitMeasureCode TEXT NULL,
-                                                      	Weight REAL NULL,
-                                                      	DaysToManufacture INTEGER NOT NULL,
-                                                      	ProductLine TEXT NULL,
-                                                      	Class TEXT NULL,
-                                                      	Style TEXT NULL,
-                                                      	ProductSubcategoryID INTEGER NULL,
-                                                      	ProductModelID INTEGER NULL,
-                                                      	SellStartDate TEXT NOT NULL,
-                                                      	SellEndDate TEXT NULL,
-                                                      	DiscontinuedDate TEXT NULL,
-                                                      	RowGuid TEXT NOT NULL,
-                                                      	ModifiedDate TEXT NOT NULL);
-                                                      """));
-
-            using var file = Decorator.Enclose(typeof(DsvDataReaderTest).Assembly).GetManifestResources("AdventureWorks2022_Product.csv", ManifestResourceMatch.ContainsName).Values.Single();
-            using var reader = new DsvDataReader(new StreamReader(file), setup: o =>
-            {
-                o.FormatProvider = CultureInfo.GetCultureInfo("da-DK");
-                o.Delimiter = ";";
-            });
-            while (reader.Read())
-            {
-                var statement = new DataStatement($$"""
-                                                            INSERT INTO Product
-                                                            ([ProductID]
-                                                            ,[Name]
-                                                            ,[ProductNumber]
-                                                            ,[MakeFlag]
-                                                            ,[FinishedGoodsFlag]
-                                                            ,[Color]
-                                                            ,[SafetyStockLevel]
-                                                            ,[ReorderPoint]
-                                                            ,[StandardCost]
-                                                            ,[ListPrice]
-                                                            ,[Size]
-                                                            ,[SizeUnitMeasureCode]
-                                                            ,[WeightUnitMeasureCode]
-                                                            ,[Weight]
-                                                            ,[DaysToManufacture]
-                                                            ,[ProductLine]
-                                                            ,[Class]
-                                                            ,[Style]
-                                                            ,[ProductSubcategoryID]
-                                                            ,[ProductModelID]
-                                                            ,[SellStartDate]
-                                                            ,[SellEndDate]
-                                                            ,[DiscontinuedDate]
-                                                            ,[RowGuid]
-                                                            ,[ModifiedDate])
-                                                            VALUES
-                                                            ({{reader.GetInt32(0)}},
-                                                            "{{reader.GetString(1)}}",
-                                                            "{{reader.GetString(2)}}",
-                                                            {{reader.GetInt32(3)}},
-                                                            {{reader.GetInt32(4)}},
-                                                            {{StringOrNull(reader.GetString(5))}},
-                                                            {{reader.GetInt32(6)}},
-                                                            {{reader.GetInt32(7)}},
-                                                            {{reader.GetDecimal(8).ToString("F", CultureInfo.InvariantCulture)}},
-                                                            {{reader.GetDecimal(9).ToString("F", CultureInfo.InvariantCulture)}},
-                                                            {{StringOrNull(reader.GetString(10))}},
-                                                            {{StringOrNull(reader.GetString(11))}},
-                                                            {{StringOrNull(reader.GetString(12))}},
-                                                            {{(reader.GetString(13) == "NULL" ? "NULL" : reader.GetDecimal(13).ToString("F", CultureInfo.InvariantCulture))}},
-                                                            {{reader.GetInt32(14)}},
-                                                            {{StringOrNull(reader.GetString(15))}},
-                                                            {{StringOrNull(reader.GetString(16))}},
-                                                            {{StringOrNull(reader.GetString(17))}},
-                                                            {{(reader.GetString(18) == "NULL" ? "NULL" : reader.GetInt32(18))}},
-                                                            {{(reader.GetString(19) == "NULL" ? "NULL" : reader.GetInt32(19))}},
-                                                            "{{reader.GetDateTime(20):O}}",
-                                                            {{(reader.GetString(21) == "NULL" ? "NULL" : string.Concat("\"", reader.GetDateTime(21).ToString("O"), "\""))}},
-                                                            {{(reader.GetString(22) == "NULL" ? "NULL" : string.Concat("\"", reader.GetDateTime(22).ToString("O"), "\""))}},
-                                                            "{{reader.GetString(23)}}",
-                                                            "{{reader.GetDateTime(24):O}}")
-                                                            """);
-
-                try
-                {
-                    manager.Execute(statement);
-                }
-                catch (Exception e)
-                {
-                    TestOutput.WriteLine(statement.Text);
-                    throw;
-                }
-            }
-        }
-
-        private static string StringOrNull(string value)
-        {
-            if (value == "NULL") { return "NULL"; }
-            return (value.StartsWith("\"") && value.EndsWith("\"")) ? $"{value}" : $"\"{value}\"";
-        }
     }
 }
