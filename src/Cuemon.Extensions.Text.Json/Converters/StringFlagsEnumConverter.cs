@@ -41,7 +41,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
         }
     }
 
-    internal class FlagsEnumConverter : JsonConverter<Enum>
+    internal sealed class FlagsEnumConverter : JsonConverter<Enum>
     {
         public FlagsEnumConverter(Type typeToConvert)
         {

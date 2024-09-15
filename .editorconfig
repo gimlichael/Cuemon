@@ -95,3 +95,73 @@ dotnet_diagnostic.IDE0046.severity = none
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0047-ide0048
 [*.{cs,vb}]
 dotnet_diagnostic.IDE0047.severity = none
+
+# CA1716: Identifiers should not match keywords
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1716
+[*.{cs,vb}]
+dotnet_diagnostic.CA1716.severity = none
+
+# CA1720: Identifiers should not contain type names
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1720
+[*.{cs,vb}]
+dotnet_diagnostic.CA1720.severity = none
+
+# CA1846: Prefer AsSpan over Substring
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1846
+# Excluded while TFMs include netstandard2.0
+[*.{cs,vb}]
+dotnet_diagnostic.CA1846.severity = none
+
+# CA1847: Use String.Contains(char) instead of String.Contains(string) with single characters
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1847
+# Excluded while TFMs include netstandard2.0
+[*.{cs,vb}]
+dotnet_diagnostic.CA1847.severity = none
+
+# CA1865-CA1867: Use 'string.Method(char)' instead of 'string.Method(string)' for string with single char
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1865-ca1867
+# Excluded while TFMs include netstandard2.0
+[*.{cs,vb}]
+dotnet_diagnostic.CA1865.severity = none
+dotnet_diagnostic.CA1866.severity = none
+dotnet_diagnostic.CA1867.severity = none
+
+# CA2263: Prefer generic overload when type is known
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2263
+# Excluded while TFMs include netstandard2.0
+[*.{cs,vb}]
+dotnet_diagnostic.CA2263.severity = none
+
+# CA2249: Consider using String.Contains instead of String.IndexOf
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2249
+# Excluded while TFMs include netstandard2.0
+[*.{cs,vb}]
+dotnet_diagnostic.CA2249.severity = none
+
+# IDE0022: Use expression body for methods
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0022
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0022.severity = none
+
+# IDE0032: Use auto-property
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0032
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0032.severity = none
+
+# Order modifiers
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0036
+# Excluded becuase of inconsistency with other analyzers
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0036.severity = none
+
+# Order modifiers
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0036
+# Excluded becuase of inconsistency with other analyzers
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0036.severity = none
+
+# Use 'System.Threading.Lock'
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0330
+# Excluded while TFMs are less than net9.0
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0330.severity = none

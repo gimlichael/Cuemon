@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-    internal class XunitTestLoggerProvider : ILoggerProvider
+    internal sealed class XunitTestLoggerProvider : ILoggerProvider
     {
         private readonly ConcurrentDictionary<string, XunitTestLogger> _loggers = new();
         private readonly ITestOutputHelperAccessor _accessor;
@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
 
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, _ => _accessor != null 
+            return _loggers.GetOrAdd(categoryName, _ => _accessor != null
                 ? new XunitTestLogger(_accessor)
                 : new XunitTestLogger(_output));
         }

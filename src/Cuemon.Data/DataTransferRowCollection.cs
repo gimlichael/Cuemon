@@ -54,13 +54,7 @@ namespace Cuemon.Data
         /// Gets the column names that is present in this <see cref="DataTransferRow"/>.
         /// </summary>
         /// <value>The column names of a table-row in a database.</value>
-        public IEnumerable<string> ColumnNames
-        {
-            get
-            {
-                return _columnNames ??= Columns.Select(column => column.Name);
-            }
-        }
+        public IEnumerable<string> ColumnNames => _columnNames ??= Columns.Select(column => column.Name);
 
         private Collection<DataTransferRow> DataTransferRows { get; } = new();
 

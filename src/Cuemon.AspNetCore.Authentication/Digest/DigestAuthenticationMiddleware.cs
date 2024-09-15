@@ -72,7 +72,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         internal static bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ConditionalValue<ClaimsPrincipal> result)
         {
             var options = context.Items[nameof(DigestAuthenticationOptions)] as DigestAuthenticationOptions;
-            var nonceTracker = context.Items[nameof(INonceTracker)] as INonceTracker;
             if (options?.Authenticator == null)
             {
                 result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"{nameof(options.Authenticator)} was unexpectedly set to null."));
@@ -94,7 +93,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 return false;
             }
 
-            if (nonceTracker != null)
+            if (context.Items[nameof(INonceTracker)] is INonceTracker nonceTracker)
             {
                 var nc = Convert.ToInt32(header.NC, 16);
                 if (nonceTracker.TryGetEntry(header.Nonce, out var previousNonce))

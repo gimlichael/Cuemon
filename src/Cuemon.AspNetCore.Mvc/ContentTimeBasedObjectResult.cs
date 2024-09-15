@@ -23,7 +23,7 @@ namespace Cuemon.AspNetCore.Mvc
         public HashResult Checksum { get; set; }
     }
 
-    internal class ContentTimeBasedObjectResult<T> : ContentTimeBasedObjectResult
+    internal sealed class ContentTimeBasedObjectResult<T> : ContentTimeBasedObjectResult
     {
         internal ContentTimeBasedObjectResult(T instance, IEntityDataTimestamp timestamp, IEntityDataIntegrity dataIntegrity) : base(instance, timestamp, dataIntegrity)
         {

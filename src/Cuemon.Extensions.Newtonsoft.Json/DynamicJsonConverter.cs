@@ -74,7 +74,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         }
     }
 
-    internal class DynamicJsonConverterCore : JsonConverter
+    internal sealed class DynamicJsonConverterCore : JsonConverter
     {
         internal DynamicJsonConverterCore(Func<Type, bool> predicate, Action<JsonWriter, object, JsonSerializer> writer, Func<JsonReader, Type, object, JsonSerializer, object> reader, Type objectType = null, bool searchForNamingStrategy = false)
         {

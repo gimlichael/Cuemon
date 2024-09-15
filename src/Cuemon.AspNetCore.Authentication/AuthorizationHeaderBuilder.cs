@@ -121,7 +121,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return DelimitedString.Create(Data.Keys.Select(key => $"{key}={Data[key]}"), o => o.Delimiter = Alphanumeric.NewLine + Alphanumeric.NewLine);
+            return DelimitedString.Create(Data.Keys.Select(key => $"{key}={Data[key]}"), o => o.Delimiter = Environment.NewLine + Environment.NewLine);
         }
     }
 }

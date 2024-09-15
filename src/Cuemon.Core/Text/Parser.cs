@@ -3,7 +3,7 @@ using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
-    internal class Parser : IParser
+    internal sealed class Parser : IParser
     {
         private readonly Func<string, Type, object> _parser;
 
@@ -33,7 +33,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class Parser<TResult> : IParser<TResult>
+    internal sealed class Parser<TResult> : IParser<TResult>
     {
         private readonly Func<string, TResult> _parser;
 
@@ -53,7 +53,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class ConfigurableParser<TResult, TOptions> : IConfigurableParser<TResult, TOptions> where TOptions : class, IParameterObject, new()
+    internal sealed class ConfigurableParser<TResult, TOptions> : IConfigurableParser<TResult, TOptions> where TOptions : class, IParameterObject, new()
     {
         private readonly Func<string, Action<TOptions>, TResult> _parser;
 
@@ -73,7 +73,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class ConfigurableParser<TOptions> : IConfigurableParser<TOptions> where TOptions : class, IParameterObject, new()
+    internal sealed class ConfigurableParser<TOptions> : IConfigurableParser<TOptions> where TOptions : class, IParameterObject, new()
     {
         private readonly Func<string, Type, Action<TOptions>, object> _parser;
 

@@ -22,19 +22,13 @@ namespace Cuemon.Data
         /// <value>The row number.</value>
         public int Number { get; private set; }
 
-        private int NumberFromZero
-        {
-            get { return Number - 1; }
-        }
+        private int NumberFromZero => Number - 1;
 
         /// <summary>
         /// Gets the associated columns of this row.
         /// </summary>
         /// <value>The associated columns of this row.</value>
-        public DataTransferColumnCollection Columns
-        {
-            get { return Main.Columns; }
-        }
+        public DataTransferColumnCollection Columns => Main.Columns;
 
         private int GetIndexLocation(int ordinal)
         {
@@ -46,13 +40,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="column">The column from which to return the value from.</param>
         /// <returns>An <see cref="object"/> that contains the data of the column.</returns>
-        public object this[DataTransferColumn column]
-        {
-            get
-            {
-                return column == null ? null : this[column.Ordinal];
-            }
-        }
+        public object this[DataTransferColumn column] => column == null ? null : this[column.Ordinal];
 
         /// <summary>
         /// Gets the value of a <see cref="DataTransferColumn"/> from the <see cref="Columns"/> with the specified <paramref name="name"/>.
@@ -73,10 +61,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="index">The zero-based index of the column from which to return the value from.</param>
         /// <returns>An <see cref="object"/> that contains the data of the column.</returns>
-        public object this[int index]
-        {
-            get { return index < 0 ? null : Main.Data[GetIndexLocation(index)]; }
-        }
+        public object this[int index] => index < 0 ? null : Main.Data[GetIndexLocation(index)];
 
         /// <summary>
         /// Gets the value of a <see cref="DataTransferColumn"/> from the <see cref="Columns"/> with the specified <paramref name="column"/>.
@@ -126,7 +111,7 @@ namespace Cuemon.Data
             for (var i = 0; i < Columns.Count; i++)
             {
                 var column = Columns[i];
-                builder.AppendFormat("{0}={1} [{2}],", column.Name, Main.Data[GetIndexLocation(column.Ordinal)], column.DataType.Name);
+                builder.AppendFormat(CultureInfo.InvariantCulture, "{0}={1} [{2}],", column.Name, Main.Data[GetIndexLocation(column.Ordinal)], column.DataType.Name);
             }
             return builder.ToString(0, builder.Length - 1);
         }

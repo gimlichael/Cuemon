@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Mvc
         public HashResult Checksum { get; }
     }
 
-    internal class ContentBasedObjectResult<T> : ContentBasedObjectResult
+    internal sealed class ContentBasedObjectResult<T> : ContentBasedObjectResult
     {
         internal ContentBasedObjectResult(T instance, byte[] checksum, bool isWeak = false) : base(instance, checksum, isWeak)
         {

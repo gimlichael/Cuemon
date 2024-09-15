@@ -846,7 +846,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static TimeSpan ToTimeSpan(this string value, TimeUnit timeUnit)
         {
-            return Decorator.Enclose(double.Parse(value)).ToTimeSpan(timeUnit);
+            return Decorator.Enclose(double.Parse(value, CultureInfo.InvariantCulture)).ToTimeSpan(timeUnit);
         }
 
         /// <summary>

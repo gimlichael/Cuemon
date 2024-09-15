@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Cuemon
 {
-    internal class EnvironmentInfo
+    internal sealed class EnvironmentInfo
     {
         public override string ToString()
         {

@@ -260,7 +260,7 @@ namespace Cuemon.Xml.Serialization.Converters
             }, (reader, _) =>
             {
                 var decoratorHierarchy = Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy());
-                return decoratorHierarchy.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decoratorHierarchy.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>().TimeOfDay : TimeSpan.Parse(decoratorHierarchy.Inner.Instance.Value.ToString());
+                return decoratorHierarchy.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decoratorHierarchy.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>().TimeOfDay : TimeSpan.Parse(decoratorHierarchy.Inner.Instance.Value.ToString(), CultureInfo.InvariantCulture);
             });
             return decorator;
         }

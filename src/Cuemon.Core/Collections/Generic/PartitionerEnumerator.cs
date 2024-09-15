@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Cuemon.Collections.Generic
 {
-    internal class PartitionerEnumerator<T> : Disposable, IEnumerator<T>
+    internal sealed class PartitionerEnumerator<T> : Disposable, IEnumerator<T>
     {
         public PartitionerEnumerator(IEnumerator<T> enumerator, int take, Action moveNextIncrementer, Action endOfSequenceNotifier)
         {

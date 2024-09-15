@@ -135,7 +135,7 @@ namespace Cuemon.Data
         /// </exception>
         public Task<bool> ReadAsync()
         {
-            return ReadAllLinesAsync(async () => await Reader.ReadLineAsync().ConfigureAwait(false));
+            return ReadAllLinesAsync(Reader.ReadLineAsync);
         }
 
         private async Task<bool> ReadAllLinesAsync(Func<Task<string>> readLineAsyncCallback)

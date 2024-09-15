@@ -49,7 +49,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                             var logLevel = options.LogLevelSelector(metric);
                             logger.Log(logLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: \"{Description}\" }}",
                                 metric.Name,
-                                metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1"),
+                                metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1", CultureInfo.InvariantCulture),
                                 metric.Description ?? "N/A");
                         }
                     }

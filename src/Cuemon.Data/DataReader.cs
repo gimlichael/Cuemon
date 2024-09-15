@@ -69,7 +69,7 @@ namespace Cuemon.Data
             var builder = new StringBuilder();
             for (var i = 0; i < FieldCount; i++)
             {
-                builder.AppendFormat("{0}={1}, ", GetName(i), GetValue(i));
+                builder.AppendFormat(CultureInfo.InvariantCulture, "{0}={1}, ", GetName(i), GetValue(i));
             }
             if (builder.Length > 0) { builder.Remove(builder.Length - 2, 2); }
             return builder.ToString();

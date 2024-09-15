@@ -96,7 +96,7 @@ namespace Cuemon
             }
             catch (Exception e)
             {
-                if (message?.Equals("{0} are not in a valid state.", StringComparison.InvariantCulture) ?? false) { message = string.Format(message, Patterns.InvokeOrDefault(() => Decorator.Enclose(typeof(TOptions)).ToFriendlyName(), "Options")); }
+                if (message?.Equals("{0} are not in a valid state.", StringComparison.Ordinal) ?? false) { message = string.Format(CultureInfo.InvariantCulture, message, Patterns.InvokeOrDefault(() => Decorator.Enclose(typeof(TOptions)).ToFriendlyName(), "Options")); }
                 throw new ArgumentException(message, paramName, e);
             }
         }

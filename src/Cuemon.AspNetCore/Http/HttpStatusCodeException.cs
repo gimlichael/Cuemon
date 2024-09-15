@@ -152,7 +152,7 @@ namespace Cuemon.AspNetCore.Http
             foreach (var pi in this.GetType().GetProperties().Where(pi => pi.CanRead && Decorator.Enclose(pi.DeclaringType).HasTypes(typeof(HttpStatusCodeException))))
             {
                 var value = Patterns.InvokeOrDefault(() => pi.GetValue(this, null)); // we cannot risk exceptions being thrown in a ToString method
-                if (value != null) { sb.AppendLine($"{Alphanumeric.Tab}{pi.Name}: {value}"); }
+                if (value != null) { sb.AppendLine(CultureInfo.InvariantCulture, $"{Alphanumeric.Tab}{pi.Name}: {value}"); }
             }
             return sb.ToString();
         }

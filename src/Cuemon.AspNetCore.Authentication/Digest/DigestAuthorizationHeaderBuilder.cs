@@ -82,7 +82,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         public DigestAuthorizationHeaderBuilder AddNc(int nonceCount)
         {
             Validator.ThrowIfLowerThan(nonceCount, 0, nameof(nonceCount));
-            return AddOrUpdate(DigestFields.NonceCount, nonceCount.ToString("x8"));
+            return AddOrUpdate(DigestFields.NonceCount, nonceCount.ToString("x8", CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         private DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(string wwwAuthenticateHeader)
         {
             Validator.ThrowIfNull(wwwAuthenticateHeader);
-            Validator.ThrowIfFalse(() => wwwAuthenticateHeader.StartsWith(AuthenticationScheme), nameof(wwwAuthenticateHeader), $"Header did not start with {AuthenticationScheme}.");
+            Validator.ThrowIfFalse(() => wwwAuthenticateHeader.StartsWith(AuthenticationScheme, StringComparison.OrdinalIgnoreCase), nameof(wwwAuthenticateHeader), $"Header did not start with {AuthenticationScheme}.");
             var headerWithoutScheme = wwwAuthenticateHeader.Remove(0, AuthenticationScheme.Length + 1);
             var fields = DelimitedString.Split(headerWithoutScheme);
             foreach (var field in fields)

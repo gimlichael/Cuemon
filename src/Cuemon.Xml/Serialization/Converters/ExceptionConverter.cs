@@ -77,7 +77,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 switch (reader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        exception = reader.Name.EndsWith("Exception") ? reader.Name : lastException;
+                        exception = reader.Name.EndsWith("Exception", StringComparison.Ordinal) ? reader.Name : lastException;
 
                         if (blueprints.Count > 0
                             && blueprints.Single(ma => ma.Name == "Type") is { } typeOfException
@@ -129,7 +129,7 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             switch (memberName.ToLowerInvariant())
             {
-                case { } when memberName.EndsWith("Exception"):
+                case { } when memberName.EndsWith("Exception", StringComparison.Ordinal):
                     return nameof(Exception.InnerException);
                 case "Stack":
                     return nameof(Exception.StackTrace);

@@ -2,7 +2,7 @@
 
 namespace Cuemon.Extensions.Net.Http
 {
-    internal class ActiveHandler
+    internal sealed class ActiveHandler
     {
         public ActiveHandler(string name, DateTime expires, TrackingHttpMessageHandler handler)
         {

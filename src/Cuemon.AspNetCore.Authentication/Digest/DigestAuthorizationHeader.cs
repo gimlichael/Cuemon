@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Cuemon.Net.Http;
 
@@ -34,7 +35,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         public const string Scheme = HttpAuthenticationSchemes.Digest;
 
-        DigestAuthorizationHeader() : base(Scheme)
+        private DigestAuthorizationHeader() : base(Scheme)
         {
         }
 
@@ -177,7 +178,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
         private static void AppendField(StringBuilder sb, string fn, string fv)
         {
-            if (!string.IsNullOrWhiteSpace(fv)) { sb.Append($" {fn}=\"{fv}\""); }
+            if (!string.IsNullOrWhiteSpace(fv)) { sb.Append(CultureInfo.InvariantCulture, $" {fn}=\"{fv}\""); }
         }
     }
 }

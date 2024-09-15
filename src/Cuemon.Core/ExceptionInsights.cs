@@ -58,7 +58,7 @@ namespace Cuemon
                     var rp = DelimitedString.Create(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
                     {
                         o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={pair.Value ?? "null"}");
-                        o.Delimiter = FormattableString.Invariant($"{Alphanumeric.NewLine}");
+                        o.Delimiter = FormattableString.Invariant($"{Environment.NewLine}");
                     });
                     builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{rp}"))));
                 }
@@ -83,7 +83,7 @@ namespace Cuemon
             builder.Append('.');
             if (snapshots.HasFlag(SystemSnapshots.CaptureThreadInfo))
             {
-                var ti = string.Join(Alphanumeric.NewLine, new ThreadInfo(Thread.CurrentThread).ToString().Split(Alphanumeric.CaretChar));
+                var ti = string.Join(Environment.NewLine, new ThreadInfo(Thread.CurrentThread).ToString().Split(Alphanumeric.CaretChar));
                 builder.Append(ti.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{ti}"))) : empty);
             }
             else
@@ -93,7 +93,7 @@ namespace Cuemon
             builder.Append('.');
             if (snapshots.HasFlag(SystemSnapshots.CaptureProcessInfo))
             {
-                var pi = string.Join(Alphanumeric.NewLine, new ProcessInfo(Process.GetCurrentProcess()).ToString().Split(Alphanumeric.CaretChar));
+                var pi = string.Join(Environment.NewLine, new ProcessInfo(Process.GetCurrentProcess()).ToString().Split(Alphanumeric.CaretChar));
                 builder.Append(pi.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{pi}"))) : empty);
             }
             else
@@ -103,7 +103,7 @@ namespace Cuemon
             builder.Append('.');
             if (snapshots.HasFlag(SystemSnapshots.CaptureEnvironmentInfo))
             {
-                var ei = string.Join(Alphanumeric.NewLine, new EnvironmentInfo().ToString().Split(Alphanumeric.CaretChar));
+                var ei = string.Join(Environment.NewLine, new EnvironmentInfo().ToString().Split(Alphanumeric.CaretChar));
                 builder.Append(ei.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{ei}"))) : empty);
             }
             else

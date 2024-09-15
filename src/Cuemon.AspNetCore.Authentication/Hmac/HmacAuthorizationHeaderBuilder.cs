@@ -135,7 +135,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                 Decorator.Enclose(Data).GetValueOrDefault(HmacFields.CredentialScope),
                 Alphanumeric.Linefeed,
                 ComputeCanonicalRequest());
-            var date = DateTime.Parse(Data[HmacFields.ServerDateTime], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind).Date.ToString("yyyyMMdd");
+            var date = DateTime.Parse(Data[HmacFields.ServerDateTime], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind).Date.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             var dateSecret = KeyedHashFactory.CreateHmacCrypto(secret, HmacAlgorithm).ComputeHash(date).GetBytes();
 
             AddOrUpdate(HmacFields.StringToSign, stringToSign);

@@ -63,7 +63,7 @@ namespace Cuemon
 
             var instanceSignature = new StringBuilder(string.Format(options.FormatProvider, "{0}", Decorator.Enclose(instanceType).ToFriendlyName(o => o.FullName = true)));
             var properties = instanceType.GetRuntimeProperties().Where(options.PropertiesPredicate);
-            instanceSignature.AppendFormat(" {{ {0} }}", DelimitedString.Create(properties, o =>
+            instanceSignature.AppendFormat(options.FormatProvider, " {{ {0} }}", DelimitedString.Create(properties, o =>
             {
                 o.Delimiter = options.Delimiter;
                 o.StringConverter = pi => options.PropertyConverter(pi, instance, options.FormatProvider);

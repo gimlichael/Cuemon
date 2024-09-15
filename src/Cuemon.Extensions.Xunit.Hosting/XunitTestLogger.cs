@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-    internal class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
+    internal sealed class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
     {
         private readonly ITestOutputHelperAccessor _accessor;
         private readonly ITestOutputHelper _output;

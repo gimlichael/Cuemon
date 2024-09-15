@@ -46,14 +46,9 @@
         public const string Hexadecimal = Numbers + "ABCDEF";
 
         /// <summary>
-        /// A network-path reference, eg. two forward slashes (//).
+        /// A network-path reference, e.g. two forward slashes (//).
         /// </summary>
         public const string NetworkPathReference = "//";
-
-        /// <summary>
-        /// Carriage-return/linefeed character combination.
-        /// </summary>
-        public const string NewLine = CarriageReturn + Linefeed;
 
         /// <summary>
         /// Tab character.

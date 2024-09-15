@@ -7,7 +7,7 @@ namespace Cuemon.Runtime
     /// </summary>
     public class DependencyEventArgs : EventArgs
     {
-        DependencyEventArgs()
+        private DependencyEventArgs()
         {
         }
 

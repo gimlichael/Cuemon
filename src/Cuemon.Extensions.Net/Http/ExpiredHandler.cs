@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace Cuemon.Extensions.Net.Http
 {
-    internal class ExpiredHandler
+    internal sealed class ExpiredHandler
     {
         private readonly WeakReference _tracker;
 

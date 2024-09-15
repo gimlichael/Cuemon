@@ -37,7 +37,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="unit">The <see cref="BitUnit"/> to convert.</param>
         /// <param name="setup">The <see cref="StorageCapacityOptions"/> which may be configured.</param>
-        BitStorageCapacity(BitUnit unit, Action<StorageCapacityOptions> setup = null) : base(unit, setup)
+        private BitStorageCapacity(BitUnit unit, Action<StorageCapacityOptions> setup = null) : base(unit, setup)
         {
         }
     }

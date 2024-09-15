@@ -37,7 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Gets or sets the value that in combination with <see cref="ThresholdTimeUnit" /> specifies the threshold of the action method.
         /// </summary>
         /// <value>The threshold value of the action method.</value>
-        public double Threshold { get; set; } = 0;
+        public double Threshold { get; set; }
 
         /// <summary>
         /// Gets or sets one of the enumeration values that specifies the time unit of <see cref="Threshold"/>.

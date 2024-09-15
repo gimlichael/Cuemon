@@ -36,7 +36,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             return new HmacAuthorizationHeader(authenticationScheme).Parse(authorizationHeader, setup) as HmacAuthorizationHeader;
         }
 
-        HmacAuthorizationHeader(string authenticationScheme) : base(authenticationScheme)
+        private HmacAuthorizationHeader(string authenticationScheme) : base(authenticationScheme)
         {
         }
 

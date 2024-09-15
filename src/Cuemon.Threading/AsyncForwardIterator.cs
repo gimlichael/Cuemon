@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
-    internal class AsyncForwardIterator<TReader, TElement>
+    internal sealed class AsyncForwardIterator<TReader, TElement>
     {
         internal AsyncForwardIterator(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider)
         {

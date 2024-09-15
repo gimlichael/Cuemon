@@ -101,7 +101,7 @@ namespace Cuemon
                 part => Assert.Equal(part.Name, nameof(DayPart.Evening))
                 );
 
-            var all = DelimitedString.Create(sut.Select(part => part.ToString()), o => o.Delimiter = Alphanumeric.NewLine);
+            var all = DelimitedString.Create(sut.Select(part => part.ToString()), o => o.Delimiter = Environment.NewLine);
 
             TestOutput.WriteLine(all);
         }

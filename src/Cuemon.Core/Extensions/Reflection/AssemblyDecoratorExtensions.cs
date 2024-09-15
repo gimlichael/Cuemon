@@ -144,7 +144,7 @@ namespace Cuemon.Reflection
                             AddResourcesWhenContainsName(resources, resourceNames, name, decorator.Inner);
                             break;
                         case ManifestResourceMatch.Extension:
-                            AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.ToUpperInvariant() == Path.GetExtension(name)?.ToUpperInvariant());
+                            AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => string.Equals(extension, Path.GetExtension(name), StringComparison.OrdinalIgnoreCase));
                             break;
                         case ManifestResourceMatch.ContainsExtension:
                             AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) != -1);

@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// </summary>
         public const string Scheme = HttpAuthenticationSchemes.Basic;
 
-        BasicAuthorizationHeader() : base(Scheme)
+        private BasicAuthorizationHeader() : base(Scheme)
         {
         }
 
@@ -96,7 +96,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         public override AuthorizationHeader Parse(string authorizationHeader, Action<AuthorizationHeaderOptions> setup)
         {
             Validator.ThrowIfNullOrWhitespace(authorizationHeader);
-            Validator.ThrowIfFalse(() => authorizationHeader.StartsWith(AuthenticationScheme), nameof(authorizationHeader), $"Header did not start with {AuthenticationScheme}.");
+            Validator.ThrowIfFalse(() => authorizationHeader.StartsWith(AuthenticationScheme, StringComparison.OrdinalIgnoreCase), nameof(authorizationHeader), $"Header did not start with {AuthenticationScheme}.");
 
             var headerWithoutScheme = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
             var credentials = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

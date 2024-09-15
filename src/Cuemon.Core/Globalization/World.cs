@@ -46,7 +46,7 @@ namespace Cuemon.Globalization
         public static IEnumerable<CultureInfo> GetCultures(RegionInfo region)
         {
             Validator.ThrowIfNull(region);
-            return SpecificCultures.Value.Where(c => c.Name.EndsWith(region.TwoLetterISORegionName));
+            return SpecificCultures.Value.Where(c => c.Name.EndsWith(region.TwoLetterISORegionName, StringComparison.Ordinal));
         }
     }
 }

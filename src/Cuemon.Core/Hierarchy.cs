@@ -290,9 +290,9 @@ namespace Cuemon
                     if (Decorator.Enclose(property.PropertyType).IsComplex())
                     {
                         var circularCalls = 0;
-                        if (current.Data.ContainsKey(CircularReferenceKey))
+                        if (current.Data.TryGetValue(CircularReferenceKey, out var circularCallsValue))
                         {
-                            circularCalls = (int)current.Data[CircularReferenceKey];
+                            circularCalls = (int)circularCallsValue;
                         }
                         var safetyHashCode = propertyValue.GetHashCode();
                         if (!referenceSafeguards.TryGetValue(safetyHashCode, out var calls)) { referenceSafeguards.Add(safetyHashCode, 0); }

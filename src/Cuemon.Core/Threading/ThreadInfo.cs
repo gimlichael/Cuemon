@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Cuemon.Threading
 {
-    internal class ThreadInfo
+    internal sealed class ThreadInfo
     {
         internal ThreadInfo(Thread thread = null)
         {

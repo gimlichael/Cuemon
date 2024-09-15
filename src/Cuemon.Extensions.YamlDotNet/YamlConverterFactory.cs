@@ -60,7 +60,7 @@ namespace Cuemon.Extensions.YamlDotNet
         }
     }
 
-    internal class DynamicConvertFactory : YamlConverter
+    internal sealed class DynamicConvertFactory : YamlConverter
     {
         internal DynamicConvertFactory(Func<Type, bool> predicate, Action<IEmitter, object> writer, Func<IParser, Type, object> reader)
         {
@@ -93,7 +93,7 @@ namespace Cuemon.Extensions.YamlDotNet
         }
     }
 
-    internal class DynamicConvertFactory<T> : YamlConverter<T>
+    internal sealed class DynamicConvertFactory<T> : YamlConverter<T>
     {
         internal DynamicConvertFactory(Func<Type, bool> predicate, Action<IEmitter, T> writer, Func<IParser, Type, T> reader)
         {
