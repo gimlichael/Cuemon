@@ -1,8 +1,9 @@
 ﻿Version 9.0.0
-Availability: .NET9, .NET 8, .NET 6 and .NET Standard 2.0
+Availability: .NET 9, .NET 8 and .NET Standard 2.0
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
+- REMOVED Support for TFM .NET 6 (LTS)
  
 # New Features
 - ADDED FailureConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to convert FailureConverter to JSON
