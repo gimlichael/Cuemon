@@ -200,6 +200,13 @@ jobs:
         with:
           includePreview: true
 
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
       - name: Install .NET Tool - Report Generator
         uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
 
@@ -224,7 +231,6 @@ jobs:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
           restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          buildSwitches: -p:SkipSignAssembly=true
           level: normal
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
