@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Xunit;

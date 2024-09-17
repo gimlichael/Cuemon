@@ -1,6 +1,6 @@
 ﻿using System;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Formatters;

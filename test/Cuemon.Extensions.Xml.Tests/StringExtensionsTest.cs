@@ -1,6 +1,6 @@
 ﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xml.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;
 using Xunit.Abstractions;

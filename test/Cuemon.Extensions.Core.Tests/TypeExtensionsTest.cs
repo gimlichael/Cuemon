@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Cuemon.Extensions.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Xml.Serialization;
 using Xunit;
 using Xunit.Abstractions;

@@ -1,4 +1,4 @@
-﻿using Cuemon.Extensions.Xunit.Hosting;
+﻿using Codebelt.Extensions.Xunit.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;

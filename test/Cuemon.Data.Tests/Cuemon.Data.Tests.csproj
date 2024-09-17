@@ -52,9 +52,12 @@
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Resilience\Cuemon.Resilience.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Linq;
 using Cuemon.Data.SqlClient.Assets;
 using Cuemon.Extensions.Data;
-using Cuemon.Extensions.Xunit.Hosting;
+using Codebelt.Extensions.Xunit.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

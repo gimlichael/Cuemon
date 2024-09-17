@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

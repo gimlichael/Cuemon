@@ -16,7 +16,7 @@ Complements: [AWS Signature Version 4](https://docs.aws.amazon.com/general/lates
 
 ### CSharp Example
 ```csharp
-using var mw = MiddlewareTestFactory.Create();
+using var mw = WebHostTestFactory.Create();
 var context = mw.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
 
 var timestamp = DateTime.Parse("2022-07-10T12:50:42.2737531Z"); // <-- change this to valid date/time

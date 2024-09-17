@@ -2,8 +2,8 @@
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable;
-using Cuemon.Extensions.Xunit;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;

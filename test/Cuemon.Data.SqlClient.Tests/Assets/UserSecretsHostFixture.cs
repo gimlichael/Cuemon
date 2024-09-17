@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Cuemon.Collections.Generic;
-using Cuemon.Extensions.Xunit;
-using Cuemon.Extensions.Xunit.Hosting;
+using Codebelt.Extensions.Xunit;
+using Codebelt.Extensions.Xunit.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 

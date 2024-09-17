@@ -6,7 +6,7 @@ using System.Threading;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Text.Json.Converters;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

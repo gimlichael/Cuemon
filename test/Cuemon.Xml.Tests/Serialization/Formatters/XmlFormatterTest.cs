@@ -7,7 +7,7 @@ using System.Xml;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
 using Cuemon.Xml.Assets;
 using Xunit;

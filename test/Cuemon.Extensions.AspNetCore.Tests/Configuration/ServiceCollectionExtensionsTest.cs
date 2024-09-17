@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Cuemon.AspNetCore.Configuration;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;

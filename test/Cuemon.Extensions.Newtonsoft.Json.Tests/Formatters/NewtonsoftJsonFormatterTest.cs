@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Abstractions;

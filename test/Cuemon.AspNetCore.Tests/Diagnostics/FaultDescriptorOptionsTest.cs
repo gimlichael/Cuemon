@@ -4,7 +4,7 @@ using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

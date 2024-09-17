@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Collections.Generic;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

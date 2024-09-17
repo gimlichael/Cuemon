@@ -2,9 +2,9 @@
 using Cuemon.AspNetCore.Authentication.Basic;
 using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.AspNetCore.Authentication.Hmac;
-using Cuemon.Extensions.Xunit;
-using Cuemon.Extensions.Xunit.Hosting;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit;
+using Codebelt.Extensions.Xunit.Hosting;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;

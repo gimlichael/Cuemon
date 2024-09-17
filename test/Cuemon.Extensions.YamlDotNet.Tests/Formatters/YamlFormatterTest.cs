@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions.YamlDotNet.Assets;
 using Xunit;
 using Xunit.Abstractions;

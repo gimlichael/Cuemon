@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Net.Http;
 using Xunit;
 using Xunit.Abstractions;

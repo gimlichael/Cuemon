@@ -6,7 +6,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Hosting\Cuemon.Extensions.Hosting.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

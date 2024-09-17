@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;

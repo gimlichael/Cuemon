@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Cuemon.Extensions.AspNetCore.Configuration;
-using Cuemon.Extensions.Xunit;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
+using Codebelt.Extensions.Xunit;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;

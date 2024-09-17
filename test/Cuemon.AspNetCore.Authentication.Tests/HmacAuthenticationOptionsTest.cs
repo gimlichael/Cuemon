@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using Cuemon.AspNetCore.Authentication.Hmac;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Security.Cryptography;
 using Xunit;
 using Xunit.Abstractions;

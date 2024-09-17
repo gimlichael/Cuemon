@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Xunit.Hosting;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit.Hosting;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;

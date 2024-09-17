@@ -1,6 +1,6 @@
 ﻿using System;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;

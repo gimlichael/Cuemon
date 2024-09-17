@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

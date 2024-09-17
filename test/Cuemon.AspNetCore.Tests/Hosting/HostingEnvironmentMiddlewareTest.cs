@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Cuemon.Extensions.AspNetCore.Hosting;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Xunit;
 using Xunit.Abstractions;

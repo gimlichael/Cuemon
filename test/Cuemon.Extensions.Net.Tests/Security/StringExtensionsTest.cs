@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

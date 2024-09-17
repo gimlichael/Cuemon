@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Razor.TagHelpers.Assets;
 using Cuemon.Extensions.AspNetCore.Configuration;
-using Cuemon.Extensions.Xunit;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
