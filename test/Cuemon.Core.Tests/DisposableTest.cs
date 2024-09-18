@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Assets;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
 using Xunit;
 using Xunit.Abstractions;

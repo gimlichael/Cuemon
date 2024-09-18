@@ -7,7 +7,7 @@ using Cuemon.Extensions.Collections.Generic;
 #if NET48_OR_GREATER
 using Cuemon.Extensions;
 #endif
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -9,7 +9,7 @@ using Cuemon.Xml.Serialization.Formatters;
 #endif
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.DependencyInjection.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;

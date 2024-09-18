@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Xunit.Hosting;
+using Codebelt.Extensions.Xunit.Hosting;
 using Cuemon.Runtime.Caching.Assets;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

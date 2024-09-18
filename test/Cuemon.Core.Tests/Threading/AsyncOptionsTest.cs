@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

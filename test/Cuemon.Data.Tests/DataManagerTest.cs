@@ -5,7 +5,7 @@ using Cuemon.Collections.Generic;
 using Cuemon.Data.Assets;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Data;
-using Cuemon.Extensions.Xunit.Hosting;
+using Codebelt.Extensions.Xunit.Hosting;
 using Cuemon.Resilience;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;

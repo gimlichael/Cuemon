@@ -4,7 +4,7 @@ using System.Linq;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Configuration;
 using Cuemon.Extensions.AspNetCore.Mvc.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

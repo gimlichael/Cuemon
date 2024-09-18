@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using Cuemon.Extensions.AspNetCore.Http.Headers;
-using Cuemon.Extensions.Xunit;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Codebelt.Extensions.Xunit;
+using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

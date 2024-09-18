@@ -3,7 +3,7 @@ using System.Linq;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

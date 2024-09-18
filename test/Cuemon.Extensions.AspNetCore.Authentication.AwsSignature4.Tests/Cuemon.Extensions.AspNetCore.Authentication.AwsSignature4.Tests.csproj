@@ -1,14 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net8.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
     <RootNamespace>Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4</RootNamespace>
   </PropertyGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

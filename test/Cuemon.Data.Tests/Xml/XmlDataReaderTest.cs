@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using Cuemon.Extensions.Reflection;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
 using Cuemon.Reflection;
 using Xunit;

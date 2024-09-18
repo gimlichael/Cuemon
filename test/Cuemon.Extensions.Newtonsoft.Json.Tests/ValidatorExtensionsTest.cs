@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;

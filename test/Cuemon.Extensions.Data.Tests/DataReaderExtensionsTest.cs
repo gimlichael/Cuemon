@@ -2,7 +2,7 @@
 using System.Linq;
 using Cuemon.Data;
 using Cuemon.Extensions.Reflection;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;

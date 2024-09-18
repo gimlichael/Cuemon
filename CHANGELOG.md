@@ -16,6 +16,10 @@ New features:
 
 - Support for both FaultDetails (HttpExceptionDescriptor) and ProblemDetails in the context of ASP.NET (both vanilla and MVC)
 
+Removed features:
+
+- Cuemon.Extensions.Xunit, Cuemon.Extensions.Xunit.Hosting and Cuemon.Extensions.Xunit.Hosting.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Xunit](https://github.com/codebeltnet/xunit)
+
 ### Added
 
 - HttpClientExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of one extension method for the HttpClient class: ToHttpResponseMessageAsync
@@ -111,6 +115,7 @@ New features:
 - YamlNamingPolicy class from the Cuemon.Text.Yaml namespace (breaking change)
 - ConditionExtensions class from the Cuemon.Extensions namespace and moved members to Condition class in the Cuemon.Core assembly (Cuemon namespace)
 - ValidatorExtensions class from the Cuemon.Extensions namespace and moved members to Validator class in the Cuemon.Core assembly (Cuemon namespace)
+- TFM net6.0 for all projects due to [EOL](https://endoflife.date/dotnet) on November 12th, 2024 (presumable same date as .NET 9 release)
 
 
 ## [8.3.2] - 2024-08-04

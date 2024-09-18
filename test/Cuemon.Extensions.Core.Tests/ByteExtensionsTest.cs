@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Text;
 using Xunit;
 using Xunit.Abstractions;

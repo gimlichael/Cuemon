@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Globalization;
 using Xunit;
 

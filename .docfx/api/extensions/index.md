@@ -15,6 +15,8 @@ Here is a collection of various non-Microsoft APIs that was adapted by Cuemon fo
 
 Complements: [xUnit.net](https://github.com/xunit/xunit) 🔗
 
+Moved to: [Extensions for xUnit API by Codebelt](https://github.com/codebeltnet/xunit)
+
 ## Json.NET API
 
 I am a huge fan of [Json.NET](https://www.newtonsoft.com/json) written by [James Newton-King](https://github.com/JamesNK) and the flexible architecture this JSON framework adds to the toolbelt.

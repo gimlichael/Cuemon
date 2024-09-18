@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading;
 using Cuemon.Collections.Generic;
 using Cuemon.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 

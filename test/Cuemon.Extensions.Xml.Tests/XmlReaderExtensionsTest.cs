@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xml.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;

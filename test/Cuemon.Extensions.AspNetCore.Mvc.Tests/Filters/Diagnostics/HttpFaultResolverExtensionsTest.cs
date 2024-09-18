@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 using Xunit.Abstractions;

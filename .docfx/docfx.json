@@ -138,23 +138,6 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.Xunit/**.csproj",
-            "Cuemon.Extensions.Xunit.Hosting/**.csproj",
-            "Cuemon.Extensions.Xunit.Hosting.AspNetCore/**.csproj"
-          ],
-          "src": "../src"
-        }
-      ],
-      "dest": "api/extensions/xunit",
-      "filter": "filterConfig.yml",
-      "properties": {
-        "TargetFramework": "net8.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "files": [
             "Cuemon.AspNetCore/**.csproj",
             "Cuemon.AspNetCore.Authentication/**.csproj",
             "Cuemon.AspNetCore.Mvc/**.csproj",

@@ -2,7 +2,7 @@
 using System.Text;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Reflection;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Reflection;
 using Cuemon.Xml;
 using Xunit;

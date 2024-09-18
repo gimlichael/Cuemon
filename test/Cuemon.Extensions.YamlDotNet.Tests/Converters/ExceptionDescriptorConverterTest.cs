@@ -2,7 +2,7 @@
 using System.Threading;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions.YamlDotNet.Formatters;
 using Xunit;
 using Xunit.Abstractions;

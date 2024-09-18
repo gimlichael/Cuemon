@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net8.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
     <RootNamespace>Cuemon.Extensions.AspNetCore.Authentication</RootNamespace>
   </PropertyGroup>
 
@@ -11,7 +11,10 @@
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Text.Json\Cuemon.Extensions.AspNetCore.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Xml\Cuemon.Extensions.AspNetCore.Xml.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

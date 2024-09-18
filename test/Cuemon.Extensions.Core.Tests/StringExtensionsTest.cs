@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Cuemon.Collections.Generic;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -630,12 +630,11 @@ namespace Cuemon.Extensions
             var sut5 = 1d.ToTimeSpan(TimeUnit.Days);
             var sut6 = sut1.Ticks.ToString().ToTimeSpan(TimeUnit.Ticks);
             var sut7 = sut2.Ticks.ToString().ToTimeSpan(TimeUnit.Ticks);
-            var sut8 = sut3.TotalDays.ToString().ToTimeSpan(TimeUnit.Days);
-            var sut9 = sut4.TotalHours.ToString().ToTimeSpan(TimeUnit.Hours);
-            var sut10 = sut5.TotalMinutes.ToString().ToTimeSpan(TimeUnit.Minutes);
-            var sut11 = sut5.TotalMilliseconds.ToString().ToTimeSpan(TimeUnit.Milliseconds);
-            var sut12 = sut5.TotalSeconds.ToString().ToTimeSpan(TimeUnit.Seconds);
-
+            var sut8 = sut3.TotalDays.ToString(CultureInfo.InvariantCulture).ToTimeSpan(TimeUnit.Days);
+            var sut9 = sut4.TotalHours.ToString(CultureInfo.InvariantCulture).ToTimeSpan(TimeUnit.Hours);
+            var sut10 = sut5.TotalMinutes.ToString(CultureInfo.InvariantCulture).ToTimeSpan(TimeUnit.Minutes);
+            var sut11 = sut5.TotalMilliseconds.ToString(CultureInfo.InvariantCulture).ToTimeSpan(TimeUnit.Milliseconds);
+            var sut12 = sut5.TotalSeconds.ToString(CultureInfo.InvariantCulture).ToTimeSpan(TimeUnit.Seconds);
 
             Assert.Equal(sut1, sut6);
             Assert.Equal(sut2, sut7);

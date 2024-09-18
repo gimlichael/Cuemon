@@ -5,7 +5,7 @@ using Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters;
 using Cuemon.Extensions.AspNetCore.Xml.Formatters;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;

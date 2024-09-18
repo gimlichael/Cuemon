@@ -1,5 +1,5 @@
 ﻿using Cuemon.Extensions.Reflection.Assets;
-using Cuemon.Extensions.Xunit;
+using Codebelt.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
