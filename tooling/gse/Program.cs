@@ -1,7 +1,7 @@
 ﻿using System.IO;
+using Codebelt.Extensions.YamlDotNet.Formatters;
 using Cuemon.Extensions.Globalization;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.YamlDotNet.Formatters;
 using Cuemon.Globalization;
 using Cuemon.Reflection;
 using YamlDotNet.Serialization.NamingConventions;
