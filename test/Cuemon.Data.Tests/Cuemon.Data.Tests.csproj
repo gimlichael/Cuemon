@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.1" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.2" />
   </ItemGroup>
 
 </Project>
