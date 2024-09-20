@@ -9,7 +9,7 @@ using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
-using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml;
+//using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml;
 using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
@@ -192,50 +192,51 @@ namespace Cuemon.Extensions.Asp.Versioning
             }
         }
 
-        [Theory]
-        [InlineData("text/plain")]
-        [InlineData("text/yaml")]
-        [InlineData("application/yaml")]
-        [InlineData("*/*")]
-        public async Task GetRequest_ShouldFailWithBadRequestFormattedAsXmlResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnYamlAccept(string yamlAccept)
-        {
-            using (var app = WebHostTestFactory.Create(services =>
-                   {
-                       services.AddFaultDescriptorOptions();
-                       services.AddControllers(o => o.Filters.AddFaultDescriptor())
-                           .AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters()
-                           .AddXmlFormatters()
-                           .AddYamlFormatters();
-                       services.AddHttpContextAccessor();
-                       services.AddRestfulApiVersioning();
-                   }, app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler();
-                       app.UseRestfulApiVersioning();
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
+        // TODO: move to aspversioning repo
+        //[Theory]
+        //[InlineData("text/plain")]
+        //[InlineData("text/yaml")]
+        //[InlineData("application/yaml")]
+        //[InlineData("*/*")]
+        //public async Task GetRequest_ShouldFailWithBadRequestFormattedAsXmlResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnYamlAccept(string yamlAccept)
+        //{
+        //    using (var app = WebHostTestFactory.Create(services =>
+        //           {
+        //               services.AddFaultDescriptorOptions();
+        //               services.AddControllers(o => o.Filters.AddFaultDescriptor())
+        //                   .AddApplicationPart(typeof(FakeController).Assembly)
+        //                   .AddJsonFormatters()
+        //                   .AddXmlFormatters()
+        //                   .AddYamlFormatters();
+        //               services.AddHttpContextAccessor();
+        //               services.AddRestfulApiVersioning();
+        //           }, app =>
+        //           {
+        //               app.UseFaultDescriptorExceptionHandler();
+        //               app.UseRestfulApiVersioning();
+        //               app.UseRouting();
+        //               app.UseEndpoints(routes => { routes.MapControllers(); });
 
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", $"application/json,text/html,application/xhtml+xml,image/avif,image/webp,image/apng,application/signed-exchange;v=b3;q=0.9,{yamlAccept};q=10.0;v=d3");
-                var sut = await client.GetAsync("/fake/throw");
+        //           }))
+        //    {
+        //        var client = app.Host.GetTestClient();
+        //        client.DefaultRequestHeaders.Add("Accept", $"application/json,text/html,application/xhtml+xml,image/avif,image/webp,image/apng,application/signed-exchange;v=b3;q=0.9,{yamlAccept};q=10.0;v=d3");
+        //        var sut = await client.GetAsync("/fake/throw");
 
-                TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
+        //        TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
 
-                Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
-                Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-                Assert.EndsWith(yamlAccept, sut.Content.Headers.ContentType.ToString());
-                Assert.Equal("""
-                             Error:
-                               Status: 400
-                               Code: BadRequest
-                               Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.
+        //        Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
+        //        Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+        //        Assert.EndsWith(yamlAccept, sut.Content.Headers.ContentType.ToString());
+        //        Assert.Equal("""
+        //                     Error:
+        //                       Status: 400
+        //                       Code: BadRequest
+        //                       Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.
 
-                             """, await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
-            }
-        }
+        //                     """, await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+        //    }
+        //}
 
         [Theory]
         [InlineData("application/json")]
