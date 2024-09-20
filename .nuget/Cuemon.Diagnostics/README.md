@@ -12,7 +12,6 @@ The `Cuemon.Diagnostics` namespace contains types that provide ways for develope
 More documentation available at our documentation site:
 
 - [Cuemon.Diagnostics](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 🔗
-- [Cuemon.Diagnostics.Text.Yaml](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.Text.Yaml.html) 🔗
 
 ## Related Packages
 
@@ -59,7 +58,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
-* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦

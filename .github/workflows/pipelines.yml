@@ -125,7 +125,6 @@ jobs:
               "src/**/Cuemon.Extensions.Text.csproj"
               "src/**/Cuemon.Extensions.Threading.csproj"
               "src/**/Cuemon.Extensions.Xml.csproj"
-              "src/**/Cuemon.Extensions.YamlDotNet.csproj"
               "src/**/Cuemon.IO.csproj"
               "src/**/Cuemon.Net.csproj"
               "src/**/Cuemon.Resilience.csproj"

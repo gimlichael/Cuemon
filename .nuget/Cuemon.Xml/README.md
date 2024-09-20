@@ -63,7 +63,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
-* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦
