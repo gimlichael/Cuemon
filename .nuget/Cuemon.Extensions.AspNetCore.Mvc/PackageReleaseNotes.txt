@@ -5,6 +5,15 @@ Availability: .NET 9 and .NET 8
 - CHANGED Dependencies to latest and greatest with respect to TFMs
 - REMOVED Support for TFM .NET 6 (LTS)
  
+# Breaking Changes
+- REMOVED MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace
+- REMOVED MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace
+- REMOVED YamlSerializationInputFormatter class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace
+- REMOVED YamlSerializationMvcOptionsSetup class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace
+- REMOVED YamlSerializationOutputFormatter class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace
+- REMOVED MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace
+- REMOVED MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace
+ 
 Version 8.3.2
 Availability: .NET 8 and .NET 6
  
