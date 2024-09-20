@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Cuemon.Extensions.AspNetCore.Http;
 using Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Json.Formatters;
-using Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters;
 using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +25,6 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             services.AddXmlExceptionResponseFormatter();
             services.AddJsonExceptionResponseFormatter();
             services.AddNewtonsoftJsonExceptionResponseFormatter();
-            services.AddYamlExceptionResponseFormatter();
 
             var serviceProvider = services.BuildServiceProvider();
 
@@ -37,7 +34,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
 
             TestOutput.WriteLine(formattersAndResponseHandlers.ToDelimitedString(o => o.Delimiter = Environment.NewLine));
 
-            Assert.Equal(14, formattersAndResponseHandlers.Count);
+            Assert.Equal(9, formattersAndResponseHandlers.Count);
             Assert.Equal("""
                          XmlFormatterOptions -> application/xml
                          XmlFormatterOptions -> text/xml
@@ -48,11 +45,6 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                          NewtonsoftJsonFormatterOptions -> application/json
                          NewtonsoftJsonFormatterOptions -> text/json
                          NewtonsoftJsonFormatterOptions -> application/problem+json
-                         YamlFormatterOptions -> text/plain; charset=utf-8
-                         YamlFormatterOptions -> text/plain
-                         YamlFormatterOptions -> application/yaml
-                         YamlFormatterOptions -> text/yaml
-                         YamlFormatterOptions -> */*
                          """.ReplaceLineEndings(), formattersAndResponseHandlers.ToDelimitedString(o => o.Delimiter = Environment.NewLine));
         }
     }
