@@ -7,6 +7,8 @@ Availability: .NET 9 and .NET 8
  
 # Breaking Changes
 - REMOVED HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Diagnostics namespace
+- REMOVED YamlConverterExtensions class from the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace
+- REMOVED ServiceCollectionExtensions class from the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace
  
 # Improvements
 - CHANGED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails) in the UseFaultDescriptorExceptionHandler extension method

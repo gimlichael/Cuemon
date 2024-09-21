@@ -91,21 +91,6 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.YamlDotNet/**.csproj"
-          ],
-          "src": "../src"
-        }
-      ],
-      "dest": "api/extensions/yamldotnet",
-      "filter": "filterConfig.yml",
-      "properties": {
-        "TargetFramework": "net8.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "files": [
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.AspNetCore.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
@@ -177,7 +162,8 @@
   ],
   "build": {
     "xref": [
-      "https://docs.cuemon.net/xrefmap.yml"
+      "https://docs.cuemon.net/xrefmap.yml",
+      "https://github.com/dotnet/docfx/raw/main/.xrefmap.json"
     ],
     "content": [
       {
@@ -241,8 +227,6 @@
     "noLangKeyword": false,
     "keepFileLink": false,
     "cleanupCacheHistory": false,
-    "disableGitFeatures": false,
-    "xrefService": [
-      "https://xref.docs.microsoft.com/query?uid={uid}" ]
+    "disableGitFeatures": false
   }
 }

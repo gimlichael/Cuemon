@@ -49,7 +49,6 @@ More documentation available at our documentation site:
 - [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.html) 🔗
 - [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters.html) 🔗
 - [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.RazorPages.html) 🔗
-- [Cuemon.Extensions.AspNetCore.Text.Yaml.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Text.Yaml.Converters.html) 🔗
 
 ## Related Packages
 
@@ -96,7 +95,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
-* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦

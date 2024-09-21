@@ -34,7 +34,6 @@
     <ProjectReference Include="..\Cuemon.Extensions.Text.Json\Cuemon.Extensions.Text.Json.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Threading\Cuemon.Extensions.Threading.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xml\Cuemon.Extensions.Xml.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.YamlDotNet\Cuemon.Extensions.YamlDotNet.csproj" />
     <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\Cuemon.Net\Cuemon.Net.csproj" />
     <ProjectReference Include="..\Cuemon.Resilience\Cuemon.Resilience.csproj" />
@@ -42,7 +41,7 @@
     <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
     <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />
     <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
-        <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />    
+    <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
   </ItemGroup>
 
 </Project>

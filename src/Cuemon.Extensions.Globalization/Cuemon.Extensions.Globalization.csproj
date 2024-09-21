@@ -1199,12 +1199,14 @@
     <EmbeddedResource Include="Surrogates\zu-za.bin" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.YamlDotNet" Version="8.4.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.YamlDotNet\Cuemon.Extensions.YamlDotNet.csproj" />
   </ItemGroup>
 
 </Project>

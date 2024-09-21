@@ -13,5 +13,5 @@ Complements: [Cuemon.AspNetCore.Diagnostics namespace](https://docs.cuemon.net/a
 |Type|Ext|Methods|
 |--:|:-:|---|
 |IApplicationBuilder|⬇️|`UseServerTiming`, `UseFaultDescriptorExceptionHandler`|
-|HttpExceptionDescriptorResponseHandler|⬇️|`AddResponseHandler`, `AddYamlResponseHandler`|
-|IServiceCollection|⬇️|`AddServerTiming`, `AddServerTiming{T}`|
+|IServiceCollection|⬇️|`AddServerTiming`, `AddServerTiming{T}`, `AddServerTimingOptions`, `AddFaultDescriptorOptions`, `AddExceptionDescriptorOptions`, `PostConfigureAllExceptionDescriptorOptions`|
+|IServiceProvider|⬇️|`GetExceptionResponseFormatters`|

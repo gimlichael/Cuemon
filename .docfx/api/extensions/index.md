@@ -15,7 +15,8 @@ Here is a collection of various non-Microsoft APIs that was adapted by Cuemon fo
 
 Complements: [xUnit.net](https://github.com/xunit/xunit) 🔗
 
-Moved to: [Extensions for xUnit API by Codebelt](https://github.com/codebeltnet/xunit)
+> **Note**
+> Since `Cuemon for .NET` has always been about extending official .NET APIs, this project is no longer maintained as part of the Cuemon assembly family. It has been moved to its own repository and is now called [Extensions for xUnit API by Codebelt](https://github.com/codebeltnet/xunit).
 
 ## Json.NET API
 
@@ -42,6 +43,17 @@ Complements: [Asp.Versioning](https://github.com/dotnet/aspnet-api-versioning) �
 [!INCLUDE [availability-modern](../../includes/availability-modern.md)]
 
 Complements: [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) 🔗
+
+## YamlDotNet API
+
+[YamlDotNet](https://github.com/aaubry/YamlDotNet) is the most matured YAML library for .NET, why we decided to abandon own efforts to write a YAML library from scratch. That written, we happily built upon `YamlDotNet` to provide an even better developer experience when working with YAML.
+
+[!INCLUDE [availability-modern](../../includes/availability-modern.md)]
+
+Complements: [YamlDotNet](https://github.com/aaubry/YamlDotNet/wiki) 🔗
+
+> **Note**
+> Since `Cuemon for .NET` has always been about extending official .NET APIs, this project is no longer maintained as part of the Cuemon assembly family. It has been moved to its own repository and is now called [Extensions for YamlDotNet API by Codebelt](https://github.com/codebeltnet/yamldotnet).
 
 ## AWS Signature API
 

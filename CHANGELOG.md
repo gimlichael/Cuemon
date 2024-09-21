@@ -19,6 +19,8 @@ New features:
 Removed features:
 
 - Cuemon.Extensions.Xunit, Cuemon.Extensions.Xunit.Hosting and Cuemon.Extensions.Xunit.Hosting.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Xunit](https://github.com/codebeltnet/xunit)
+- Cuemon.Extensions.YamlDotNet was removed from the solution and migrated to [Codebelt.Extensions.YamlDotNet](https://github.com/codebeltnet/yamldotnet)
+  - Cuemon.Extensions.AspNetCore, Cuemon.Extensions.AspNetCore.Mvc and Cuemon.Extensions.Diagnostics was inflicted with a breaking change as a result of this migration due to removal of YAML related code
 
 ### Added
 
@@ -85,6 +87,7 @@ Removed features:
 - JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace was extended to include one new extension method: AddFailureConverter
 - XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
 - XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml
+- CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace to use Codebelt.Extensions.YamlDotNet assembly instead of previously built-in YAML support from Codebelt.Extensions.YamlDotNet assembly
 
 ### Fixed
 
@@ -116,6 +119,20 @@ Removed features:
 - ConditionExtensions class from the Cuemon.Extensions namespace and moved members to Condition class in the Cuemon.Core assembly (Cuemon namespace)
 - ValidatorExtensions class from the Cuemon.Extensions namespace and moved members to Validator class in the Cuemon.Core assembly (Cuemon namespace)
 - TFM net6.0 for all projects due to [EOL](https://endoflife.date/dotnet) on November 12th, 2024 (presumable same date as .NET 9 release)
+- Cuemon.Extensions.Xunit project (breaking change)
+- Cuemon.Extensions.Xunit.Hosting (breaking change)
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore (breaking change)
+- Cuemon.Extensions.YamlDotNet (breaking change)
+- YamlConverterExtensions class from the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace (breaking change)
+- ServiceCollectionExtensions class from the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace (breaking change)
+- MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace (breaking change)
+- MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace (breaking change)
+- YamlSerializationInputFormatter class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace (breaking change)
+- YamlSerializationMvcOptionsSetup class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace (breaking change)
+- YamlSerializationOutputFormatter class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace (breaking change)
+- MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
+- MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
+- ExceptionDescriptorExtensions class from the Cuemon.Extensions.Diagnostics namespace (breaking change)
 
 
 ## [8.3.2] - 2024-08-04

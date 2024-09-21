@@ -24,9 +24,6 @@ More documentation available at our documentation site:
 - [Cuemon.Runtime.Serialization.Formatters](https://docs.cuemon.net/api/dotnet/Cuemon.Runtime.Serialization.Formatters.html) 🔗
 - [Cuemon.Security](https://docs.cuemon.net/api/dotnet/Cuemon.Security.html) 🔗
 - [Cuemon.Text](https://docs.cuemon.net/api/dotnet/Cuemon.Text.html) 🔗
-- [Cuemon.Text.Yaml](https://docs.cuemon.net/api/dotnet/Cuemon.Text.Yaml.html) 🔗
-- [Cuemon.Text.Yaml.Converters](https://docs.cuemon.net/api/dotnet/Cuemon.Text.Yaml.Converters.html) 🔗
-- [Cuemon.Text.Yaml.Formatters](https://docs.cuemon.net/api/dotnet/Cuemon.Text.Yaml.Formatters.html) 🔗
 
 ## Related Packages
 
@@ -73,7 +70,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
-* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦

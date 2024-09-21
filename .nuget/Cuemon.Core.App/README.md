@@ -21,7 +21,6 @@ More documentation available at our documentation site:
 - [Cuemon.Data.SqlClient](https://docs.cuemon.net/api/dotnet/Cuemon.Data.SqlClient.html) 🔗
 - [Cuemon.Data.Xml](https://docs.cuemon.net/api/dotnet/Cuemon.Data.Xml.html) 🔗
 - [Cuemon.Diagnostics](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 🔗
-- [Cuemon.Diagnostics.Text.Yaml](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.Text.Yaml.html) 🔗
 - [Cuemon.Extensions](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.html) 🔗
 - [Cuemon.Extensions.Collections.Generic](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Collections.Generic.html) 🔗
 - [Cuemon.Extensions.Collections.Specialized](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Collections.Specialized.html) 🔗
@@ -64,9 +63,6 @@ More documentation available at our documentation site:
 - [Cuemon.Security](https://docs.cuemon.net/api/dotnet/Cuemon.Security.html) 🔗
 - [Cuemon.Security.Cryptography](https://docs.cuemon.net/api/dotnet/Cuemon.Security.Cryptography.html) 🔗
 - [Cuemon.Text](https://docs.cuemon.net/api/dotnet/Cuemon.Text.html) 🔗
-- [Cuemon.Text.Yaml](https://docs.cuemon.net/api/dotnet/Cuemon.Text.Yaml.html) 🔗
-- [Cuemon.Text.Yaml.Converters](https://docs.cuemon.net/api/dotnet/Cuemon.Text.Yaml.Converters.html) 🔗
-- [Cuemon.Text.Yaml.Formatters](https://docs.cuemon.net/api/dotnet/Cuemon.Text.Yaml.Formatters.html) 🔗
 - [Cuemon.Threading](https://docs.cuemon.net/api/dotnet/Cuemon.Threading.html) 🔗
 - [Cuemon.Xml](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.html) 🔗
 - [Cuemon.Xml.Linq](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.Linq.html) 🔗
@@ -120,7 +116,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
-* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦

@@ -18,7 +18,6 @@ More documentation available at our documentation site:
 - [Cuemon.Extensions.AspNetCore.Http](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.html) 🔗
 - [Cuemon.Extensions.AspNetCore.Http.Headers](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.Headers.html) 🔗
 - [Cuemon.Extensions.AspNetCore.Http.Throttling](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.Throttling.html) 🔗
-- [Cuemon.Extensions.AspNetCore.Text.Yaml.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Text.Yaml.Converters.html) 🔗
 
 ## Related Packages
 
@@ -65,7 +64,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
-* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦

@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.YamlDotNet" Version="8.4.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Globalization\Cuemon.Extensions.Globalization.csproj" />
   </ItemGroup>
 

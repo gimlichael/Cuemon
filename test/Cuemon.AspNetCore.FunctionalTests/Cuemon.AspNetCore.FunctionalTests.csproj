@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Meziantou.Xunit.ParallelTestFramework" Version="2.3.0" />
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.1" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,6 +5,9 @@ Availability: .NET 9, .NET 8 and .NET Standard 2.0
 - CHANGED Dependencies to latest and greatest with respect to TFMs
 - REMOVED Support for TFM .NET 6 (LTS)
  
+# Breaking Changes
+- CHANGED CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace to use Codebelt.Extensions.YamlDotNet assembly instead of previously built-in YAML support from Codebelt.Extensions.YamlDotNet assembly
+ 
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
