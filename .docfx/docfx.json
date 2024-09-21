@@ -93,21 +93,6 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.Swashbuckle.AspNetCore/**.csproj"
-          ],
-          "src": "../src"
-        }
-      ],
-      "dest": "api/extensions/swagger",
-      "filter": "filterConfig.yml",
-      "properties": {
-        "TargetFramework": "net8.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "files": [
             "Cuemon.AspNetCore/**.csproj",
             "Cuemon.AspNetCore.Authentication/**.csproj",
             "Cuemon.AspNetCore.Mvc/**.csproj",
