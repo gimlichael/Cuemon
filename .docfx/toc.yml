@@ -20,17 +20,11 @@
   href: api/extensions
   expanded: true
   items:
-  - name: xUnit API
-    href: api/extensions/xunit/Cuemon.Extensions.Xunit.html
   - name: Json.NET API
     href: api/extensions/jsonnet/Cuemon.Extensions.Newtonsoft.Json.html
-  - name: Asp.Versioning API
-    href: api/extensions/aspversioning/Cuemon.Extensions.Asp.Versioning.html
   - name: Swashbuckle.AspNetCore API
     href: api/extensions/swagger/Cuemon.Extensions.Swashbuckle.AspNetCore.html
   - name: AWS Signature API
     href: api/extensions/awssignature4/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.html
-  - name: YamlDotNet API
-    href: api/extensions/yamldotnet/Cuemon.Extensions.YamlDotNet.html
 - name: NuGet
   href: packages

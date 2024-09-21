@@ -47,7 +47,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Data.Integrity](https://www.nuget.org/packages/Cuemon.Extensions.Data.Integrity/) 📦
 * [Cuemon.Extensions.DependencyInjection](https://www.nuget.org/packages/Cuemon.Extensions.DependencyInjection/) 📦
 * [Cuemon.Extensions.Diagnostics](https://www.nuget.org/packages/Cuemon.Extensions.Diagnostics/) 📦
-* [Cuemon.Extensions.Asp.Versioning](https://www.nuget.org/packages/Cuemon.Extensions.Asp.Versioning/) 📦
 * [Cuemon.Extensions.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Hosting/) 📦
 * [Cuemon.Extensions.IO](https://www.nuget.org/packages/Cuemon.Extensions.IO/) 📦
 * [Cuemon.Extensions.Net](https://www.nuget.org/packages/Cuemon.Extensions.Net/) 📦

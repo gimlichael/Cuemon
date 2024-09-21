@@ -7,7 +7,7 @@ The `Cuemon.Extensions.Swashbuckle.AspNetCore` namespace contains types and exte
 [!INCLUDE [availability-modern](../../includes/availability-modern.md)]
 
 Complements: [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) 🔗
-Related: [Cuemon.Extensions.Asp.Versioning](/api/extensions/aspversioning/) 📘
+Related: [Codebelt.Extensions.Asp.Versioning](https://versioning.codebelt.net/api/Codebelt.Extensions.Asp.Versioning.html) 📘
 
 ### Extension Methods
 
