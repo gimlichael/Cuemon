@@ -21,6 +21,7 @@ Removed features:
 - Cuemon.Extensions.Xunit, Cuemon.Extensions.Xunit.Hosting and Cuemon.Extensions.Xunit.Hosting.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Xunit](https://github.com/codebeltnet/xunit)
 - Cuemon.Extensions.YamlDotNet was removed from the solution and migrated to [Codebelt.Extensions.YamlDotNet](https://github.com/codebeltnet/yamldotnet)
   - Cuemon.Extensions.AspNetCore, Cuemon.Extensions.AspNetCore.Mvc and Cuemon.Extensions.Diagnostics was inflicted with a breaking change as a result of this migration due to removal of YAML related code
+- Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Asp.Versioning](https://github.com/codebeltnet/asp-versioning)
 
 ### Added
 
@@ -133,6 +134,11 @@ Removed features:
 - MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
 - MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
 - ExceptionDescriptorExtensions class from the Cuemon.Extensions.Diagnostics namespace (breaking change)
+- ApplicationBuilderExtensions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
+- RestfulApiVersioningOptions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
+- RestfulApiVersionReader class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
+- RestfulProblemDetailsFactory class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
+- ServiceCollectionExtensions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
 
 
 ## [8.3.2] - 2024-08-04
