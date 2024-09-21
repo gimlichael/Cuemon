@@ -12,10 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Extensions.Asp.Versioning\Cuemon.Extensions.Asp.Versioning.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Codebelt.Extensions.Asp.Versioning" Version="8.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
   </ItemGroup>
 

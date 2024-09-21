@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Asp.Versioning;
-using Cuemon.Extensions.Asp.Versioning;
+using Codebelt.Extensions.Asp.Versioning;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
 using Cuemon.Extensions.Swashbuckle.AspNetCore.Assets.V1;
 using Codebelt.Extensions.Xunit;
