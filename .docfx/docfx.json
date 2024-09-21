@@ -61,21 +61,6 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.Asp.Versioning/**.csproj"
-          ],
-          "src": "../src"
-        }
-      ],
-      "dest": "api/extensions/aspversioning",
-      "filter": "filterConfig.yml",
-      "properties": {
-        "TargetFramework": "net8.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "files": [
             "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/**.csproj"
           ],
           "src": "../src"

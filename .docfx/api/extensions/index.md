@@ -36,6 +36,9 @@ Our preferred way of versioning Open API/Swagger for RESTful APIs is done throug
 
 Complements: [Asp.Versioning](https://github.com/dotnet/aspnet-api-versioning) 🔗
 
+> **Note**
+> Since `Cuemon for .NET` has always been about extending official .NET APIs, this project is no longer maintained as part of the Cuemon assembly family. It has been moved to its own repository and is now called [Extensions for Asp.Versioning API by Codebelt](https://github.com/codebeltnet/asp-versioning).
+
 ## Swashbuckle.AspNetCore API
 
 [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) defined the standard for Open API/Swagger which we built upon to provide an even more powerful and efficient way of documenting your RESTful APIs.
