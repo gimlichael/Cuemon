@@ -218,11 +218,6 @@ jobs:
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
-      - name: Sleep for 60 seconds
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
-        run: sleep 60s
-        shell: bash
-
       - name: Test with ${{ matrix.configuration }} build
         if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/dotnet-test@v3
@@ -254,6 +249,13 @@ jobs:
         with:
           includePreview: true
 
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
       - name: Install .NET Tool - Sonar Scanner
         uses: codebeltnet/dotnet-tool-install-sonarscanner@v1
 
@@ -274,7 +276,6 @@ jobs:
       - name: Build
         uses: codebeltnet/dotnet-build@v2
         with:
-          buildSwitches: -p:SkipSignAssembly=true
           uploadBuildArtifact: false
 
       - name: Finalize SonarCloud Analysis
