@@ -54,7 +54,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Newtonsoft.Json.App](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json.App/) 🏭
 * [Cuemon.Extensions.Reflection](https://www.nuget.org/packages/Cuemon.Extensions.Reflection/) 📦
 * [Cuemon.Extensions.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Extensions.Runtime.Caching/) 📦
-* [Cuemon.Extensions.Swashbuckle.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.Swashbuckle.AspNetCore/) 📦
 * [Cuemon.Extensions.Text](https://www.nuget.org/packages/Cuemon.Extensions.Text/) 📦
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
