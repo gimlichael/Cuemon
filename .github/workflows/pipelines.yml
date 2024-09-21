@@ -312,6 +312,13 @@ jobs:
         with:
           includePreview: true
 
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
       - name: Restore Dependencies
         uses: codebeltnet/dotnet-restore@v2
         with:
@@ -324,7 +331,6 @@ jobs:
       - name: Build
         uses: codebeltnet/dotnet-build@v2
         with:
-          buildSwitches: -p:SkipSignAssembly=true
           uploadBuildArtifact: false
 
       - name: Finalize CodeQL SAST Analysis
