@@ -89,11 +89,9 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/) 📦
 * [Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/) 📦
-* [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.RazorPages/) 📦
-* [Cuemon.Extensions.AspNetCore.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Newtonsoft.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Xml/) 📦
 * [Cuemon.Extensions.Collections.Generic](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Generic/) 📦
@@ -106,8 +104,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Hosting/) 📦
 * [Cuemon.Extensions.IO](https://www.nuget.org/packages/Cuemon.Extensions.IO/) 📦
 * [Cuemon.Extensions.Net](https://www.nuget.org/packages/Cuemon.Extensions.Net/) 📦
-* [Cuemon.Extensions.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json/) 📦
-* [Cuemon.Extensions.Newtonsoft.Json.App](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json.App/) 🏭
 * [Cuemon.Extensions.Reflection](https://www.nuget.org/packages/Cuemon.Extensions.Reflection/) 📦
 * [Cuemon.Extensions.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Extensions.Runtime.Caching/) 📦
 * [Cuemon.Extensions.Text](https://www.nuget.org/packages/Cuemon.Extensions.Text/) 📦
