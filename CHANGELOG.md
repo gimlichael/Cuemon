@@ -22,6 +22,7 @@ Removed features:
 - Cuemon.Extensions.YamlDotNet was removed from the solution and migrated to [Codebelt.Extensions.YamlDotNet](https://github.com/codebeltnet/yamldotnet)
   - Cuemon.Extensions.AspNetCore, Cuemon.Extensions.AspNetCore.Mvc and Cuemon.Extensions.Diagnostics was inflicted with a breaking change as a result of this migration due to removal of YAML related code
 - Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Asp.Versioning](https://github.com/codebeltnet/asp-versioning)
+- Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Swashbuckle.AspNetCore](https://github.com/codebeltnet/swashbuckle-aspnetcore)
 
 ### Added
 
@@ -139,6 +140,17 @@ Removed features:
 - RestfulApiVersionReader class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
 - RestfulProblemDetailsFactory class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
 - ServiceCollectionExtensions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
+- ConfigureSwaggerGenOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- ConfigureSwaggerUIOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- DocumentFilter class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- OpenApiInfoOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- OperationFilter class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- RestfulSwaggerOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- ServiceCollectionExtensions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- SwaggerGenOptionsExtensions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- UserAgentDocumentFilter class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- UserAgentDocumentOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
+- XPathDocumentExtensions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
 
 
 ## [8.3.2] - 2024-08-04

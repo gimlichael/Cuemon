@@ -170,10 +170,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Swashbuckle.AspNetCore", "src\Cuemon.Extensions.Swashbuckle.AspNetCore\Cuemon.Extensions.Swashbuckle.AspNetCore.csproj", "{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Swashbuckle.AspNetCore.Tests", "test\Cuemon.Extensions.Swashbuckle.AspNetCore.Tests\Cuemon.Extensions.Swashbuckle.AspNetCore.Tests.csproj", "{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4", "src\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.csproj", "{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.Tests", "test\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.Tests\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.Tests.csproj", "{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3}"
@@ -520,14 +516,6 @@ Global
 		{8F0517E0-418A-4BD7-A63A-6C717FA20574}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F0517E0-418A-4BD7-A63A-6C717FA20574}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F0517E0-418A-4BD7-A63A-6C717FA20574}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -656,8 +644,6 @@ Global
 		{A80ADF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{7B45D887-4AF1-4846-9006-BC44B0EDB81B} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{8F0517E0-418A-4BD7-A63A-6C717FA20574} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
-		{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
-		{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
