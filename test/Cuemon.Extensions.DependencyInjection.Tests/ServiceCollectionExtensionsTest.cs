@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
-using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Xml.Serialization.Formatters;
 #endif

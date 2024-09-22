@@ -10,7 +10,7 @@ using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
-using Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
+using Codebelt.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Codebelt.Extensions.Xunit;
