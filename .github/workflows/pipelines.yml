@@ -119,7 +119,6 @@ jobs:
               "src/**/Cuemon.Extensions.Hosting.csproj"
               "src/**/Cuemon.Extensions.IO.csproj"
               "src/**/Cuemon.Extensions.Net.csproj"
-              "src/**/Cuemon.Extensions.Newtonsoft.Json.csproj"
               "src/**/Cuemon.Extensions.Reflection.csproj"
               "src/**/Cuemon.Extensions.Runtime.Caching.csproj"
               "src/**/Cuemon.Extensions.Text.csproj"
