@@ -22,14 +22,14 @@ Removed features:
 - Cuemon.Extensions.YamlDotNet was removed from the solution and migrated to [Codebelt.Extensions.YamlDotNet](https://github.com/codebeltnet/yamldotnet)
   - Cuemon.Extensions.AspNetCore, Cuemon.Extensions.AspNetCore.Mvc and Cuemon.Extensions.Diagnostics was inflicted with a breaking change as a result of this migration due to removal of YAML related code
 - Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Asp.Versioning](https://github.com/codebeltnet/asp-versioning)
-- Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Swashbuckle.AspNetCore](https://github.com/codebeltnet/swashbuckle-aspnetcore)
+- Cuemon.Extensions.Swashbuckle.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Swashbuckle.AspNetCore](https://github.com/codebeltnet/swashbuckle-aspnetcore)
+- Cuemon.Extensions.Newtonsoft.Json was removed from the solution and migrated to [Codebelt.Extensions.Newtonsoft.Json](https://github.com/codebeltnet/newtonsoft-json)
 
 ### Added
 
 - HttpClientExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of one extension method for the HttpClient class: ToHttpResponseMessageAsync
 - PreferredFaultDescriptor enum in the Cuemon.AspNetCore.Diagnostics namespace that specifies the preferred output format of an Exception raised in the context of either vanilla ASP.NET or ASP.NET MVC
 - Failure record in the Cuemon.Diagnostics namespace that represents a failure model with detailed information about an exception
-- FailureConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to convert FailureConverter to JSON
 - FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
 - FailureConverter class in the Cuemon.Xml.Serialization.Converters namespace to convert FailureConverter to XML
 - Support for System.Threading.Lock object that targets TFMs prior to .NET 9 (credits to Mark Cilia Vincenti, https://github.com/MarkCiliaVincenti/Backport.System.Threading.Lock)
@@ -81,11 +81,9 @@ Removed features:
 - FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails)
 - FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a property named FaultDescriptor (PreferredFaultDescriptor); default is PreferredFaultDescriptor.FaultDetails
 - HttpExceptionDescriptor class in the Cuemon.AspNetCore.Diagnostics namespace to include two new properties; Instance (Uri) and TraceId (string)
-- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
 - JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
 - XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
 - ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails) in the UseFaultDescriptorExceptionHandler extension method
-- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace was extended to include one new extension method: AddFailureConverter
 - JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace was extended to include one new extension method: AddFailureConverter
 - XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
 - XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml

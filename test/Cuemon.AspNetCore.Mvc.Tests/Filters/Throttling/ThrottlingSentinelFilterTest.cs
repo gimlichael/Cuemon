@@ -7,7 +7,7 @@ using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
-using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
+using Codebelt.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;

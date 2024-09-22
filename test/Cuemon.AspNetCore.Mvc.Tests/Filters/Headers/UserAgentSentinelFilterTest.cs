@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
-using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
+using Codebelt.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;

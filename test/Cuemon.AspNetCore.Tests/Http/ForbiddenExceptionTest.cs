@@ -1,5 +1,5 @@
 ﻿using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Http;
