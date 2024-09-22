@@ -76,23 +76,6 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
-            "Cuemon.Extensions.AspNetCore.Newtonsoft.Json/**.csproj",
-            "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
-          ],
-          "src": "../src"
-        }
-      ],
-      "dest": "api/extensions/jsonnet",
-      "filter": "filterConfig.yml",
-      "properties": {
-        "TargetFramework": "net8.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "files": [
             "Cuemon.AspNetCore/**.csproj",
             "Cuemon.AspNetCore.Authentication/**.csproj",
             "Cuemon.AspNetCore.Mvc/**.csproj",

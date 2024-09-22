@@ -28,6 +28,9 @@ So even though Microsoft decided to write their own [JSON framework](https://doc
 
 Complements: [Json.NET](https://github.com/JamesNK/Newtonsoft.Json) 🔗
 
+> **Note**
+> Since `Cuemon for .NET` has always been about extending official .NET APIs, this project is no longer maintained as part of the Cuemon assembly family. It has been moved to its own repository and is now called [Extensions for Newtonsoft.Json API by Codebelt](https://github.com/codebeltnet/newtonsoft-json).
+
 ## Asp.Versioning API
 
 Our preferred way of versioning Open API/Swagger for RESTful APIs is done through [Asp.Versioning](https://github.com/dotnet/aspnet-api-versioning).
