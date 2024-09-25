@@ -8,6 +8,7 @@ Availability: .NET 9, .NET 8 and .NET Standard 2.0
 # Breaking Changes
 - REMOVED ConditionExtensions class from the Cuemon.Extensions namespace and moved members to Condition class in the Cuemon.Core assembly (Cuemon namespace)
 - REMOVED ValidatorExtensions class from the Cuemon.Extensions namespace and moved members to Validator class in the Cuemon.Core assembly (Cuemon namespace)
+- REMOVED ReplaceLineEndings extension method from the StringExtensions class in the Cuemon.Extensions namespace
  
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0

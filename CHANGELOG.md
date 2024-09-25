@@ -174,6 +174,7 @@ Removed features:
 - JsonWriterExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
 - ContractResolverExtensions class from the Cuemon.Extensions.Newtonsoft.Json.Serialization namespace (breaking change)
 - ValidatorExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
+- ReplaceLineEndings extension method from the StringExtensions class in the Cuemon.Extensions namespace (breaking change)
 
 
 ## [8.3.2] - 2024-08-04
