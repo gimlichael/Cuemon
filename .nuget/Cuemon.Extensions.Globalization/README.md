@@ -7,11 +7,23 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 ## **Cuemon.Extensions.Globalization** for .NET
 
-The `Cuemon.Extensions.Globalization` namespace contains extension methods that complements the Cuemon.Globalization namespace while being an addition to the System.Globalization namespace.
+The `Cuemon.Extensions.Globalization` namespace contains extension methods that is an addition to the `System.Globalization` namespace.
+
+It aims to provide a way to favor National Language Support (NLS) over International Components for Unicode (ICU).
 
 More documentation available at our documentation site:
 
 - [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Globalization.html) 🔗
+
+### CSharp Example
+
+```csharp
+var danishCultureIcu = new CultureInfo("da-dk", false);
+var danishCultureNls = new CultureInfo("da-dk", false).UseNationalLanguageSupport();
+
+// danishCultureIcu outputs dd.MM.yyyy from danishCultureIcu.DateTimeFormat.ShortDatePattern
+// danishCultureNls outputs dd-MM-yyyy from danishCultureNls.DateTimeFormat.ShortDatePattern
+```
 
 ## Related Packages
 
