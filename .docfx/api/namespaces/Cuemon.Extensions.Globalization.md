@@ -2,11 +2,11 @@
 uid: Cuemon.Extensions.Globalization
 summary: *content
 ---
-The `Cuemon.Extensions.Globalization` namespace contains extension methods that complements the `Cuemon.Globalization` namespace while being an addition to the `System.Globalization` namespace.
+The `Cuemon.Extensions.Globalization`  namespace contains extension methods that is an addition to the `System.Globalization` namespace.
 
 [!INCLUDE [availability-default](../../includes/availability-default.md)]
 
-Complements: [Cuemon.Globalization namespace](/api/dotnet/Cuemon.Globalization.html) 📘
+Complements: [System.Globalization namespace](https://docs.microsoft.com/en-us/dotnet/api/system.globalization) 🔗
 
 ### Extension Methods
 
@@ -15,9 +15,10 @@ Complements: [Cuemon.Globalization namespace](/api/dotnet/Cuemon.Globalization.h
 |CultureInfo|⬇️|`UseNationalLanguageSupport`|
 
 ### CSharp Example
+
 ```csharp
-var danishCultureIcu = CultureInfo("da-dk");
-var danishCultureNls = new CultureInfo("da-dk").UseNationalLanguageSupport();
+var danishCultureIcu = new CultureInfo("da-dk", false);
+var danishCultureNls = new CultureInfo("da-dk", false).UseNationalLanguageSupport();
 
 // danishCultureIcu outputs dd.MM.yyyy from danishCultureIcu.DateTimeFormat.ShortDatePattern
 // danishCultureNls outputs dd-MM-yyyy from danishCultureNls.DateTimeFormat.ShortDatePattern

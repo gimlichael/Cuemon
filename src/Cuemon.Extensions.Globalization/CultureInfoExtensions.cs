@@ -59,15 +59,26 @@ namespace Cuemon.Extensions.Globalization
                 {
                     var surrogate = typeof(CultureInfoExtensions).GetEmbeddedResources($"{culture.Name}.bin", ManifestResourceMatch.ContainsName).SingleOrDefault();
                     var ms = new MemoryStream(surrogate.Value.DecompressGZip().ToByteArray());
-                    var suggogateCulture = YamlFormatter.DeserializeObject<CultureInfoSurrogate>(ms, o =>
+                    var surrogateCulture = YamlFormatter.DeserializeObject<CultureInfoSurrogate>(ms, o =>
                     {
                         o.Settings.NamingConvention = NullNamingConvention.Instance;
                         o.Settings.ReflectionRules = new MemberReflection();
                         o.Settings.IndentSequences = false;
                     });
-                    Enrich(culture, suggogateCulture);
-                    EnrichedCultureInfos.Add(culture);
-                    enrichedCultures.Add(culture);
+
+                    if (culture.IsReadOnly)
+                    {
+                        var cultureClone = culture.Clone() as CultureInfo;
+                        Enrich(cultureClone, surrogateCulture);
+                        EnrichedCultureInfos.Add(cultureClone);
+                        enrichedCultures.Add(cultureClone);
+                    }
+                    else
+                    {
+                        Enrich(culture, surrogateCulture);
+                        EnrichedCultureInfos.Add(culture);
+                        enrichedCultures.Add(culture);
+                    }
                 }
             }
             return enrichedCultures;

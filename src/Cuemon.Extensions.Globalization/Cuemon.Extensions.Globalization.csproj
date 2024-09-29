@@ -1204,9 +1204,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
   </ItemGroup>
 
 </Project>
