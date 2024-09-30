@@ -14,8 +14,8 @@
 
   <Target Name="ApplyFileVersion" AfterTargets="MinVer">
     <PropertyGroup>
-      <BUILD_BUILDNUMBER Condition="'$(BUILD_BUILDNUMBER)' == ''">00000</BUILD_BUILDNUMBER>
-      <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BUILD_BUILDNUMBER)</FileVersion>
+      <GITHUB_RUN_NUMBER Condition="'$(GITHUB_RUN_NUMBER)' == ''">0</GITHUB_RUN_NUMBER>
+      <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(GITHUB_RUN_NUMBER)</FileVersion>
     </PropertyGroup>
   </Target>
 </Project>
