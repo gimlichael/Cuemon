@@ -7,6 +7,7 @@ using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Text.Json;
 using Cuemon.Extensions.Text.Json.Converters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
@@ -18,10 +19,48 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Converters
     public static class JsonConverterCollectionExtensions
     {
         /// <summary>
-        /// Adds a <see cref="ProblemDetails"/> JSON converter to the list.
+        /// Adds an <see cref="IHeaderDictionary"/> JSON converter to the collection.
         /// </summary>
-        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
-        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        /// <param name="converters">The collection of <see cref="JsonConverter"/> to extend.</param>  
+        /// <returns>A reference to <paramref name="converters"/> so that additional calls can be chained.</returns>  
+        public static ICollection<JsonConverter> AddHeaderDictionaryConverter(this ICollection<JsonConverter> converters)
+        {
+            converters.Add(DynamicJsonConverter.Create<IHeaderDictionary>((writer, value, options) =>
+            {
+                writer.WriteStartObject();
+                foreach (var kvp in value)
+                {
+                    writer.WritePropertyName(options.SetPropertyName(kvp.Key));
+                    writer.WriteStringValue(kvp.Value);
+                }
+                writer.WriteEndObject();
+            }, (ref Utf8JsonReader reader, Type _, JsonSerializerOptions _) =>
+            {
+                var dictionary = new HeaderDictionary();
+                while (reader.Read())
+                {
+                    if (reader.TokenType == JsonTokenType.EndObject)
+                    {
+                        break;
+                    }
+                    if (reader.TokenType == JsonTokenType.PropertyName)
+                    {
+                        var key = reader.GetString()!;
+                        reader.Read();
+                        var value = reader.GetString();
+                        dictionary.Add(key, value);
+                    }
+                }
+                return dictionary;
+            }));
+            return converters;
+        }
+
+        /// <summary>
+        /// Adds a <see cref="ProblemDetails"/> JSON converter to the collection.
+        /// </summary>
+        /// <param name="converters">The collection of <see cref="JsonConverter"/> to extend.</param> 
+        /// <returns>A reference to <paramref name="converters"/> so that additional calls can be chained.</returns>
         public static ICollection<JsonConverter> AddProblemDetailsConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(DynamicJsonConverter.Create<ProblemDetails>(WriteProblemDetails));
@@ -48,11 +87,11 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Converters
         }
 
         /// <summary>
-        /// Adds an <see cref="HttpExceptionDescriptor"/> JSON converter to the list.
+        /// Adds an <see cref="HttpExceptionDescriptor"/> JSON converter to the collection.
         /// </summary>
-        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <param name="converters">The collection of <see cref="JsonConverter"/> to extend.</param> 
         /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
-        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="converters"/> so that additional calls can be chained.</returns>
         public static ICollection<JsonConverter> AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorOptions> setup = null)
         {
             converters.AddExceptionDescriptorConverterOf<HttpExceptionDescriptor>(setup, (writer, descriptor, options) =>
@@ -78,10 +117,10 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Converters
         }
 
         /// <summary>
-        /// Adds an <see cref="StringValues"/> JSON converter to the list.
+        /// Adds an <see cref="StringValues"/> JSON converter to the collection.
         /// </summary>
-        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
-        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        /// <param name="converters">The collection of <see cref="JsonConverter"/> to extend.</param> 
+        /// <returns>A reference to <paramref name="converters"/> so that additional calls can be chained.</returns>
         public static ICollection<JsonConverter> AddStringValuesConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(DynamicJsonConverter.Create<StringValues>((writer, values, _) =>
