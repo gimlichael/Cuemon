@@ -16,6 +16,41 @@ namespace Cuemon.Extensions.Text.Json.Converters
     public static class JsonConverterCollectionExtensions
     {
         /// <summary>
+        /// Removes one or more <see cref="JsonConverter"/> implementations where <see cref="JsonConverter.CanConvert"/> evaluates <c>true</c> in the collection of <paramref name="converters"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of object or value handled by the <see cref="JsonConverter"/>.</typeparam>
+        /// <param name="converters">The collection of <see cref="JsonConverter"/> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> so that additional calls can be chained.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="converters"/> cannot be null.
+        /// </exception>
+        public static ICollection<JsonConverter> RemoveAllOf<T>(this ICollection<JsonConverter> converters)
+        {
+            return RemoveAllOf(converters, typeof(T));
+        }
+
+        /// <summary>
+        /// Removes one or more <see cref="JsonConverter"/> implementations where <see cref="JsonConverter.CanConvert"/> evaluates <c>true</c> in the collection of <paramref name="converters"/>.
+        /// </summary>
+        /// <param name="converters">The collection of <see cref="JsonConverter"/> to extend.</param>
+        /// <param name="types">The type of objects or values handled by a sequence of <see cref="JsonConverter"/>.</param>
+        /// <returns>A reference to <paramref name="converters"/> so that additional calls can be chained.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="converters"/> cannot be null.
+        /// </exception>
+        public static ICollection<JsonConverter> RemoveAllOf(this ICollection<JsonConverter> converters, params Type[] types)
+        {
+            Validator.ThrowIfNull(converters);
+            Validator.ThrowIfNull(types);
+            var rejects = types.SelectMany(type => converters.Where(jc => jc.CanConvert(type))).ToList();
+            foreach (var reject in rejects)
+            {
+                converters.Remove(reject);
+            }
+            return converters;
+        }
+
+        /// <summary>
         /// Adds a <see cref="TransientFaultException"/> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
