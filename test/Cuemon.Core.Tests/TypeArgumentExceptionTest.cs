@@ -2,8 +2,8 @@
 using System.Threading;
 using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
-using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;
 using Xunit.Abstractions;
@@ -20,7 +20,7 @@ namespace Cuemon
         public void ArgumentException_ShouldBeSerializable_Json()
         {
             var sut1 = new ArgumentException("My fancy message.", "myArg");
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
@@ -58,7 +58,7 @@ namespace Cuemon
         {
             var random = Generate.RandomString(10);
             var sut1 = new TypeArgumentException(random);
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
@@ -95,7 +95,7 @@ namespace Cuemon
         public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Json()
         {
             var sut1 = new TypeArgumentException("Should have IE.", new ArgumentReservedKeywordException("Test", new AbandonedMutexException(20, null)));
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

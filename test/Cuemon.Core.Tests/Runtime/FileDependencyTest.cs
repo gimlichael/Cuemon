@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -60,7 +61,7 @@ namespace Cuemon.Runtime
 
             var signaled = ce.Wait(TimeSpan.FromSeconds(15));
 
-            TestOutput.WriteLines(sut5);
+            TestOutput.WriteLine(sut5.ToDelimitedString());
 
             sut3.DependencyChanged -= sut6;
 
@@ -103,7 +104,7 @@ namespace Cuemon.Runtime
 
             var signaled = are.WaitOne(TimeSpan.FromSeconds(15));
 
-            TestOutput.WriteLines(sut5);
+            TestOutput.WriteLine(sut5.ToDelimitedString());
 
             sut3.DependencyChanged -= sut6;
 
