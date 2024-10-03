@@ -1,7 +1,7 @@
 ﻿using System;
 using Cuemon.Extensions.IO;
-using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Http;
 using Xunit;
@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         {
             var reset = DateTime.Today.AddDays(1);
             var sut1 = new ThrottlingException("Throttling rate limit quota violation. Quota limit exceeded.", 100, TimeSpan.FromHours(1), reset);
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

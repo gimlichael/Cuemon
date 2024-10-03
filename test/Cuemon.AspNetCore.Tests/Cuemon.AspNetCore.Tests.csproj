@@ -7,14 +7,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Text.Json\Cuemon.Extensions.AspNetCore.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Text.Json\Cuemon.Extensions.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xml\Cuemon.Extensions.Xml.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.Newtonsoft.Json" Version="9.0.0-preview.1" />
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.5" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.6" />
   </ItemGroup>
 
 </Project>
