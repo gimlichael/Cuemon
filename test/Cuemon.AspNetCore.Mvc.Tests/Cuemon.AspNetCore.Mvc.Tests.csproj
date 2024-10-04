@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc\Cuemon.Extensions.AspNetCore.Mvc.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
@@ -15,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json" Version="9.0.0-preview.1" />
     <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.8" />
   </ItemGroup>
 

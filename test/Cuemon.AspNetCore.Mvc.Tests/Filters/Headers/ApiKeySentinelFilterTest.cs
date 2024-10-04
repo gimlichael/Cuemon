@@ -5,9 +5,9 @@ using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
-using Codebelt.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
@@ -33,8 +33,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                        {
                            o.Filters.AddApiKeySentinel();
                        }).AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddNewtonsoftJson()
-                           .AddNewtonsoftJsonFormatters();
+                           .AddJsonFormatters();
                    }, app =>
                    {
                        app.UseRouting();
@@ -60,8 +59,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                            {
                                o.Filters.AddApiKeySentinel();
                            }).AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddNewtonsoftJson()
-                           .AddNewtonsoftJsonFormatters()
+                           .AddJsonFormatters()
                            .AddApiKeySentinelOptions(o =>
                            {
                                o.AllowedKeys.Add("Cuemon-Key");
