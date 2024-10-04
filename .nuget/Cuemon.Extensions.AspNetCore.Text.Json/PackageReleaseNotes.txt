@@ -6,7 +6,7 @@ Availability: .NET 9 and .NET 8
 - REMOVED Support for TFM .NET 6 (LTS)
  
 # Improvements
-- EXTENDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace to include one new extension method: AddProblemDetailsConverter
+- EXTENDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace to include two new extension methods: AddProblemDetailsConverter and AddHeaderDictionaryConverter
  
 Version 8.3.2
 Availability: .NET 8 and .NET 6
