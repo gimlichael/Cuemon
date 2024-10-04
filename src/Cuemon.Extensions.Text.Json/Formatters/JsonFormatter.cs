@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml;
 using Cuemon.IO;
 using Cuemon.Runtime.Serialization.Formatters;
 
@@ -49,8 +50,10 @@ namespace Cuemon.Extensions.Text.Json.Formatters
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(objectType);
 
+#if NET8_0_OR_GREATER
             return StreamFactory.Create(writer =>
             {
+
                 using (var jsonWriter = new Utf8JsonWriter(writer, new JsonWriterOptions()
                 {
                     Indented = Options.Settings.WriteIndented,
@@ -60,6 +63,21 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                     JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
                 }
             });
+#else
+            return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
+            {
+                using (var jsonWriter = new Utf8JsonWriter(ms, new JsonWriterOptions()
+                       {
+                           Indented = Options.Settings.WriteIndented,
+                           Encoder = Options.Settings.Encoder
+                       }))
+                {
+                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
+                }
+                ms.Position = 0;
+                return ms;
+            });
+#endif
         }
 
         /// <summary>

@@ -121,6 +121,7 @@ jobs:
               "src/**/Cuemon.Extensions.Reflection.csproj"
               "src/**/Cuemon.Extensions.Runtime.Caching.csproj"
               "src/**/Cuemon.Extensions.Text.csproj"
+              "src/**/Cuemon.Extensions.Text.Json.csproj"
               "src/**/Cuemon.Extensions.Threading.csproj"
               "src/**/Cuemon.Extensions.Xml.csproj"
               "src/**/Cuemon.IO.csproj"

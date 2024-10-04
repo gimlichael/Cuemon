@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// <summary>
         /// Determines whether the type can be converted.
         /// </summary>
-        /// <param name="typeToConvert">The type is checked as to whether it can be converted.</param>
+        /// <param name="typeToConvert">The type is checked whether it can be converted.</param>
         /// <returns><c>true</c> if the type can be converted, <c>false</c> otherwise.</returns>
         public override bool CanConvert(Type typeToConvert)
         {
@@ -43,11 +43,19 @@ namespace Cuemon.Extensions.Text.Json.Converters
             var enumConverterFactory = typeof(JsonConverterFactory).Assembly.GetType("System.Text.Json.Serialization.Converters.EnumConverterFactory");
             if (enumConverterOptions != null && enumConverterFactory != null)
             {
+#if NET8_0_OR_GREATER
                 var createMethod = enumConverterFactory.GetMethod("Create", MemberReflection.Everything, new[] { typeof(Type), enumConverterOptions, typeof(JsonNamingPolicy), typeof(JsonSerializerOptions) });
                 if (createMethod != null)
                 {
                     return (JsonConverter)createMethod.Invoke(null, new object[] { typeToConvert, 1, options.PropertyNamingPolicy, options });
                 }
+#else
+                var createMethod = enumConverterFactory.GetMethod("Create", MemberReflection.Everything, null, new[] { typeof(Type), enumConverterOptions, typeof(JsonNamingPolicy), typeof(JsonSerializerOptions) }, null);
+                if (createMethod != null)
+                {
+                    return (JsonConverter)createMethod.Invoke(null, new object[] { typeToConvert, 1, options.PropertyNamingPolicy, options });
+                }
+#endif
             }
             throw new NotSupportedException("Unable to locate internal members required by this method.");
         }
