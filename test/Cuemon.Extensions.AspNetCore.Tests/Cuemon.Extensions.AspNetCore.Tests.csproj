@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Codebelt.Extensions.AspNetCore.Newtonsoft.Json" Version="9.0.0-preview.1" />
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.5" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.8" />
   </ItemGroup>
 
 </Project>
