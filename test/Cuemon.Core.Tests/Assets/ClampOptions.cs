@@ -16,7 +16,7 @@ namespace Cuemon.Assets
             get => _maxConcurrentJobs;
             set
             {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
                 _maxConcurrentJobs = Math.Clamp(value, 1, byte.MaxValue);
 #else
                 _maxConcurrentJobs = Clamp(value, 1, byte.MaxValue);

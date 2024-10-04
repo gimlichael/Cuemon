@@ -17,18 +17,6 @@ namespace Cuemon.AspNetCore.Authentication.Basic
     /// <seealso cref="AuthenticationHandler{TOptions}" />
     public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticationOptions>
     {
-#if NET6_0
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BasicAuthenticationHandler"/> class.
-        /// </summary>
-        /// <param name="options">The monitor for the options instance.</param>
-        /// <param name="logger">The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory" />.</param>
-        /// <param name="encoder">The <see cref="T:System.Text.Encodings.Web.UrlEncoder" />.</param>
-        /// <param name="clock">The <see cref="T:Microsoft.AspNetCore.Authentication.ISystemClock" />.</param>
-        public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
-        {
-        }
-#else
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicAuthenticationHandler"/> class.
         /// </summary>
@@ -38,7 +26,6 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
         {
         }
-#endif
 
         /// <summary>
         /// Handle authenticate as an asynchronous operation.

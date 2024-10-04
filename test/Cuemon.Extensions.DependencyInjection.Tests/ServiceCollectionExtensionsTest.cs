@@ -386,7 +386,7 @@ namespace Cuemon.Extensions.DependencyInjection
             Assert.Null(sut9);
         }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
 
         [Fact]
         public void TryConfigure_ShouldAddConfigureOptions()
