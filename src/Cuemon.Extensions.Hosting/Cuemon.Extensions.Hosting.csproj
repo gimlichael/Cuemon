@@ -17,10 +17,6 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-  </ItemGroup>
-
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
   </ItemGroup>
