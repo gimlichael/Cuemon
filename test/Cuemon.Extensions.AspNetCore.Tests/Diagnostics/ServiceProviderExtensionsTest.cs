@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Codebelt.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Codebelt.Extensions.Xunit;
@@ -24,7 +23,6 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             services.AddOptions();
             services.AddXmlExceptionResponseFormatter();
             services.AddJsonExceptionResponseFormatter();
-            services.AddNewtonsoftJsonExceptionResponseFormatter();
 
             var serviceProvider = services.BuildServiceProvider();
 
@@ -34,7 +32,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
 
             TestOutput.WriteLine(formattersAndResponseHandlers.ToDelimitedString(o => o.Delimiter = Environment.NewLine));
 
-            Assert.Equal(9, formattersAndResponseHandlers.Count);
+            Assert.Equal(6, formattersAndResponseHandlers.Count);
             Assert.Equal("""
                          XmlFormatterOptions -> application/xml
                          XmlFormatterOptions -> text/xml
@@ -42,9 +40,6 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                          JsonFormatterOptions -> application/json
                          JsonFormatterOptions -> text/json
                          JsonFormatterOptions -> application/problem+json
-                         NewtonsoftJsonFormatterOptions -> application/json
-                         NewtonsoftJsonFormatterOptions -> text/json
-                         NewtonsoftJsonFormatterOptions -> application/problem+json
                          """.ReplaceLineEndings(), formattersAndResponseHandlers.ToDelimitedString(o => o.Delimiter = Environment.NewLine));
         }
     }
