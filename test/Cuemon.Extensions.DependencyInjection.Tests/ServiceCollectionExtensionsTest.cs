@@ -3,7 +3,6 @@ using System.Linq;
 #if NET8_0_OR_GREATER
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
-using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Xml.Serialization.Formatters;
 #endif
@@ -462,11 +461,6 @@ namespace Cuemon.Extensions.DependencyInjection
                     o.Settings.DefaultBufferSize = 4096;
                     o.SensitivityDetails = FaultSensitivityDetails.Failure;
                 })
-                .Configure<NewtonsoftJsonFormatterOptions>(o =>
-                {
-                    o.Settings.MaxDepth = 16;
-                    o.SensitivityDetails = FaultSensitivityDetails.All;
-                })
                 .Configure<XmlFormatterOptions>(o =>
                 {
                     o.Settings.Writer.Async = true;
@@ -489,7 +483,6 @@ namespace Cuemon.Extensions.DependencyInjection
             var serviceProvider = services.BuildServiceProvider();
 
             var jsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value;
-            var newtonsoftJsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>().Value;
             var xmlFormatterOptions = serviceProvider.GetRequiredService<IOptions<XmlFormatterOptions>>().Value;
             var faultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
             var mvcFaultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<MvcFaultDescriptorOptions>>().Value;
@@ -497,9 +490,6 @@ namespace Cuemon.Extensions.DependencyInjection
 
             Assert.Equal(FaultSensitivityDetails.Failure, jsonFormatterOptions.SensitivityDetails);
             Assert.Equal(4096, jsonFormatterOptions.Settings.DefaultBufferSize);
-
-            Assert.Equal(FaultSensitivityDetails.All, newtonsoftJsonFormatterOptions.SensitivityDetails);
-            Assert.Equal(16, newtonsoftJsonFormatterOptions.Settings.MaxDepth);
 
             Assert.Equal(FaultSensitivityDetails.Evidence, xmlFormatterOptions.SensitivityDetails);
             Assert.True(xmlFormatterOptions.Settings.Writer.Async);
@@ -524,11 +514,6 @@ namespace Cuemon.Extensions.DependencyInjection
                 {
                     o.Settings.DefaultBufferSize = 4096;
                     o.SensitivityDetails = FaultSensitivityDetails.Failure;
-                })
-                .Configure<NewtonsoftJsonFormatterOptions>(o =>
-                {
-                    o.Settings.MaxDepth = 16;
-                    o.SensitivityDetails = FaultSensitivityDetails.All;
                 })
                 .Configure<XmlFormatterOptions>(o =>
                 {
@@ -556,7 +541,6 @@ namespace Cuemon.Extensions.DependencyInjection
             var serviceProvider = services.BuildServiceProvider();
 
             var jsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value;
-            var newtonsoftJsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>().Value;
             var xmlFormatterOptions = serviceProvider.GetRequiredService<IOptions<XmlFormatterOptions>>().Value;
             var faultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
             var mvcFaultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<MvcFaultDescriptorOptions>>().Value;
@@ -564,9 +548,6 @@ namespace Cuemon.Extensions.DependencyInjection
 
             Assert.Equal(FaultSensitivityDetails.None, jsonFormatterOptions.SensitivityDetails);
             Assert.Equal(4096, jsonFormatterOptions.Settings.DefaultBufferSize);
-
-            Assert.Equal(FaultSensitivityDetails.None, newtonsoftJsonFormatterOptions.SensitivityDetails);
-            Assert.Equal(16, newtonsoftJsonFormatterOptions.Settings.MaxDepth);
 
             Assert.Equal(FaultSensitivityDetails.None, xmlFormatterOptions.SensitivityDetails);
             Assert.True(xmlFormatterOptions.Settings.Writer.Async);
@@ -579,7 +560,7 @@ namespace Cuemon.Extensions.DependencyInjection
 
             Assert.Equal(FaultSensitivityDetails.None, exceptionDescriptorOptions.SensitivityDetails);
 
-            Assert.Equal(6, invocationCount);
+            Assert.Equal(5, invocationCount);
         }
 
         [Fact]
@@ -591,11 +572,6 @@ namespace Cuemon.Extensions.DependencyInjection
                 {
                     o.Settings.DefaultBufferSize = 4096;
                     o.SensitivityDetails = FaultSensitivityDetails.Failure;
-                })
-                .Configure<NewtonsoftJsonFormatterOptions>(o =>
-                {
-                    o.Settings.MaxDepth = 16;
-                    o.SensitivityDetails = FaultSensitivityDetails.All;
                 })
                 .Configure<XmlFormatterOptions>(o =>
                 {
@@ -624,7 +600,6 @@ namespace Cuemon.Extensions.DependencyInjection
             var serviceProvider = services.BuildServiceProvider();
 
             var jsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value;
-            var newtonsoftJsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>().Value;
             var xmlFormatterOptions = serviceProvider.GetRequiredService<IOptions<XmlFormatterOptions>>().Value;
             var faultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
             var mvcFaultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<MvcFaultDescriptorOptions>>().Value;
@@ -632,9 +607,6 @@ namespace Cuemon.Extensions.DependencyInjection
 
             Assert.Equal(FaultSensitivityDetails.Failure, jsonFormatterOptions.SensitivityDetails);
             Assert.Equal(4096, jsonFormatterOptions.Settings.DefaultBufferSize);
-
-            Assert.Equal(FaultSensitivityDetails.All, newtonsoftJsonFormatterOptions.SensitivityDetails);
-            Assert.Equal(16, newtonsoftJsonFormatterOptions.Settings.MaxDepth);
 
             Assert.Equal(FaultSensitivityDetails.Evidence, xmlFormatterOptions.SensitivityDetails);
             Assert.True(xmlFormatterOptions.Settings.Writer.Async);
