@@ -1,9 +1,41 @@
 ﻿Version 9.0.0
-Availability: .NET 9 and .NET 8
+Availability: .NET 9, .NET 8 and .NET Standard 2.0
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
 - REMOVED Support for TFM .NET 6 (LTS)
+- ADDED Support for TFM .NET Standard 2.0
+ 
+# References
+- Cuemon.Core
+- Cuemon.Data.Integrity
+- Cuemon.Data.SqlClient
+- Cuemon.Data
+- Cuemon.Diagnostics
+- Cuemon.Extensions.Collections.Generic
+- Cuemon.Extensions.Collections.Specialized
+- Cuemon.Extensions.Core
+- Cuemon.Extensions.Data.Integrity
+- Cuemon.Extensions.Data
+- Cuemon.Extensions.DependencyInjection
+- Cuemon.Extensions.Diagnostics
+- Cuemon.Extensions.Globalization
+- Cuemon.Extensions.Hosting
+- Cuemon.Extensions.IO
+- Cuemon.Extensions.Net
+- Cuemon.Extensions.Reflection
+- Cuemon.Extensions.Runtime.Caching
+- Cuemon.Extensions.Text
+- Cuemon.Extensions.Text.Json
+- Cuemon.Extensions.Threading
+- Cuemon.Extensions.Xml
+- Cuemon.IO
+- Cuemon.Net
+- Cuemon.Resilience
+- Cuemon.Runtime.Caching
+- Cuemon.Security.Cryptography
+- Cuemon.Threading
+- Cuemon.Xml
  
 Version 8.3.2
 Availability: .NET 8 and .NET 6

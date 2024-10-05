@@ -41,7 +41,6 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Globalization](https://www.nuget.org/packages/Cuemon.Extensions.Globalization/) 📦
 * [Cuemon.Extensions.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore/) 📦
 * [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/) 📦
-* [Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/) 📦

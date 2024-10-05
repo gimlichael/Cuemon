@@ -12,4 +12,4 @@ Complements: [Cuemon.Extensions.Xml.Serialization.Converters namespace](/api/ext
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|XmlConverter|⬇️|`AddHttpExceptionDescriptorConverter`, `AddStringValuesConverter`, `AddHeaderDictionaryConverter`, `AddQueryCollectionConverter`, `AddFormCollectionConverter`, `AddCookieCollectionConverter`|
+|XmlConverter|⬇️|`AddHttpExceptionDescriptorConverter`, `AddStringValuesConverter`, `AddHeaderDictionaryConverter`, `AddQueryCollectionConverter`, `AddFormCollectionConverter`, `AddCookieCollectionConverter` and `AddProblemDetailsConverter`|

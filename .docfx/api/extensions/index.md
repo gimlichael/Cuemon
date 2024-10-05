@@ -71,3 +71,6 @@ Providing an additional HTTP HMAC Authentication header that provides a fluent w
 [!INCLUDE [availability-modern](../../includes/availability-modern.md)]
 
 Complements: [Authenticating Requests (AWS Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) 🔗
+
+> **Note**
+> Since `Cuemon for .NET` has always been about extending official .NET APIs, this project is no longer maintained as part of the Cuemon assembly family. It has been moved to its own repository and is now called [Extensions for AWS Signature Version 4 API by Codebelt](https://github.com/codebeltnet/aws-signature-v4).

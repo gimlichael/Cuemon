@@ -14,5 +14,5 @@ Complements: [System.Text.Json namespace](https://learn.microsoft.com/en-us/dotn
 |--:|:-:|---|
 |JsonNamingPolicy|⬇️|`DefaultOrConvertName`|
 |Utf8JsonReader|⬇️|`ToHierarchy`|
-|JsonSerializerOptions|⬇️|`SetPropertyName`|
+|JsonSerializerOptions|⬇️|`SetPropertyName` and `Clone`|
 |Utf8JsonWriter|⬇️|`WriteObject`|

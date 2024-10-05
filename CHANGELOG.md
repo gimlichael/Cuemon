@@ -8,37 +8,34 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 ## [9.0.0] - TBD (sometime in November 2024)
 
+> [!IMPORTANT]  
+> The following projects has been removed with this release and migrated to [Codebelt](https://github.com/codebeltnet):
+> 
+> - Cuemon.Extensions.Xunit, Cuemon.Extensions.Xunit.Hosting and Cuemon.Extensions.Xunit.Hosting.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Xunit](https://github.com/codebeltnet/xunit)
+> - Cuemon.Extensions.YamlDotNet was removed from the solution and migrated to [Codebelt.Extensions.YamlDotNet](https://github.com/codebeltnet/yamldotnet)
+> - Cuemon.Extensions.AspNetCore, Cuemon.Extensions.AspNetCore.Mvc and Cuemon.Extensions.Diagnostics was inflicted with a breaking change as a result of this migration due to removal of YAML related code
+> - Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Asp.Versioning](https://github.com/codebeltnet/asp-versioning)
+> - Cuemon.Extensions.Swashbuckle.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Swashbuckle.AspNetCore](https://github.com/codebeltnet/swashbuckle-aspnetcore)
+> - Cuemon.Extensions.Newtonsoft.Json was removed from the solution and migrated to [Codebelt.Extensions.Newtonsoft.Json](https://github.com/codebeltnet/newtonsoft-json)
+> - Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 was removed from the solution and migrated to [Codebelt.Extensions.AwsSignature4](https://github.com/codebeltnet/aws-signature-v4)
+
 This major release is first and foremost focused on ironing out any wrinkles that have been introduced with .NET 9 preview releases so the final release is production ready together with the official launch from Microsoft.
 
 Next focus point will be ensuring a consistent developer experience while ironing out some of the more stale legacy code in the project.
 
 Expect breaking changes with this major release.
 
-New features:
+Highlighted features included in this release:
 
-- Support for both FaultDetails (HttpExceptionDescriptor) and ProblemDetails in the context of ASP.NET (both vanilla and MVC)
-
-Removed features:
-
-- Cuemon.Extensions.Xunit, Cuemon.Extensions.Xunit.Hosting and Cuemon.Extensions.Xunit.Hosting.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Xunit](https://github.com/codebeltnet/xunit)
-- Cuemon.Extensions.YamlDotNet was removed from the solution and migrated to [Codebelt.Extensions.YamlDotNet](https://github.com/codebeltnet/yamldotnet)
-  - Cuemon.Extensions.AspNetCore, Cuemon.Extensions.AspNetCore.Mvc and Cuemon.Extensions.Diagnostics was inflicted with a breaking change as a result of this migration due to removal of YAML related code
-- Cuemon.Extensions.Asp.Versioning was removed from the solution and migrated to [Codebelt.Extensions.Asp.Versioning](https://github.com/codebeltnet/asp-versioning)
-- Cuemon.Extensions.Swashbuckle.AspNetCore was removed from the solution and migrated to [Codebelt.Extensions.Swashbuckle.AspNetCore](https://github.com/codebeltnet/swashbuckle-aspnetcore)
-- Cuemon.Extensions.Newtonsoft.Json was removed from the solution and migrated to [Codebelt.Extensions.Newtonsoft.Json](https://github.com/codebeltnet/newtonsoft-json)
+- Support for both **FaultDetails** (HttpExceptionDescriptor) and **ProblemDetails** in the context of ASP.NET (both vanilla and MVC)
 
 ### Added
 
-- HttpClientExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of one extension method for the HttpClient class: ToHttpResponseMessageAsync
 - PreferredFaultDescriptor enum in the Cuemon.AspNetCore.Diagnostics namespace that specifies the preferred output format of an Exception raised in the context of either vanilla ASP.NET or ASP.NET MVC
 - Failure record in the Cuemon.Diagnostics namespace that represents a failure model with detailed information about an exception
 - FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
 - FailureConverter class in the Cuemon.Xml.Serialization.Converters namespace to convert FailureConverter to XML
 - Support for System.Threading.Lock object that targets TFMs prior to .NET 9 (credits to Mark Cilia Vincenti, https://github.com/MarkCiliaVincenti/Backport.System.Threading.Lock)
-- ITestOutputHelperAccessor interface in the Cuemon.Extensions.Xunit namespace that provides access to the ITestOutputHelper instance
-- TestOutputHelperAccessor class in the Cuemon.Extensions.Xunit namespace that provides a default implementation of the ITestOutputHelper interface
-- ServiceProviderExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of one extension method for the IServiceProvider interface: GetRequiredScopedService
-- ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace was extended with three new extension methods for the IServiceCollection interface: AddXunitTestOutputHelperAccessor, AddXunitTestOutputHelperAccessor{T} and an overload of AddXunitTestOutputHelperAccessor
 - JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace to include two new extension methods: AddProblemDetailsConverter and AddHeaderDictionaryConverter
 - XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
 - XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
@@ -47,8 +44,6 @@ Removed features:
 
 ### Changed
 
-- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace to now supports excluding non-essential properties from serialization
-- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace now provides full control of YAML deserialization using an action delegate factory (IDeserializer, Parser)
 - ReservedKeywordException class in the Cuemon namespace was renamed to ArgumentReservedKeywordException (breaking change)
 - Condition class in the Cuemon namespace was extended with an additional method: HasDifference
 - Validator class in the Cuemon namespace was extended with five new methods: ThrowIfContainsReservedKeyword, ThrowIfNotDifferent, ThrowIfDifferent, ThrowIfContainsAny and ThrowIfNotContainsAny
@@ -81,9 +76,6 @@ Removed features:
   - ThrowIfNotEnumType (breaking change)
   - ThrowIfNotBinaryDigits (breaking change)
   - ThrowIfNotBase64String (breaking change)
-- AspNetCoreHostFixture class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to use same [hostbuilder validation](https://learn.microsoft.com/en-us/dotnet/core/compatibility/aspnet-core/9.0/hostbuilder-validation) as introduced with .NET preview 7
-- Run method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore was renamed to RunAsync (breaking change)
-- RunWithHostBuilderContext method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore was renamed to RunWithHostBuilderContextAsync (breaking change)
 - ExceptionDescriptorResult class in the Cuemon.AspNetCore.Mvc namespace to have an extra overload that accepts ProblemDetails
 - FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails)
 - FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a property named FaultDescriptor (PreferredFaultDescriptor); default is PreferredFaultDescriptor.FaultDetails
@@ -122,10 +114,6 @@ Removed features:
 - ConditionExtensions class from the Cuemon.Extensions namespace and moved members to Condition class in the Cuemon.Core assembly (Cuemon namespace)
 - ValidatorExtensions class from the Cuemon.Extensions namespace and moved members to Validator class in the Cuemon.Core assembly (Cuemon namespace)
 - TFM net6.0 for all projects due to [EOL](https://endoflife.date/dotnet) on November 12th, 2024 (presumable same date as .NET 9 release)
-- Cuemon.Extensions.Xunit project (breaking change)
-- Cuemon.Extensions.Xunit.Hosting (breaking change)
-- Cuemon.Extensions.Xunit.Hosting.AspNetCore (breaking change)
-- Cuemon.Extensions.YamlDotNet (breaking change)
 - YamlConverterExtensions class from the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace (breaking change)
 - ServiceCollectionExtensions class from the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace (breaking change)
 - MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace (breaking change)
@@ -136,49 +124,7 @@ Removed features:
 - MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
 - MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
 - ExceptionDescriptorExtensions class from the Cuemon.Extensions.Diagnostics namespace (breaking change)
-- ApplicationBuilderExtensions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
-- RestfulApiVersioningOptions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
-- RestfulApiVersionReader class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
-- RestfulProblemDetailsFactory class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
-- ServiceCollectionExtensions class from the Cuemon.Extensions.Asp.Versioning namespace (breaking change)
-- ConfigureSwaggerGenOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- ConfigureSwaggerUIOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- DocumentFilter class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- OpenApiInfoOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- OperationFilter class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- RestfulSwaggerOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- ServiceCollectionExtensions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- SwaggerGenOptionsExtensions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- UserAgentDocumentFilter class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- UserAgentDocumentOptions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- XPathDocumentExtensions class from the Cuemon.Extensions.Swashbuckle.AspNetCore namespace (breaking change)
-- JsonSerializationInputFormatter class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace (breaking change)
-- JsonSerializationMvcOptionsSetup class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace (breaking change)
-- JsonSerializationOutputFormatter class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace (breaking change)
-- JsonSerializerSettingsExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace (breaking change)
-- MvcBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace (breaking change)
-- MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace (breaking change)
-- JsonConverterCollectionExtensions class from the Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Converters namespace (breaking change)
-- ServiceCollectionExtensions class from the Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Formatters namespace (breaking change)
-- ExceptionConverter class from the Cuemon.Extensions.Newtonsoft.Json.Converters namespace (breaking change)
-- FailureConverter class from the Cuemon.Extensions.Newtonsoft.Json.Converters namespace (breaking change)
-- JsonConverterCollectionExtensions class from the Cuemon.Extensions.Newtonsoft.Json.Converters namespace (breaking change)
-- StringFlagsEnumConverter class from the Cuemon.Extensions.Newtonsoft.Json.Converters namespace (breaking change)
-- TransientFaultExceptionConverter class from the Cuemon.Extensions.Newtonsoft.Json.Converters namespace (breaking change)
-- DynamicContractResolver class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- DynamicJsonConverter class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- NewtonsoftJsonFormatter class from the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace (breaking change)
-- NewtonsoftJsonFormatterOptions class from the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace (breaking change)
-- JData class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- JDataResult class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- JDataResultExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- JsonReaderExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- JsonSerializerSettingsExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- JsonWriterExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
-- ContractResolverExtensions class from the Cuemon.Extensions.Newtonsoft.Json.Serialization namespace (breaking change)
-- ValidatorExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace (breaking change)
 - ReplaceLineEndings extension method from the StringExtensions class in the Cuemon.Extensions namespace (breaking change)
-
 
 ## [8.3.2] - 2024-08-04
 
