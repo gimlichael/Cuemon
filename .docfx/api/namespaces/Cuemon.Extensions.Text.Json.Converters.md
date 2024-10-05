@@ -12,4 +12,4 @@ Complements: [System.Text.Json namespace](https://learn.microsoft.com/en-us/dotn
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|JsonConverter|⬇️|`AddTransientFaultExceptionConverter`, `AddDateTimeConverter`, `AddStringEnumConverter`, `AddStringFlagsEnumConverter`, `AddExceptionDescriptorConverterOf{T}`, `AddExceptionConverter`, `AddDataPairConverter`|
+|JsonConverter|⬇️|`AddTransientFaultExceptionConverter`, `AddDateTimeConverter`, `AddStringEnumConverter`, `AddStringFlagsEnumConverter`, `AddExceptionDescriptorConverterOf{T}`, `AddExceptionConverter`, `AddDataPairConverter`, `AddFailureConverter`, `RemoveAllOf` and `RemoveAllOf{T}`|

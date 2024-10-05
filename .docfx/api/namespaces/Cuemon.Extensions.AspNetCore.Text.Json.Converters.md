@@ -12,4 +12,4 @@ Complements: [Cuemon.Extensions.Text.Json.Converters namespace](/api/extensions/
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|JsonConverter|⬇️|`AddHttpExceptionDescriptorConverter`, `AddStringValuesConverter`|
+|JsonConverter|⬇️|`AddHttpExceptionDescriptorConverter`, `AddStringValuesConverter`, `AddProblemDetailsConverter` and `AddHeaderDictionaryConverter`|

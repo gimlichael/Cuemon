@@ -12,4 +12,4 @@ Complements: [Cuemon.Xml.Serialization.Converters namespace](/api/dotnet/Cuemon.
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|IList{XmlConverter}|⬇️|`FirstOrDefaultReaderConverter`, `FirstOrDefaultWriterConverter`, `AddXmlConverter`, `InsertXmlConverter`, `AddEnumerableConverter`, `AddExceptionDescriptorConverter`, `AddUriConverter`, `AddDateTimeConverter`, `AddTimeSpanConverter`, `AddStringConverter`, `AddExceptionConverter`|
+|IList{XmlConverter}|⬇️|`FirstOrDefaultReaderConverter`, `FirstOrDefaultWriterConverter`, `AddXmlConverter`, `InsertXmlConverter`, `AddEnumerableConverter`, `AddExceptionDescriptorConverter`, `AddUriConverter`, `AddDateTimeConverter`, `AddTimeSpanConverter`, `AddStringConverter`, `AddExceptionConverter` and `AddFailureConverter`|
