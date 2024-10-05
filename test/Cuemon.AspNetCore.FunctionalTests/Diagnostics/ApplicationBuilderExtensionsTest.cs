@@ -619,7 +619,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                               				<Source>Cuemon.AspNetCore.FunctionalTests</Source>
                               				<Message>Main exception - look out for inner!</Message>
                               				<Stack>
-                              					<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.&lt;&gt;c.&lt;&lt;UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsExceptionDescriptor_UsingXml_WithSensitivityAll&gt;b__5_7&gt;*</Frame>
+                              					<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest*</Frame>
                               					<Frame>--- End of stack trace from previous location ---</Frame>
                               					<Frame>at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware*</Frame>
                               				</Stack>
@@ -709,7 +709,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                               		<Source>Cuemon.AspNetCore.FunctionalTests</Source>
                               		<Message>Main exception - look out for inner!</Message>
                               		<Stack>
-                              			<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.&lt;&gt;c.&lt;&lt;UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingXml_WithSensitivityAll&gt;*</Frame>
+                              			<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest*</Frame>
                               			<Frame>--- End of stack trace from previous location ---</Frame>
                               			<Frame>at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware*</Frame>
                               		</Stack>
@@ -719,7 +719,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                               			<Source>Cuemon.AspNetCore.FunctionalTests</Source>
                               			<Message>This is an inner exception message ... (Parameter 'app')</Message>
                               			<Stack>
-                              				<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.&lt;&gt;c.&lt;&lt;UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingXml_WithSensitivityAll&gt;b__6_7&gt;*</Frame>
+                              				<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest*</Frame>
                               			</Stack>
                               			<Data>
                               				<st>data value</st>
