@@ -224,7 +224,8 @@ jobs:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
           restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          level: diagnostic
+          level: detailed
+          testArguments: -- RunConfiguration.DisableAppDomain=true
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
