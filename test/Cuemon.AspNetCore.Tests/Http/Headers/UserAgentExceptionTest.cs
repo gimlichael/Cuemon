@@ -1,6 +1,6 @@
 ﻿using Cuemon.Extensions.IO;
-using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Http;
 using Xunit;
@@ -18,7 +18,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         public void UserAgentException_ShouldBeSerializable_Json()
         {
             var sut1 = new UserAgentException(400, "Bad Request.");
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

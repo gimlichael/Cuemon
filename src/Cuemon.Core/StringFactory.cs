@@ -24,7 +24,7 @@ namespace Cuemon
         public static string CreateHexadecimal(byte[] value)
         {
             Validator.ThrowIfNull(value);
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
             return Convert.ToHexString(value).Replace("-", "").ToLowerInvariant();
 #else
             return BitConverter.ToString(value).Replace("-", "").ToLowerInvariant();

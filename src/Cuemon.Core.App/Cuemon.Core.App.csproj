@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
     <ProjectGuid>230bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
@@ -40,7 +39,6 @@
     <ProjectReference Include="..\Cuemon.Runtime.Caching\Cuemon.Runtime.Caching.csproj" />
     <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
     <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />
-    <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
     <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
   </ItemGroup>
 

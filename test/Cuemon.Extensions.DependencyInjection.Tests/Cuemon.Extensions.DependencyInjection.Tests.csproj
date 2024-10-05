@@ -16,8 +16,4 @@
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net8')) or $(TargetFramework.StartsWith('net9'))">
-    <PackageReference Include="Codebelt.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json" Version="9.0.0-preview.1" />
-  </ItemGroup>
-
 </Project>

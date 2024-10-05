@@ -1,7 +1,6 @@
-﻿using Cuemon.Extensions;
-using Cuemon.Extensions.IO;
-using Codebelt.Extensions.Newtonsoft.Json.Formatters;
+﻿using Cuemon.Extensions.IO;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -18,7 +17,7 @@ namespace Cuemon.Data
         {
             var random = Generate.RandomString(10);
             var sut1 = new UniqueIndexViolationException(random);
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

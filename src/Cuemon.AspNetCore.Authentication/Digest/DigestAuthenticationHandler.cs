@@ -20,20 +20,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
     {
         private readonly INonceTracker _nonceTracker;
 
-#if NET6_0
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DigestAuthenticationHandler"/> class.
-        /// </summary>
-        /// <param name="options">The monitor for the options instance.</param>
-        /// <param name="logger">The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory" />.</param>
-        /// <param name="encoder">The <see cref="T:System.Text.Encodings.Web.UrlEncoder" />.</param>
-        /// <param name="clock">The <see cref="T:Microsoft.AspNetCore.Authentication.ISystemClock" />.</param>
-        /// <param name="nonceTracker">The dependency injected implementation of an <see cref="INonceTracker"/>.</param>
-        public DigestAuthenticationHandler(IOptionsMonitor<DigestAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, INonceTracker nonceTracker = null) : base(options, logger, encoder, clock)
-        {
-            _nonceTracker = nonceTracker;
-        }
-#else
         /// <summary>
         /// Initializes a new instance of the <see cref="DigestAuthenticationHandler"/> class.
         /// </summary>
@@ -45,7 +31,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         {
             _nonceTracker = nonceTracker;
         }
-#endif
 
         /// <summary>
         /// Handle authenticate as an asynchronous operation.

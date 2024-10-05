@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
-using Codebelt.Extensions.Newtonsoft.Json.Formatters;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
@@ -22,7 +21,7 @@ namespace Cuemon.Resilience
         public void TransientFaultException_ShouldBeSerializable_Json(string random)
         {
             var sut1 = new TransientFaultException(random, new TransientFaultEvidence(10, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(2), MethodDescriptor.Create(MethodBase.GetCurrentMethod()).AppendRuntimeArguments(random)));
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
@@ -63,7 +62,7 @@ namespace Cuemon.Resilience
         public void TransientFaultException_WithInnerException_ShouldBeSerializable_Json()
         {
             var sut1 = new TransientFaultException("The transient operation has failed.", new ArithmeticException(), new TransientFaultEvidence(10, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(2), MethodDescriptor.Create(MethodBase.GetCurrentMethod())));
-            var sut2 = new NewtonsoftJsonFormatter();
+            var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

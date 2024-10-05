@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Cuemon.Assets;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -38,7 +39,7 @@ namespace Cuemon.Reflection
             var disposableTypesCount = Decorator.Enclose(disposableTypes).Inner.Count();
             var configurationTypesCount = Decorator.Enclose(configurationTypes).Inner.Count();
 
-            TestOutput.WriteLines(disposableTypes);
+            TestOutput.WriteLine(disposableTypes.ToDelimitedString());
 
             Assert.InRange(allTypesCount, 475, 575); // range because of tooling on CI adding dynamic types and high range of refactoring
             Assert.Equal(5, disposableTypesCount);

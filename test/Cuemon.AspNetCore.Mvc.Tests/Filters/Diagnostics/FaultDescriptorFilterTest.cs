@@ -6,9 +6,9 @@ using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
-using Codebelt.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
@@ -34,8 +34,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 services
                     .AddControllers(o => { o.Filters.AddFaultDescriptor(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters()
+                    .AddJsonFormatters()
                     .AddFaultDescriptorOptions(o => o.UseBaseException = useBaseException);
                 services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = FaultSensitivityDetails.Failure);
             }, (context, app) =>
@@ -104,8 +103,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                o.Filters.AddUserAgentSentinel();
                            })
                            .AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddNewtonsoftJson()
-                           .AddNewtonsoftJsonFormatters()
+                           .AddJsonFormatters()
                            .AddUserAgentSentinelOptions(o => o.RequireUserAgentHeader = true);
                    }, (context, app) =>
                    {
@@ -143,8 +141,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                o.Filters.AddFaultDescriptor();
                                o.Filters.AddThrottlingSentinel();
                            }).AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddNewtonsoftJson()
-                           .AddNewtonsoftJsonFormatters()
+                           .AddJsonFormatters()
                            .AddThrottlingSentinelOptions(o =>
                            {
                                o.ContextResolver = _ => "dummy";
@@ -183,8 +180,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -217,8 +213,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -251,8 +246,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -285,8 +279,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -319,8 +312,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -353,8 +345,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -387,8 +378,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -421,8 +411,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -455,8 +444,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -489,8 +477,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -523,8 +510,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -557,8 +543,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -591,8 +576,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();
@@ -622,8 +606,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebHostTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.AddFaultDescriptor(); }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddJsonFormatters();
             }, (context, app) =>
                    {
                        app.UseRouting();

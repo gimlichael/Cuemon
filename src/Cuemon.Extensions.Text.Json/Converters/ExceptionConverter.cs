@@ -58,11 +58,11 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// <returns>The value that was converted.</returns>
         public override Exception Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var stack = ParseJsonReader(ref reader, typeToConvert);
+            var stack = ParseJsonReader(ref reader, typeToConvert, options);
             return Decorator.Enclose(stack).CreateException();
         }
 
-        private static Stack<IList<MemberArgument>> ParseJsonReader(ref Utf8JsonReader reader, Type typeToConvert)
+        private static Stack<IList<MemberArgument>> ParseJsonReader(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var stack = new Stack<IList<MemberArgument>>();
             var properties = new List<PropertyInfo>();
@@ -93,7 +93,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
                             }
                             else
                             {
-                                var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType);
+                                var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
                                 if (propertyValue is JsonElement element)
                                 {
                                     propertyValue = element.GetRawText();

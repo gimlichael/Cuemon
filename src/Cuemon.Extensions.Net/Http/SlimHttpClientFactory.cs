@@ -7,7 +7,7 @@ using Cuemon.Threading;
 
 namespace Cuemon.Extensions.Net.Http
 {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// Provides a simple and lightweight implementation of the <see cref="IHttpClientFactory"/> interface.
     /// </summary>
@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Net.Http
     /// <remarks>Inspiration taken from https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpClientFactory.cs</remarks>
 #endif
     public class SlimHttpClientFactory : IHttpClientFactory
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         , IHttpMessageHandlerFactory
 #endif
     {

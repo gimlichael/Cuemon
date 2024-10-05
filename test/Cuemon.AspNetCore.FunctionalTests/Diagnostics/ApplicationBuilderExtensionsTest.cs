@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
-using Codebelt.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Json.Formatters;
 using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Cuemon.Extensions.DependencyInjection;
@@ -564,193 +563,6 @@ namespace Cuemon.AspNetCore.Diagnostics
         }
 
         [Fact]
-        public async Task UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsExceptionDescriptor_UsingNewtonsoftJson_WithSensitivityAll()
-        {
-            using var response = await WebHostTestFactory.RunAsync(
-                services =>
-                {
-                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
-                    services.AddNewtonsoftJsonExceptionResponseFormatter();
-                    services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All);
-                },
-                app =>
-                {
-                    app.UseFaultDescriptorExceptionHandler();
-                    app.Use(async (context, next) =>
-                    {
-                        try
-                        {
-                            throw new ArgumentException("This is an inner exception message ...", nameof(app))
-                            {
-                                Data =
-                                {
-                                    { "1st", "data value" }
-                                },
-                                HelpLink = "https://www.savvyio.net/"
-                            };
-                        }
-                        catch (Exception e)
-                        {
-                            throw new NotFoundException("Main exception - look out for inner!", e);
-                        }
-
-                        await next(context);
-                    });
-                },
-                responseFactory: client =>
-                {
-                    client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-                    return client.GetAsync("/");
-                });
-
-            var body = await response.Content.ReadAsStringAsync();
-
-            TestOutput.WriteLine(body);
-
-            Assert.True(Match("""
-                              {
-                                "error": {
-                                  "instance": "http://localhost/",
-                                  "status": 404,
-                                  "code": "NotFound",
-                                  "message": "Main exception - look out for inner!",
-                                  "failure": {
-                                    "type": "Cuemon.AspNetCore.Http.NotFoundException",
-                                    "source": "Cuemon.AspNetCore.FunctionalTests",
-                                    "message": "Main exception - look out for inner!",
-                                    "stack": [
-                                      "at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.<>c.<<UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsExceptionDescriptor_UsingNewtonsoftJson_WithSensitivityAll>*",
-                                      "--- End of stack trace from previous location ---",
-                                      "at Microsoft.AspNetCore.Diagnostics.ExceptionHandler*"
-                                    ],
-                                    "headers": {},
-                                    "statusCode": 404,
-                                    "reasonPhrase": "Not Found",
-                                    "inner": {
-                                      "type": "System.ArgumentException",
-                                      "source": "Cuemon.AspNetCore.FunctionalTests",
-                                      "message": "This is an inner exception message ... (Parameter 'app')",
-                                      "stack": [
-                                        "at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.<>c.<<UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsExceptionDescriptor_UsingNewtonsoftJson_WithSensitivityAll>*"
-                                      ],
-                                      "data": {
-                                        "1st": "data value"
-                                      },
-                                      "paramName": "app"
-                                    }
-                                  }
-                                },
-                                "evidence": {
-                                  "request": {
-                                    "location": "http://localhost/",
-                                    "method": "GET",
-                                    "headers": {
-                                      "accept": "application/json",
-                                      "host": "localhost"
-                                    },
-                                    "query": [],
-                                    "cookies": [],
-                                    "body": ""
-                                  }
-                                },
-                                "traceId": "*"
-                              }
-                              """.ReplaceLineEndings(), body.ReplaceLineEndings(), o => o.ThrowOnNoMatch = true));
-        }
-
-        [Fact]
-        public async Task UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingNewtonsoftJson_WithSensitivityAll()
-        {
-            using var response = await WebHostTestFactory.RunAsync(
-                services =>
-                {
-                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.ProblemDetails);
-                    services.AddNewtonsoftJsonExceptionResponseFormatter();
-                    services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All);
-                },
-                app =>
-                {
-                    app.UseFaultDescriptorExceptionHandler();
-                    app.Use(async (context, next) =>
-                    {
-                        try
-                        {
-                            throw new ArgumentException("This is an inner exception message ...", nameof(app))
-                            {
-                                Data =
-                                {
-                                    { "1st", "data value" }
-                                },
-                                HelpLink = "https://www.savvyio.net/"
-                            };
-                        }
-                        catch (Exception e)
-                        {
-                            throw new NotFoundException("Main exception - look out for inner!", e);
-                        }
-
-                        await next(context);
-                    });
-                },
-                responseFactory: client =>
-                {
-                    client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-                    return client.GetAsync("/");
-                });
-
-            var body = await response.Content.ReadAsStringAsync();
-
-            TestOutput.WriteLine(body);
-
-            Assert.True(Match("""
-                              {
-                                "type": "about:blank",
-                                "title": "NotFound",
-                                "status": 404,
-                                "detail": "Main exception - look out for inner!",
-                                "instance": "http://localhost/",
-                                "traceId": "*",
-                                "failure": {
-                                  "type": "Cuemon.AspNetCore.Http.NotFoundException",
-                                  "source": "Cuemon.AspNetCore.FunctionalTests",
-                                  "message": "Main exception - look out for inner!",
-                                  "stack": [
-                                    "at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.<>c.<<UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingNewtonsoftJson_WithSensitivityAll>*",
-                                    "--- End of stack trace from previous location ---",
-                                    "at Microsoft.AspNetCore.Diagnostics.ExceptionHandler*"
-                                  ],
-                                  "headers": {},
-                                  "statusCode": 404,
-                                  "reasonPhrase": "Not Found",
-                                  "inner": {
-                                    "type": "System.ArgumentException",
-                                    "source": "Cuemon.AspNetCore.FunctionalTests",
-                                    "message": "This is an inner exception message ... (Parameter 'app')",
-                                    "stack": [
-                                      "at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.<>c.<<UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingNewtonsoftJson_WithSensitivityAll>*"
-                                    ],
-                                    "data": {
-                                      "key": "data value"
-                                    },
-                                    "paramName": "app"
-                                  }
-                                },
-                                "request": {
-                                  "location": "http://localhost/",
-                                  "method": "GET",
-                                  "headers": {
-                                    "accept": "application/json",
-                                    "host": "localhost"
-                                  },
-                                  "query": [],
-                                  "cookies": [],
-                                  "body": ""
-                                }
-                              }
-                              """.ReplaceLineEndings(), body.ReplaceLineEndings(), o => o.ThrowOnNoMatch = true));
-        }
-
-        [Fact]
         public async Task UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsExceptionDescriptor_UsingXml_WithSensitivityAll()
         {
             using var response = await WebHostTestFactory.RunAsync(
@@ -807,7 +619,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                               				<Source>Cuemon.AspNetCore.FunctionalTests</Source>
                               				<Message>Main exception - look out for inner!</Message>
                               				<Stack>
-                              					<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.&lt;&gt;c.&lt;&lt;UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsExceptionDescriptor_UsingXml_WithSensitivityAll&gt;b__5_7&gt;*</Frame>
+                              					<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest*</Frame>
                               					<Frame>--- End of stack trace from previous location ---</Frame>
                               					<Frame>at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware*</Frame>
                               				</Stack>
@@ -897,7 +709,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                               		<Source>Cuemon.AspNetCore.FunctionalTests</Source>
                               		<Message>Main exception - look out for inner!</Message>
                               		<Stack>
-                              			<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.&lt;&gt;c.&lt;&lt;UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingXml_WithSensitivityAll&gt;*</Frame>
+                              			<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest*</Frame>
                               			<Frame>--- End of stack trace from previous location ---</Frame>
                               			<Frame>at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware*</Frame>
                               		</Stack>
@@ -907,7 +719,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                               			<Source>Cuemon.AspNetCore.FunctionalTests</Source>
                               			<Message>This is an inner exception message ... (Parameter 'app')</Message>
                               			<Stack>
-                              				<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.&lt;&gt;c.&lt;&lt;UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingXml_WithSensitivityAll&gt;b__6_7&gt;*</Frame>
+                              				<Frame>at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest*</Frame>
                               			</Stack>
                               			<Data>
                               				<st>data value</st>

@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6')) Or $(TargetFramework.StartsWith('net4'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.33" />
   </ItemGroup>
 
@@ -51,13 +51,13 @@
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Data\Cuemon.Extensions.Data.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Text.Json\Cuemon.Extensions.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Resilience\Cuemon.Resilience.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.Newtonsoft.Json" Version="9.0.0-preview.1" />
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.4" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.8" />
   </ItemGroup>
 
 </Project>

@@ -82,7 +82,7 @@ namespace Cuemon.Text
             var sg = Guid.NewGuid();
             Assert.Equal(sg, ParserFactory.FromObject().Parse<Guid>(sg.ToString()));
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
             var v = new Version();
             Assert.Equal(v, ParserFactory.FromObject().Parse(v.ToString(), typeof(Version)));
 #endif

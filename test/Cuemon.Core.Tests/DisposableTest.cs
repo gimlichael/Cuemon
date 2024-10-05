@@ -173,8 +173,6 @@ namespace Cuemon
                 GC.WaitForPendingFinalizers();
             }
 
-            Thread.Sleep(TimeSpan.FromSeconds(30)); // await GC
-
             if (unmanaged.TryGetTarget(out var ud2))
             {
                 Assert.True(ud2.Disposed);

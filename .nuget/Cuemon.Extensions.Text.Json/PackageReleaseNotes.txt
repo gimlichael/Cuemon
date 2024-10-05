@@ -1,15 +1,20 @@
 ﻿Version 9.0.0
-Availability: .NET 9 and .NET 8
+Availability: .NET 9, .NET 8 and .NET Standard 2.0
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
 - REMOVED Support for TFM .NET 6 (LTS)
+- ADDED Support for TFM .NET Standard 2.0
  
 # New Features
 - ADDED FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
  
 # Improvements
-- EXTENDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace to include one new extension method: AddFailureConverter
+- EXTENDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace to include three new extension methods: AddFailureConverter, RemoveAllOf and RemoveAllOf{T}
+- EXTENDED JsonSerializerOptionsExtensions class in the Cuemon.Extensions.Text.Json namespace to include one new extension method: Clone
+ 
+# Bug Fixes
+- FIXED ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to use JsonSerializerOptions when converting JSON to Exception
  
 Version 8.3.2
 Availability: .NET 8 and .NET 6

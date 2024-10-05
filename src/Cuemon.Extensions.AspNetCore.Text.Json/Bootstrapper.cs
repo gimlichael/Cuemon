@@ -21,6 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json
                         {
                             list.AddStringValuesConverter();
                             list.AddProblemDetailsConverter();
+                            list.AddHeaderDictionaryConverter();
                         };
                     }
                 }

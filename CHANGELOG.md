@@ -9,7 +9,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 ## [9.0.0] - TBD (sometime in November 2024)
 
 This major release is first and foremost focused on ironing out any wrinkles that have been introduced with .NET 9 preview releases so the final release is production ready together with the official launch from Microsoft.
+
 Next focus point will be ensuring a consistent developer experience while ironing out some of the more stale legacy code in the project.
+
 Expect breaking changes with this major release.
 
 New features:
@@ -37,6 +39,11 @@ Removed features:
 - TestOutputHelperAccessor class in the Cuemon.Extensions.Xunit namespace that provides a default implementation of the ITestOutputHelper interface
 - ServiceProviderExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of one extension method for the IServiceProvider interface: GetRequiredScopedService
 - ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace was extended with three new extension methods for the IServiceCollection interface: AddXunitTestOutputHelperAccessor, AddXunitTestOutputHelperAccessor{T} and an overload of AddXunitTestOutputHelperAccessor
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace to include two new extension methods: AddProblemDetailsConverter and AddHeaderDictionaryConverter
+- XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
+- XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace was extended to include three new extension methods: AddFailureConverter, RemoveAllOf and RemoveAllOf{T}
+- JsonSerializerOptionsExtensions class in the Cuemon.Extensions.Text.Json namespace was extended to include one new extension method: Clone
 
 ### Changed
 
@@ -81,11 +88,7 @@ Removed features:
 - FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails)
 - FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a property named FaultDescriptor (PreferredFaultDescriptor); default is PreferredFaultDescriptor.FaultDetails
 - HttpExceptionDescriptor class in the Cuemon.AspNetCore.Diagnostics namespace to include two new properties; Instance (Uri) and TraceId (string)
-- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
-- XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
 - ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails) in the UseFaultDescriptorExceptionHandler extension method
-- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace was extended to include one new extension method: AddFailureConverter
-- XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
 - XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml
 - CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace to use Codebelt.Extensions.YamlDotNet assembly instead of previously built-in YAML support from Codebelt.Extensions.YamlDotNet assembly
 
