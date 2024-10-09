@@ -9,6 +9,8 @@ namespace Cuemon
     /// <seealso cref="IDisposable" />
     public abstract class Disposable : IDisposable
     {
+        private readonly object _lock = new();
+
         /// <summary>
         /// Gets a value indicating whether this <see cref="Disposable"/> object is disposed.
         /// </summary>
@@ -43,12 +45,16 @@ namespace Cuemon
         protected void Dispose(bool disposing)
         {
             if (Disposed) { return; }
-            if (disposing)
+            lock (_lock)
             {
-                OnDisposeManagedResources();
+                if (Disposed) { return; }
+                if (disposing)
+                {
+                    OnDisposeManagedResources();
+                }
+                OnDisposeUnmanagedResources();
+                Disposed = true;
             }
-            OnDisposeUnmanagedResources();
-            Disposed = true;
         }
     }
 }
