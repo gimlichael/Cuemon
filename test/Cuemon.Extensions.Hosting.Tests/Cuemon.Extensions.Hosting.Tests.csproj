@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.8" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.10" />
   </ItemGroup>
 
 </Project>
