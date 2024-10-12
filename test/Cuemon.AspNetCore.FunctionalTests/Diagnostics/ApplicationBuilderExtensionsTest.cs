@@ -379,7 +379,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                                               "at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.<>c.<<UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingJson*"
                                             ],
                                             "data": {
-                                              "key": "data value"
+                                              "1st": "data value"
                                             },
                                             "paramName": "app"
                                           }
@@ -450,7 +450,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                                               "at Cuemon.AspNetCore.Diagnostics.ApplicationBuilderExtensionsTest.<>c.<<UseFaultDescriptorExceptionHandler_ShouldCaptureException_RenderAsProblemDetails_UsingJson*"
                                             ],
                                             "data": {
-                                              "key": "data value"
+                                              "1st": "data value"
                                             },
                                             "paramName": "app"
                                           }
@@ -479,7 +479,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                                             "source": "Cuemon.AspNetCore.FunctionalTests",
                                             "message": "This is an inner exception message ... (Parameter 'app')",
                                             "data": {
-                                              "key": "data value"
+                                              "1st": "data value"
                                             },
                                             "paramName": "app"
                                           }

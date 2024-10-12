@@ -181,7 +181,10 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static ICollection<JsonConverter> AddFailureConverter(this ICollection<JsonConverter> converters)
         {
-            converters.Add(new FailureConverter());
+            converters.Add(DynamicJsonConverter.Create<Failure>((writer, failure, options) =>
+            {
+                new ExceptionConverter(failure.GetUnderlyingSensitivity().HasFlag(FaultSensitivityDetails.StackTrace), failure.GetUnderlyingSensitivity().HasFlag(FaultSensitivityDetails.Data)).Write(writer, failure.GetUnderlyingException(), options);
+            }));
             return converters;
         }
 
