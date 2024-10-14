@@ -5,7 +5,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -147,36 +146,6 @@ namespace Cuemon
                 ms.Position = 0;
                 return ms;
             });
-        }
-
-        /// <summary>
-        /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to a <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
-        /// <param name="setup">The <see cref="AsyncEncodingOptions"/> which may be configured.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> containing the result of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.</returns>
-        /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
-        /// </exception>
-        public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, Action<AsyncEncodingOptions> setup = null)
-        {
-            Validator.ThrowIfNull(decorator);
-            var options = Patterns.Configure(setup);
-            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
-            {
-                var bytes = Convertible.GetBytes(decorator.Inner, Patterns.ConfigureExchange<AsyncEncodingOptions, EncodingOptions>(setup));
-#if NETSTANDARD
-                await ms.WriteAsync(bytes, 0, bytes.Length, token).ConfigureAwait(false);
-#else
-                await ms.WriteAsync(bytes.AsMemory(0, bytes.Length), token).ConfigureAwait(false);
-#endif
-                ms.Position = 0;
-                return ms;
-            }, options.CancellationToken);
         }
 
         /// <summary>

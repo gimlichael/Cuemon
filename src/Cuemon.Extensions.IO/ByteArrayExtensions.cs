@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Threading;
 
 namespace Cuemon.Extensions.IO
 {
@@ -24,17 +26,27 @@ namespace Cuemon.Extensions.IO
         }
 
         /// <summary>
-        /// Converts the the specified <paramref name="bytes"/> to its equivalent <see cref="Stream"/> representation.
+        /// Converts the specified <paramref name="bytes"/> to its equivalent <see cref="Stream"/> representation.
         /// </summary>
         /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> that is equivalent to <paramref name="bytes"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="bytes"/> cannot be null.
         /// </exception>
-        public static Task<Stream> ToStreamAsync(this byte[] bytes)
+        public static Task<Stream> ToStreamAsync(this byte[] bytes, CancellationToken cancellationToken = default)
         {
             Validator.ThrowIfNull(bytes);
-            return Decorator.Enclose(bytes).ToStreamAsync();
+            return AsyncPatterns.SafeInvokeAsync<Stream>(() => new MemoryStream(bytes.Length), async (ms, cti) =>
+            {
+#if NETSTANDARD
+                await ms.WriteAsync(bytes, 0, bytes.Length, cti).ConfigureAwait(false);
+#else
+                await ms.WriteAsync(bytes.AsMemory(0, bytes.Length), cti).ConfigureAwait(false);
+#endif
+                ms.Position = 0;
+                return ms;
+            }, ct: cancellationToken);
         }
     }
 }
