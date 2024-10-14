@@ -26,20 +26,5 @@ namespace Cuemon
                 Assert.All(result, c => Assert.Equal('*', c));
             }
         }
-
-        [Fact]
-        public async Task ToStreamAsync_ShouldConvertByteArrayToStream()
-        {
-            var size = 1024 * 1024;
-            var fs = Generate.FixedString('*', size);
-            var fsBytes = Convertible.GetBytes(fs);
-            var s = await Decorator.Enclose(fsBytes).ToStreamAsync();
-            using (var sr = new StreamReader(s))
-            {
-                var result = await sr.ReadToEndAsync();
-                Assert.Equal(size, s.Length);
-                Assert.All(result, c => Assert.Equal('*', c));
-            }
-        }
     }
 }

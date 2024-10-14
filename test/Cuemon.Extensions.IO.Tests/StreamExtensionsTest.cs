@@ -275,7 +275,7 @@ namespace Cuemon.Extensions.IO
             var sut1 = new CancellationTokenSource(TimeSpan.FromMilliseconds(1));
             var size = 1024 * 1024;
             var sut2 = Generate.RandomString(size);
-            var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
+            var sut3 = await sut2.ToStreamAsync();
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100), sut1.Token);
@@ -339,7 +339,7 @@ namespace Cuemon.Extensions.IO
             var sut1 = new CancellationTokenSource(TimeSpan.FromMilliseconds(1));
             var size = 1024 * 1024;
             var sut2 = Generate.RandomString(size);
-            var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
+            var sut3 = await sut2.ToStreamAsync();
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100), sut1.Token);
@@ -401,12 +401,41 @@ namespace Cuemon.Extensions.IO
             var sut1 = new CancellationTokenSource(TimeSpan.FromMilliseconds(1));
             var size = 1024 * 1024;
             var sut2 = Generate.RandomString(size);
-            var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
+            var sut3 = await sut2.ToStreamAsync();
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100), sut1.Token);
                 await sut3.CompressDeflateAsync(o => o.CancellationToken = sut1.Token);
             });
+        }
+
+        [Fact]
+        public async Task ToStreamAsync_ShouldConvertStringToStream()
+        {
+            var size = 2048;
+            var rs = Generate.RandomString(size);
+            var s = await rs.ToStreamAsync();
+            using (var sr = new StreamReader(s))
+            {
+                var result = await sr.ReadToEndAsync();
+                Assert.Equal(size, s.Length);
+                Assert.Equal(rs, result);
+            }
+        }
+
+        [Fact]
+        public async Task ToStreamAsync_ShouldConvertByteArrayToStream()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.FixedString('*', size);
+            var fsBytes = Convertible.GetBytes(fs);
+            var s = await fsBytes.ToStreamAsync();
+            using (var sr = new StreamReader(s))
+            {
+                var result = await sr.ReadToEndAsync();
+                Assert.Equal(size, s.Length);
+                Assert.All(result, c => Assert.Equal('*', c));
+            }
         }
     }
 }
