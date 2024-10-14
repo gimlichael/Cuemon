@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cuemon
+namespace Cuemon.Threading
 {
     /// <summary>
     /// Provides access to factory methods for creating <see cref="TaskFuncFactory{TTuple,TResult}"/> instances that encapsulate a <see cref="Task{TResult}"/> based function delegate with a variable amount of generic arguments.
@@ -451,7 +451,7 @@ namespace Cuemon
         internal TaskFuncFactory(Func<TTuple, CancellationToken, Task<TResult>> method, TTuple tuple, Delegate originalDelegate) : base(tuple, originalDelegate != null)
         {
             Method = method;
-            DelegateInfo = Infrastructure.ResolveDelegateInfo(method, originalDelegate);
+            DelegateInfo = Decorator.RawEnclose(method).ResolveDelegateInfo(originalDelegate);
         }
 
         /// <summary>
