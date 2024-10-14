@@ -20,7 +20,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default), setup);
+            return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default), setup);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg), setup);
+            return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default, arg), setup);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2), setup);
+            return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default, arg1, arg2), setup);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
         /// <summary>
@@ -125,10 +125,10 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 
-        private static async Task ForEachCoreAsync<TSource, TWorker>(IEnumerable<TSource> source, TaskActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup) where TWorker : Template<TSource>
+        private static async Task ForEachCoreAsync<TSource, TWorker>(IEnumerable<TSource> source, AsyncActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup) where TWorker : Template<TSource>
         {
             var options = Patterns.Configure(setup);
             var partitioner = new PartitionerEnumerable<TSource>(source, options.PartitionSize);

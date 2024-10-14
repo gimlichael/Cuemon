@@ -9,24 +9,24 @@ namespace Cuemon.Threading
     /// </summary>
     /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
     /// <typeparam name="TResult">The type of the return value of the function delegate <see cref="Method"/>.</typeparam>
-    public sealed class TaskFuncFactory<TTuple, TResult> : TemplateFactory<TTuple> where TTuple : Template
+    public sealed class AsyncFuncFactory<TTuple, TResult> : TemplateFactory<TTuple> where TTuple : Template
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaskFuncFactory{TTuple,TResult}"/> class.
+        /// Initializes a new instance of the <see cref="AsyncFuncFactory{TTuple,TResult}"/> class.
         /// </summary>
         /// <param name="method">The function delegate to invoke.</param>
         /// <param name="tuple">The n-tuple argument of <paramref name="method"/>.</param>
-        public TaskFuncFactory(Func<TTuple, CancellationToken, Task<TResult>> method, TTuple tuple) : this(method, tuple, method)
+        public AsyncFuncFactory(Func<TTuple, CancellationToken, Task<TResult>> method, TTuple tuple) : this(method, tuple, method)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaskFuncFactory{TTuple,TResult}"/> class.
+        /// Initializes a new instance of the <see cref="AsyncFuncFactory{TTuple,TResult}"/> class.
         /// </summary>
         /// <param name="method">The function delegate to invoke.</param>
         /// <param name="tuple">The n-tuple argument of <paramref name="method"/>.</param>
         /// <param name="originalDelegate">The original delegate wrapped by <paramref name="method"/>.</param>
-        public TaskFuncFactory(Func<TTuple, CancellationToken, Task<TResult>> method, TTuple tuple, Delegate originalDelegate) : base(tuple, originalDelegate != null)
+        public AsyncFuncFactory(Func<TTuple, CancellationToken, Task<TResult>> method, TTuple tuple, Delegate originalDelegate) : base(tuple, originalDelegate != null)
         {
             Method = method;
             DelegateInfo = Decorator.RawEnclose(method).ResolveDelegateInfo(originalDelegate);
@@ -57,13 +57,13 @@ namespace Cuemon.Threading
         }
 
         /// <summary>
-        /// Creates a shallow copy of the current <see cref="TaskFuncFactory{TTuple,TResult}"/> object.
+        /// Creates a shallow copy of the current <see cref="AsyncFuncFactory{TTuple,TResult}"/> object.
         /// </summary>
-        /// <returns>A new <see cref="TaskFuncFactory{TTuple,TResult}"/> that is a copy of this instance.</returns>
+        /// <returns>A new <see cref="AsyncFuncFactory{TTuple,TResult}"/> that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
         public override TemplateFactory<TTuple> Clone()
         {
-            return new TaskFuncFactory<TTuple, TResult>(Method, GenericArguments.Clone() as TTuple);
+            return new AsyncFuncFactory<TTuple, TResult>(Method, GenericArguments.Clone() as TTuple);
         }
     }
 }

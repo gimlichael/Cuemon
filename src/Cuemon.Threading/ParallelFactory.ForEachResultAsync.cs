@@ -25,7 +25,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCoreAsync(source, TaskFuncFactory.Create(worker, default), setup);
+            return ForEachResultCoreAsync(source, AsyncFuncFactory.Create(worker, default), setup);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCoreAsync(source, TaskFuncFactory.Create(worker, default, arg), setup);
+            return ForEachResultCoreAsync(source, AsyncFuncFactory.Create(worker, default, arg), setup);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCoreAsync(source, TaskFuncFactory.Create(worker, default, arg1, arg2), setup);
+            return ForEachResultCoreAsync(source, AsyncFuncFactory.Create(worker, default, arg1, arg2), setup);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCoreAsync(source, TaskFuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            return ForEachResultCoreAsync(source, AsyncFuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCoreAsync(source, TaskFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            return ForEachResultCoreAsync(source, AsyncFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
         /// <summary>
@@ -140,10 +140,10 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCoreAsync(source, TaskFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            return ForEachResultCoreAsync(source, AsyncFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 
-        private static async Task<IReadOnlyCollection<TResult>> ForEachResultCoreAsync<TSource, TWorker, TResult>(IEnumerable<TSource> source, TaskFuncFactory<TWorker, TResult> workerFactory, Action<AsyncWorkloadOptions> setup)
+        private static async Task<IReadOnlyCollection<TResult>> ForEachResultCoreAsync<TSource, TWorker, TResult>(IEnumerable<TSource> source, AsyncFuncFactory<TWorker, TResult> workerFactory, Action<AsyncWorkloadOptions> setup)
             where TWorker : Template<TSource>
         {
             var options = Patterns.Configure(setup);

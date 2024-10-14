@@ -30,8 +30,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = TaskFuncFactory.Create(tester, default);
-            var f2 = TaskActionFactory.Create(catcher, default);
+            var f1 = AsyncFuncFactory.Create(tester, default);
+            var f2 = AsyncActionFactory.Create(catcher, default);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
         }
 
@@ -50,8 +50,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = TaskFuncFactory.Create(tester, default, arg);
-            var f2 = TaskActionFactory.Create(catcher, default, arg);
+            var f1 = AsyncFuncFactory.Create(tester, default, arg);
+            var f2 = AsyncActionFactory.Create(catcher, default, arg);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
         }
 
@@ -72,8 +72,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2);
-            var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2);
+            var f1 = AsyncFuncFactory.Create(tester, default, arg1, arg2);
+            var f2 = AsyncActionFactory.Create(catcher, default, arg1, arg2);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
         }
 
@@ -96,8 +96,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3);
-            var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3);
+            var f1 = AsyncFuncFactory.Create(tester, default, arg1, arg2, arg3);
+            var f2 = AsyncActionFactory.Create(catcher, default, arg1, arg2, arg3);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
         }
 
@@ -122,8 +122,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
-            var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
+            var f1 = AsyncFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
+            var f2 = AsyncActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
         }
 
@@ -150,12 +150,12 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
-            var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
+            var f1 = AsyncFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
+            var f2 = AsyncActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
         }
 
-        private static async Task<TResult> SafeInvokeAsyncCore<TTester, TResult, TCatcher>(TaskFuncFactory<TTester, TResult> testerFactory, Func<TResult> initializer, TaskActionFactory<TCatcher> catcherFactory, CancellationToken ct)
+        private static async Task<TResult> SafeInvokeAsyncCore<TTester, TResult, TCatcher>(AsyncFuncFactory<TTester, TResult> testerFactory, Func<TResult> initializer, AsyncActionFactory<TCatcher> catcherFactory, CancellationToken ct)
             where TResult : class, IDisposable
             where TTester : Template<TResult>
             where TCatcher : Template<Exception>
