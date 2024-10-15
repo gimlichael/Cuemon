@@ -93,7 +93,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                               "at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app)*"
                                             ],
                                             "data": {
-                                              "key": "serverError"
+                                              "app": "serverError"
                                             },
                                             "paramName": "app"
                                           }
@@ -170,7 +170,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                               "at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app)*"
                                             ],
                                             "data": {
-                                              "key": "serverError"
+                                              "app": "serverError"
                                             },
                                             "paramName": "app"
                                           }
@@ -196,7 +196,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
                                             "message": "This is an inner exception message ... (Parameter 'app')",
                                             "data": {
-                                              "key": "serverError"
+                                              "app": "serverError"
                                             },
                                             "paramName": "app"
                                           }

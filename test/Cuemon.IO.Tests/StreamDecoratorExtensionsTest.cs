@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.IO;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -47,7 +48,7 @@ namespace Cuemon.IO
         {
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var os = await fs.ToStreamAsync();
             var cos = await Decorator.Enclose(os).CompressBrotliAsync();
             var dos = await Decorator.Enclose(cos).DecompressBrotliAsync();
             var osResult = await Decorator.Enclose(os).ToEncodedStringAsync(o => o.LeaveOpen = true);
@@ -72,7 +73,7 @@ namespace Cuemon.IO
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var os = await fs.ToStreamAsync();
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100), ctsShouldFail.Token);
@@ -111,7 +112,7 @@ namespace Cuemon.IO
         {
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var os = await fs.ToStreamAsync();
             var cos = await Decorator.Enclose(os).CompressGZipAsync();
             var dos = await Decorator.Enclose(cos).DecompressGZipAsync();
             var osResult = await Decorator.Enclose(os).ToEncodedStringAsync(o => o.LeaveOpen = true);
@@ -136,7 +137,7 @@ namespace Cuemon.IO
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var os = await fs.ToStreamAsync();
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100), ctsShouldFail.Token);
@@ -173,7 +174,7 @@ namespace Cuemon.IO
         {
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var os = await fs.ToStreamAsync();
             var cos = await Decorator.Enclose(os).CompressDeflateAsync();
             var dos = await Decorator.Enclose(cos).DecompressDeflateAsync();
             var osResult = await Decorator.Enclose(os).ToEncodedStringAsync(o => o.LeaveOpen = true);
@@ -198,7 +199,7 @@ namespace Cuemon.IO
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var os = await fs.ToStreamAsync();
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100), ctsShouldFail.Token);
@@ -277,9 +278,9 @@ namespace Cuemon.IO
             var fs = Generate.RandomString(size, "æøåÆØÅ");
             var fsBytesUnicode = Convertible.GetBytes(fs);
             var fsBytesIso88591 = Convertible.GetBytes(fs, o => o.Encoding = enc);
-            var sUnicode = await Decorator.Enclose(fsBytesUnicode).ToStreamAsync();
+            var sUnicode = await fsBytesUnicode.ToStreamAsync();
             var sUnicodeLength = sUnicode.Length;
-            var sIso88591 = await Decorator.Enclose(fsBytesIso88591).ToStreamAsync();
+            var sIso88591 = await fsBytesIso88591.ToStreamAsync();
             var sIso88591Length = sIso88591.Length;
             var resultUnicode = await Decorator.Enclose(sUnicode).ToEncodedStringAsync(o => o.LeaveOpen = true);
             var resultIso88591 = await Decorator.Enclose(sIso88591).ToEncodedStringAsync(o =>

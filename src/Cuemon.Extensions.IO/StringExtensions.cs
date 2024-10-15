@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using Cuemon.Text;
+using Cuemon.Threading;
 
 namespace Cuemon.Extensions.IO
 {
@@ -44,7 +45,18 @@ namespace Cuemon.Extensions.IO
         /// </exception>
         public static Task<Stream> ToStreamAsync(this string value, Action<AsyncEncodingOptions> setup = null)
         {
-            return Decorator.Enclose(value).ToStreamAsync(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            return AsyncPatterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
+            {
+                var bytes = Convertible.GetBytes(value, Patterns.ConfigureExchange<AsyncEncodingOptions, EncodingOptions>(setup));
+#if NETSTANDARD
+                await ms.WriteAsync(bytes, 0, bytes.Length, token).ConfigureAwait(false);
+#else
+                await ms.WriteAsync(bytes.AsMemory(0, bytes.Length), token).ConfigureAwait(false);
+#endif
+                ms.Position = 0;
+                return ms;
+            }, ct: options.CancellationToken);
         }
 
         /// <summary>

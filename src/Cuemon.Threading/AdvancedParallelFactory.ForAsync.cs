@@ -24,7 +24,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            return ForCoreAsync(rules, TaskActionFactory.Create(worker, default), setup);
+            return ForCoreAsync(rules, AsyncActionFactory.Create(worker, default), setup);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            return ForCoreAsync(rules, TaskActionFactory.Create(worker, default, arg), setup);
+            return ForCoreAsync(rules, AsyncActionFactory.Create(worker, default, arg), setup);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            return ForCoreAsync(rules, TaskActionFactory.Create(worker, default, arg1, arg2), setup);
+            return ForCoreAsync(rules, AsyncActionFactory.Create(worker, default, arg1, arg2), setup);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            return ForCoreAsync(rules, TaskActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            return ForCoreAsync(rules, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            return ForCoreAsync(rules, TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            return ForCoreAsync(rules, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
         /// <summary>
@@ -154,10 +154,10 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            return ForCoreAsync(rules, TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            return ForCoreAsync(rules, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 
-        private static async Task ForCoreAsync<TWorker, TOperand>(ForLoopRuleset<TOperand> rules, TaskActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup)
+        private static async Task ForCoreAsync<TWorker, TOperand>(ForLoopRuleset<TOperand> rules, AsyncActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup)
             where TWorker : Template<TOperand>
             where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
         {

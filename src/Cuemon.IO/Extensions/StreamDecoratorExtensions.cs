@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Text;
+using Cuemon.Threading;
 
 namespace Cuemon.IO
 {
@@ -458,7 +459,7 @@ namespace Cuemon.IO
 
         private static Task<Stream> CompressAsync<T>(IDecorator<Stream> decorator, AsyncStreamCompressionOptions options, Func<Stream, CompressionLevel, bool, T> decompressor) where T : Stream
         {
-            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
+            return AsyncPatterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
 #if NETSTANDARD2_1_OR_GREATER || NET8_0_OR_GREATER
                 await using (var compressed = decompressor(target, options.Level, true))
@@ -474,7 +475,7 @@ namespace Cuemon.IO
                 await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
-            }, options.CancellationToken);
+            }, ct: options.CancellationToken);
         }
 
         private static Stream Decompress<T>(IDecorator<Stream> decorator, StreamCopyOptions options, Func<Stream, CompressionMode, bool, T> compressor) where T : Stream
@@ -494,7 +495,7 @@ namespace Cuemon.IO
 
         private static Task<Stream> DecompressAsync<T>(IDecorator<Stream> decorator, AsyncStreamCopyOptions options, Func<Stream, CompressionMode, bool, T> compressor) where T : Stream
         {
-            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
+            return AsyncPatterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
 #if NETSTANDARD2_1_OR_GREATER || NET8_0_OR_GREATER
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
@@ -510,7 +511,7 @@ namespace Cuemon.IO
                 await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
-            }, options.CancellationToken);
+            }, ct:options.CancellationToken);
         }
 
         /// <summary>

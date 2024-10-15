@@ -30,6 +30,18 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Encloses the specified <paramref name="inner"/> so that it can be extended by non-common extension methods.
+        /// </summary>
+        /// <typeparam name="T">The type of the <paramref name="inner"/> to wrap for non-common extension methods.</typeparam>
+        /// <param name="inner">The object to extend for non-common extension methods.</param>
+        /// <returns>An instance of <see cref="Decorator{T}"/>.</returns>
+        /// <remarks>Unlike <see cref="Enclose{T}"/>, this method does not perform a null-check when wrapping the value.</remarks>
+        public static Decorator<T> RawEnclose<T>(T inner)
+        {
+            return Enclose(inner, false);
+        }
+
+        /// <summary>
         /// Encloses the specified <paramref name="inner"/> so that it can be extended by both common and non-common extension methods.
         /// </summary>
         /// <typeparam name="T">The type of the <paramref name="inner"/> to wrap for non-common extension methods.</typeparam>

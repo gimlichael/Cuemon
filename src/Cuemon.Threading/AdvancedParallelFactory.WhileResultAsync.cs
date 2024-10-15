@@ -28,7 +28,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default), setup);
+            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), AsyncFuncFactory.Create(worker, default), setup);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg), setup);
+            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), AsyncFuncFactory.Create(worker, default, arg), setup);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2), setup);
+            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), AsyncFuncFactory.Create(worker, default, arg1, arg2), setup);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), AsyncFuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), AsyncFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
         /// <summary>
@@ -163,10 +163,10 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), AsyncFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 
-        private static async Task<IReadOnlyCollection<TResult>> WhileResultCoreAsync<TReader, TElement, TWorker, TResult>(AsyncForwardIterator<TReader, TElement> iterator, TaskFuncFactory<TWorker, TResult> workerFactory, Action<AsyncWorkloadOptions> setup)
+        private static async Task<IReadOnlyCollection<TResult>> WhileResultCoreAsync<TReader, TElement, TWorker, TResult>(AsyncForwardIterator<TReader, TElement> iterator, AsyncFuncFactory<TWorker, TResult> workerFactory, Action<AsyncWorkloadOptions> setup)
             where TWorker : Template<TElement>
         {
             var options = Patterns.Configure(setup);

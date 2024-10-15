@@ -6,6 +6,7 @@ using Cuemon.Assets;
 using Cuemon.Extensions.IO;
 using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
+using Cuemon.Threading;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -68,7 +69,7 @@ namespace Cuemon
         {
             var guid = Guid.NewGuid();
             var called = 0;
-            var stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, ct) =>
+            var stream = await AsyncPatterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, ct) =>
             {
                 called++;
                 await ms.WriteAllAsync(new byte[] { 1 }, ct);
@@ -81,17 +82,17 @@ namespace Cuemon
 
             MemoryStream msRef = null;
             called = 0;
-            stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), (ms, g, ct) =>
+            stream = await AsyncPatterns.SafeInvokeAsync(() => new MemoryStream(), (ms, g, ct) =>
             {
                 msRef = ms;
                 Assert.Equal(guid, g);
                 throw new InvalidOperationException();
-            }, guid, default, (exception, g, ct) =>
+            }, guid, (exception, g, ct) =>
             {
                 Assert.Equal(guid, g);
                 Assert.True(exception is InvalidOperationException);
                 return Task.CompletedTask;
-            });
+            }, default);
             Assert.Equal(0, called);
             Assert.Null(stream);
             Assert.Throws<ObjectDisposedException>(() => msRef.Length);
@@ -101,7 +102,7 @@ namespace Cuemon
                 var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
                 msRef = null;
                 called = 0;
-                stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, g, ct) =>
+                stream = await AsyncPatterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, g, ct) =>
                 {
                     msRef = ms;
                     Assert.Equal(guid, g);
@@ -109,18 +110,18 @@ namespace Cuemon
                     await ms.WriteAllAsync(new byte[] { 1 }, ct);
                     ms.Position = 0;
                     return ms;
-                }, guid, ctsShouldFail.Token, (exception, g, ct) =>
+                }, guid, (exception, g, ct) =>
                 {
                     Assert.Equal(guid, g);
                     Assert.True(exception is TaskCanceledException);
                     return Task.CompletedTask;
-                });
+                }, ctsShouldFail.Token);
                 Assert.Equal(0, called);
                 Assert.Null(stream);
                 Assert.Throws<ObjectDisposedException>(() => msRef.Length);
             });
 
-            stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, n1, n2, n3, n4, n5, ct) =>
+            stream = await AsyncPatterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, n1, n2, n3, n4, n5, ct) =>
             {
                 called++;
                 var bytes = Decorator.Enclose($"{n1}{n2}{n3}{n4}{n5}").ToByteArray();

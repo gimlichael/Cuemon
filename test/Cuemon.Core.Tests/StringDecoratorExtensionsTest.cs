@@ -68,19 +68,5 @@ namespace Cuemon
                 Assert.Equal(rs, result);
             }
         }
-
-        [Fact]
-        public async Task ToStreamAsync_ShouldConvertStringToStream()
-        {
-            var size = 2048;
-            var rs = Generate.RandomString(size);
-            var s = await Decorator.Enclose(rs).ToStreamAsync();
-            using (var sr = new StreamReader(s))
-            {
-                var result = await sr.ReadToEndAsync();
-                Assert.Equal(size, s.Length);
-                Assert.Equal(rs, result);
-            }
-        }
     }
 }

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Reflection;
+using Cuemon.Threading;
 
 namespace Cuemon.Diagnostics
 {
@@ -20,7 +21,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync(Func<CancellationToken, Task> action, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action);
+            var factory = AsyncActionFactory.Create(action);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -38,7 +39,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T>(Func<T, CancellationToken, Task> action, T arg, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg);
+            var factory = AsyncActionFactory.Create(action, arg);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -58,7 +59,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2>(Func<T1, T2, CancellationToken, Task> action, T1 arg1, T2 arg2, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -80,7 +81,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3>(Func<T1, T2, T3, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -104,7 +105,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4>(Func<T1, T2, T3, T4, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -130,7 +131,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -158,7 +159,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6>(Func<T1, T2, T3, T4, T5, T6, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -188,7 +189,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7>(Func<T1, T2, T3, T4, T5, T6, T7, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -220,7 +221,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8>(Func<T1, T2, T3, T4, T5, T6, T7, T8, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -254,7 +255,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -290,7 +291,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action);
-            var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = AsyncActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return WithActionAsyncCore(factory, setup);
         }
 
@@ -305,7 +306,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<TResult>(Func<CancellationToken, Task<TResult>> function, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function);
+            var factory = AsyncFuncFactory.Create(function);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -321,7 +322,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T, TResult>(Func<T, CancellationToken, Task<TResult>> function, T arg, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg);
+            var factory = AsyncFuncFactory.Create(function, arg);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -339,7 +340,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, TResult>(Func<T1, T2, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -359,7 +360,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, TResult>(Func<T1, T2, T3, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -381,7 +382,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -405,7 +406,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -431,7 +432,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -459,7 +460,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -489,7 +490,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -521,7 +522,7 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return WithFunctionAsyncCore(factory, setup);
         }
 
@@ -555,11 +556,11 @@ namespace Cuemon.Diagnostics
         public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function);
-            var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = AsyncFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return WithFunctionAsyncCore(factory, setup);
         }
 
-        private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(TaskActionFactory<TTuple> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
+        private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(AsyncActionFactory<TTuple> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
         {
             var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
@@ -572,7 +573,7 @@ namespace Cuemon.Diagnostics
             return profiler;
         }
 
-        private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(TaskFuncFactory<TTuple, TResult> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
+        private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(AsyncFuncFactory<TTuple, TResult> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
         {
             var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
