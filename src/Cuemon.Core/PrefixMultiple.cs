@@ -18,7 +18,7 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="PrefixMultiple"/> struct.
         /// </summary>
         /// <param name="name">The name of the binary unit.</param>
-        /// <param name="symbol">The symbol of the the unit prefix.</param>
+        /// <param name="symbol">The symbol of the unit prefix.</param>
         /// <param name="value">The number to be raised to a power.</param>
         /// <param name="exponent">The number that specifies a power.</param>
         protected PrefixMultiple(string name, string symbol, double value, double exponent)

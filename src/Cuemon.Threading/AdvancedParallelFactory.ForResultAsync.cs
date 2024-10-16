@@ -174,7 +174,7 @@ namespace Cuemon.Threading
         }
 
         private static async Task<IReadOnlyCollection<TResult>> ForResultCoreAsync<TWorker, TOperand, TResult>(ForLoopRuleset<TOperand> rules, AsyncFuncFactory<TWorker, TResult> workerFactory, Action<AsyncWorkloadOptions> setup)
-            where TWorker : Template<TOperand>
+            where TWorker : MutableTuple<TOperand>
             where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
         {
             var from = rules.From;

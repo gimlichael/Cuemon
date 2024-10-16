@@ -7,15 +7,15 @@ namespace Cuemon
     /// <summary>
     /// Provides a base-class for delegate based factories.
     /// </summary>
-    /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
-    public abstract class TemplateFactory<TTuple> where TTuple : Template
+    /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="MutableTuple"/>.</typeparam>
+    public abstract class MutableTupleFactory<TTuple> where TTuple : MutableTuple
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TemplateFactory{T}"/> class.
+        /// Initializes a new instance of the <see cref="MutableTupleFactory{TTuple}"/> class.
         /// </summary>
-        /// <param name="tuple">Then-tuple representation of a <see cref="Template"/>.</param>
+        /// <param name="tuple">The n-tuple representation of a <see cref="MutableTuple"/>.</param>
         /// <param name="hasDelegate"><c>true</c> if this instance has a valid delegate; otherwise, <c>false</c>.</param>
-        protected TemplateFactory(TTuple tuple, bool hasDelegate)
+        protected MutableTupleFactory(TTuple tuple, bool hasDelegate)
         {
             Validator.ThrowIfNull(tuple);
             GenericArguments = tuple;
@@ -23,9 +23,9 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Gets a n-tuple representation of a <see cref="Template"/> that represents the generic arguments passed to this instance.
+        /// Gets a n-tuple representation of a <see cref="MutableTuple"/> that represents the generic arguments passed to this instance.
         /// </summary>
-        /// <value>The n-tuple representation of a <see cref="Template"/> that represents the generic arguments passed to this instance.</value>
+        /// <value>The n-tuple representation of a <see cref="MutableTuple"/> that represents the generic arguments passed to this instance.</value>
         public TTuple GenericArguments { get; }
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Creates a shallow copy of the current <see cref="TemplateFactory{TTuple}"/> object.
+        /// Creates a shallow copy of the current <see cref="MutableTupleFactory{TTuple}"/> object.
         /// </summary>
-        /// <returns>A new <see cref="TemplateFactory{TTuple}"/> implementation that is a copy of this instance.</returns>
+        /// <returns>A new <see cref="MutableTupleFactory{TTuple}"/> implementation that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
-        public abstract TemplateFactory<TTuple> Clone();
+        public abstract MutableTupleFactory<TTuple> Clone();
     }
 }

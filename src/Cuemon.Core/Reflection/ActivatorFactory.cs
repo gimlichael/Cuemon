@@ -18,7 +18,7 @@ namespace Cuemon.Reflection
         /// <seealso cref="Activator.CreateInstance(Type, BindingFlags, Binder, object[], CultureInfo)"/>.
         public static TInstance CreateInstance<TInstance>(Action<ActivatorOptions> setup = null)
         {
-            var factory = FuncFactory.Create<TInstance>(null);
+            var factory = new FuncFactory<MutableTuple, TInstance>(null, new MutableTuple());
             return CreateInstanceCore(factory, setup);
         }
 
@@ -33,7 +33,7 @@ namespace Cuemon.Reflection
         /// <seealso cref="Activator.CreateInstance(Type, BindingFlags, Binder, object[], CultureInfo)"/>.
         public static TInstance CreateInstance<T, TInstance>(T arg, Action<ActivatorOptions> setup = null)
         {
-            var factory = FuncFactory.Create<T, TInstance>(null, arg);
+            var factory = new FuncFactory<MutableTuple<T>, TInstance>(null, new MutableTuple<T>(arg));
             return CreateInstanceCore(factory, setup);
         }
 
@@ -50,7 +50,7 @@ namespace Cuemon.Reflection
         /// <seealso cref="Activator.CreateInstance(Type, BindingFlags, Binder, object[], CultureInfo)"/>.
         public static TInstance CreateInstance<T1, T2, TInstance>(T1 arg1, T2 arg2, Action<ActivatorOptions> setup = null)
         {
-            var factory = FuncFactory.Create<T1, T2, TInstance>(null, arg1, arg2);
+            var factory = new FuncFactory<MutableTuple<T1, T2>, TInstance>(null, new MutableTuple<T1, T2>(arg1, arg2));
             return CreateInstanceCore(factory, setup);
         }
 
@@ -69,7 +69,7 @@ namespace Cuemon.Reflection
         /// <seealso cref="Activator.CreateInstance(Type, BindingFlags, Binder, object[], CultureInfo)"/>.
         public static TInstance CreateInstance<T1, T2, T3, TInstance>(T1 arg1, T2 arg2, T3 arg3, Action<ActivatorOptions> setup = null)
         {
-            var factory = FuncFactory.Create<T1, T2, T3, TInstance>(null, arg1, arg2, arg3);
+            var factory = new FuncFactory<MutableTuple<T1, T2, T3>, TInstance>(null, new MutableTuple<T1, T2, T3>(arg1, arg2, arg3));
             return CreateInstanceCore(factory, setup);
         }
 
@@ -90,7 +90,7 @@ namespace Cuemon.Reflection
         /// <seealso cref="Activator.CreateInstance(Type, BindingFlags, Binder, object[], CultureInfo)"/>.
         public static TInstance CreateInstance<T1, T2, T3, T4, TInstance>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<ActivatorOptions> setup = null)
         {
-            var factory = FuncFactory.Create<T1, T2, T3, T4, TInstance>(null, arg1, arg2, arg3, arg4);
+            var factory = new FuncFactory<MutableTuple<T1, T2, T3, T4>, TInstance>(null, new MutableTuple<T1, T2, T3, T4>(arg1, arg2, arg3, arg4));
             return CreateInstanceCore(factory, setup);
         }
 
@@ -113,11 +113,11 @@ namespace Cuemon.Reflection
         /// <seealso cref="Activator.CreateInstance(Type, BindingFlags, Binder, object[], CultureInfo)"/>.
         public static TInstance CreateInstance<T1, T2, T3, T4, T5, TInstance>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<ActivatorOptions> setup = null)
         {
-            var factory = FuncFactory.Create<T1, T2, T3, T4, T5, TInstance>(null, arg1, arg2, arg3, arg4, arg5);
+            var factory = new FuncFactory<MutableTuple<T1, T2, T3, T4, T5>, TInstance>(null, new MutableTuple<T1, T2, T3, T4, T5>(arg1, arg2, arg3, arg4, arg5));
             return CreateInstanceCore(factory, setup);
         }
 
-        private static TInstance CreateInstanceCore<TTuple, TInstance>(FuncFactory<TTuple, TInstance> factory, Action<ActivatorOptions> setup = null) where TTuple : Template
+        private static TInstance CreateInstanceCore<TTuple, TInstance>(FuncFactory<TTuple, TInstance> factory, Action<ActivatorOptions> setup = null) where TTuple : MutableTuple
         {
             var options = Patterns.Configure(setup);
             return (TInstance)Activator.CreateInstance(typeof(TInstance), options.Flags, options.Binder, factory.GenericArguments.ToArray(), options.FormatProvider as CultureInfo);

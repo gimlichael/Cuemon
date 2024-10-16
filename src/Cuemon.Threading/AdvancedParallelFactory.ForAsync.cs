@@ -158,7 +158,7 @@ namespace Cuemon.Threading
         }
 
         private static async Task ForCoreAsync<TWorker, TOperand>(ForLoopRuleset<TOperand> rules, AsyncActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup)
-            where TWorker : Template<TOperand>
+            where TWorker : MutableTuple<TOperand>
             where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
         {
             var from = rules.From;

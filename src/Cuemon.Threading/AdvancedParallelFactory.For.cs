@@ -20,7 +20,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            ForCore(rules, ActionFactory.Create(worker, default), setup);
+            var factory = new ActionFactory<MutableTuple<TOperand>>(tuple => worker(tuple.Arg1), new MutableTuple<TOperand>(default), worker);
+            ForCore(rules, factory, setup);
         }
 
         /// <summary>
@@ -41,7 +42,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            ForCore(rules, ActionFactory.Create(worker, default, arg), setup);
+            var factory = new ActionFactory<MutableTuple<TOperand, T>>(tuple => worker?.Invoke(tuple.Arg1, tuple.Arg2), new MutableTuple<TOperand, T>(default, arg), worker);
+            ForCore(rules, factory, setup);
         }
 
         /// <summary>
@@ -64,7 +66,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            ForCore(rules, ActionFactory.Create(worker, default, arg1, arg2), setup);
+            var factory = new ActionFactory<MutableTuple<TOperand, T1, T2>>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<TOperand, T1, T2>(default, arg1, arg2), worker);
+            ForCore(rules, factory, setup);
         }
 
         /// <summary>
@@ -89,7 +92,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            ForCore(rules, ActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            var factory = new ActionFactory<MutableTuple<TOperand, T1, T2, T3>>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<TOperand, T1, T2, T3>(default, arg1, arg2, arg3), worker);
+            ForCore(rules, factory, setup);
         }
 
         /// <summary>
@@ -116,7 +120,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(rules);
             Validator.ThrowIfNull(worker);
-            ForCore(rules, ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            var factory = new ActionFactory<MutableTuple<TOperand, T1, T2, T3, T4>>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<TOperand, T1, T2, T3, T4>(default, arg1, arg2, arg3, arg4), worker);
+            ForCore(rules, factory, setup);
         }
 
         /// <summary>
@@ -145,11 +150,12 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(worker);
             Validator.ThrowIfNull(rules);
-            ForCore(rules, ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            var factory = new ActionFactory<MutableTuple<TOperand, T1, T2, T3, T4, T5>>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<TOperand, T1, T2, T3, T4, T5>(default, arg1, arg2, arg3, arg4, arg5), worker);
+            ForCore(rules, factory, setup);
         }
 
         private static void ForCore<TWorker, TOperand>(ForLoopRuleset<TOperand> rules, ActionFactory<TWorker> workerFactory, Action<AsyncTaskFactoryOptions> setup)
-            where TWorker : Template<TOperand>
+            where TWorker : MutableTuple<TOperand>
             where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
         {
             new ActionForSynchronousLoop<TOperand>(rules, setup).PrepareExecution(workerFactory);

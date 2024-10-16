@@ -167,7 +167,7 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="DecimalPrefix"/> struct.
         /// </summary>
         /// <param name="name">The name of the decimal prefix.</param>
-        /// <param name="symbol">The symbol of the the decimal prefix.</param>
+        /// <param name="symbol">The symbol of the decimal prefix.</param>
         /// <param name="exponent">The number that specifies a power.</param>
         public DecimalPrefix(string name, string symbol, double exponent) : base(name, symbol, 10, exponent)
         {

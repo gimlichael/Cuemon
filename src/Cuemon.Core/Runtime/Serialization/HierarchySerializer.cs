@@ -22,7 +22,7 @@ namespace Cuemon.Runtime.Serialization
         /// <summary>
         /// Gets the result of the <see cref="IHierarchy{T}"/>.
         /// </summary>
-        /// <value>The converted nodes of the the by constructor defined source object.</value>
+        /// <value>The converted nodes of the by constructor defined source object.</value>
         public IHierarchy<object> Nodes { get; }
 
         /// <summary>

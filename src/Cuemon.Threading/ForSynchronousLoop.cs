@@ -21,7 +21,7 @@ namespace Cuemon.Threading
 
         protected int WorkChunks { get; set; }
 
-        protected sealed override void FillWorkQueue<TWorker>(TemplateFactory<TWorker> worker, IList<Func<Task>> queue)
+        protected sealed override void FillWorkQueue<TWorker>(MutableTupleFactory<TWorker> worker, IList<Func<Task>> queue)
         {
             for (var i = From; Rules.Condition(i, Rules.Relation, Rules.To); i = Rules.Iterator(i, Rules.Assignment, Rules.Step))
             {
@@ -31,7 +31,7 @@ namespace Cuemon.Threading
                 {
                     try
                     {
-                        FillWorkQueueWorkerFactory(swf as TemplateFactory<TWorker>);
+                        FillWorkQueueWorkerFactory(swf as MutableTupleFactory<TWorker>);
                     }
                     catch (Exception e)
                     {
@@ -47,7 +47,7 @@ namespace Cuemon.Threading
             From = Calculator.Calculate(Processed, Rules.Assignment, Rules.Step);
         }
 
-        protected abstract void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TOperand>;
+        protected abstract void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker) where TWorker : MutableTuple<TOperand>;
 
         protected sealed override void OnWhileExecutingBeforeFillWorkQueue()
         {

@@ -257,7 +257,8 @@ namespace Cuemon.Extensions.Runtime.Caching
             return delegate
             {
                 var key = ComputeMemoizationCacheKey(valueFactory);
-                return Memoize(cache, key, invalidation, FuncFactory.Create(valueFactory));
+                var factory = new FuncFactory<MutableTuple, TResult>(_ => valueFactory(), new MutableTuple(), valueFactory);
+                return Memoize(cache, key, invalidation, factory);
             };
         }
 
@@ -336,7 +337,8 @@ namespace Cuemon.Extensions.Runtime.Caching
             return delegate (T arg)
             {
                 var key = ComputeMemoizationCacheKey(valueFactory, arg);
-                return Memoize(cache, key, invalidation, FuncFactory.Create(valueFactory, arg));
+                var factory = new FuncFactory<MutableTuple<T>, TResult>(tuple => valueFactory(tuple.Arg1), new MutableTuple<T>(arg), valueFactory);
+                return Memoize(cache, key, invalidation, factory);
             };
         }
 
@@ -420,7 +422,8 @@ namespace Cuemon.Extensions.Runtime.Caching
             return delegate (T1 arg1, T2 arg2)
             {
                 var key = ComputeMemoizationCacheKey(valueFactory, arg1, arg2);
-                return Memoize(cache, key, invalidation, FuncFactory.Create(valueFactory, arg1, arg2));
+                var factory = new FuncFactory<MutableTuple<T1, T2>, TResult>(tuple => valueFactory(tuple.Arg1, tuple.Arg2), new MutableTuple<T1, T2>(arg1, arg2), valueFactory);
+                return Memoize(cache, key, invalidation, factory);
             };
         }
 
@@ -509,7 +512,8 @@ namespace Cuemon.Extensions.Runtime.Caching
             return delegate (T1 arg1, T2 arg2, T3 arg3)
             {
                 var key = ComputeMemoizationCacheKey(valueFactory, arg1, arg2, arg3);
-                return Memoize(cache, key, invalidation, FuncFactory.Create(valueFactory, arg1, arg2, arg3));
+                var factory = new FuncFactory<MutableTuple<T1, T2, T3>, TResult>(tuple => valueFactory(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<T1, T2, T3>(arg1, arg2, arg3), valueFactory);
+                return Memoize(cache, key, invalidation, factory);
             };
         }
 
@@ -603,7 +607,8 @@ namespace Cuemon.Extensions.Runtime.Caching
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4)
             {
                 var key = ComputeMemoizationCacheKey(valueFactory, arg1, arg2, arg3, arg4);
-                return Memoize(cache, key, invalidation, FuncFactory.Create(valueFactory, arg1, arg2, arg3, arg4));
+                var factory = new FuncFactory<MutableTuple<T1, T2, T3, T4>, TResult>(tuple => valueFactory(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<T1, T2, T3, T4>(arg1, arg2, arg3, arg4), valueFactory);
+                return Memoize(cache, key, invalidation, factory);
             };
         }
 
@@ -702,13 +707,14 @@ namespace Cuemon.Extensions.Runtime.Caching
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
             {
                 var key = ComputeMemoizationCacheKey(valueFactory, arg1, arg2, arg3, arg4, arg5);
-                return Memoize(cache, key, invalidation, FuncFactory.Create(valueFactory, arg1, arg2, arg3, arg4, arg5));
+                var factory = new FuncFactory<MutableTuple<T1, T2, T3, T4, T5>, TResult>(tuple => valueFactory(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<T1, T2, T3, T4, T5>(arg1, arg2, arg3, arg4, arg5), valueFactory);
+                return Memoize(cache, key, invalidation, factory);
             };
         }
 
         private static readonly object PadLock = new();
 
-        private static TResult Memoize<TKey, TTuple, TResult>(ICacheEnumerable<TKey> cache, string key, CacheInvalidation invalidation, FuncFactory<TTuple, TResult> valueFactory) where TTuple : Template
+        private static TResult Memoize<TKey, TTuple, TResult>(ICacheEnumerable<TKey> cache, string key, CacheInvalidation invalidation, FuncFactory<TTuple, TResult> valueFactory) where TTuple : MutableTuple
         {
             if (cache.TryGetCacheEntry(key, MemoizationScope, out var cacheEntry)) { return (TResult)cacheEntry.Value; }
             lock (PadLock)

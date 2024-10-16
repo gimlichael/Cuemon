@@ -14,7 +14,7 @@ namespace Cuemon.Threading
 
         private PartitionerEnumerable<TSource> Partitioner { get; set; }
 
-        protected override void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker, long sorter)
+        protected override void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker, long sorter)
         {
             if (worker is ActionFactory<TWorker> wf) { wf.ExecuteMethod(); }
         }

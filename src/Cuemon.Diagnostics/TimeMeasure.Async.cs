@@ -560,7 +560,7 @@ namespace Cuemon.Diagnostics
             return WithFunctionAsyncCore(factory, setup);
         }
 
-        private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(AsyncActionFactory<TTuple> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
+        private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(AsyncActionFactory<TTuple> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : MutableTuple
         {
             var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
@@ -573,7 +573,7 @@ namespace Cuemon.Diagnostics
             return profiler;
         }
 
-        private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(AsyncFuncFactory<TTuple, TResult> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
+        private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(AsyncFuncFactory<TTuple, TResult> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : MutableTuple
         {
             var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);

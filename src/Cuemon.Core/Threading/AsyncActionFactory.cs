@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 namespace Cuemon.Threading
 {
     /// <summary>
-    /// Provides an easy way of invoking an <see cref="Action" /> delegate regardless of the amount of parameters provided.
+    /// Provides a way of invoking an <see cref="Action" /> delegate regardless of the amount of parameters provided.
     /// </summary>
-    /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
-    public sealed class AsyncActionFactory<TTuple> : TemplateFactory<TTuple> where TTuple : Template
+    /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="MutableTuple"/>.</typeparam>
+    public sealed class AsyncActionFactory<TTuple> : MutableTupleFactory<TTuple> where TTuple : MutableTuple
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncActionFactory{TTuple}"/> class.
@@ -60,7 +60,7 @@ namespace Cuemon.Threading
         /// </summary>
         /// <returns>A new <see cref="AsyncActionFactory{TTuple}"/> that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
-        public override TemplateFactory<TTuple> Clone()
+        public override MutableTupleFactory<TTuple> Clone()
         {
             return new AsyncActionFactory<TTuple>(Method, GenericArguments.Clone() as TTuple);
         }

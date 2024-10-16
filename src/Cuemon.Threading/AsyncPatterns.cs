@@ -157,8 +157,8 @@ namespace Cuemon.Threading
 
         private static async Task<TResult> SafeInvokeAsyncCore<TTester, TResult, TCatcher>(AsyncFuncFactory<TTester, TResult> testerFactory, Func<TResult> initializer, AsyncActionFactory<TCatcher> catcherFactory, CancellationToken ct)
             where TResult : class, IDisposable
-            where TTester : Template<TResult>
-            where TCatcher : Template<Exception>
+            where TTester : MutableTuple<TResult>
+            where TCatcher : MutableTuple<Exception>
         {
             TResult result = null;
             try

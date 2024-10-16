@@ -19,7 +19,7 @@ namespace Cuemon.Reflection
         /// Determines whether the underlying <see cref="Assembly"/> of the <paramref name="decorator"/> is a debug build.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <returns><c>true</c> if the the underlying <see cref="Assembly"/> of the <paramref name="decorator"/> is a debug build; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the underlying <see cref="Assembly"/> of the <paramref name="decorator"/> is a debug build; otherwise, <c>false</c>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>

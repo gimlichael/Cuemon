@@ -15,7 +15,7 @@ namespace Cuemon.Threading
         private ConcurrentDictionary<TOperand, TResult> Result { get; } = new ConcurrentDictionary<TOperand, TResult>();
 
 
-        protected override void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker)
+        protected override void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker)
         {
             if (worker is FuncFactory<TWorker, TResult> wf)
             {
@@ -24,7 +24,7 @@ namespace Cuemon.Threading
             }
         }
 
-        public IReadOnlyCollection<TResult> GetResult<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TOperand>
+        public IReadOnlyCollection<TResult> GetResult<TWorker>(MutableTupleFactory<TWorker> worker) where TWorker : MutableTuple<TOperand>
         {
             PrepareExecution(worker);
             return new ReadOnlyCollection<TResult>(Result.Values.ToList());

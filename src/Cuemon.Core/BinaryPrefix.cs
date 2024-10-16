@@ -83,7 +83,7 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="BinaryPrefix"/> struct.
         /// </summary>
         /// <param name="name">The name of the binary prefix.</param>
-        /// <param name="symbol">The symbol of the the binary prefix.</param>
+        /// <param name="symbol">The symbol of the binary prefix.</param>
         /// <param name="exponent">The number that specifies a power.</param>
         public BinaryPrefix(string name, string symbol, double exponent) : base(name, symbol, 2, exponent)
         {

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 namespace Cuemon.Threading
 {
     /// <summary>
-    /// Provides an easy way of invoking an <see cref="Func{TResult}" /> function delegate regardless of the amount of parameters provided.
+    /// Provides a way of invoking an <see cref="Func{TResult}" /> function delegate regardless of the amount of parameters provided.
     /// </summary>
-    /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
+    /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="MutableTuple"/>.</typeparam>
     /// <typeparam name="TResult">The type of the return value of the function delegate <see cref="Method"/>.</typeparam>
-    public sealed class AsyncFuncFactory<TTuple, TResult> : TemplateFactory<TTuple> where TTuple : Template
+    public sealed class AsyncFuncFactory<TTuple, TResult> : MutableTupleFactory<TTuple> where TTuple : MutableTuple
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncFuncFactory{TTuple,TResult}"/> class.
@@ -61,7 +61,7 @@ namespace Cuemon.Threading
         /// </summary>
         /// <returns>A new <see cref="AsyncFuncFactory{TTuple,TResult}"/> that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
-        public override TemplateFactory<TTuple> Clone()
+        public override MutableTupleFactory<TTuple> Clone()
         {
             return new AsyncFuncFactory<TTuple, TResult>(Method, GenericArguments.Clone() as TTuple);
         }
