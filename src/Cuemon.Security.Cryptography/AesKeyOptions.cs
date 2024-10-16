@@ -59,11 +59,11 @@ namespace Cuemon.Security.Cryptography
                 switch (size)
                 {
                     case AesSize.Aes128:
-                        return Generate.RandomString(128 / ByteUnit.BitsPerByte, characters);
+                        return Generate.RandomString(128 / Convertible.BitsPerByte, characters);
                     case AesSize.Aes192:
-                        return Generate.RandomString(192 / ByteUnit.BitsPerByte, characters);
+                        return Generate.RandomString(192 / Convertible.BitsPerByte, characters);
                     default:
-                        return Generate.RandomString(256 / ByteUnit.BitsPerByte, characters);
+                        return Generate.RandomString(256 / Convertible.BitsPerByte, characters);
                 }
             };
         }

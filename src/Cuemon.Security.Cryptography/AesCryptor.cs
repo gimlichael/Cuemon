@@ -40,8 +40,8 @@ namespace Cuemon.Security.Cryptography
         {
             Validator.ThrowIfNull(key);
             Validator.ThrowIfNull(initializationVector);
-            var keyBits = key.Length * ByteUnit.BitsPerByte;
-            var initializationVectorBits = initializationVector.Length * ByteUnit.BitsPerByte;
+            var keyBits = key.Length * Convertible.BitsPerByte;
+            var initializationVectorBits = initializationVector.Length * Convertible.BitsPerByte;
             if (!(keyBits == 128 || keyBits == 192 || keyBits == 256)) { throw new CryptographicException("The key does not meet the required fixed size of either 128 bits, 192 bits or 256 bits."); }
             if (initializationVectorBits != BlockSize) { throw new CryptographicException("The initialization vector does not meet the required fixed size of 128 bits."); }
             Key = key;
@@ -124,7 +124,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A random 128 bit generated initialization vector (IV).</returns>
         public static byte[] GenerateInitializationVector()
         {
-            return Convertible.GetBytes(Generate.RandomString(BlockSize / ByteUnit.BitsPerByte, Alphanumeric.LettersAndNumbers, Alphanumeric.PunctuationMarks), options =>
+            return Convertible.GetBytes(Generate.RandomString(BlockSize / Convertible.BitsPerByte, Alphanumeric.LettersAndNumbers, Alphanumeric.PunctuationMarks), options =>
             {
                 options.Encoding = Encoding.UTF8;
                 options.Preamble = PreambleSequence.Remove;
