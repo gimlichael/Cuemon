@@ -511,7 +511,7 @@ namespace Cuemon.IO
                 await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
-            }, ct:options.CancellationToken);
+            }, ct: options.CancellationToken);
         }
 
         /// <summary>

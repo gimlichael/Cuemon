@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Xml;
 using Cuemon.IO;
 using Cuemon.Runtime.Serialization.Formatters;
 
@@ -67,10 +66,10 @@ namespace Cuemon.Extensions.Text.Json.Formatters
             return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 using (var jsonWriter = new Utf8JsonWriter(ms, new JsonWriterOptions()
-                       {
-                           Indented = Options.Settings.WriteIndented,
-                           Encoder = Options.Settings.Encoder
-                       }))
+                {
+                    Indented = Options.Settings.WriteIndented,
+                    Encoder = Options.Settings.Encoder
+                }))
                 {
                     JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
                 }
