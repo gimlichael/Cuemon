@@ -19,6 +19,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 > - Cuemon.Extensions.Newtonsoft.Json was removed from the solution and migrated to [Codebelt.Extensions.Newtonsoft.Json](https://github.com/codebeltnet/newtonsoft-json)
 > - Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 was removed from the solution and migrated to [Codebelt.Extensions.AwsSignature4](https://github.com/codebeltnet/aws-signature-v4)
 
+> [!NOTE]
+> Types that are removed from this solution (but otherwise fits naturally together) will be migrated to smaller and more focused repositories in the [Codebelt](https://github.com/codebeltnet) organization, renamed to better reflect their purpose and published as standalone packages on NuGet.
+
 This major release is first and foremost focused on ironing out any wrinkles that have been introduced with .NET 9 preview releases so the final release is production ready together with the official launch from Microsoft.
 
 Next focus point will be ensuring a consistent developer experience while ironing out some of the more stale legacy code in the project.
@@ -28,6 +31,7 @@ Expect breaking changes with this major release.
 Highlighted features included in this release:
 
 - Support for both **FaultDetails** (HttpExceptionDescriptor) and **ProblemDetails** in the context of ASP.NET (both vanilla and MVC)
+- Reduced footprint in the core assemblies by removing obsolete and redundant code
 
 ### Added
 
@@ -41,6 +45,14 @@ Highlighted features included in this release:
 - XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
 - JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace was extended to include three new extension methods: AddFailureConverter, RemoveAllOf and RemoveAllOf{T}
 - JsonSerializerOptionsExtensions class in the Cuemon.Extensions.Text.Json namespace was extended to include one new extension method: Clone
+- AsyncPatterns class in the Cuemon.Threading namespace that provides a generic way to support different types of design patterns and practices with small utility methods scoped to Task
+- AsyncActionFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating AsyncActionFactory{TTuple} instances that encapsulate a Task based action delegate with a variable amount of generic arguments
+- AsyncFuncFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating AsyncFuncFactory{TTuple,TResult} instances that encapsulate a Task{TResult} based function delegate with a variable amount of generic arguments
+- Decorator class in the Cuemon namespace was extended with an additional method: RawEnclose
+- ActionFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating ActionFactory{TTuple} objects that encapsulate a delegate with a variable amount of generic arguments
+- FuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating FuncFactory{TTuple, TResult} objects that encapsulate a function delegate with a variable amount of generic arguments
+- MutableTupleFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating MutableTuple objects
+- TesterFuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating TesterFuncFactory{TTuple, TResult, TSuccess} objects that encapsulate a tester function delegate with a variable amount of generic arguments
 
 ### Changed
 
@@ -83,10 +95,15 @@ Highlighted features included in this release:
 - ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails) in the UseFaultDescriptorExceptionHandler extension method
 - XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml
 - CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace to use Codebelt.Extensions.YamlDotNet assembly instead of previously built-in YAML support from Codebelt.Extensions.YamlDotNet assembly
+- TaskActionFactory class in the Cuemon namespace was renamed to AsyncActionFactory and moved to the Cuemon.Threading namespace (breaking change)
+- TaskFuncFactory class in the Cuemon namespace was renamed to AsyncFuncFactory and moved to the Cuemon.Threading namespace (breaking change)
+- Template class in the Cuemon namespace was renamed to MutableTuple (breaking change)
+- TemplateFactory class in the Cuemon namespace was renamed to MutableTupleFactory (breaking change)
 
 ### Fixed
 
 - ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+- The JSON converter in the Cuemon.Extensions.Text.Json.Converters namespace that converts a Failure to JSON so it uses the actual key-value from the Data property of an exception instead of always writing key
 
 ### Removed
 
@@ -125,6 +142,28 @@ Highlighted features included in this release:
 - MvcCoreBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace (breaking change)
 - ExceptionDescriptorExtensions class from the Cuemon.Extensions.Diagnostics namespace (breaking change)
 - ReplaceLineEndings extension method from the StringExtensions class in the Cuemon.Extensions namespace (breaking change)
+- SafeInvokeAsync methods from the Patterns class in the Cuemon namespace (breaking change - moved to AsyncPatterns class in the Cuemon.Threading assembly)
+- ActionFactory static class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- FuncFactory static class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- TesterFuncFactory static class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- BinaryPrefix class from the Cuemon namespace (breaking change)
+- BitStorageCapacity class from the Cuemon namespace (breaking change)
+- BitUnit class from the Cuemon namespace (breaking change)
+- ByteStorageCapacity class from the Cuemon namespace
+- ByteUnit class from the Cuemon namespace (breaking change)
+- DecimalPrefix class from the Cuemon namespace (breaking change)
+- IPrefixMultiple interface from the Cuemon namespace (breaking change)
+- IUnit interface from the Cuemon namespace (breaking change)
+- MultipleTable class from the Cuemon namespace (breaking change)
+- NamingStyle enum from the Cuemon namespace (breaking change)
+- PrefixMultiple class from the Cuemon namespace (breaking change)
+- PrefixUnit class from the Cuemon namespace (breaking change)
+- StorageCapacity class from the Cuemon namespace (breaking change)
+- StorageCapacityOptions class from the Cuemon namespace (breaking change)
+- UnitFormatOptions class from the Cuemon namespace (breaking change)
+- UnitPrefix enum from the Cuemon namespace (breaking change)
+- UnitPrefixFormatter class from the Cuemon namespace (breaking change)
+- ZeroPrefix class from the Cuemon namespace (breaking change)
 
 ## [8.3.2] - 2024-08-04
 

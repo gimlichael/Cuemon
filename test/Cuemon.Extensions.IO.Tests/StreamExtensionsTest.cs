@@ -240,9 +240,9 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(sut5, sut7);
             Assert.NotEqual(sut5, sut6);
 
-            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(sut2.Length)}): {sut5.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(sut3.Length)}): {sut6.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(sut4.Length)}): {sut7.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({sut2.Length}): {sut5.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({sut3.Length}): {sut6.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({sut4.Length}): {sut7.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -264,9 +264,9 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(sut5, sut7);
             Assert.NotEqual(sut5, sut6);
 
-            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(sut2.Length)}): {sut5.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(sut3.Length)}): {sut6.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(sut4.Length)}): {sut7.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({sut2.Length}): {sut5.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({sut3.Length}): {sut6.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({sut4.Length}): {sut7.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -304,9 +304,9 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(sut5, sut7);
             Assert.NotEqual(sut5, sut6);
 
-            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(sut2.Length)}): {sut5.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(sut3.Length)}): {sut6.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(sut4.Length)}): {sut7.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({sut2.Length}): {sut5.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({sut3.Length}): {sut6.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({sut4.Length}): {sut7.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -328,9 +328,9 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(sut5, sut7);
             Assert.NotEqual(sut5, sut6);
 
-            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(sut2.Length)}): {sut5.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(sut3.Length)}): {sut6.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(sut4.Length)}): {sut7.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({sut2.Length}): {sut5.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({sut3.Length}): {sut6.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({sut4.Length}): {sut7.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -366,9 +366,9 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(sut5, sut7);
             Assert.NotEqual(sut5, sut6);
 
-            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(sut2.Length)}): {sut5.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(sut3.Length)}): {sut6.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(sut4.Length)}): {sut7.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({sut2.Length}): {sut5.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({sut3.Length}): {sut6.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({sut4.Length}): {sut7.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -390,9 +390,9 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(sut5, sut7);
             Assert.NotEqual(sut5, sut6);
 
-            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(sut2.Length)}): {sut5.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(sut3.Length)}): {sut6.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(sut4.Length)}): {sut7.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({sut2.Length}): {sut5.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({sut3.Length}): {sut6.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({sut4.Length}): {sut7.Substring(0, 50)} ...");
         }
 
         [Fact]

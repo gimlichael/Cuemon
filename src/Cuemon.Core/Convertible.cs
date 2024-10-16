@@ -44,6 +44,16 @@ namespace Cuemon
         public const int NullValue = 0;
 
         /// <summary>
+        /// Defines how many bits is needed for one byte.
+        /// </summary>
+        public const int BitsPerByte = 8;
+
+        /// <summary>
+        /// Defines how many bits is needed for one nibble (one hexadecimal digit).
+        /// </summary>
+        public const int BitsPerNibble = BitsPerByte / 2;
+
+        /// <summary>
         /// Registers the specified <see cref="IConvertible"/> implementation of <typeparamref name="T"/> to make it globally known.
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="IConvertible"/> implementation to use.</typeparam>
@@ -99,7 +109,7 @@ namespace Cuemon
 
         private static ulong ReverseBits(ulong input, byte byteSize)
         {
-            var bitSize = byteSize * ByteUnit.BitsPerByte;
+            var bitSize = byteSize * BitsPerByte;
             ulong output = 0;
             for (var i = 0; i < bitSize; i++)
             {

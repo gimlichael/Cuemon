@@ -66,7 +66,7 @@ namespace Cuemon.Security
                     break;
             }
             var result = hash.ToByteArray();
-            Array.Resize(ref result, Bits / ByteUnit.BitsPerByte);
+            Array.Resize(ref result, Bits / Convertible.BitsPerByte);
             result = Convertible.ReverseEndianness(result, o => o.ByteOrder = Options.ByteOrder);
             return new HashResult(result);
         }
