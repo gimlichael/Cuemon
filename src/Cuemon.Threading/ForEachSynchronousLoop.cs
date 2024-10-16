@@ -18,7 +18,7 @@ namespace Cuemon.Threading
 
         private long Sorter { get; set; }
 
-        protected sealed override void FillWorkQueue<TWorker>(TemplateFactory<TWorker> worker, IList<Func<Task>> queue)
+        protected sealed override void FillWorkQueue<TWorker>(MutableTupleFactory<TWorker> worker, IList<Func<Task>> queue)
         {
             foreach (var item in Partitioner)
             {
@@ -29,7 +29,7 @@ namespace Cuemon.Threading
                 {
                     try
                     {
-                        FillWorkQueueWorkerFactory(swf as TemplateFactory<TWorker>, current);
+                        FillWorkQueueWorkerFactory(swf as MutableTupleFactory<TWorker>, current);
                     }
                     catch (Exception e)
                     {
@@ -40,6 +40,6 @@ namespace Cuemon.Threading
             }
         }
 
-        protected abstract void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker, long sorter) where TWorker : Template<TSource>;
+        protected abstract void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker, long sorter) where TWorker : MutableTuple<TSource>;
     }
 }

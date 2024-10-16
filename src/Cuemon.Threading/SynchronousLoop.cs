@@ -16,12 +16,12 @@ namespace Cuemon.Threading
 
         protected Func<bool> WhileCondition { get; set; }
 
-        public void PrepareExecution<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TSource>
+        public void PrepareExecution<TWorker>(MutableTupleFactory<TWorker> worker) where TWorker : MutableTuple<TSource>
         {
             WhileExecuting(worker);
         }
 
-        protected void WhileExecuting<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TSource>
+        protected void WhileExecuting<TWorker>(MutableTupleFactory<TWorker> worker) where TWorker : MutableTuple<TSource>
         {
             if (WhileCondition == null) { throw new InvalidOperationException($"{nameof(WhileCondition)} cannot be null."); }
             while (WhileCondition())
@@ -39,7 +39,7 @@ namespace Cuemon.Threading
         {
         }
 
-        protected abstract void FillWorkQueue<TWorker>(TemplateFactory<TWorker> worker, IList<Func<Task>> queue) where TWorker : Template<TSource>;
+        protected abstract void FillWorkQueue<TWorker>(MutableTupleFactory<TWorker> worker, IList<Func<Task>> queue) where TWorker : MutableTuple<TSource>;
 
         protected void Process(IList<Func<Task>> queue)
         {

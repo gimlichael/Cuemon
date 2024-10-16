@@ -8,7 +8,7 @@ namespace Cuemon.Threading
         {
         }
 
-        protected override void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker)
+        protected override void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker)
         {
             if (worker is ActionFactory<TWorker> wf) { wf.ExecuteMethod(); }
         }

@@ -12,7 +12,7 @@ namespace Cuemon.Threading
         {
         }
 
-        protected override void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker, long sorter)
+        protected override void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker, long sorter)
         {
             if (worker is FuncFactory<TWorker, TResult> wf)
             {
@@ -23,7 +23,7 @@ namespace Cuemon.Threading
 
         private ConcurrentDictionary<long, TResult> Result { get; } = new ConcurrentDictionary<long, TResult>();
 
-        public IReadOnlyCollection<TResult> GetResult<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TSource>
+        public IReadOnlyCollection<TResult> GetResult<TWorker>(MutableTupleFactory<TWorker> worker) where TWorker : MutableTuple<TSource>
         {
             PrepareExecution(worker);
             return new ReadOnlyCollection<TResult>(Result.Values.ToList());

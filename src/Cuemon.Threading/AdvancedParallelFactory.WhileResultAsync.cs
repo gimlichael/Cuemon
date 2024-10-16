@@ -167,7 +167,7 @@ namespace Cuemon.Threading
         }
 
         private static async Task<IReadOnlyCollection<TResult>> WhileResultCoreAsync<TReader, TElement, TWorker, TResult>(AsyncForwardIterator<TReader, TElement> iterator, AsyncFuncFactory<TWorker, TResult> workerFactory, Action<AsyncWorkloadOptions> setup)
-            where TWorker : Template<TElement>
+            where TWorker : MutableTuple<TElement>
         {
             var options = Patterns.Configure(setup);
             var result = new ConcurrentDictionary<long, TResult>();

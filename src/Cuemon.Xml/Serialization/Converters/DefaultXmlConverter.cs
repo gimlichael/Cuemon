@@ -112,7 +112,7 @@ namespace Cuemon.Xml.Serialization.Converters
 
             var dictionaryType = valueType.GetGenericArguments().Length > 0 ? valueType.GetGenericArguments() : new[] { typeof(object), typeof(object) };
             var dictionary = typeof(Dictionary<,>).MakeGenericType(dictionaryType);
-            var castedValues = values.Select(pair => Template.CreateTwo(Decorator.Enclose(pair.Key).ChangeType(dictionaryType[0]), Decorator.Enclose(pair.Value).ChangeType(dictionaryType[1]))).ToList();
+            var castedValues = values.Select(pair => new MutableTuple<object, object>(Decorator.Enclose(pair.Key).ChangeType(dictionaryType[0]), Decorator.Enclose(pair.Value).ChangeType(dictionaryType[1]))).ToList();
             var instance = Activator.CreateInstance(dictionary);
             var addMethod = valueType.GetMethod("Add");
             foreach (var item in castedValues)

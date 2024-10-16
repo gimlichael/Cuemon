@@ -391,12 +391,12 @@ namespace Cuemon.Resilience
             return WithActionAsyncCore(factory, setup);
         }
 
-        private static Task WithActionAsyncCore<TTuple>(AsyncActionFactory<TTuple> factory, Action<AsyncTransientOperationOptions> setup) where TTuple : Template
+        private static Task WithActionAsyncCore<TTuple>(AsyncActionFactory<TTuple> factory, Action<AsyncTransientOperationOptions> setup) where TTuple : MutableTuple
         {
             return new AsyncActionTransientWorker(factory.DelegateInfo, factory.GenericArguments.ToArray(), setup).ResilientActionAsync(factory.ExecuteMethodAsync);
         }
 
-        private static Task<TResult> WithFuncAsyncCore<TTuple, TResult>(AsyncFuncFactory<TTuple, TResult> factory, Action<AsyncTransientOperationOptions> setup) where TTuple : Template
+        private static Task<TResult> WithFuncAsyncCore<TTuple, TResult>(AsyncFuncFactory<TTuple, TResult> factory, Action<AsyncTransientOperationOptions> setup) where TTuple : MutableTuple
         {
             return new AsyncFuncTransientWorker<TResult>(factory.DelegateInfo, factory.GenericArguments.ToArray(), setup).ResilientFuncAsync(factory.ExecuteMethodAsync);
         }

@@ -152,7 +152,7 @@ namespace Cuemon.Threading
         }
 
         private static async Task WhileCoreAsync<TReader, TElement, TWorker>(AsyncForwardIterator<TReader, TElement> iterator, AsyncActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup)
-            where TWorker : Template<TElement>
+            where TWorker : MutableTuple<TElement>
         {
             var options = Patterns.Configure(setup);
             var readForward = true;

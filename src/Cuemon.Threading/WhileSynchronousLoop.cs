@@ -28,7 +28,7 @@ namespace Cuemon.Threading
             _workChunks = Options.PartitionSize;
         }
 
-        protected sealed override void FillWorkQueue<TWorker>(TemplateFactory<TWorker> worker, IList<Func<Task>> queue)
+        protected sealed override void FillWorkQueue<TWorker>(MutableTupleFactory<TWorker> worker, IList<Func<Task>> queue)
         {
             while (_workChunks > 0 && ReadForward)
             {
@@ -42,7 +42,7 @@ namespace Cuemon.Threading
                     try
                     {
                         Interlocked.Decrement(ref _workChunks);
-                        FillWorkQueueWorkerFactory(swf as TemplateFactory<TWorker>, current);
+                        FillWorkQueueWorkerFactory(swf as MutableTupleFactory<TWorker>, current);
                     }
                     catch (Exception e)
                     {
@@ -53,6 +53,6 @@ namespace Cuemon.Threading
             }
         }
 
-        protected abstract void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker, long sorter) where TWorker : Template<TSource>;
+        protected abstract void FillWorkQueueWorkerFactory<TWorker>(MutableTupleFactory<TWorker> worker, long sorter) where TWorker : MutableTuple<TSource>;
     }
 }

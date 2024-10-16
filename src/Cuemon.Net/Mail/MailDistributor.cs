@@ -89,13 +89,13 @@ namespace Cuemon.Net.Mail
             }
         }
 
-        private static List<Template<Func<SmtpClient>, List<MailMessage>>> PrepareShipment(MailDistributor distributor, IEnumerable<MailMessage> mails, Func<MailMessage, bool> filter)
+        private static List<MutableTuple<Func<SmtpClient>, List<MailMessage>>> PrepareShipment(MailDistributor distributor, IEnumerable<MailMessage> mails, Func<MailMessage, bool> filter)
         {
             var partitionedMails = new PartitionerEnumerable<MailMessage>(mails, distributor.DeliverySize);
-            var carriers = new List<Template<Func<SmtpClient>, List<MailMessage>>>();
+            var carriers = new List<MutableTuple<Func<SmtpClient>, List<MailMessage>>>();
             while (partitionedMails.HasPartitions)
             {
-                carriers.Add(Template.CreateTwo(distributor.Carrier, new List<MailMessage>(filter == null
+                carriers.Add(new MutableTuple<Func<SmtpClient>, List<MailMessage>>(distributor.Carrier, new List<MailMessage>(filter == null
                     ? partitionedMails
                     : partitionedMails.Where(filter)
                 )));

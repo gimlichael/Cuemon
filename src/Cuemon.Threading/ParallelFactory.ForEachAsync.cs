@@ -128,7 +128,7 @@ namespace Cuemon.Threading
             return ForEachCoreAsync(source, AsyncActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 
-        private static async Task ForEachCoreAsync<TSource, TWorker>(IEnumerable<TSource> source, AsyncActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup) where TWorker : Template<TSource>
+        private static async Task ForEachCoreAsync<TSource, TWorker>(IEnumerable<TSource> source, AsyncActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup) where TWorker : MutableTuple<TSource>
         {
             var options = Patterns.Configure(setup);
             var partitioner = new PartitionerEnumerable<TSource>(source, options.PartitionSize);
