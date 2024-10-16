@@ -21,7 +21,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create(Action<StreamWriter> writer, Action<StreamWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null);
+            var factory = new ActionFactory<MutableTuple<StreamWriter>>(tuple => writer?.Invoke(tuple.Arg1), new MutableTuple<StreamWriter>(null), writer);
             return CreateStreamCore(factory, setup);
         }
 
@@ -35,7 +35,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T>(Action<StreamWriter, T> writer, T arg, Action<StreamWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg);
+            var factory = new ActionFactory<MutableTuple<StreamWriter, T>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2), new MutableTuple<StreamWriter, T>(null, arg), writer);
             return CreateStreamCore(factory, setup);
         }
 
@@ -51,7 +51,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2>(Action<StreamWriter, T1, T2> writer, T1 arg1, T2 arg2, Action<StreamWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2);
+            var factory = new ActionFactory<MutableTuple<StreamWriter, T1, T2>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<StreamWriter, T1, T2>(null, arg1, arg2), writer);
             return CreateStreamCore(factory, setup);
         }
 
@@ -69,7 +69,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2, T3>(Action<StreamWriter, T1, T2, T3> writer, T1 arg1, T2 arg2, T3 arg3, Action<StreamWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3);
+            var factory = new ActionFactory<MutableTuple<StreamWriter, T1, T2, T3>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<StreamWriter, T1, T2, T3>(null, arg1, arg2, arg3), writer);
             return CreateStreamCore(factory, setup);
         }
 
@@ -89,7 +89,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2, T3, T4>(Action<StreamWriter, T1, T2, T3, T4> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<StreamWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4);
+            var factory = new ActionFactory<MutableTuple<StreamWriter, T1, T2, T3, T4>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<StreamWriter, T1, T2, T3, T4>(null, arg1, arg2, arg3, arg4), writer);
             return CreateStreamCore(factory, setup);
         }
 
@@ -111,7 +111,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2, T3, T4, T5>(Action<StreamWriter, T1, T2, T3, T4, T5> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<StreamWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5);
+            var factory = new ActionFactory<MutableTuple<StreamWriter, T1, T2, T3, T4, T5>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<StreamWriter, T1, T2, T3, T4, T5>(null, arg1, arg2, arg3, arg4, arg5), writer);
             return CreateStreamCore(factory, setup);
         }
 
@@ -125,7 +125,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create(Action<IBufferWriter<byte>> writer, Action<BufferWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null);
+            var factory = new ActionFactory<MutableTuple<IBufferWriter<byte>>>(tuple => writer?.Invoke(tuple.Arg1), new MutableTuple<IBufferWriter<byte>>(null), writer);
             return CreateBufferStreamCore(factory, setup);
         }
 
@@ -139,7 +139,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T>(Action<IBufferWriter<byte>, T> writer, T arg, Action<BufferWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg);
+            var factory = new ActionFactory<MutableTuple<IBufferWriter<byte>, T>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2), new MutableTuple<IBufferWriter<byte>, T>(null, arg), writer);
             return CreateBufferStreamCore(factory, setup);
         }
 
@@ -155,7 +155,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2>(Action<IBufferWriter<byte>, T1, T2> writer, T1 arg1, T2 arg2, Action<BufferWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2);
+            var factory = new ActionFactory<MutableTuple<IBufferWriter<byte>, T1, T2>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<IBufferWriter<byte>, T1, T2>(null, arg1, arg2), writer);
             return CreateBufferStreamCore(factory, setup);
         }
 
@@ -173,7 +173,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2, T3>(Action<IBufferWriter<byte>, T1, T2, T3> writer, T1 arg1, T2 arg2, T3 arg3, Action<BufferWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3);
+            var factory = new ActionFactory<MutableTuple<IBufferWriter<byte>, T1, T2, T3>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<IBufferWriter<byte>, T1, T2, T3>(null, arg1, arg2, arg3), writer);
             return CreateBufferStreamCore(factory, setup);
         }
 
@@ -193,7 +193,7 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2, T3, T4>(Action<IBufferWriter<byte>, T1, T2, T3, T4> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<BufferWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4);
+            var factory = new ActionFactory<MutableTuple<IBufferWriter<byte>, T1, T2, T3, T4>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<IBufferWriter<byte>, T1, T2, T3, T4>(null, arg1, arg2, arg3, arg4), writer);
             return CreateBufferStreamCore(factory, setup);
         }
 
@@ -215,11 +215,11 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> holding the content created by the delegate <paramref name="writer"/>.</returns>
         public static Stream Create<T1, T2, T3, T4, T5>(Action<IBufferWriter<byte>, T1, T2, T3, T4, T5> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<BufferWriterOptions> setup = null)
         {
-            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5);
+            var factory = new ActionFactory<MutableTuple<IBufferWriter<byte>, T1, T2, T3, T4, T5>>(tuple => writer?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<IBufferWriter<byte>, T1, T2, T3, T4, T5>(null, arg1, arg2, arg3, arg4, arg5), writer);
             return CreateBufferStreamCore(factory, setup);
         }
 
-        private static Stream CreateBufferStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<BufferWriterOptions> setup = null) where TTuple : Template<IBufferWriter<byte>>
+        private static Stream CreateBufferStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<BufferWriterOptions> setup = null) where TTuple : MutableTuple<IBufferWriter<byte>>
         {
             var options = Patterns.Configure(setup);
             return CreateStreamCore<TTuple, IBufferWriter<byte>>(factory, options, options.BufferSize, (f, ms) =>
@@ -233,7 +233,7 @@ namespace Cuemon.IO
 
 #endif
 
-        private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
+        private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : MutableTuple<StreamWriter>
         {
             var options = Patterns.Configure(setup);
             return CreateStreamCore<TTuple, StreamWriter>(factory, options, options.BufferSize, (f, ms) =>
@@ -245,7 +245,7 @@ namespace Cuemon.IO
             });
         }
 
-        private static Stream CreateStreamCore<TTuple, TWriter>(ActionFactory<TTuple> factory, StreamEncodingOptions options, int bufferSize, Action<ActionFactory<TTuple>, MemoryStream> writerFactory) where TTuple : Template<TWriter>
+        private static Stream CreateStreamCore<TTuple, TWriter>(ActionFactory<TTuple> factory, StreamEncodingOptions options, int bufferSize, Action<ActionFactory<TTuple>, MemoryStream> writerFactory) where TTuple : MutableTuple<TWriter>
         {
             return Patterns.SafeInvoke(() => new MemoryStream(bufferSize), (ms, f) =>
             {

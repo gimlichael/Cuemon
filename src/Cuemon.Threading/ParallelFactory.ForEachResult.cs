@@ -20,7 +20,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCore(source, FuncFactory.Create(worker, default), setup);
+            var factory = new FuncFactory<MutableTuple<TSource>, TResult>(tuple => worker(tuple.Arg1), new MutableTuple<TSource>(default), worker);
+            return ForEachResultCore(source, factory, setup);
         }
 
         /// <summary>
@@ -38,7 +39,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCore(source, FuncFactory.Create(worker, default, arg), setup);
+            var factory = new FuncFactory<MutableTuple<TSource, T>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2), new MutableTuple<TSource, T>(default, arg), worker);
+            return ForEachResultCore(source, factory, setup);
         }
 
         /// <summary>
@@ -58,7 +60,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2), setup);
+            var factory = new FuncFactory<MutableTuple<TSource, T1, T2>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<TSource, T1, T2>(default, arg1, arg2), worker);
+            return ForEachResultCore(source, factory, setup);
         }
 
         /// <summary>
@@ -80,7 +83,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            var factory = new FuncFactory<MutableTuple<TSource, T1, T2, T3>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<TSource, T1, T2, T3>(default, arg1, arg2, arg3), worker);
+            return ForEachResultCore(source, factory, setup);
         }
 
         /// <summary>
@@ -104,7 +108,8 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            var factory = new FuncFactory<MutableTuple<TSource, T1, T2, T3, T4>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<TSource, T1, T2, T3, T4>(default, arg1, arg2, arg3, arg4), worker);
+            return ForEachResultCore(source, factory, setup);
         }
 
         /// <summary>
@@ -130,11 +135,12 @@ namespace Cuemon.Threading
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(worker);
-            return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            var factory = new FuncFactory<MutableTuple<TSource, T1, T2, T3, T4, T5>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<TSource, T1, T2, T3, T4, T5>(default, arg1, arg2, arg3, arg4, arg5), worker);
+            return ForEachResultCore(source, factory, setup);
         }
 
         private static IReadOnlyCollection<TResult> ForEachResultCore<TSource, TWorker, TResult>(IEnumerable<TSource> source, FuncFactory<TWorker, TResult> workerFactory, Action<AsyncTaskFactoryOptions> setup)
-            where TWorker : Template<TSource>
+            where TWorker : MutableTuple<TSource>
         {
             return new FuncForEachSynchronousLoop<TSource, TResult>(source, setup).GetResult(workerFactory);
         }

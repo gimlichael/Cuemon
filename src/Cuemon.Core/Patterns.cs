@@ -214,8 +214,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = FuncFactory.Create(tester, default);
-            var f2 = ActionFactory.Create(catcher, default);
+            var f1 = new FuncFactory<MutableTuple<TResult>, TResult>(tuple => tester(tuple.Arg1), new MutableTuple<TResult>(default), tester);
+            var f2 = new ActionFactory<MutableTuple<Exception>>(tuple => catcher?.Invoke(tuple.Arg1), new MutableTuple<Exception>(default), catcher);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -233,8 +233,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = FuncFactory.Create(tester, default, arg);
-            var f2 = ActionFactory.Create(catcher, default, arg);
+            var f1 = new FuncFactory<MutableTuple<TResult, T>, TResult>(tuple => tester(tuple.Arg1, tuple.Arg2), new MutableTuple<TResult, T>(default, arg), tester);
+            var f2 = new ActionFactory<MutableTuple<Exception, T>>(tuple => catcher?.Invoke(tuple.Arg1, tuple.Arg2), new MutableTuple<Exception, T>(default, arg), catcher);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -254,8 +254,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = FuncFactory.Create(tester, default, arg1, arg2);
-            var f2 = ActionFactory.Create(catcher, default, arg1, arg2);
+            var f1 = new FuncFactory<MutableTuple<TResult, T1, T2>, TResult>(tuple => tester(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<TResult, T1, T2>(default, arg1, arg2), tester);
+            var f2 = new ActionFactory<MutableTuple<Exception, T1, T2>>(tuple => catcher?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<Exception, T1, T2>(default, arg1, arg2), catcher);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -277,8 +277,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3);
-            var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3);
+            var f1 = new FuncFactory<MutableTuple<TResult, T1, T2, T3>, TResult>(tuple => tester(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<TResult, T1, T2, T3>(default, arg1, arg2, arg3), tester);
+            var f2 = new ActionFactory<MutableTuple<Exception, T1, T2, T3>>(tuple => catcher?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<Exception, T1, T2, T3>(default, arg1, arg2, arg3), catcher);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -302,8 +302,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
-            var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
+            var f1 = new FuncFactory<MutableTuple<TResult, T1, T2, T3, T4>, TResult>(tuple => tester(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<TResult, T1, T2, T3, T4>(default, arg1, arg2, arg3, arg4), tester);
+            var f2 = new ActionFactory<MutableTuple<Exception, T1, T2, T3, T4>>(tuple => catcher?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<Exception, T1, T2, T3, T4>(default, arg1, arg2, arg3, arg4), catcher);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -329,15 +329,15 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer);
             Validator.ThrowIfNull(tester);
-            var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
-            var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
+            var f1 = new FuncFactory<MutableTuple<TResult, T1, T2, T3, T4, T5>, TResult>(tuple => tester(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<TResult, T1, T2, T3, T4, T5>(default, arg1, arg2, arg3, arg4, arg5), tester);
+            var f2 = new ActionFactory<MutableTuple<Exception, T1, T2, T3, T4, T5>>(tuple => catcher?.Invoke(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<Exception, T1, T2, T3, T4, T5>(default, arg1, arg2, arg3, arg4, arg5), catcher);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
         private static TResult SafeInvokeCore<TTester, TResult, TCatcher>(FuncFactory<TTester, TResult> testerFactory, Func<TResult> initializer, ActionFactory<TCatcher> catcherFactory)
             where TResult : class, IDisposable
-            where TTester : Template<TResult>
-            where TCatcher : Template<Exception>
+            where TTester : MutableTuple<TResult>
+            where TCatcher : MutableTuple<Exception>
         {
             TResult result = null;
             try

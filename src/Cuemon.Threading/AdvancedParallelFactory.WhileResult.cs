@@ -22,7 +22,8 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), FuncFactory.Create(worker, default), setup);
+            var factory = new FuncFactory<MutableTuple<TElement>, TResult>(tuple => worker(tuple.Arg1), new MutableTuple<TElement>(default), worker);
+            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), factory, setup);
         }
 
         /// <summary>
@@ -44,7 +45,8 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), FuncFactory.Create(worker, default, arg), setup);
+            var factory = new FuncFactory<MutableTuple<TElement, T>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2), new MutableTuple<TElement, T>(default, arg), worker);
+            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), factory, setup);
         }
 
         /// <summary>
@@ -68,7 +70,8 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), FuncFactory.Create(worker, default, arg1, arg2), setup);
+            var factory = new FuncFactory<MutableTuple<TElement, T1, T2>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3), new MutableTuple<TElement, T1, T2>(default, arg1, arg2), worker);
+            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), factory, setup);
         }
 
         /// <summary>
@@ -94,7 +97,8 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), FuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            var factory = new FuncFactory<MutableTuple<TElement, T1, T2, T3>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), new MutableTuple<TElement, T1, T2, T3>(default, arg1, arg2, arg3), worker);
+            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), factory, setup);
         }
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            var factory = new FuncFactory<MutableTuple<TElement, T1, T2, T3, T4>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), new MutableTuple<TElement, T1, T2, T3, T4>(default, arg1, arg2, arg3, arg4), worker);
+            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), factory, setup);
         }
 
         /// <summary>
@@ -152,11 +157,12 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(condition);
             Validator.ThrowIfNull(provider);
             Validator.ThrowIfNull(worker);
-            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            var factory = new FuncFactory<MutableTuple<TElement, T1, T2, T3, T4, T5>, TResult>(tuple => worker(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), new MutableTuple<TElement, T1, T2, T3, T4, T5>(default, arg1, arg2, arg3, arg4, arg5), worker);
+            return WhileResultCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), factory, setup);
         }
 
         private static IReadOnlyCollection<TResult> WhileResultCore<TReader, TElement, TWorker, TResult>(ForwardIterator<TReader, TElement> iterator, FuncFactory<TWorker, TResult> workerFactory, Action<AsyncTaskFactoryOptions> setup)
-            where TWorker : Template<TElement>
+            where TWorker : MutableTuple<TElement>
         {
             return new FuncWhileSynchronousLoop<TReader, TElement, TResult>(iterator, setup).GetResult(workerFactory);
         }
