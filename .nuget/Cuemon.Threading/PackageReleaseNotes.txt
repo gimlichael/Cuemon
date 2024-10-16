@@ -5,6 +5,11 @@ Availability: .NET 9, .NET 8 and .NET Standard 2.0
 - CHANGED Dependencies to latest and greatest with respect to TFMs
 - REMOVED Support for TFM .NET 6 (LTS)
  
+# New Features
+- ADDED AsyncPatterns class in the Cuemon.Threading namespace that provides a generic way to support different types of design patterns and practices with small utility methods scoped to Task
+- ADDED AsyncActionFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating AsyncActionFactory{TTuple} instances that encapsulate a Task based action delegate with a variable amount of generic arguments
+- ADDED AsyncFuncFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating AsyncFuncFactory{TTuple,TResult} instances that encapsulate a Task{TResult} based function delegate with a variable amount of generic arguments
+ 
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  

@@ -10,6 +10,12 @@ Availability: .NET 9, .NET 8 and .NET Standard 2.0
 - REMOVED ValidatorExtensions class from the Cuemon.Extensions namespace and moved members to Validator class in the Cuemon.Core assembly (Cuemon namespace)
 - REMOVED ReplaceLineEndings extension method from the StringExtensions class in the Cuemon.Extensions namespace
  
+# New Features
+- ADDED ActionFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating ActionFactory{TTuple} objects that encapsulate a delegate with a variable amount of generic arguments
+- ADDED FuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating FuncFactory{TTuple, TResult} objects that encapsulate a function delegate with a variable amount of generic arguments
+- ADDED MutableTupleFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating MutableTuple objects
+- ADDED TesterFuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating TesterFuncFactory{TTuple, TResult, TSuccess} objects that encapsulate a tester function delegate with a variable amount of generic arguments
+ 
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  

@@ -19,15 +19,41 @@ Availability: .NET 9, .NET 8 and .NET Standard 2.0
 - REMOVED YamlConverterFactory class from the Cuemon.Text.Yaml namespace
 - REMOVED YamlNamingPolicy class from the Cuemon.Text.Yaml namespace
 - RENAMED ReservedKeywordException class in the Cuemon namespace to ArgumentReservedKeywordException
+- REMOVED SafeInvokeAsync methods from the Patterns class in the Cuemon namespace (moved to AsyncPatterns class in the Cuemon.Threading assembly)
+- RENAMED TaskActionFactory class in the Cuemon namespace to AsyncActionFactory in the Cuemon.Threading namespace
+- RENAMED TaskFuncFactory class in the Cuemon namespace to AsyncFuncFactory in the Cuemon.Threading namespace
+- RENAMED Template class in the Cuemon namespace to MutableTuple
+- RENAMED TemplateFactory class in the Cuemon namespace to MutableTupleFactory
+- REMOVED ActionFactory static class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED FuncFactory static class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED TesterFuncFactory static class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED BinaryPrefix class from the Cuemon namespace
+- REMOVED BitStorageCapacity class from the Cuemon namespace
+- REMOVED BitUnit class from the Cuemon namespace
+- REMOVED ByteStorageCapacity class from the Cuemon namespace
+- REMOVED ByteUnit class from the Cuemon namespace
+- REMOVED DecimalPrefix class from the Cuemon namespace
+- REMOVED IPrefixMultiple interface from the Cuemon namespace
+- REMOVED IUnit interface from the Cuemon namespace
+- REMOVED MultipleTable class from the Cuemon namespace
+- REMOVED NamingStyle enum from the Cuemon namespace
+- REMOVED PrefixMultiple class from the Cuemon namespace
+- REMOVED PrefixUnit class from the Cuemon namespace
+- REMOVED StorageCapacity class from the Cuemon namespace
+- REMOVED StorageCapacityOptions class from the Cuemon namespace
+- REMOVED UnitFormatOptions class from the Cuemon namespace
+- REMOVED UnitPrefix enum from the Cuemon namespace
+- REMOVED UnitPrefixFormatter class from the Cuemon namespace
+- REMOVED ZeroPrefix class from the Cuemon namespace
  
 # New Features
 - ADDED Failure record in the Cuemon.Diagnostics namespace that represents a failure model with detailed information about an exception
-
  
 # Improvements
 - EXTENDED Condition class in the Cuemon namespace with an additional method: HasDifference
 - EXTENDED Validator class in the Cuemon namespace with five new methods: ThrowIfContainsReservedKeyword, ThrowIfNotDifferent, ThrowIfDifferent, ThrowIfContainsAny and ThrowIfNotContainsAny
 - CHANGED Validator class in the Cuemon namespace to comply with RSPEC-3343
+- EXTENDED Decorator class in the Cuemon namespace with an additional method: RawEnclose
  
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
