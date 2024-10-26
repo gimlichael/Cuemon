@@ -53,6 +53,7 @@ Highlighted features included in this release:
 - FuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating FuncFactory{TTuple, TResult} objects that encapsulate a function delegate with a variable amount of generic arguments
 - MutableTupleFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating MutableTuple objects
 - TesterFuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating TesterFuncFactory{TTuple, TResult, TSuccess} objects that encapsulate a tester function delegate with a variable amount of generic arguments
+- AsyncDisposable class in the Cuemon.Extensions namespace that provides a mechanism for asynchronously releasing both managed and unmanaged resources with focus on the former
 
 ### Changed
 
