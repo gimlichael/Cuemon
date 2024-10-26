@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
 using Xunit;
@@ -15,10 +16,23 @@ namespace Cuemon.Extensions
         {
             public bool ManagedResourcesDisposed { get; private set; }
 
+            public bool IsAsyncOperationCompleted { get; private set; }
+
+            public bool UnmanagedResourcesDisposed { get; private set; }
+
             protected override ValueTask OnDisposeManagedResourcesAsync()
             {
                 ManagedResourcesDisposed = true;
-                return default;
+                return new ValueTask(Task.Run(async () =>
+                {
+                    await Task.Delay(100); // Simulate async work
+                    IsAsyncOperationCompleted = true;
+                }));
+            }
+
+            protected override void OnDisposeUnmanagedResources()
+            {
+                UnmanagedResourcesDisposed = true;
             }
         }
 
@@ -46,6 +60,29 @@ namespace Cuemon.Extensions
 
             // Assert
             Assert.True(disposable.Disposed);
+        }
+
+        [Theory]
+        [InlineData(100)]  // Fast disposal
+        [InlineData(1000)] // Slower disposal
+        public async Task DisposeAsync_ShouldHandleVariousAsyncScenarios(int delayMs)
+        {
+            // Arrange
+            var disposable = new TestAsyncDisposable();
+            var sw = Stopwatch.StartNew();
+
+            // Act
+            await using (disposable)
+            {
+                await Task.Delay(delayMs);
+            }
+
+            sw.Stop();
+
+            // Assert
+            Assert.True(disposable.ManagedResourcesDisposed);
+            Assert.True(disposable.IsAsyncOperationCompleted);
+            Assert.True(sw.ElapsedMilliseconds >= delayMs);
         }
     }
 }
