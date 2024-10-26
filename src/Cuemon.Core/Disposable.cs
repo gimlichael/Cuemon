@@ -4,7 +4,6 @@ namespace Cuemon
 {
     /// <summary>
     /// Provides a mechanism for releasing both managed and unmanaged resources with focus on the former.
-    /// Implements the <see cref="IDisposable" />
     /// </summary>
     /// <seealso cref="IDisposable" />
     public abstract class Disposable : IDisposable
