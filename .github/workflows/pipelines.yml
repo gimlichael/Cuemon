@@ -18,6 +18,28 @@ on:
         options:
           - Debug
           - Release
+      projects:
+        type: string
+        description: Projects to iterate in test
+        default: "test/**/Cuemon.AspNetCore.Mvc.FunctionalTests.csproj test/**/Cuemon.AspNetCore.Mvc.Tests.csproj"
+      level:
+        type: choice
+        description: Desired loglevel for test
+        default: Normal
+        options:
+          - Normal
+          - Quiet
+          - Minimal
+          - Detailed
+          - Diagnostic
+      blameHangTimeout:
+        type: string
+        description: The time to wait for a test to complete before collecting a dump. Default is 10 minutes.
+        default: '10m'
+      blameHangDumpType:
+        type: string
+        description: The type of dump to collect when a test hangs. Default is mini.
+        default: 'mini'
 
 jobs:
   prepare_linux:
@@ -173,12 +195,42 @@ jobs:
       - name: Install .NET Tool - Report Generator
         uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
 
-      - name: Test with ${{ matrix.configuration }} build
-        if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
-        uses: codebeltnet/dotnet-test@v3.1.0
+      - if: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
+        name: Restore
+        uses: actions/cache/restore@v4
         with:
-          projects: "test/**/Cuemon.AspNetCore.Mvc.FunctionalTests.csproj test/**/Cuemon.AspNetCore.Mvc.Tests.csproj"
-          configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          level: normal
-          buildSwitches: -bl --diag:${{ runner.temp }}/TestResults/logs/log.txt
+          path: |
+            ${{ github.workspace }}
+            !${{ github.workspace }}/.git
+            ~/.nuget/packages
+          key: ${{ inputs.restoreCacheKey }}
+          restore-keys: |
+            dotnet-restore-
+          enableCrossOsArchive: true
+          fail-on-cache-miss: true
+  
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ inputs.configuration }}'
+          merge-multiple: true
+  
+      - name: Test
+        run: |
+            shopt -s globstar extglob
+            for file in ${{ inputs.projects }}; do
+              dotnet test $file --configuration ${{ matrix.configuration }} --verbosity ${{ inputs.level }} --logger trx --results-directory $RUNNER_TEMP/TestResults --collect:"XPlat Code Coverage;Format=opencover" --blame-hang-timeout ${{ inputs.blameHangTimeout }} --blame-hang-dump-type ${{ inputs.blameHangDumpType }} -p:CoverletOutputFormat=opencover -p:UseSourceLink=true -bl --diag:$RUNNER_TEMP/TestResults/logs/log.txt
+              echo "Tested and written results for '$file'"
+            done
+        shell: bash
+  
+      - name: Use Report Generator
+        run: reportgenerator "-reports:$RUNNER_TEMP/TestResults/**/*.opencover.xml" "-targetdir:${{ github.workspace }}/Coverage" "-reporttypes:Cobertura;MarkdownSummaryGithub;HTMLInline;HTMLChart"
+        shell: bash
+  
+      - name: Upload TestResults
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults-${{ inputs.configuration }}-${{ runner.os }}-${{ hashFiles(inputs.projects) }}
+          path: ${{ runner.temp }}/TestResults
+          include-hidden-files: true
