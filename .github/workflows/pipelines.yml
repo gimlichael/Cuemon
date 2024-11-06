@@ -225,12 +225,15 @@ jobs:
         shell: bash
   
       - name: Use Report Generator
+        if: always()
         run: reportgenerator "-reports:$RUNNER_TEMP/TestResults/**/*.opencover.xml" "-targetdir:${{ github.workspace }}/Coverage" "-reporttypes:Cobertura;MarkdownSummaryGithub;HTMLInline;HTMLChart"
         shell: bash
   
       - name: Upload TestResults
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: TestResults-${{ matrix.configuration }}-${{ runner.os }}-${{ hashFiles(inputs.projects) }}
           path: ${{ runner.temp }}/TestResults
           include-hidden-files: true
+
