@@ -181,4 +181,4 @@ jobs:
           configuration: ${{ matrix.configuration }}
           restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
           level: normal
-          buildSwitches: -bl
+          buildSwitches: -bl --diag:logs/log.txt
