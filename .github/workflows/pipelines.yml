@@ -180,5 +180,5 @@ jobs:
           projects: "test/**/Cuemon.AspNetCore.Mvc.FunctionalTests.csproj test/**/Cuemon.AspNetCore.Mvc.Tests.csproj"
           configuration: ${{ matrix.configuration }}
           restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          level: detailed
+          level: normal
           buildSwitches: -bl
