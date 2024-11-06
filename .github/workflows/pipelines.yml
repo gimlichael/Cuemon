@@ -203,7 +203,7 @@ jobs:
             ${{ github.workspace }}
             !${{ github.workspace }}/.git
             ~/.nuget/packages
-          key: ${{ inputs.restoreCacheKey }}
+          key: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
           restore-keys: |
             dotnet-restore-
           enableCrossOsArchive: true
@@ -212,7 +212,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: '*-${{ inputs.configuration }}'
+          pattern: '*-${{ matrix.configuration }}'
           merge-multiple: true
   
       - name: Test
