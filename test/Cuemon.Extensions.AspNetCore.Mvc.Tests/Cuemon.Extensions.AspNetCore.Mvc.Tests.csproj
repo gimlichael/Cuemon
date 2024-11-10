@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="9.0.0-preview.11" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" />
   </ItemGroup>
 
 </Project>

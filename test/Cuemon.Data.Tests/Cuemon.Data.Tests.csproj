@@ -25,26 +25,19 @@
     <EmbeddedResource Include="Assets\Professional.xml" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0-rc.2.24474.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.35" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" />
   </ItemGroup>
   
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Data\Cuemon.Data.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
@@ -54,10 +47,6 @@
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Text.Json\Cuemon.Extensions.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Resilience\Cuemon.Resilience.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Codebelt.Extensions.Xunit.Hosting" Version="9.0.0-preview.11" />
   </ItemGroup>
 
 </Project>
