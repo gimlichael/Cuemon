@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Cuemon
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Provides a generic way to wrap an object instance of <typeparamref name="T"/> inside another object.
@@ -9,7 +9,6 @@ namespace Cuemon
     /// <typeparam name="T">The type of the object instance to wrap inside another object.</typeparam>
     public interface IWrapper<out T> : IData
     {
-        #region Properties
         /// <summary>
         /// Gets the instance of the <see cref="IWrapper{T}"/> object.
         /// </summary>
@@ -33,9 +32,7 @@ namespace Cuemon
         /// </summary>
         /// <value><c>true</c> if this instance has a member reference; otherwise, <c>false</c>.</value>
         bool HasMemberReference { get; }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Returns a value that is equivalent to the instance of the node that this hierarchical structure represents.
         /// </summary>
@@ -50,6 +47,5 @@ namespace Cuemon
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <returns>A value that is equivalent to the instance of the node that this hierarchical structure represents.</returns>
         TResult InstanceAs<TResult>(IFormatProvider provider);
-        #endregion
     }
 }
