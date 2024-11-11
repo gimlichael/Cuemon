@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [9.0.0] - TBD (sometime in November 2024)
+## [9.0.0] - 2024-11-13
 
 > [!IMPORTANT]  
 > The following projects has been removed with this release and migrated to [Codebelt](https://github.com/codebeltnet):
@@ -21,6 +21,8 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 > [!NOTE]
 > Types that are removed from this solution (but otherwise fits naturally together) will be migrated to smaller and more focused repositories in the [Codebelt](https://github.com/codebeltnet) organization, renamed to better reflect their purpose and published as standalone packages on NuGet.
+>
+> - [Codebelt.Unitify](https://github.com/codebeltnet/unitify) is an example of a repository that received types from this solution and is now a standalone library that provides a uniform way of working with prefixes and multiples in the context of units of measure.
 
 This major release is first and foremost focused on ironing out any wrinkles that have been introduced with .NET 9 preview releases so the final release is production ready together with the official launch from Microsoft.
 
@@ -32,6 +34,9 @@ Highlighted features included in this release:
 
 - Support for both **FaultDetails** (HttpExceptionDescriptor) and **ProblemDetails** in the context of ASP.NET (both vanilla and MVC)
 - Reduced footprint in the core assemblies by removing obsolete and redundant code
+  - Went from approximately 700 KB to 500 KB in the core assembly
+  - Types reduced with approximately 20% which is about 100 types
+- Central Package Management (CPM) for all projects in the solution
 
 ### Added
 
@@ -54,6 +59,14 @@ Highlighted features included in this release:
 - MutableTupleFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating MutableTuple objects
 - TesterFuncFactory class in the Cuemon.Extensions namespace that provides access to factory methods for creating TesterFuncFactory{TTuple, TResult, TSuccess} objects that encapsulate a tester function delegate with a variable amount of generic arguments
 - AsyncDisposable class in the Cuemon.Extensions namespace that provides a mechanism for asynchronously releasing both managed and unmanaged resources with focus on the former
+- VerticalDirection enum in the Cuemon.Extensions namespace that specifies a set of values defining a vertical direction
+- IWrapper interface in the Cuemon.Extensions namespace that defines a generic way to wrap an object instance inside another object
+- Wrapper class in the Cuemon.Extensions namespace that provides a way to wrap an object instance inside another object
+- Hierarchy class in the Cuemon.Extensions.Runtime namespace that represents a way to expose a node of a hierarchical structure, including the node object type
+- HierarchyDecoratorExtensions class in the Cuemon.Extensions.Runtime namespace that provides (hidden) extensions to the IHierarchy interface
+- HierarchyOptions class in the Cuemon.Extensions.Runtime namespace that represents a set of options to configure the behavior of the Hierarchy and HierarchySerializer class
+- IHierarchy interface in the Cuemon.Extensions.Runtime namespace that defines a way to expose a node of a hierarchical structure
+- HierarchySerializer class in the Cuemon.Extensions.Runtime.Serialization namespace that provides a way to serialize objects to nodes of IHierarchy
 
 ### Changed
 
@@ -165,6 +178,21 @@ Highlighted features included in this release:
 - UnitPrefix enum from the Cuemon namespace (breaking change)
 - UnitPrefixFormatter class from the Cuemon namespace (breaking change)
 - ZeroPrefix class from the Cuemon namespace (breaking change)
+- DataPairCollection class from the Cuemon.Collections namespace
+- DataPairDictionary class from the Cuemon.Collections namespace
+- Initializer class from the Cuemon namespace
+- InitializerBuilder class from the Cuemon namespace
+- Mapping class from the Cuemon namespace
+- IndexMapping class from the Cuemon namespace
+- HorizontalDirection enum from the Cuemon namespace
+- VerticalDirection enum from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- IWrapper interface from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- Wrapper class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- HierarchyDecoratorExtensions class from the Cuemon namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly)
+- Hierarchy class from the Cuemon namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly)
+- IHierarchy interface from the Cuemon namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly)
+- ObjectHierarchyOptions class from the Cuemon.Reflection namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly and renamed to HierarchyOptions)
+- HierarchySerializer class from the Cuemon.Runtime.Serialization namespace (moved to the Cuemon.Extensions.Runtime.Serialization namespace in the Cuemon.Extensions.Core assembly)
 
 ## [8.3.2] - 2024-08-04
 
