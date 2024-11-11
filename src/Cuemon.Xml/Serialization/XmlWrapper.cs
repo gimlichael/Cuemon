@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
+using Cuemon.Extensions;
 
 namespace Cuemon.Xml.Serialization
 {

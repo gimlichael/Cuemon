@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using Cuemon.Extensions.Runtime;
 using Cuemon.Xml;
 
 namespace Cuemon.Extensions.Xml

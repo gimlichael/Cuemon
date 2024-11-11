@@ -1,5 +1,6 @@
 ﻿using Cuemon.Assets;
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions.Runtime.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 

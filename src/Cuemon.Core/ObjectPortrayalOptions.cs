@@ -78,7 +78,7 @@ namespace Cuemon
                     {
                         return string.Format(provider, "{0}={1}", property.Name, Decorator.Enclose(property.PropertyType).ToFriendlyName(o => o.FullName = true));
                     }
-                    var instanceValue = Infrastructure.DefaultPropertyValueResolver(instance, property);
+                    var instanceValue = Decorator.RawEnclose(instance).DefaultPropertyValueResolver(property);
                     return string.Format(provider, "{0}={1}", property.Name, instanceValue ?? NullValue);
                 }
                 return string.Format(provider, "{0}={1}", property.Name, NoGetterValue);

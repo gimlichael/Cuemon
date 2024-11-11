@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Cuemon.Collections.Generic;
 
-namespace Cuemon
+namespace Cuemon.Extensions.Runtime
 {
     /// <summary>
     /// Extension methods for the <see cref="IHierarchy{T}"/> interface hidden behind the <see cref="IDecorator{T}"/> interface.
@@ -69,7 +69,7 @@ namespace Cuemon
         public static Guid UseGuidFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return UseGenericConverter<Guid>(decorator.Inner);
+            return decorator.Inner.UseGenericConverter<Guid>();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Cuemon
         public static string UseStringFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return UseGenericConverter<string>(decorator.Inner);
+            return decorator.Inner.UseGenericConverter<string>();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Cuemon
         public static decimal UseDecimalFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return UseGenericConverter<decimal>(decorator.Inner);
+            return decorator.Inner.UseGenericConverter<decimal>();
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Cuemon
         /// <returns>An <see cref="IWrapper{T}.Instance"/>  that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.</returns>
         public static T FindFirstInstance<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
         {
-            return FindInstance(decorator, match).FirstOrDefault();
+            return decorator.FindInstance(match).FirstOrDefault();
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Cuemon
         /// <returns>An <see cref="IWrapper{T}.Instance"/> node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node instance is found.</returns>
         public static T FindSingleInstance<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
         {
-            return FindInstance(decorator, match).SingleOrDefault();
+            return decorator.FindInstance(match).SingleOrDefault();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all node instances that match the conditions defined by the specified predicate, if found.</returns>
         public static IEnumerable<T> FindInstance<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
         {
-            return Find(decorator, match).Select(h => h.Instance);
+            return decorator.Find(match).Select(h => h.Instance);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Cuemon
         /// <returns>An <see cref="IHierarchy{T}"/> node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.</returns>
         public static IHierarchy<T> FindFirst<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
         {
-            return Find(decorator, match).FirstOrDefault();
+            return decorator.Find(match).FirstOrDefault();
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Cuemon
         /// <returns>An <see cref="IHierarchy{T}"/> node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.</returns>
         public static IHierarchy<T> FindSingle<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
         {
-            return Find(decorator, match).SingleOrDefault();
+            return decorator.Find(match).SingleOrDefault();
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfNull(match);
-            return DescendantsAndSelf(decorator).Where(match);
+            return decorator.DescendantsAndSelf().Where(match);
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Cuemon
             Validator.ThrowIfNull(replacer);
             foreach (var node in decorator.Inner)
             {
-                Replace(Decorator.Enclose(node), replacer);
+                Decorator.Enclose(node).Replace(replacer);
             }
         }
 
@@ -261,7 +261,7 @@ namespace Cuemon
         public static IHierarchy<T> Root<T>(this IDecorator<IHierarchy<T>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return decorator.Inner.HasParent ? AncestorsAndSelf(decorator).FirstOrDefault() : decorator.Inner;
+            return decorator.Inner.HasParent ? decorator.AncestorsAndSelf().FirstOrDefault() : decorator.Inner;
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> AncestorsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            IList<IHierarchy<T>> result = new List<IHierarchy<T>>(Hierarchy.WhileSourceTraversalIsNotNull(decorator.Inner, Hierarchy.AncestorsAndSelf));
+            IList<IHierarchy<T>> result = new List<IHierarchy<T>>(Hierarchy.TraverseWhileNotNull(decorator.Inner, Hierarchy.AncestorsAndSelf));
             return result.Count > 0 ? result.Reverse() : Arguments.Yield(decorator.Inner);
         }
 
@@ -292,7 +292,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> DescendantsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return Hierarchy.WhileSourceTraversalHasElements(decorator.Inner, Hierarchy.DescendantsAndSelf).Reverse();
+            return Hierarchy.TraverseWhileNotEmpty(decorator.Inner, Hierarchy.DescendantsAndSelf).Reverse();
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> SiblingsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return SiblingsAndSelfAt(decorator, decorator.Inner.Depth);
+            return decorator.SiblingsAndSelfAt(decorator.Inner.Depth);
         }
 
         /// <summary>
@@ -327,8 +327,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfLowerThan(depth, 0, nameof(depth));
-            var root = AncestorsAndSelf(decorator).FirstOrDefault();
-            var descendantsFromRoot = DescendantsAndSelf(Decorator.Enclose(root));
+            var root = decorator.AncestorsAndSelf().FirstOrDefault();
+            var descendantsFromRoot = Decorator.Enclose(root).DescendantsAndSelf();
             foreach (var descendantItem in descendantsFromRoot)
             {
                 if (descendantItem.Depth == depth) { yield return descendantItem; }
@@ -353,7 +353,7 @@ namespace Cuemon
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
             if (decorator.Inner.Index == index) { return decorator.Inner; }
-            var allNodes = FlattenAll(decorator);
+            var allNodes = decorator.FlattenAll();
             foreach (var element in allNodes)
             {
                 if (element.Index == index) { return element; }
@@ -373,8 +373,8 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> FlattenAll<T>(this IDecorator<IHierarchy<T>> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            var root = AncestorsAndSelf(decorator).FirstOrDefault();
-            return DescendantsAndSelf(Decorator.Enclose(root));
+            var root = decorator.AncestorsAndSelf().FirstOrDefault();
+            return Decorator.Enclose(root).DescendantsAndSelf();
         }
 
         private static T UseGenericConverter<T>(this IHierarchy<DataPair> hierarchy)

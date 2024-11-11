@@ -18,7 +18,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
         [Fact]
         public void AddStringEnumConverter_ShouldAddStringEnumConverterToConverterCollection_WithPascalCase()
         {
-            var sut1 = HorizontalDirection.Left;
+            var sut1 = DayOfWeek.Friday;
             var sut2 = new JsonFormatterOptions();
             sut2.Settings.PropertyNamingPolicy = null; // set PascalCase
             sut2.Settings.Converters.Clear();
@@ -32,8 +32,8 @@ namespace Cuemon.Extensions.Text.Json.Converters
 
                 var json = result.ToEncodedString();
 
-                Assert.True(jc.CanConvert(typeof(HorizontalDirection)));
-                Assert.Equal("\"Left\"", json);
+                Assert.True(jc.CanConvert(typeof(DayOfWeek)));
+                Assert.Equal("\"Friday\"", json);
 
                 TestOutput.WriteLine(json);
             });
@@ -73,7 +73,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
         [Fact]
         public void AddStringEnumConverter_ShouldAddStringEnumConverterToConverterCollection()
         {
-            var sut1 = HorizontalDirection.Left;
+            var sut1 = DayOfWeek.Friday;
             var sut2 = new JsonFormatterOptions();
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringEnumConverter();
@@ -86,8 +86,8 @@ namespace Cuemon.Extensions.Text.Json.Converters
 
                 var json = result.ToEncodedString();
 
-                Assert.True(jc.CanConvert(typeof(HorizontalDirection)));
-                Assert.Equal("\"left\"", json);
+                Assert.True(jc.CanConvert(typeof(DayOfWeek)));
+                Assert.Equal("\"friday\"", json);
 
                 TestOutput.WriteLine(json);
             });

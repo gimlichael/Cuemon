@@ -4,7 +4,7 @@ using System.Xml;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xml.Assets;
 using Codebelt.Extensions.Xunit;
-using Cuemon.Runtime.Serialization;
+using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;
 using Xunit.Abstractions;
@@ -112,6 +112,7 @@ namespace Cuemon.Extensions.Xml
             var sut4 = sut3.ToHierarchy();
             var sut5 = sut4.GetChildren(); // namespace
 
+            TestOutput.WriteLine(sut1.ToString());
             TestOutput.WriteLine(sut2.ToEncodedString());
 
             Assert.NotNull(sut3);

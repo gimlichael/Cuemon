@@ -45,6 +45,21 @@ Availability: .NET 9, .NET 8 and .NET Standard 2.0
 - REMOVED UnitPrefix enum from the Cuemon namespace
 - REMOVED UnitPrefixFormatter class from the Cuemon namespace
 - REMOVED ZeroPrefix class from the Cuemon namespace
+- REMOVED DataPairCollection class from the Cuemon.Collections namespace
+- REMOVED DataPairDictionary class from the Cuemon.Collections namespace
+- REMOVED Initializer class from the Cuemon namespace
+- REMOVED InitializerBuilder class from the Cuemon namespace
+- REMOVED Mapping class from the Cuemon namespace
+- REMOVED IndexMapping class from the Cuemon namespace
+- REMOVED HorizontalDirection enum from the Cuemon namespace
+- REMOVED VerticalDirection enum from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED IWrapper interface from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED Wrapper class from the Cuemon namespace (moved to the Cuemon.Extensions namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED HierarchyDecoratorExtensions class from the Cuemon namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED Hierarchy class from the Cuemon namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED IHierarchy interface from the Cuemon namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly)
+- REMOVED ObjectHierarchyOptions class from the Cuemon.Reflection namespace (moved to the Cuemon.Extensions.Runtime namespace in the Cuemon.Extensions.Core assembly and renamed to HierarchyOptions)
+- REMOVED HierarchySerializer class from the Cuemon.Runtime.Serialization namespace (moved to the Cuemon.Extensions.Runtime.Serialization namespace in the Cuemon.Extensions.Core assembly)
  
 # New Features
 - ADDED Failure record in the Cuemon.Diagnostics namespace that represents a failure model with detailed information about an exception

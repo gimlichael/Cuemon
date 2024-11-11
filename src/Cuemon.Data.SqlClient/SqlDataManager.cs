@@ -224,7 +224,7 @@ namespace Cuemon.Data.SqlClient
 
         private static SqlException ParseException(Exception exception)
         {
-            var exceptions = Arguments.Yield(exception).Concat(Decorator.Enclose(exception).Flatten());
+            var exceptions = Arguments.Yield(exception).Concat(Decorator.EncloseToExpose(exception).Flatten());
             return exceptions.FirstOrDefault(ex => ex is SqlException) as SqlException;
         }
     }

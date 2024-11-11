@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
-namespace Cuemon
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Provides helper method for a <see cref="Wrapper{T}"/> object.
@@ -84,7 +84,6 @@ namespace Cuemon
         private Type _instanceType;
         private MemberInfo _memberReference;
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="Wrapper{T}"/> class.
         /// </summary>
@@ -103,9 +102,7 @@ namespace Cuemon
             _instanceType = instance.GetType();
             _memberReference = memberReference;
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets the object that this wrapper represents.
         /// </summary>
@@ -148,9 +145,6 @@ namespace Cuemon
         /// <value>An object that implements the <see cref="IDictionary{TKey,TValue}"/> interface and contains a collection of user-defined key/value pairs.</value>
         public virtual IDictionary<string, object> Data { get; } = new Dictionary<string, object>();
 
-        #endregion
-
-        #region Methods
         /// <summary>
         /// Returns a value that is equivalent to the instance of the object that this wrapper represents.
         /// </summary>
@@ -199,6 +193,5 @@ namespace Cuemon
         {
             return Wrapper.ParseInstance(this);
         }
-        #endregion
     }
 }

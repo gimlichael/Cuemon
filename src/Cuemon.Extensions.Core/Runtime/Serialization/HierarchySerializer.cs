@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using Cuemon.Reflection;
 
-namespace Cuemon.Runtime.Serialization
+namespace Cuemon.Extensions.Runtime.Serialization
 {
     /// <summary>
     /// Provides a way to serialize objects to nodes of <see cref="IHierarchy{T}"/>.
@@ -13,8 +12,8 @@ namespace Cuemon.Runtime.Serialization
         /// Initializes a new instance of the <see cref="HierarchySerializer"/> class.
         /// </summary>
         /// <param name="source">The object to convert to nodes of <see cref="IHierarchy{T}"/>.</param>
-        /// <param name="setup">The <see cref="ObjectHierarchyOptions"/> which need to be configured.</param>
-        public HierarchySerializer(object source, Action<ObjectHierarchyOptions> setup = null)
+        /// <param name="setup">The <see cref="HierarchyOptions"/> which need to be configured.</param>
+        public HierarchySerializer(object source, Action<HierarchyOptions> setup = null)
         {
             Nodes = Decorator.Enclose(Hierarchy.GetObjectHierarchy(source, setup)).Root();
         }

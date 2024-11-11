@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using Cuemon.Collections.Generic;
+using Cuemon.Extensions;
+using Cuemon.Extensions.Runtime;
 using Cuemon.Reflection;
 using Cuemon.Xml.Linq;
 

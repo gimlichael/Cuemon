@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Reflection;
 using Cuemon.Configuration;
-using Cuemon.Runtime.Serialization;
+using Cuemon.Extensions.Runtime.Serialization;
+using Cuemon.Reflection;
 
-namespace Cuemon.Reflection
+namespace Cuemon.Extensions.Runtime
 {
     /// <summary>
     /// Specifies options that is related to <see cref="Hierarchy"/> and <see cref="HierarchySerializer"/> operations.
     /// </summary>
     /// <seealso cref="IParameterObject"/>
-    public class ObjectHierarchyOptions : IParameterObject
+    public class HierarchyOptions : IParameterObject
     {
         private int _maxDepth;
         private int _maxCircularCalls;
@@ -20,9 +21,9 @@ namespace Cuemon.Reflection
         private MemberReflection _reflectionRules;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectHierarchyOptions"/> class.
+        /// Initializes a new instance of the <see cref="HierarchyOptions"/> class.
         /// </summary>
-        public ObjectHierarchyOptions()
+        public HierarchyOptions()
         {
             MaxDepth = 10;
             MaxCircularCalls = 2;
@@ -66,7 +67,7 @@ namespace Cuemon.Reflection
                         property.Name.Equals("TargetSite", StringComparison.Ordinal));
             };
             HasCircularReference = i => Decorator.Enclose(i.GetType()).HasCircularReference(i);
-            ValueResolver = Infrastructure.DefaultPropertyValueResolver;
+            ValueResolver = (s, i) => Decorator.RawEnclose(s).DefaultPropertyValueResolver(i);
         }
 
         /// <summary>
