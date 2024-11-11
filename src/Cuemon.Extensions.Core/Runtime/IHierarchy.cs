@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Cuemon
+namespace Cuemon.Extensions.Runtime
 {
     /// <summary>
     /// Provides a generic way to expose a node of a hierarchical structure, including the node object of type <typeparamref name="T"/>.
@@ -10,7 +10,6 @@ namespace Cuemon
     /// <typeparam name="T">The type of the node represented in the hierarchical structure.</typeparam>
     public interface IHierarchy<T> : IWrapper<T>
     {
-        #region Properties
         /// <summary>
         /// Indicates whether the current node has a parent node.
         /// </summary>
@@ -40,9 +39,7 @@ namespace Cuemon
         /// </summary>
         /// <value>The node at the specified index.</value>
         IHierarchy<T> this[int index] { get; }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Adds the specified instance to a node in the hierarchical structure representation.
         /// </summary>
@@ -88,6 +85,5 @@ namespace Cuemon
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence that represents all the child nodes of the current hierarchical node.</returns>
         IEnumerable<IHierarchy<T>> GetChildren();
-        #endregion
     }
 }

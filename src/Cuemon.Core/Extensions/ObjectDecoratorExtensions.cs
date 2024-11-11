@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
@@ -93,6 +94,49 @@ namespace Cuemon
                 {
                     throw new AggregateException(first, second);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Resolves the default value of a property from the enclosed object of the specified <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="pi">The <see cref="PropertyInfo"/> of the property to resolve the value for.</param>
+        /// <returns>The value of the property if the enclosed object is not null; otherwise, <c>null</c>.</returns>
+        /// <remarks>This API supports the product infrastructure and is not intended to be used directly from your code.</remarks>
+        public static object DefaultPropertyValueResolver(this IDecorator<object> decorator, PropertyInfo pi)
+        {
+            var source = decorator?.Inner;
+            return source == null
+                ? null
+                : pi?.GetValue(source, null);
+        }
+
+        /// <summary>
+        /// Invokes the specified <paramref name="traversal"/> path of the enclosed object of the specified <paramref name="decorator"/> until obstructed by an empty sequence.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="traversal">The function delegate that is invoked until the traveled path is obstructed by an empty sequence.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the traveled path of the enclosed object of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> -or- <paramref name="traversal"/> is null.
+        /// </exception>
+        public static IEnumerable<TSource> TraverseWhileNotEmpty<TSource>(this IDecorator<TSource> decorator, Func<TSource, IEnumerable<TSource>> traversal) where TSource : class
+        {
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(traversal);
+
+            var source = decorator.Inner;
+            var stack = new Stack<TSource>();
+            stack.Push(source);
+            while (stack.Count != 0)
+            {
+                var current = stack.Pop();
+                foreach (var element in traversal(current))
+                {
+                    stack.Push(element);
+                }
+                yield return current;
             }
         }
     }

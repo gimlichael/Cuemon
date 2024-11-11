@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions.Runtime;
 using Cuemon.Xml.Linq;
 
 namespace Cuemon.Xml.Serialization.Converters

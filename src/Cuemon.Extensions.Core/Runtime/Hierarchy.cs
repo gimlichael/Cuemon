@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Cuemon.Reflection;
 
-namespace Cuemon
+namespace Cuemon.Extensions.Runtime
 {
     /// <summary>
     /// Represents a way to expose a node of a hierarchical structure, including the node object of type <typeparamref name="T"/>.
@@ -15,7 +14,6 @@ namespace Cuemon
     {
         private SortedList<int, IHierarchy<T>> _children;
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="Hierarchy{T}" /> class.
         /// </summary>
@@ -23,9 +21,7 @@ namespace Cuemon
         {
             IsNew = true;
         }
-        #endregion
 
-        #region Properties
         private bool IsNew { get; set; }
 
         /// <summary>
@@ -44,13 +40,13 @@ namespace Cuemon
         /// Gets a value indicating whether this instance has a parent.
         /// </summary>
         /// <value><c>true</c> if this instance has a parent; otherwise, <c>false</c>.</value>
-        public bool HasParent => (Parent != null);
+        public bool HasParent => Parent != null;
 
         /// <summary>
         /// Gets a value indicating whether this instance has any children.
         /// </summary>
         /// <value><c>true</c> if this instance has any children; otherwise, <c>false</c>.</value>
-        public bool HasChildren => (Children.Count > 0);
+        public bool HasChildren => Children.Count > 0;
 
         private SortedList<int, IHierarchy<T>> Children => _children ??= new SortedList<int, IHierarchy<T>>();
 
@@ -62,9 +58,6 @@ namespace Cuemon
         /// <value>The node at the specified index.</value>
         public IHierarchy<T> this[int index] => Decorator.Enclose(this).NodeAt(index);
 
-        #endregion
-
-        #region Methods
         /// <summary>
         /// Allows for the instance on the current node to be replaced with a new <paramref name="instance" />.
         /// </summary>
@@ -211,7 +204,6 @@ namespace Cuemon
         {
             return Parent;
         }
-        #endregion
     }
 
     /// <summary>
@@ -239,12 +231,12 @@ namespace Cuemon
         /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
         /// </summary>
         /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
-        /// <param name="setup">The <see cref="ObjectHierarchyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="HierarchyOptions"/> which need to be configured.</param>
         /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null.
         /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, Action<ObjectHierarchyOptions> setup = null)
+        public static IHierarchy<object> GetObjectHierarchy(object source, Action<HierarchyOptions> setup = null)
         {
             Validator.ThrowIfNull(source);
             var options = Patterns.Configure(setup);
@@ -320,15 +312,15 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> -or- <paramref name="traversal"/> is null.
         /// </exception>
-        public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
+        public static IEnumerable<TSource> TraverseWhileNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(traversal);
 
-            return WhileSourceTraversalIsNotNullIterator(source, traversal);
+            return TraverseWhileNotNullIterator(source, traversal);
         }
 
-        private static IEnumerable<TSource> WhileSourceTraversalIsNotNullIterator<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
+        private static IEnumerable<TSource> TraverseWhileNotNullIterator<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
             var stack = new Stack<TSource>();
             stack.Push(traversal(source));
@@ -351,19 +343,9 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> -or- <paramref name="traversal"/> is null.
         /// </exception>
-        public static IEnumerable<TSource> WhileSourceTraversalHasElements<TSource>(TSource source, Func<TSource, IEnumerable<TSource>> traversal) where TSource : class
+        public static IEnumerable<TSource> TraverseWhileNotEmpty<TSource>(TSource source, Func<TSource, IEnumerable<TSource>> traversal) where TSource : class
         {
-            var stack = new Stack<TSource>();
-            stack.Push(source);
-            while (stack.Count != 0)
-            {
-                var current = stack.Pop();
-                foreach (var element in traversal(current))
-                {
-                    stack.Push(element);
-                }
-                yield return current;
-            }
+            return Decorator.EncloseToExpose(source).TraverseWhileNotEmpty(traversal);
         }
 
         internal static IHierarchy<TSource> AncestorsAndSelf<TSource>(IHierarchy<TSource> source)

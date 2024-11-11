@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.XPath;
 using Cuemon.Text;
 using Cuemon.Collections.Generic;
+using Cuemon.Extensions.Runtime;
 using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Xml
