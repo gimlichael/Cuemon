@@ -10,14 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Backport.System.Threading.Lock" Version="2.0.5" />
+    <PackageReference Include="Backport.System.Threading.Lock" />
     <Using Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="System.Threading.Lock" />
     <Using Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="Backport.System.Threading.Lock" />
     <Using Alias="LockFactory" Include="Backport.System.Threading.LockFactory" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />
   </ItemGroup>
 
 </Project>

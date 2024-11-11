@@ -553,7 +553,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             }
         }
 
-       
+
 
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
