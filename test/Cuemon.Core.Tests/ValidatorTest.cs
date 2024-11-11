@@ -8,6 +8,7 @@ using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Extensions;
 #endif
 using Codebelt.Extensions.Xunit;
+using Cuemon.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 

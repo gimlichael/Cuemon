@@ -26,7 +26,7 @@ namespace Cuemon.Security.Cryptography
             var h = UnkeyedHashFactory.CreateCryptoSha384();
             Assert.Equal("1761336e3f7cbfe51deb137f026f89e01a448e3b1fafa64039c1464ee8732f11a5341a6f41e0c202294736ed64db1a84", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
             Assert.Equal("90ae531f24e48697904a4d0286f354c50a350ebb6c2b9efcb22f71c96ceaeffc11c6095e9ca0df0ec30bf685dcf2e5e5", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("7210af19145ec2a8e250a7fe8e9eeeac1301e524daab82366c36be614dc35402a289101e48cad61c45337f2f32c14fdc", h.ComputeHash(VerticalDirection.Up).ToHexadecimalString());
+            Assert.Equal("d3b3f28933c5c91daa6a355aef5e09252e9c78baf751db717a2fde4b88e962a55e740acd869a3057b6020ad68e650a5f", h.ComputeHash(DayOfWeek.Friday).ToHexadecimalString());
         }
 
         [Fact]
