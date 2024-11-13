@@ -88,7 +88,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    needs: [prepare_linux, build]
+    needs: [build]
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -104,7 +104,6 @@ jobs:
           configuration: ${{ matrix.configuration }}
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
           uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
 
