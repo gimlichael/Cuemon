@@ -1,0 +1,166 @@
+name: Cuemon CI/CD Pipeline (Delayed)
+on:
+  pull_request:
+    paths-ignore:
+      - .codecov/**
+      - .docfx/**
+      - .github/**
+      - .nuget/**
+      - '**.md'
+  workflow_dispatch:
+    inputs:
+      configuration:
+        type: choice
+        description: The build configuration to use in the deploy stage.
+        required: true
+        default: Release
+        options:
+          - Debug
+          - Release
+
+jobs:
+  prepare_linux:
+    name: 🐧 Prepare Linux
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    outputs:
+      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+        with:
+          includePreview: true
+
+      - id: dotnet-restore
+        name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v2
+        with:
+          useRestoreCache: true
+
+  prepare_windows:
+    name: 🪟 Prepare Windows
+    runs-on: windows-2022
+    timeout-minutes: 15
+    outputs:
+      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+        with:
+          includePreview: true
+
+      - id: dotnet-restore
+        name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v2
+        with:
+          useRestoreCache: true
+
+  build:
+    name: 🛠️ Build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        framework: [net9.0, net8.0, netstandard2.0]
+    needs: [prepare_linux]
+    outputs:
+      version: ${{ steps.minver-calculate.outputs.version }}
+      projects: ${{ steps.projects.outputs.result }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+      
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+        with:
+          includePreview: true
+
+      - name: Install MinVer
+        uses: codebeltnet/dotnet-tool-install-minver@v1
+
+      - id: minver-calculate
+        name: Calculate Version
+        uses: codebeltnet/minver-calculate@v2
+
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
+      - id: projects
+        name: Set environment variable for projects
+        run: |
+          if [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
+            projects=(
+              "src/**/Cuemon.Extensions.Globalization.csproj"
+            )
+            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
+          else
+            projects=(
+              "src/**/Cuemon.Core.App.csproj"
+              "src/**/Cuemon.Extensions.Globalization.csproj"
+            )
+            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - id: dotnet-build
+        name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
+        uses: codebeltnet/dotnet-build@v2
+        with:
+          projects: ${{ steps.projects.outputs.result }}
+          configuration: ${{ matrix.configuration }}
+          framework: ${{ matrix.framework }}
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          uploadBuildArtifactName: 'DelayedBuild.${{ matrix.framework }}.${{ matrix.configuration }}'
+
+  pack:
+    name: 📦 Pack
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    needs: [prepare_linux, build]
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+        with:
+          includePreview: true
+
+      - name: Pack for ${{ matrix.configuration }}
+        uses: codebeltnet/dotnet-pack@v2
+        with:
+          configuration: ${{ matrix.configuration }}
+          uploadPackedArtifact: true
+          version: ${{ needs.build.outputs.version }}
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
+          uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
+          projects: ${{ needs.build.outputs.projects }}
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    name: 🚀 Deploy v${{ needs.build.outputs.version }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    needs: [build, pack]
+    environment: Production
+    steps:
+      - uses: codebeltnet/nuget-push@v1
+        with:
+          token: ${{ secrets.NUGET_TOKEN }}
+          configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
+          downloadBuildArtifactName: NuGet-Delayed-${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
