@@ -72,6 +72,7 @@ jobs:
     needs: [prepare_linux]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
+      projects: ${{ steps.projects.outputs.result }}
       testProjects: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
@@ -99,7 +100,7 @@ jobs:
       - name: Set environment variable for projects
         run: |
           if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
-            echo "PROJECTS=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_ENV
+            echo "result=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_OUTPUT
           elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
             projects=(
               "src/**/Cuemon.Core.csproj"
@@ -131,7 +132,7 @@ jobs:
               "src/**/Cuemon.Threading.csproj"
               "src/**/Cuemon.Xml.csproj"
             )
-            echo "PROJECTS=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_ENV
+            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
           else
             projects=(
               "src/**/Cuemon.AspNetCore.csproj"
@@ -176,7 +177,7 @@ jobs:
               "src/**/Cuemon.Threading.csproj"
               "src/**/Cuemon.Xml.csproj"
             )
-            echo "PROJECTS=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_ENV
+            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
           fi
         shell: bash
 
@@ -184,7 +185,7 @@ jobs:
         name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
         uses: codebeltnet/dotnet-build@v2
         with:
-          projects: ${{ env.PROJECTS }}
+          projects: ${{ steps.projects.outputs.result }}
           configuration: ${{ matrix.configuration }}
           framework: ${{ matrix.framework }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
@@ -219,6 +220,7 @@ jobs:
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          projects: ${{ needs.build.outputs.projects }}
 
   test:
     name: 🧪 Test
