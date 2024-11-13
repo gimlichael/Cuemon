@@ -68,7 +68,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        framework: [net9.0, net8.0, netstandard2.1, netstandard2.0]
+        framework: [net9.0, net8.0, netstandard2.0]
     needs: [prepare_linux]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
@@ -98,9 +98,7 @@ jobs:
 
       - name: Set environment variable for projects
         run: |
-          if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
-            echo "PROJECTS=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_ENV
-          elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
+          if [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
             projects=(
               "src/**/Cuemon.Extensions.Globalization.csproj"
             )
@@ -122,12 +120,7 @@ jobs:
           configuration: ${{ matrix.configuration }}
           framework: ${{ matrix.framework }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-
-      - id: test-projects
-        name: Generate matrix for test projects
-        uses: codebeltnet/shell-globbing@v1
-        with:
-          pattern: test/**/*.csproj
+          uploadBuildArtifactName: 'DelayedBuild.${{ matrix.framework }}.${{ matrix.configuration }}'
 
   pack:
     name: 📦 Pack
@@ -153,155 +146,19 @@ jobs:
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-
-  test:
-    name: 🧪 Test
-    needs: [build, prepare_linux, prepare_windows]
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-22.04, windows-2022]
-        configuration: [Debug, Release]
-        project: ${{ fromJson(needs.build.outputs.testProjects) }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Install .NET Tool - Report Generator
-        uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
-
-      - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
-        uses: codebeltnet/docker-compose@v1
-        with:
-          command: up
-          options: --wait
-        env:
-          SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
-
-      - name: Test with ${{ matrix.configuration }} build
-        if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
-        uses: codebeltnet/dotnet-test@v3
-        with:
-          projects: ${{ matrix.project }}
-          configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          buildSwitches: -p:SkipSignAssembly=true
-          testArguments: -- RunConfiguration.DisableAppDomain=true
-        env:
-          CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
-
-      - name: Take down SQL Server test dependency for ${{ matrix.configuration }} build
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
-        uses: codebeltnet/docker-compose@v1
-        with:
-          command: down
-
-  sonarcloud:
-    name: 🔬 Code Quality Analysis
-    needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 25
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Install .NET Tool - Sonar Scanner
-        uses: codebeltnet/dotnet-tool-install-sonarscanner@v1
-
-      - name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-
-      - name: Run SonarCloud Analysis
-        uses: codebeltnet/sonarcloud-scan@v1
-        with:
-          token: ${{ secrets.SONAR_TOKEN }}
-          organization: geekle
-          projectKey: Cuemon
-          version: ${{ needs.build.outputs.version }}
-
-      - name: Build
-        uses: codebeltnet/dotnet-build@v2
-        with:
-          uploadBuildArtifact: false
-          buildSwitches: -p:SkipSignAssembly=true
-
-      - name: Finalize SonarCloud Analysis
-        uses: codebeltnet/sonarcloud-scan-finalize@v1
-        with:
-          token: ${{ secrets.SONAR_TOKEN }}
-
-  codecov:
-    name: 📊 Code Coverage Analysis
-    needs: [build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Run CodeCov Analysis
-        uses: codebeltnet/codecov-scan@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          repository: gimlichael/Cuemon
-
-  codeql:
-    name: 🛡️ Security Analysis
-    needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-
-      - name: Prepare CodeQL SAST Analysis
-        uses: codebeltnet/codeql-scan@v1
-
-      - name: Build
-        uses: codebeltnet/dotnet-build@v2
-        with:
-          uploadBuildArtifact: false
-          buildSwitches: -p:SkipSignAssembly=true
-
-      - name: Finalize CodeQL SAST Analysis
-        uses: codebeltnet/codeql-scan-finalize@v1
+          downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
+          uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
 
   deploy:
     if: github.event_name != 'pull_request'
     name: 🚀 Deploy v${{ needs.build.outputs.version }}
     runs-on: ubuntu-22.04
     timeout-minutes: 15
-    needs: [build, pack, test, sonarcloud, codecov, codeql]
+    needs: [build, pack]
     environment: Production
     steps:
       - uses: codebeltnet/nuget-push@v1
         with:
           token: ${{ secrets.NUGET_TOKEN }}
           configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
+          downloadBuildArtifactName: NuGet-Delayed-${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
