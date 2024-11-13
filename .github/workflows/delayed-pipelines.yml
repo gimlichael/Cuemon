@@ -149,7 +149,7 @@ jobs:
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
           uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
-          projects: ${{ needs.prepare_linux.outputs.projects }}
+          projects: ${{ needs.build.outputs.projects }}
 
   deploy:
     if: github.event_name != 'pull_request'
