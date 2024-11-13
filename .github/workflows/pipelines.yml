@@ -97,7 +97,8 @@ jobs:
           bucketName: ${{ secrets.GCP_BUCKETNAME }}
           objectName: cuemon.snk
 
-      - name: Set environment variable for projects
+      - id: projects
+        name: Set environment variable for projects
         run: |
           if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
             echo "result=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_OUTPUT
