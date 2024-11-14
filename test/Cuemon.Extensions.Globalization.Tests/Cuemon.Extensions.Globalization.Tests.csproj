@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Globalization\Cuemon.Extensions.Globalization.csproj" />
   </ItemGroup>
 

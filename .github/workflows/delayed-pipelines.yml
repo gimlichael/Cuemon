@@ -19,48 +19,6 @@ on:
           - Release
 
 jobs:
-  prepare_linux:
-    name: 🐧 Prepare Linux
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
-
-  prepare_windows:
-    name: 🪟 Prepare Windows
-    runs-on: windows-2022
-    timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
-
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
@@ -69,7 +27,6 @@ jobs:
       matrix:
         configuration: [Debug, Release]
         framework: [net9.0, net8.0, netstandard2.0]
-    needs: [prepare_linux]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
       projects: ${{ steps.projects.outputs.result }}
@@ -113,6 +70,9 @@ jobs:
           fi
         shell: bash
 
+      - name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v2
+
       - id: dotnet-build
         name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
         uses: codebeltnet/dotnet-build@v2
@@ -120,7 +80,6 @@ jobs:
           projects: ${{ steps.projects.outputs.result }}
           configuration: ${{ matrix.configuration }}
           framework: ${{ matrix.framework }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           uploadBuildArtifactName: 'DelayedBuild.${{ matrix.framework }}.${{ matrix.configuration }}'
 
   pack:
@@ -130,7 +89,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    needs: [prepare_linux, build]
+    needs: [build]
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -146,10 +105,11 @@ jobs:
           configuration: ${{ matrix.configuration }}
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
           uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
-          projects: ${{ needs.build.outputs.projects }}
+          projects: >-
+            src/**/Cuemon.Core.App.csproj
+            src/**/Cuemon.Extensions.Globalization.csproj
 
   deploy:
     if: github.event_name != 'pull_request'
