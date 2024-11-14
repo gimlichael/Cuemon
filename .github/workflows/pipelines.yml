@@ -221,7 +221,7 @@ jobs:
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-          projects: >
+          projects: >-
             src/**/Cuemon.AspNetCore.csproj
             src/**/Cuemon.AspNetCore.App.csproj
             src/**/Cuemon.AspNetCore.Authentication.csproj
