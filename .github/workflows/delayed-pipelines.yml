@@ -19,40 +19,6 @@ on:
           - Release
 
 jobs:
-  prepare_linux:
-    name: 🐧 Prepare Linux
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-
-  prepare_windows:
-    name: 🪟 Prepare Windows
-    runs-on: windows-2022
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
@@ -61,7 +27,6 @@ jobs:
       matrix:
         configuration: [Debug, Release]
         framework: [net9.0, net8.0, netstandard2.0]
-    needs: [prepare_linux]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
       projects: ${{ steps.projects.outputs.result }}
@@ -105,6 +70,9 @@ jobs:
           fi
         shell: bash
 
+      - name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v2
+
       - id: dotnet-build
         name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
         uses: codebeltnet/dotnet-build@v2
@@ -121,7 +89,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    needs: [prepare_linux, build]
+    needs: [build]
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
