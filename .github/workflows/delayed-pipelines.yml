@@ -108,8 +108,8 @@ jobs:
           downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
           uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
           projects: >
-            "src/**/Cuemon.Core.App.csproj"
-            "src/**/Cuemon.Extensions.Globalization.csproj"
+            src/**/Cuemon.Core.App.csproj
+            src/**/Cuemon.Extensions.Globalization.csproj
 
   deploy:
     if: github.event_name != 'pull_request'
