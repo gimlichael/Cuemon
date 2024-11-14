@@ -262,7 +262,7 @@ jobs:
             src/**/Cuemon.Runtime.Caching.csproj
             src/**/Cuemon.Security.Cryptography.csproj
             src/**/Cuemon.Threading.csproj
-            src/**/Cuemon.Xml.csproj"
+            src/**/Cuemon.Xml.csproj
 
   test:
     name: 🧪 Test
