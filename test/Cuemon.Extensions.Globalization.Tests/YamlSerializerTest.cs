@@ -6,6 +6,7 @@ using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.YamlDotNet;
 using Codebelt.Extensions.YamlDotNet.Formatters;
 using Cuemon.Extensions.IO;
+using Cuemon.Extensions.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 using YamlDotNet.Core;
@@ -19,13 +20,14 @@ namespace Cuemon.Extensions.Globalization
 
         public YamlSerializerTest(ITestOutputHelper output) : base(output)
         {
+            output.WriteLine("Assembly version: " + typeof(CultureInfoExtensions).Assembly.GetAssemblyVersion().ToString());
             try
             {
                 _cultureInfo = new CultureInfo("da-DK").UseNationalLanguageSupport(); // from .NET6+ this is needed for both Windows and Linux; at least from pipeline (worked locally for Windows without Merge ...)
             }
             catch (Exception e)
             {
-                TestOutput.WriteLine(e.ToString());
+                output.WriteLine(e.ToString());
             }
         }
 
