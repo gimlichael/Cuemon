@@ -337,6 +337,13 @@ jobs:
           useRestoreCache: true
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
       - name: Run SonarCloud Analysis
         uses: codebeltnet/sonarcloud-scan@v1
         with:
@@ -392,6 +399,13 @@ jobs:
 
       - name: Prepare CodeQL SAST Analysis
         uses: codebeltnet/codeql-scan@v1
+
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
 
       - name: Build
         uses: codebeltnet/dotnet-build@v2
