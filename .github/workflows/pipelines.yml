@@ -349,7 +349,6 @@ jobs:
         uses: codebeltnet/dotnet-build@v2
         with:
           uploadBuildArtifact: false
-          buildSwitches: -p:SkipSignAssembly=true
 
       - name: Finalize SonarCloud Analysis
         uses: codebeltnet/sonarcloud-scan-finalize@v1
@@ -398,7 +397,6 @@ jobs:
         uses: codebeltnet/dotnet-build@v2
         with:
           uploadBuildArtifact: false
-          buildSwitches: -p:SkipSignAssembly=true
 
       - name: Finalize CodeQL SAST Analysis
         uses: codebeltnet/codeql-scan-finalize@v1
