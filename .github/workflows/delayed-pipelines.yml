@@ -23,8 +23,6 @@ jobs:
     name: 🐧 Prepare Linux
     runs-on: ubuntu-22.04
     timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -37,15 +35,11 @@ jobs:
       - id: dotnet-restore
         name: Restore Dependencies
         uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
 
   prepare_windows:
     name: 🪟 Prepare Windows
     runs-on: windows-2022
     timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -58,8 +52,6 @@ jobs:
       - id: dotnet-restore
         name: Restore Dependencies
         uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
 
   build:
     name: 🛠️ Build
@@ -120,7 +112,6 @@ jobs:
           projects: ${{ steps.projects.outputs.result }}
           configuration: ${{ matrix.configuration }}
           framework: ${{ matrix.framework }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           uploadBuildArtifactName: 'DelayedBuild.${{ matrix.framework }}.${{ matrix.configuration }}'
 
   pack:
@@ -146,7 +137,6 @@ jobs:
           configuration: ${{ matrix.configuration }}
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           downloadBuildArtifactPattern: 'DelayedBuild.*.${{ matrix.configuration }}'
           uploadPackedArtifactName: 'NuGet-Delayed-${{ matrix.configuration }}'
           projects: ${{ needs.build.outputs.projects }}
