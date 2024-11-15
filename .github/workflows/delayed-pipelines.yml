@@ -1,12 +1,12 @@
 name: Cuemon CI/CD Pipeline (Delayed)
 on:
   pull_request:
+    branches: [main]
     paths-ignore:
       - .codecov/**
       - .docfx/**
-      - .github/**
       - .nuget/**
-      - '**.md'
+      - '**/*.md'
   workflow_dispatch:
     inputs:
       configuration:
