@@ -15,7 +15,7 @@
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
     <TargetFrameworks>net9.0;net8.0;netstandard2.0</TargetFrameworks>
-    <Copyright>Copyright © Geekle 2009-2024. All rights reserved.</Copyright>
+    <Copyright>Copyright © Geekle 2009-2025. All rights reserved.</Copyright>
     <Authors>gimlichael</Authors>
     <Company>Geekle</Company>
     <Product>Cuemon for .NET</Product>
@@ -47,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'false'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
     <PackageReference Include="MinVer" PrivateAssets="all" />
     <None Include="..\..\.nuget\icon.png" Pack="true" Visible="false" PackagePath="icon.png" />
     <None Include="..\..\.nuget\$(MSBuildProjectName)\README.md" Pack="true" PackagePath="\" />
