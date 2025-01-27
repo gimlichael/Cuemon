@@ -29,7 +29,6 @@ More documentation available at our documentation site:
 - [Cuemon.Extensions.Data.Integrity](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Data.Integrity.html) 🔗
 - [Cuemon.Extensions.DependencyInjection](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.DependencyInjection.html) 🔗
 - [Cuemon.Extensions.Diagnostics](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Diagnostics.html) 🔗
-- [Cuemon.Extensions.Globalization](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Globalization.html) 🔗
 - [Cuemon.Extensions.Hosting](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Hosting.html) 🔗
 - [Cuemon.Extensions.IO](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.IO.html) 🔗
 - [Cuemon.Extensions.Net](https://docs.cuemon.net/api/dotnet/Cuemon.Extensions.Net.html) 🔗
@@ -84,7 +83,6 @@ More documentation available at our documentation site:
 * [Cuemon.Data.Integrity](https://www.nuget.org/packages/Cuemon.Data.Integrity/) 📦
 * [Cuemon.Data.SqlClient](https://www.nuget.org/packages/Cuemon.Data.SqlClient/) 📦
 * [Cuemon.Diagnostics](https://www.nuget.org/packages/Cuemon.Diagnostics/) 📦
-* [Cuemon.Extensions.Globalization](https://www.nuget.org/packages/Cuemon.Extensions.Globalization/) 📦
 * [Cuemon.Extensions.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore/) 📦
 * [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/) 📦
