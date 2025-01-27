@@ -7,5 +7,3 @@ The `Cuemon.Globalization` namespace contains types that focuses on culture-rela
 [!INCLUDE [availability-default](../../includes/availability-default.md)]
 
 Complements: [System.Globalization namespace](https://docs.microsoft.com/en-us/dotnet/api/system.globalization) 🔗
-
-Related: [Cuemon.Extensions.Globalization namespace](/api/extensions/dotnet/Cuemon.Extensions.Globalization.html) 📘
