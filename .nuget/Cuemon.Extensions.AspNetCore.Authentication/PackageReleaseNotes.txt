@@ -1,4 +1,10 @@
-﻿Version 9.0.0
+﻿Version 9.0.1
+Availability: .NET 9 and .NET 8
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version 9.0.0
 Availability: .NET 9 and .NET 8
  
 # ALM

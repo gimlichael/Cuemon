@@ -1,4 +1,4 @@
-﻿FROM nginx:1.27.0-alpine AS base
+﻿FROM nginx:1.27.3-alpine AS base
 RUN rm -rf /usr/share/nginx/html/*
 
 FROM codebeltnet/docfx:2.77.0 AS build

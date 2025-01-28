@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [9.0.1] - 2024-01-28
+
+> [!IMPORTANT]  
+> The following projects has been removed with this release and migrated to [Codebelt](https://github.com/codebeltnet):
+> 
+> - Cuemon.Extensions.Globalization was removed from the solution and migrated to [Codebelt.Extensions.Globalization](https://github.com/codebeltnet/globalization)
+>
+> Dependencies used for targeting .NET Standard 2.0 has been updated to use .NET 8.0 (LTS) instead of .NET Core 2.1.
+
+This is a service update that primarily focuses on package dependencies and minor improvements.
+
+### Changed
+
+- `Cuemon.Extensions.Hosting` namespace no longer have a dependency to IHostingEnvironment (TFM netstandard2.0)
+
 ## [9.0.0] - 2024-11-13
 
 > [!IMPORTANT]  
