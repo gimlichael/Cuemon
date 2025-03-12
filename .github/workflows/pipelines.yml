@@ -105,7 +105,6 @@ jobs:
           elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
             projects=(
               "src/**/Cuemon.Core.csproj"
-              "src/**/Cuemon.Core.App.csproj"
               "src/**/Cuemon.Data.csproj"
               "src/**/Cuemon.Data.Integrity.csproj"
               "src/**/Cuemon.Data.SqlClient.csproj"
@@ -136,50 +135,7 @@ jobs:
             )
             echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
           else
-            projects=(
-              "src/**/Cuemon.AspNetCore.csproj"
-              "src/**/Cuemon.AspNetCore.App.csproj"
-              "src/**/Cuemon.AspNetCore.Authentication.csproj"
-              "src/**/Cuemon.AspNetCore.Mvc.csproj"
-              "src/**/Cuemon.AspNetCore.Razor.TagHelpers.csproj"
-              "src/**/Cuemon.Core.csproj"
-              "src/**/Cuemon.Data.csproj"
-              "src/**/Cuemon.Data.Integrity.csproj"
-              "src/**/Cuemon.Data.SqlClient.csproj"
-              "src/**/Cuemon.Diagnostics.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Authentication.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Mvc.RazorPages.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Text.Json.csproj"
-              "src/**/Cuemon.Extensions.AspNetCore.Xml.csproj"
-              "src/**/Cuemon.Extensions.Collections.Generic.csproj"
-              "src/**/Cuemon.Extensions.Collections.Specialized.csproj"
-              "src/**/Cuemon.Extensions.Core.csproj"
-              "src/**/Cuemon.Extensions.Data.csproj"
-              "src/**/Cuemon.Extensions.Data.Integrity.csproj"
-              "src/**/Cuemon.Extensions.DependencyInjection.csproj"
-              "src/**/Cuemon.Extensions.Diagnostics.csproj"
-              "src/**/Cuemon.Extensions.Hosting.csproj"
-              "src/**/Cuemon.Extensions.IO.csproj"
-              "src/**/Cuemon.Extensions.Net.csproj"
-              "src/**/Cuemon.Extensions.Reflection.csproj"
-              "src/**/Cuemon.Extensions.Runtime.Caching.csproj"
-              "src/**/Cuemon.Extensions.Text.csproj"
-              "src/**/Cuemon.Extensions.Text.Json.csproj"
-              "src/**/Cuemon.Extensions.Threading.csproj"
-              "src/**/Cuemon.Extensions.Xml.csproj"
-              "src/**/Cuemon.IO.csproj"
-              "src/**/Cuemon.Net.csproj"
-              "src/**/Cuemon.Resilience.csproj"
-              "src/**/Cuemon.Runtime.Caching.csproj"
-              "src/**/Cuemon.Security.Cryptography.csproj"
-              "src/**/Cuemon.Threading.csproj"
-              "src/**/Cuemon.Xml.csproj"
-            )
-            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
+            echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
           fi
         shell: bash
 
@@ -222,48 +178,6 @@ jobs:
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-          projects: >-
-            src/**/Cuemon.AspNetCore.csproj
-            src/**/Cuemon.AspNetCore.App.csproj
-            src/**/Cuemon.AspNetCore.Authentication.csproj
-            src/**/Cuemon.AspNetCore.Mvc.csproj
-            src/**/Cuemon.AspNetCore.Razor.TagHelpers.csproj
-            src/**/Cuemon.Core.csproj
-            src/**/Cuemon.Data.csproj
-            src/**/Cuemon.Data.Integrity.csproj
-            src/**/Cuemon.Data.SqlClient.csproj
-            src/**/Cuemon.Diagnostics.csproj
-            src/**/Cuemon.Extensions.AspNetCore.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Authentication.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Mvc.RazorPages.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Text.Json.csproj
-            src/**/Cuemon.Extensions.AspNetCore.Xml.csproj
-            src/**/Cuemon.Extensions.Collections.Generic.csproj
-            src/**/Cuemon.Extensions.Collections.Specialized.csproj
-            src/**/Cuemon.Extensions.Core.csproj
-            src/**/Cuemon.Extensions.Data.csproj
-            src/**/Cuemon.Extensions.Data.Integrity.csproj
-            src/**/Cuemon.Extensions.DependencyInjection.csproj
-            src/**/Cuemon.Extensions.Diagnostics.csproj
-            src/**/Cuemon.Extensions.Hosting.csproj
-            src/**/Cuemon.Extensions.IO.csproj
-            src/**/Cuemon.Extensions.Net.csproj
-            src/**/Cuemon.Extensions.Reflection.csproj
-            src/**/Cuemon.Extensions.Runtime.Caching.csproj
-            src/**/Cuemon.Extensions.Text.csproj
-            src/**/Cuemon.Extensions.Text.Json.csproj
-            src/**/Cuemon.Extensions.Threading.csproj
-            src/**/Cuemon.Extensions.Xml.csproj
-            src/**/Cuemon.IO.csproj
-            src/**/Cuemon.Net.csproj
-            src/**/Cuemon.Resilience.csproj
-            src/**/Cuemon.Runtime.Caching.csproj
-            src/**/Cuemon.Security.Cryptography.csproj
-            src/**/Cuemon.Threading.csproj
-            src/**/Cuemon.Xml.csproj
 
   test:
     name: 🧪 Test
