@@ -135,7 +135,7 @@ jobs:
             )
             echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
           else
-            echo "result=src/**/*.csproj" >> $GITHUB_ENV
+            echo "result=src/**/*.csproj" >> $GITHUB_OUTPUT
           fi
         shell: bash
 
@@ -178,6 +178,7 @@ jobs:
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          projects: ${{ needs.build.outputs.projects }}
 
   test:
     name: 🧪 Test
