@@ -105,6 +105,7 @@ jobs:
           elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
             projects=(
               "src/**/Cuemon.Core.csproj"
+              "src/**/Cuemon.Core.App.csproj"
               "src/**/Cuemon.Data.csproj"
               "src/**/Cuemon.Data.Integrity.csproj"
               "src/**/Cuemon.Data.SqlClient.csproj"
