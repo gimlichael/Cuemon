@@ -135,7 +135,7 @@ jobs:
             )
             echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
           else
-            echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
+            echo "result=src/**/*.csproj" >> $GITHUB_ENV
           fi
         shell: bash
 
