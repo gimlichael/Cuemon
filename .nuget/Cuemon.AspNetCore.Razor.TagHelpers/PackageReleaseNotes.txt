@@ -1,4 +1,7 @@
-﻿Version 9.0.1
+﻿Version 9.0.2
+Availability: .NET 9 and .NET 8
+ 
+Version 9.0.1
 Availability: .NET 9 and .NET 8
  
 # ALM
