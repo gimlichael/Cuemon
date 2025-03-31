@@ -10,6 +10,10 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 This is a service update that focuses on package dependencies.
 
+### Fixed
+
+- Disposable class in the Cuemon namespace to set the disposed flag to true immediately after the Dispose method is called after thread safety check (previously it was set to true after the Dispose method had completed)
+
 ## [9.0.1] - 2024-01-28
 
 > [!IMPORTANT]  
