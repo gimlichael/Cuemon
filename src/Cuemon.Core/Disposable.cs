@@ -46,8 +46,8 @@ namespace Cuemon
             if (Disposed) { return; }
             lock (_lock)
             {
-                Disposed = true;
                 if (Disposed) { return; }
+                Disposed = true;
                 if (disposing)
                 {
                     OnDisposeManagedResources();
