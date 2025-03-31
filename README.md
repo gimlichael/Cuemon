@@ -26,7 +26,7 @@ All code quality analysis are done by [SonarCloud](https://sonarcloud.io/) and [
 
 ## Branching Strategy
 
-We have finally moved away from the somewhat dated `git flow` branching strategy, and adapted `trunk` based branching that is more aligned with todays DevSecOps practices.
+We have finally moved away from the somewhat dated `git flow` branching strategy, and adapted `scaled trunk` based branching that is more aligned with todays DevSecOps practices.
 
 That means, going forward, only one branch will be maintained; `main`. The previous branches, `development`, `release` and `master` is for reference only.
 

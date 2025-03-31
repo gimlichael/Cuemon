@@ -1,4 +1,13 @@
-﻿Version 9.0.1
+﻿Version 9.0.2
+Availability: .NET 9, .NET 8 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED Disposable class in the Cuemon namespace to set the disposed flag to true immediately after the Dispose method is called after thread safety check (previously it was set to true after the Dispose method had completed)
+ 
+Version 9.0.1
 Availability: .NET 9, .NET 8 and .NET Standard 2.0
  
 # ALM

@@ -47,12 +47,12 @@ namespace Cuemon
             lock (_lock)
             {
                 if (Disposed) { return; }
+                Disposed = true;
                 if (disposing)
                 {
                     OnDisposeManagedResources();
                 }
                 OnDisposeUnmanagedResources();
-                Disposed = true;
             }
         }
     }
