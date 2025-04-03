@@ -36,7 +36,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
             }, app =>
                    {
                        app.UseBasicAuthentication();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();
@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseBasicAuthentication();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();
@@ -130,7 +130,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();

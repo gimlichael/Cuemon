@@ -100,7 +100,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
 

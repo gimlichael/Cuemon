@@ -32,7 +32,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, app =>
                    {
                        app.UseUserAgentSentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -62,7 +62,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                    }, app =>
                    {
                        app.UseUserAgentSentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -96,7 +96,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseUserAgentSentinel();
 
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -128,7 +128,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseUserAgentSentinel();
 
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -159,7 +159,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, app =>
                    {
                        app.UseUserAgentSentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -190,7 +190,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     context.Response.StatusCode = 200;
                     return Task.CompletedTask;
                 });
-            }))
+            }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -222,7 +222,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();

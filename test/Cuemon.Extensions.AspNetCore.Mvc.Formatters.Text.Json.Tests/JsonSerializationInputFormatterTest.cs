@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var wf = new WeatherForecast();
                 var formatter = new JsonFormatter(o =>

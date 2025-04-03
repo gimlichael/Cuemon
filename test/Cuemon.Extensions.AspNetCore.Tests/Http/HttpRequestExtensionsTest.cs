@@ -37,7 +37,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
                     sut = context.Request.IsGetOrHeadMethod();
                     return Task.CompletedTask;
                 });
-            });
+            }, hostFixture: null);
             Condition.FlipFlop(method.Equals("GET", StringComparison.OrdinalIgnoreCase) || method.Equals("HEAD", StringComparison.OrdinalIgnoreCase), () => Assert.True(sut), () => Assert.False(sut));
         }
 
@@ -62,7 +62,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
                     statusCdoe = context.Response.StatusCode;
                     return Task.CompletedTask;
                 });
-            });
+            }, hostFixture: null);
 
             Condition.FlipFlop(checksum.Equals("xxxxxxxxxxxxxxxx"), () =>
             {
@@ -116,7 +116,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
                     statusCdoe = context.Response.StatusCode;
                     return Task.CompletedTask;
                 });
-            });
+            }, hostFixture: null);
 
             Condition.FlipFlop(modified.Equals("Thu, 01 Jan 1970 00:00:00 GMT"), () =>
             {

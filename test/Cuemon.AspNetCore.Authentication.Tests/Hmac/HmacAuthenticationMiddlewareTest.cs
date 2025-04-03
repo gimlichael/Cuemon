@@ -50,7 +50,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<HmacAuthenticationOptions>>();

@@ -51,7 +51,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                            await next();
                        });
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
@@ -102,7 +102,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondNoServerTimingFilter");
@@ -127,7 +127,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondNoServerTimingFilter");
@@ -148,7 +148,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttribute");
@@ -173,7 +173,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttributeWithDefaults");
@@ -207,7 +207,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttributeWithDefaults");
@@ -265,7 +265,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ServerTimingOptions>>();
                 var client = filter.Host.GetTestClient();

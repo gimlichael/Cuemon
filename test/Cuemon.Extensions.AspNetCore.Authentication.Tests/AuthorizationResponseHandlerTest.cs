@@ -67,7 +67,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -146,7 +146,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -223,7 +223,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -293,7 +293,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -385,7 +385,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -477,7 +477,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -535,7 +535,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var options = startup.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
@@ -615,7 +615,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
 
@@ -728,7 +728,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
 
@@ -798,7 +798,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
 
@@ -904,7 +904,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var loggerStore = startup.ServiceProvider.GetRequiredService<ILogger<AuthorizationResponseHandler>>().GetTestStore();
@@ -967,7 +967,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = startup.Host.GetTestClient();
                 var loggerStore = startup.ServiceProvider.GetRequiredService<ILogger<AuthorizationResponseHandler>>().GetTestStore();

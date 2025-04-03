@@ -29,7 +29,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = WebHostTestFactory.Create(pipelineSetup: app =>
             {
                 app.UseApiKeySentinel();
-            }))
+            }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                    }, app =>
                    {
                        app.UseApiKeySentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -86,7 +86,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                               app.UseFaultDescriptorExceptionHandler();
                               app.UseApiKeySentinel();
 
-                          }))
+                          }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -112,7 +112,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseApiKeySentinel();
 
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -140,7 +140,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, app =>
                    {
                        app.UseApiKeySentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -171,7 +171,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     context.Response.StatusCode = 200;
                     return Task.CompletedTask;
                 });
-            }))
+            }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -201,7 +201,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();

@@ -59,7 +59,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
 
                 var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
@@ -135,7 +135,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
 
                 var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
@@ -214,7 +214,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
 
                 var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
@@ -289,7 +289,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
                 var client = webApp.Host.GetTestClient();
@@ -331,7 +331,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = webApp.Host.GetTestClient();
 
