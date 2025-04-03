@@ -51,7 +51,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
                     return client.GetAsync("/statuscodes/XXX/serverError");
-                });
+                }, hostFixture: null);
 
             var body = await response.Content.ReadAsStringAsync();
             TestOutput.WriteLine(body);
@@ -311,7 +311,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
                     return client.GetAsync("/statuscodes/XXX/serverError");
-                });
+                }, hostFixture: null);
 
             var body = await response.Content.ReadAsStringAsync();
             TestOutput.WriteLine(body);
@@ -584,7 +584,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/xml"));
                     return client.GetAsync("/statuscodes/XXX/serverError");
-                });
+                }, hostFixture: null);
 
             var body = await response.Content.ReadAsStringAsync();
             TestOutput.WriteLine(body);
@@ -831,7 +831,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/xml"));
                     return client.GetAsync("/statuscodes/XXX/serverError");
-                });
+                }, hostFixture: null);
 
             var body = await response.Content.ReadAsStringAsync();
             TestOutput.WriteLine(body);

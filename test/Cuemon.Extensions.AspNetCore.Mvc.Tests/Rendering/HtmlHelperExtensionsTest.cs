@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                                name: "default",
                                pattern: "{controller=Home}/{action=Index}");
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var page = await client.GetAsync("/regions");
@@ -66,7 +66,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                                name: "default",
                                pattern: "{controller=Home}/{action=Index}");
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var view = await client.GetAsync("/regions/da-dk/denmark");
@@ -97,7 +97,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                                name: "default",
                                pattern: "{controller=Home}/{action=Index}");
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var view = await client.GetAsync("/");
@@ -130,7 +130,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                        {
                            endpoints.MapRazorPages();
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var page = await client.GetAsync("/regions/da-dk/denmark");
@@ -164,7 +164,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                        {
                            endpoints.MapRazorPages();
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var page = await client.GetAsync("/");

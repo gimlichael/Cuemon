@@ -41,7 +41,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -107,7 +107,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -140,7 +140,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -177,7 +177,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -205,7 +205,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
 
@@ -232,7 +232,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();

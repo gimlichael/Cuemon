@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
 
