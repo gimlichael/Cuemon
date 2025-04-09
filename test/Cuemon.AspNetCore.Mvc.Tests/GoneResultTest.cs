@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Mvc
         [Fact]
         public async Task ExecuteResultAsync_ShouldReturnStatusCode303AndLocationUri()
         {
-            using (var host = WebHostTestFactory.Create())
+            using (var host = WebHostTestFactory.Create(hostFixture: null))
             {
                 var context = host.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var sut = new GoneResult();

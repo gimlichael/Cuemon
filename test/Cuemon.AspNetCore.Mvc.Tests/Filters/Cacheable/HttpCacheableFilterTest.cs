@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync(relativeEndpoint);
@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/fake/getCacheByLastModified");

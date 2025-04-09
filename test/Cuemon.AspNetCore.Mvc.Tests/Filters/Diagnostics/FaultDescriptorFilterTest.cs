@@ -41,7 +41,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/400");
@@ -109,7 +109,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/fake/it");
@@ -152,7 +152,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/fake/it");
@@ -185,7 +185,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/400");
@@ -218,7 +218,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/409");
@@ -251,7 +251,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/403");
@@ -284,7 +284,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/410");
@@ -317,7 +317,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/404");
@@ -350,7 +350,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/413");
@@ -383,7 +383,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/412");
@@ -416,7 +416,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/428");
@@ -449,7 +449,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/429");
@@ -482,7 +482,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/401");
@@ -515,7 +515,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/405");
@@ -548,7 +548,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/406");
@@ -581,7 +581,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/XXX");
@@ -611,7 +611,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
+                   }, hostFixture: null))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/415");

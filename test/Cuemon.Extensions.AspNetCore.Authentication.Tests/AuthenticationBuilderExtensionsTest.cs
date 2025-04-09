@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                            {
                                o.Authenticator = (username, password) => ClaimsPrincipal.Current;
                            });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
                 var handler = host.ServiceProvider.GetRequiredService<BasicAuthenticationHandler>();
@@ -55,7 +55,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                                    return ClaimsPrincipal.Current;
                                };
                            });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
                 var handler = host.ServiceProvider.GetRequiredService<DigestAuthenticationHandler>();
@@ -81,7 +81,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                                    return ClaimsPrincipal.Current;
                                };
                            });
-                   }))
+                   }, hostFixture: null))
             {
                 var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(HmacFields.Scheme);
                 var handler = host.ServiceProvider.GetRequiredService<HmacAuthenticationHandler>();

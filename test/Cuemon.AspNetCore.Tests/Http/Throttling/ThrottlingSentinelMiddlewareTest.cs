@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
             }, app =>
                    {
                        app.UseThrottlingSentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
@@ -76,7 +76,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseThrottlingSentinel();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
@@ -123,7 +123,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();

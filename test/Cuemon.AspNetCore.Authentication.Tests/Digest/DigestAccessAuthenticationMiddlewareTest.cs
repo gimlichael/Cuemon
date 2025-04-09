@@ -52,7 +52,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                    {
                        app.UseExceptionMiddleware();
                        app.UseDigestAccessAuthentication();
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
@@ -101,7 +101,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
@@ -178,7 +178,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
@@ -253,7 +253,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }))
+                   }, hostFixture: null))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();

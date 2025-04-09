@@ -170,8 +170,9 @@ namespace Cuemon
             }
             finally
             {
-                GC.Collect(0, GCCollectionMode.Forced);
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
                 GC.WaitForPendingFinalizers();
+                Task.Delay(500).Wait(); // Add a small delay
             }
 
             if (unmanaged.TryGetTarget(out var ud2))

@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Hosting
                     sut = context.Response.Headers;
                     return Task.CompletedTask;
                 });
-            }, hostSetup: hb => hb.UseEnvironment(Environments.LocalDevelopment));
+            }, hostSetup: hb => hb.UseEnvironment(Environments.LocalDevelopment), hostFixture: null);
 
             Assert.Contains(sut, pair => pair.Key == sutOptions.HeaderName);
             Assert.Equal(Environments.LocalDevelopment, sut[sutOptions.HeaderName]);
