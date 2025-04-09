@@ -651,7 +651,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 TestOutput.WriteLine(content);
 
                 Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);
-                Assert.Equal("Digest realm=\"AuthenticationServer\", qop=\"auth, auth-int\", nonce=\"MjAyNC0wMi0wMyAyMTo1NjoyMVo6MDlhZTFhZDIyZGE4ZGExYTAxMmVkMzMwZWJlMzVkOTNlOGNmYTFmN2FiMzU5YzY0YTUwODFjZThkYjM1NzIwZA==\", opaque=\"dd1867244f862b1f858784a9b276d609\", stale=\"false\", algorithm=\"SHA-256\"", result.Headers.WwwAuthenticate.ToString());
+                Assert.Equal("Digest realm=\"AuthenticationServer\", qop=\"auth, auth-int\", nonce=\"MjAyNC0wMi0wMyAyMTo1NjoyMVo6MDlhZTFhZDIyZGE4ZGExYTAxMmVkMzMwZWJlMzVkOTNlOGNmYTFmN2FiMzU5YzY0YTUwODFjZThkYjM1NzIwZA==\", opaque=\"dd1867244f862b1f858784a9b276d609\", stale=false, algorithm=SHA-256", result.Headers.WwwAuthenticate.ToString());
                 if (sensitivityDetails == FaultSensitivityDetails.All)
                 {
                     Assert.Equal("""

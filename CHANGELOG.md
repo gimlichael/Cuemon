@@ -6,9 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [9.0.4] - 2025-04-09
+## [9.0.4] - 2025-04-10
 
-This is a service update that focuses on package dependencies.
+This is a service update that focuses on package dependencies and a few bug fixes.
+
+> [!WARNING]
+> The fix applied to the `DigestAuthenticationHandler`, `DigestAuthenticationMiddleware`, and `DigestAuthorizationHeader` classes in the `Cuemon.AspNetCore.Authentication.Digest` namespace changes both the `WWW-Authenticate` and `Authorization` headers. Justification for this patch is mentioned in [GitHub Issue #115](https://github.com/gimlichael/Cuemon/issues/115), but may affect existing implementations that rely on the previous behavior.
+
+### Fixed
+
+- Updated the `DigestAuthenticationHandler` class in the `Cuemon.AspNetCore.Authentication.Digest` namespace to remove quoted string values for the `stale` and `algorithm` parameters,
+- Updated the `DigestAuthenticationMiddleware` class in the `Cuemon.AspNetCore.Authentication.Digest` namespace to remove quoted string values for the `stale` and `algorithm` parameters,
+- Updated the `DigestAuthorizationHeader` class in the `Cuemon.AspNetCore.Authentication.Digest` namespace to:
+  - Remove quoted string values for the `algorithm`, `qop`, and `nc` parameters,
+  - Exclude the `stale` parameter and mark the previous implementation as obsolete,
+  - Address issues outlined in [GitHub Issue #115](https://github.com/gimlichael/Cuemon/issues/115).
 
 ## [9.0.3] - 2025-03-31
 

@@ -4,6 +4,13 @@ Availability: .NET 9 and .NET 8
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
  
+# Bug Fixes
+- FIXED DigestAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Digest namespace to remove quoted string values for the following parameters: stale and algorithm
+- FIXED DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to remove quoted string values for the following parameters: stale and algorithm
+- FIXED DigestAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Digest namespace to remove quoted string values for the following parameters: algorithm, qop and nc
+- FIXED DigestAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Digest namespace so stale is removed from the parameters including marking previous code obsolete
+- FIXED DigestAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Digest namespace to accommodate the issues mentioned in https://github.com/gimlichael/Cuemon/issues/115
+ 
 Version 9.0.3
 Availability: .NET 9 and .NET 8
  

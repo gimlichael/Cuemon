@@ -27,7 +27,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         public static DigestAuthorizationHeader Create(string authorizationHeader)
         {
             Validator.ThrowIfNullOrWhitespace(authorizationHeader);
-            return new DigestAuthorizationHeader().Parse(authorizationHeader, o => o.CredentialsDelimiter = " ") as DigestAuthorizationHeader;
+            return new DigestAuthorizationHeader().Parse(authorizationHeader, o => o.CredentialsDelimiter = ", ") as DigestAuthorizationHeader;
         }
 
         /// <summary>
@@ -45,6 +45,33 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <param name="realm">The realm/credential scope that defines the remote resource.</param>
         /// <param name="nonce">The unique server generated string.</param>
         /// <param name="opaque">The string of data specified by the server.</param>
+        /// <param name="algorithm">The algorithm used to produce the digest and an unkeyed digest.</param>
+        /// <param name="userName">The username of the specified <paramref name="realm"/>.</param>
+        /// <param name="uri">The effective request URI.</param>
+        /// <param name="nc">The hexadecimal count of the number of requests the client has sent with the <paramref name="nonce"/> value.</param>
+        /// <param name="cNonce">The unique client generated string.</param>
+        /// <param name="qop">The "quality of protection" the client has applied to the message.</param>
+        /// <param name="response">The computed response which proves that the user knows a password.</param>
+        public DigestAuthorizationHeader(string realm, string nonce, string opaque, string algorithm, string userName, string uri, string nc, string cNonce, string qop, string response) : base(Scheme)
+        {
+            Realm = realm;
+            Nonce = nonce;
+            Opaque = opaque;
+            Algorithm = algorithm;
+            UserName = userName;
+            Uri = uri;
+            NC = nc;
+            CNonce = cNonce;
+            Qop = qop;
+            Response = response;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DigestAuthorizationHeader"/> class.
+        /// </summary>
+        /// <param name="realm">The realm/credential scope that defines the remote resource.</param>
+        /// <param name="nonce">The unique server generated string.</param>
+        /// <param name="opaque">The string of data specified by the server.</param>
         /// <param name="stale">The case-insensitive flag indicating if the previous request from the client was rejected because the <paramref name="nonce"/> value was stale.</param>
         /// <param name="algorithm">The algorithm used to produce the digest and an unkeyed digest.</param>
         /// <param name="userName">The username of the specified <paramref name="realm"/>.</param>
@@ -53,6 +80,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <param name="cNonce">The unique client generated string.</param>
         /// <param name="qop">The "quality of protection" the client has applied to the message.</param>
         /// <param name="response">The computed response which proves that the user knows a password.</param>
+        [Obsolete("This constructor is obsolete and will be removed in a future version. Use the 'DigestAuthorizationHeader' constructor without the 'stale' parameter instead.")]
         public DigestAuthorizationHeader(string realm, string nonce, string opaque, string stale, string algorithm, string userName, string uri, string nc, string cNonce, string qop, string response) : base(Scheme)
         {
             Realm = realm;
@@ -132,6 +160,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// Gets the case-insensitive flag indicating if the previous request from the client was rejected because the <see cref="Nonce"/> value was stale.
         /// </summary>
         /// <value>The case-insensitive flag indicating if the previous request from the client was rejected because the <see cref="Nonce"/> value was stale.</value>
+        [Obsolete("This property is obsolete and will be removed in a future version.")]
         public string Stale { get; }
 
         /// <summary>
@@ -151,8 +180,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             valid |= credentials.TryGetValue(DigestFields.QualityOfProtection, out var qop);
             valid |= credentials.TryGetValue(DigestFields.ClientNonce, out var cnonce);
             valid |= credentials.TryGetValue(DigestFields.NonceCount, out var nc);
-            valid |= credentials.TryGetValue(DigestFields.Stale, out var stale);
-            return valid ? new DigestAuthorizationHeader(realm, nonce, opaque, stale, algorithm, userName, uri, nc, cnonce, qop, response) : null;
+            return valid ? new DigestAuthorizationHeader(realm, nonce, opaque, algorithm, userName, uri, nc, cnonce, qop, response) : null;
         }
 
         /// <summary>
@@ -166,19 +194,25 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             AppendField(sb, DigestFields.Realm, Realm);
             AppendField(sb, DigestFields.Nonce, Nonce);
             AppendField(sb, DigestFields.DigestUri, Uri);
-            AppendField(sb, DigestFields.QualityOfProtection, Qop);
-            AppendField(sb, DigestFields.NonceCount, NC);
+            AppendField(sb, DigestFields.QualityOfProtection, Qop, false);
+            AppendField(sb, DigestFields.NonceCount, NC, false);
             AppendField(sb, DigestFields.ClientNonce, CNonce);
             AppendField(sb, DigestFields.Response, Response);
             AppendField(sb, DigestFields.Opaque, Opaque);
-            AppendField(sb, DigestFields.Stale, Stale);
-            AppendField(sb, DigestFields.Algorithm, Algorithm);
-            return sb.ToString();
+            AppendField(sb, DigestFields.Algorithm, Algorithm, false);
+            return sb.ToString().TrimEnd(',');
         }
 
-        private static void AppendField(StringBuilder sb, string fn, string fv)
+        private static void AppendField(StringBuilder sb, string fn, string fv, bool useQuotedStringSyntax = true)
         {
-            if (!string.IsNullOrWhiteSpace(fv)) { sb.Append(CultureInfo.InvariantCulture, $" {fn}=\"{fv}\""); }
+            if (!string.IsNullOrWhiteSpace(fv)) { sb.Append(CultureInfo.InvariantCulture, $" {fn}={Parse(fv, useQuotedStringSyntax)},"); }
+        }
+
+        private static string Parse(string value, bool useQuotedStringSyntax)
+        {
+            return useQuotedStringSyntax
+                ? $"\"{value}\""
+                : value;
         }
     }
 }
