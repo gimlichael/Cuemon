@@ -66,7 +66,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             var nonceGenerator = Options.NonceGenerator;
             var staleNonce = Context.Items[DigestFields.Stale] as string ?? "false";
             AuthenticationHandlerFeature.Set(await HandleAuthenticateOnceSafeAsync().ConfigureAwait(false), Context); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
-            Decorator.Enclose(Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationMiddleware.ParseAlgorithm(Options.Algorithm)}\""));
+            Decorator.Enclose(Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale={staleNonce}, algorithm={DigestAuthenticationMiddleware.ParseAlgorithm(Options.Algorithm)}"));
             await base.HandleChallengeAsync(properties).ConfigureAwait(false);
         }
     }

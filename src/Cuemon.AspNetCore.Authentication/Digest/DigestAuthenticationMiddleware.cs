@@ -61,7 +61,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     var nonceSecret = Options.NonceSecret;
                     var nonceGenerator = Options.NonceGenerator;
                     var staleNonce = dc.Items[DigestFields.Stale] as string ?? "false";
-                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
+                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale={staleNonce}, algorithm={ParseAlgorithm(Options.Algorithm)}"));
                 }).ConfigureAwait(false);
             }
 
