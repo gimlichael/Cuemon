@@ -10,6 +10,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 This is a service update that focuses on package dependencies and a few bug fixes.
 
+> [!WARNING]
+> The fix applied to the `DigestAuthenticationHandler`, `DigestAuthenticationMiddleware`, and `DigestAuthorizationHeader` classes in the `Cuemon.AspNetCore.Authentication.Digest` namespace changes both the `WWW-Authenticate` and `Authorization` headers. Justification for this patch is mentioned in [GitHub Issue #115](https://github.com/gimlichael/Cuemon/issues/115), but may affect existing implementations that rely on the previous behavior.
+
 ### Fixed
 
 - Updated the `DigestAuthenticationHandler` class in the `Cuemon.AspNetCore.Authentication.Digest` namespace to remove quoted string values for the `stale` and `algorithm` parameters,
