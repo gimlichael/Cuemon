@@ -13,13 +13,13 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Mvc
 {
-    public class SeeOtherResultTest : HostTest<HostFixture>
+    public class SeeOtherResultTest : HostTest<ManagedHostFixture>
     {
         private readonly IServiceProvider _provider;
 
-        public SeeOtherResultTest(HostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
+        public SeeOtherResultTest(ManagedHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
-            _provider = hostFixture.ServiceProvider;
+            _provider = hostFixture.Host.Services;
         }
 
         [Fact]

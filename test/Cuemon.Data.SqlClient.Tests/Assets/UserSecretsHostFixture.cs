@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Data.SqlClient.Assets
 {
-    public sealed class UserSecretsHostFixture : HostFixture
+    public sealed class UserSecretsHostFixture : ManagedHostFixture
     {
         public override void ConfigureHost(Test hostTest)
         {
@@ -29,7 +29,7 @@ namespace Cuemon.Data.SqlClient.Assets
                 .ConfigureServices((context, services) =>
                 {
                     Configuration = context.Configuration;
-                    HostingEnvironment = context.HostingEnvironment;
+                    Environment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
                 }).Build();
         }

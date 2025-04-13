@@ -54,8 +54,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   },
-                       hostFixture: null))
+                   }))
             {
                 var client = webApp.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -93,9 +92,9 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
+                var options = webApp.Host.Services.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
                 var client = webApp.Host.GetTestClient();
 
                 var result = await client.GetAsync("/fake");
@@ -141,7 +140,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = webApp.Host.GetTestClient();
 

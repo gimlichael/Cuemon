@@ -41,9 +41,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
 
                 var result = await client.GetAsync("/fake/it");
@@ -78,9 +78,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
 
@@ -107,9 +107,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
 
                 var uae = await Assert.ThrowsAsync<UserAgentException>(async () =>
@@ -140,9 +140,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
 
@@ -177,9 +177,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
 
@@ -205,9 +205,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
 
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/fake/it");
@@ -232,9 +232,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Cuemon-Agent");
 

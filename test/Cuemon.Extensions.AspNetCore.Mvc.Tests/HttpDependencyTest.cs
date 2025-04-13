@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var ce = new CountdownEvent(2);
 
@@ -94,7 +94,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var ce = new CountdownEvent(2);
 
@@ -151,7 +151,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var are = new AutoResetEvent(false);
 

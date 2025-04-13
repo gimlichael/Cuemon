@@ -14,13 +14,13 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Data
 {
-    public class DataManagerTest : HostTest<HostFixture>
+    public class DataManagerTest : HostTest<ManagedHostFixture>
     {
         private readonly DataManager _manager;
 
-        public DataManagerTest(HostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
+        public DataManagerTest(ManagedHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
-            _manager = hostFixture.ServiceProvider.GetRequiredService<FakeDataManager>();
+            _manager = hostFixture.Host.Services.GetRequiredService<FakeDataManager>();
         }
 
         [Fact]

@@ -43,7 +43,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
                    {
                        app.UseRouting();
                        app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/Index");

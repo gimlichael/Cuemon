@@ -28,10 +28,10 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                            {
                                o.Authenticator = (username, password) => ClaimsPrincipal.Current;
                            });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
-                var handler = host.ServiceProvider.GetRequiredService<BasicAuthenticationHandler>();
+                var options = host.Host.Services.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
+                var handler = host.Host.Services.GetRequiredService<BasicAuthenticationHandler>();
 
                 Assert.NotNull(options);
                 Assert.NotNull(handler);
@@ -55,10 +55,10 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                                    return ClaimsPrincipal.Current;
                                };
                            });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
-                var handler = host.ServiceProvider.GetRequiredService<DigestAuthenticationHandler>();
+                var options = host.Host.Services.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+                var handler = host.Host.Services.GetRequiredService<DigestAuthenticationHandler>();
 
                 Assert.NotNull(options);
                 Assert.NotNull(handler);
@@ -81,10 +81,10 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                                    return ClaimsPrincipal.Current;
                                };
                            });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(HmacFields.Scheme);
-                var handler = host.ServiceProvider.GetRequiredService<HmacAuthenticationHandler>();
+                var options = host.Host.Services.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(HmacFields.Scheme);
+                var handler = host.Host.Services.GetRequiredService<HmacAuthenticationHandler>();
 
                 Assert.NotNull(options);
                 Assert.NotNull(handler);

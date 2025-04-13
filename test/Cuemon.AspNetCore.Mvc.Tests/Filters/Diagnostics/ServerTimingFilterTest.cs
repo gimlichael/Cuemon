@@ -51,7 +51,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                            await next();
                        });
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
@@ -102,7 +102,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondNoServerTimingFilter");
@@ -127,7 +127,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondNoServerTimingFilter");
@@ -148,7 +148,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttribute");
@@ -173,12 +173,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttributeWithDefaults");
                 var serverTimingHeader = profiler.Result.Headers.GetValues(ServerTiming.HeaderName).Single();
-                var loggerStore = filter.ServiceProvider.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
+                var loggerStore = filter.Host.Services.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
 
                 Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
                 Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
@@ -207,12 +207,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttributeWithDefaults");
                 var serverTimingHeader = profiler.Result.Headers.GetValues(ServerTiming.HeaderName).Single();
-                var loggerStore = filter.ServiceProvider.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
+                var loggerStore = filter.Host.Services.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
 
                 Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
                 Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
@@ -239,14 +239,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                        host.ConfigureWebHost(builder => builder.UseEnvironment("Production"));
                    }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ServerTimingOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ServerTimingOptions>>();
                 var client = filter.Host.GetTestClient();
-                var loggerStore = filter.ServiceProvider.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
+                var loggerStore = filter.Host.Services.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
 
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttribute");
 
                 Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-                Assert.True(options.Value.SuppressHeaderPredicate(filter.HostingEnvironment));
+                Assert.True(options.Value.SuppressHeaderPredicate(filter.Environment));
                 Assert.False(profiler.Result.Headers.Contains("Server-Timing"));
                 Assert.True(loggerStore.Query(entry => entry.Message.StartsWith("Information: ServerTimingMetric { Name: action-result") && entry.Message.EndsWith("Description: \"action-description\" }")).Any(), "loggerStore.Query(entry => entry.Message.StartsWith('Information: ServerTimingMetric { Name: action-result')).Any()");
 
@@ -265,15 +265,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ServerTimingOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ServerTimingOptions>>();
                 var client = filter.Host.GetTestClient();
 
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
 
                 Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-                Assert.True(options.Value.SuppressHeaderPredicate(filter.HostingEnvironment));
+                Assert.True(options.Value.SuppressHeaderPredicate(filter.Environment));
                 Assert.False(profiler.Result.Headers.Contains("Server-Timing"));
 
                 TestOutput.WriteLine(profiler.Elapsed.ToString());

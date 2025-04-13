@@ -38,9 +38,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
 
                 var result = await client.GetAsync("/fake/it");
@@ -68,9 +68,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Invalid-Key");
 
@@ -101,9 +101,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Invalid-Key");
 
@@ -135,9 +135,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Invalid-Key");
 
@@ -167,9 +167,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Cuemon-Key");
 
@@ -194,9 +194,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var options = filter.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Invalid-Key");
 

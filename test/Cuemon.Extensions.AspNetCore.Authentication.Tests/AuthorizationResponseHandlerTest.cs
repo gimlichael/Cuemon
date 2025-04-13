@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
+using System.Threading.Tasks;
 using Cuemon.AspNetCore.Authentication.Basic;
 using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.AspNetCore.Authentication.Hmac;
@@ -15,6 +16,7 @@ using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
+using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +39,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallback_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallback_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -67,7 +69,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -108,7 +110,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallbackForAuthorization_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallbackForAuthorization_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -146,7 +148,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -185,7 +187,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallbackForAuthorization_HideReason_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallbackForAuthorization_HideReason_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -223,7 +225,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -262,7 +264,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseInXml_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseInXml_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -293,7 +295,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -352,7 +354,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseInJsonNative_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseInJsonNative_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -385,7 +387,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -441,7 +443,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         }
 
         [Fact]
-        public async void AuthorizationResponseHandler_BasicScheme_ShouldAuthorizeWithTestAgent_UsingAspNetBootstrapping()
+        public async Task AuthorizationResponseHandler_BasicScheme_ShouldAuthorizeWithTestAgent_UsingAspNetBootstrapping()
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -477,7 +479,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
                 var bb = new BasicAuthorizationHeaderBuilder()
@@ -498,200 +500,275 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         }
 
         [Fact]
-        public async void AuthorizationResponseHandler_DigestScheme_ShouldAuthorizeWithTestAgent_UsingAspNetBootstrapping()
+        public async Task AuthorizationResponseHandler_DigestScheme_ShouldAuthorizeWithTestAgent_UsingAspNetBootstrapping()
         {
-            using (var startup = WebHostTestFactory.Create(services =>
-                   {
-                       services.AddAuthentication(DigestAuthorizationHeader.Scheme)
-                           .AddDigestAccess(o =>
-                           {
-                               o.RequireSecureConnection = false;
-                               o.Authenticator = (string username, out string password) =>
-                               {
-                                   if (username == "Agent")
-                                   {
-                                       password = "Test";
-                                       return new ClaimsPrincipal(new ClaimsIdentity(Arguments.Yield(new Claim(ClaimTypes.Name, "Test Agent")), DigestAuthorizationHeader.Scheme));
-                                   }
-                                   password = null;
-                                   return null;
-                               };
-                           });
-                       services.AddAuthorization(o =>
-                       {
-                           o.FallbackPolicy = new AuthorizationPolicyBuilder()
-                               .AddAuthenticationSchemes(DigestAuthorizationHeader.Scheme)
-                               .RequireAuthenticatedUser()
-                               .Build();
-
-                       });
-                       services.AddRouting();
-                   }, app =>
-                   {
-                       app.UseRouting();
-                       app.UseAuthentication();
-                       app.UseAuthorization();
-                       app.UseEndpoints(endpoints =>
-                       {
-                           endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
-                       });
-                   }, hostFixture: null))
+            await using var startup = WebHostTestFactory.Create(services =>
             {
-                var client = startup.Host.GetTestClient();
-                var options = startup.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+                services.AddAuthentication(DigestAuthorizationHeader.Scheme)
+                    .AddDigestAccess(o =>
+                    {
+                        o.RequireSecureConnection = false;
+                        o.Authenticator = (string username, out string password) =>
+                        {
+                            if (username == "Agent")
+                            {
+                                password = "Test";
+                                return new ClaimsPrincipal(new ClaimsIdentity(Arguments.Yield(new Claim(ClaimTypes.Name, "Test Agent")), DigestAuthorizationHeader.Scheme));
+                            }
+                            password = null;
+                            return null;
+                        };
+                    });
+                services.AddAuthorization(o =>
+                {
+                    o.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .AddAuthenticationSchemes(DigestAuthorizationHeader.Scheme)
+                        .RequireAuthenticatedUser()
+                        .Build();
 
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
+                });
+                services.AddRouting();
+            }, app =>
+            {
+                app.UseRouting();
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
+                });
+            });
 
-                var result = await client.GetAsync("/");
+            var client = startup.Host.GetTestClient();
+            var options = startup.Host.Services.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
-                    .AddRealm(options.Realm)
-                    .AddUserName("Agent")
-                    .AddUri("/")
-                    .AddNc(1)
-                    .AddCnonce()
-                    .AddQopAuthentication()
-                    .AddFromWwwAuthenticateHeader(result.Headers);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
 
-                var ha1 = db.ComputeHash1("Test");
-                var ha2 = db.ComputeHash2("GET");
+            var result = await client.GetAsync("/");
 
-                db.ComputeResponse(ha1, ha2);
-                db.AddResponse("Test", "GET");
+            var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+                .AddRealm(options.Realm)
+                .AddUserName("Agent")
+                .AddUri("/")
+                .AddNc(1)
+                .AddCnonce()
+                .AddQopAuthentication()
+                .AddFromWwwAuthenticateHeader(result.Headers);
 
-                var token = db.Build().ToString();
+            var ha1 = db.ComputeHash1("Test");
+            var ha2 = db.ComputeHash2("GET");
 
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, token);
+            db.ComputeResponse(ha1, ha2);
+            db.AddResponse("Test", "GET");
 
-                result = await client.GetAsync("/");
-                var content = await result.Content.ReadAsStringAsync();
+            var token = db.Build().ToString();
 
-                TestOutput.WriteLine(content);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, token);
 
-                Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-                Assert.Equal("Hello Test Agent", content);
-            }
+            result = await client.GetAsync("/");
+            var content = await result.Content.ReadAsStringAsync();
+
+            TestOutput.WriteLine(content);
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal("Hello Test Agent", content);
+        }
+
+                [Fact]
+        public async Task AuthorizationResponseHandler_DigestScheme_ShouldAuthorizeWithTestAgent_UsingMinimalStyleAspNetBootstrapping()
+        {
+            await using var startup = MinimalWebHostTestFactory.Create(services =>
+            {
+                services.AddAuthentication(DigestAuthorizationHeader.Scheme)
+                    .AddDigestAccess(o =>
+                    {
+                        o.RequireSecureConnection = false;
+                        o.Authenticator = (string username, out string password) =>
+                        {
+                            if (username == "Agent")
+                            {
+                                password = "Test";
+                                return new ClaimsPrincipal(new ClaimsIdentity(Arguments.Yield(new Claim(ClaimTypes.Name, "Test Agent")), DigestAuthorizationHeader.Scheme));
+                            }
+                            password = null;
+                            return null;
+                        };
+                        o.Algorithm = UnkeyedCryptoAlgorithm.Sha512;
+                    });
+                services.AddAuthorization(o =>
+                {
+                    o.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .AddAuthenticationSchemes(DigestAuthorizationHeader.Scheme)
+                        .RequireAuthenticatedUser()
+                        .Build();
+
+                });
+                services.AddRouting();
+            }, app =>
+            {
+                app.UseRouting();
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
+                });
+            });
+
+            var client = startup.Host.GetTestClient();
+            var options = startup.Host.Services.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
+
+            var result = await client.GetAsync("/");
+
+            var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+                .AddRealm(options.Realm)
+                .AddUserName("Agent")
+                .AddUri("/")
+                .AddNc(1)
+                .AddCnonce()
+                .AddQopAuthentication()
+                .AddFromWwwAuthenticateHeader(result.Headers);
+
+            var ha1 = db.ComputeHash1("Test");
+            var ha2 = db.ComputeHash2("GET");
+
+            db.ComputeResponse(ha1, ha2);
+            db.AddResponse("Test", "GET");
+
+            var token = db.Build().ToString();
+
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, token);
+
+            result = await client.GetAsync("/");
+            var content = await result.Content.ReadAsStringAsync();
+
+            TestOutput.WriteLine(content);
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal("Hello Test Agent", content);
         }
 
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_DigestScheme_ShouldRenderResponseInJsonNative_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_DigestScheme_ShouldRenderResponseInJsonNative_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
-            using (var startup = WebHostTestFactory.Create(services =>
-                   {
-                       services.AddJsonExceptionResponseFormatter();
-                       services.AddAuthorizationResponseHandler();
-                       services.AddAuthentication(DigestAuthorizationHeader.Scheme)
-                           .AddDigestAccess(o =>
-                           {
-                               o.RequireSecureConnection = false;
-                               o.Authenticator = (string username, out string password) =>
-                               {
-                                   password = null;
-                                   return null;
-                               };
-                               o.NonceGenerator = (timestamp, entityTag, privateKey) => "MjAyNC0wMi0wMyAyMTo1NjoyMVo6MDlhZTFhZDIyZGE4ZGExYTAxMmVkMzMwZWJlMzVkOTNlOGNmYTFmN2FiMzU5YzY0YTUwODFjZThkYjM1NzIwZA==";
-                               o.OpaqueGenerator = () => "dd1867244f862b1f858784a9b276d609";
-                               o.NonceExpiredParser = (nonce, timeToLive) => false;
-                           });
-                       services.AddAuthorization(o =>
-                       {
-                           o.FallbackPolicy = new AuthorizationPolicyBuilder()
-                               .AddAuthenticationSchemes(DigestAuthorizationHeader.Scheme)
-                               .RequireAuthenticatedUser()
-                               .Build();
-
-                       });
-                       services.AddRouting();
-                       services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = sensitivityDetails);
-                   }, app =>
-                   {
-                       app.UseRouting();
-                       app.UseAuthentication();
-                       app.UseAuthorization();
-                       app.UseEndpoints(endpoints =>
-                       {
-                           endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
-                       });
-                   }, hostFixture: null))
+            await using var startup = WebHostTestFactory.Create(services =>
             {
-                var client = startup.Host.GetTestClient();
-
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-
-                var result = await client.GetAsync("/");
-                var options = startup.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
-
-                var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
-                    .AddRealm(options.Realm)
-                    .AddUserName("Agent")
-                    .AddUri("/")
-                    .AddNc(1)
-                    .AddCnonce("Wt8oGT4OTmExU4DVU4ibzVZsotIYpild")
-                    .AddQopAuthentication()
-                    .AddFromWwwAuthenticateHeader(result.Headers);
-
-                var ha1 = db.ComputeHash1("Test");
-                var ha2 = db.ComputeHash2("GET");
-
-                db.ComputeResponse(ha1, ha2);
-                db.AddResponse("Test", "GET");
-
-                var token = db.Build().ToString();
-
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, token);
-
-                result = await client.GetAsync("/");
-
-                var content = await result.Content.ReadAsStringAsync();
-
-                TestOutput.WriteLine(content);
-
-                Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);
-                Assert.Equal("Digest realm=\"AuthenticationServer\", qop=\"auth, auth-int\", nonce=\"MjAyNC0wMi0wMyAyMTo1NjoyMVo6MDlhZTFhZDIyZGE4ZGExYTAxMmVkMzMwZWJlMzVkOTNlOGNmYTFmN2FiMzU5YzY0YTUwODFjZThkYjM1NzIwZA==\", opaque=\"dd1867244f862b1f858784a9b276d609\", stale=false, algorithm=SHA-256", result.Headers.WwwAuthenticate.ToString());
-                if (sensitivityDetails == FaultSensitivityDetails.All)
+                services.AddJsonExceptionResponseFormatter();
+                services.AddAuthorizationResponseHandler();
+                services.AddAuthentication(DigestAuthorizationHeader.Scheme)
+                    .AddDigestAccess(o =>
+                    {
+                        o.RequireSecureConnection = false;
+                        o.Authenticator = (string username, out string password) =>
+                        {
+                            password = null;
+                            return null;
+                        };
+                        o.NonceGenerator = (timestamp, entityTag, privateKey) => "MjAyNC0wMi0wMyAyMTo1NjoyMVo6MDlhZTFhZDIyZGE4ZGExYTAxMmVkMzMwZWJlMzVkOTNlOGNmYTFmN2FiMzU5YzY0YTUwODFjZThkYjM1NzIwZA==";
+                        o.OpaqueGenerator = () => "dd1867244f862b1f858784a9b276d609";
+                        o.NonceExpiredParser = (nonce, timeToLive) => false;
+                    });
+                services.AddAuthorization(o =>
                 {
-                    Assert.Equal("""
-                                 {
-                                   "error": {
-                                     "status": 401,
-                                     "code": "Unauthorized",
-                                     "message": "The request has not been applied because it lacks valid authentication credentials for the target resource.",
-                                     "failure": {
-                                       "type": "Cuemon.AspNetCore.Http.UnauthorizedException",
-                                       "message": "The request has not been applied because it lacks valid authentication credentials for the target resource.",
-                                       "headers": {},
-                                       "statusCode": 401,
-                                       "reasonPhrase": "Unauthorized",
-                                       "inner": {
-                                         "type": "System.Security.SecurityException",
-                                         "message": "Unable to authenticate Agent."
-                                       }
-                                     }
+                    o.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .AddAuthenticationSchemes(DigestAuthorizationHeader.Scheme)
+                        .RequireAuthenticatedUser()
+                        .Build();
+
+                });
+                services.AddRouting();
+                services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = sensitivityDetails);
+            }, app =>
+            {
+                app.UseRouting();
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
+                });
+            });
+
+            var client = startup.Host.GetTestClient();
+
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+
+            var result = await client.GetAsync("/");
+            var options = startup.Host.Services.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+
+            var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+                .AddRealm(options.Realm)
+                .AddUserName("Agent")
+                .AddUri("/")
+                .AddNc(1)
+                .AddCnonce("Wt8oGT4OTmExU4DVU4ibzVZsotIYpild")
+                .AddQopAuthentication()
+                .AddFromWwwAuthenticateHeader(result.Headers);
+
+            var ha1 = db.ComputeHash1("Test");
+            var ha2 = db.ComputeHash2("GET");
+
+            db.ComputeResponse(ha1, ha2);
+            db.AddResponse("Test", "GET");
+
+            var token = db.Build().ToString();
+
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, token);
+
+            result = await client.GetAsync("/");
+
+            var content = await result.Content.ReadAsStringAsync();
+
+            TestOutput.WriteLine(content);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);
+            Assert.Equal("Digest realm=\"AuthenticationServer\", qop=\"auth, auth-int\", nonce=\"MjAyNC0wMi0wMyAyMTo1NjoyMVo6MDlhZTFhZDIyZGE4ZGExYTAxMmVkMzMwZWJlMzVkOTNlOGNmYTFmN2FiMzU5YzY0YTUwODFjZThkYjM1NzIwZA==\", opaque=\"dd1867244f862b1f858784a9b276d609\", stale=false, algorithm=SHA-256", result.Headers.WwwAuthenticate.ToString());
+            if (sensitivityDetails == FaultSensitivityDetails.All)
+            {
+                Assert.Equal("""
+                             {
+                               "error": {
+                                 "status": 401,
+                                 "code": "Unauthorized",
+                                 "message": "The request has not been applied because it lacks valid authentication credentials for the target resource.",
+                                 "failure": {
+                                   "type": "Cuemon.AspNetCore.Http.UnauthorizedException",
+                                   "message": "The request has not been applied because it lacks valid authentication credentials for the target resource.",
+                                   "headers": {},
+                                   "statusCode": 401,
+                                   "reasonPhrase": "Unauthorized",
+                                   "inner": {
+                                     "type": "System.Security.SecurityException",
+                                     "message": "Unable to authenticate Agent."
                                    }
                                  }
-                                 """.ReplaceLineEndings(), content.ReplaceLineEndings());
-                }
-                else
-                {
-                    Assert.Equal("""
-                                 {
-                                   "error": {
-                                     "status": 401,
-                                     "code": "Unauthorized",
-                                     "message": "The request has not been applied because it lacks valid authentication credentials for the target resource."
-                                   }
-                                 }
-                                 """.ReplaceLineEndings(), content.ReplaceLineEndings());
-                }
+                               }
+                             }
+                             """.ReplaceLineEndings(), content.ReplaceLineEndings());
+            }
+            else
+            {
+                Assert.Equal("""
+                             {
+                               "error": {
+                                 "status": 401,
+                                 "code": "Unauthorized",
+                                 "message": "The request has not been applied because it lacks valid authentication credentials for the target resource."
+                               }
+                             }
+                             """.ReplaceLineEndings(), content.ReplaceLineEndings());
             }
         }
 
         [Fact]
-        public async void AuthorizationResponseHandler_HmacScheme_ShouldAuthorizeWithTestAgent_UsingAspNetBootstrapping()
+        public async Task AuthorizationResponseHandler_HmacScheme_ShouldAuthorizeWithTestAgent_UsingAspNetBootstrapping()
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -728,7 +805,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
 
@@ -763,7 +840,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         [Theory]
         [InlineData(FaultSensitivityDetails.All)]
         [InlineData(FaultSensitivityDetails.None)]
-        public async void AuthorizationResponseHandler_HmacScheme_ShouldRenderResponseInJsonNative_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        public async Task AuthorizationResponseHandler_HmacScheme_ShouldRenderResponseInJsonNative_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -798,7 +875,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
 
@@ -867,7 +944,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         }
 
         [Fact]
-        public async void AuthorizationResponseHandler_BasicScheme_VerifyAsyncOptions_ShouldLogThrowTaskCanceledException_FromAuthorizationResponseHandler()
+        public async Task AuthorizationResponseHandler_BasicScheme_VerifyAsyncOptions_ShouldLogThrowTaskCanceledException_FromAuthorizationResponseHandler()
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -904,10 +981,10 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
-                var loggerStore = startup.ServiceProvider.GetRequiredService<ILogger<AuthorizationResponseHandler>>().GetTestStore();
+                var loggerStore = startup.Host.Services.GetRequiredService<ILogger<AuthorizationResponseHandler>>().GetTestStore();
 
                 var bb = new BasicAuthorizationHeaderBuilder()
                     .AddUserName("Agent")
@@ -930,7 +1007,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         }
 
         [Fact]
-        public async void AuthorizationResponseHandler_BasicScheme_VerifyAsyncOptions_ShouldNotThrowTaskCanceledException_FromAuthorizationResponseHandler()
+        public async Task AuthorizationResponseHandler_BasicScheme_VerifyAsyncOptions_ShouldNotThrowTaskCanceledException_FromAuthorizationResponseHandler()
         {
             using (var startup = WebHostTestFactory.Create(services =>
                    {
@@ -967,10 +1044,10 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        {
                            endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
                        });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = startup.Host.GetTestClient();
-                var loggerStore = startup.ServiceProvider.GetRequiredService<ILogger<AuthorizationResponseHandler>>().GetTestStore();
+                var loggerStore = startup.Host.Services.GetRequiredService<ILogger<AuthorizationResponseHandler>>().GetTestStore();
 
                 var bb = new BasicAuthorizationHeaderBuilder()
                     .AddUserName("Agent")

@@ -13,7 +13,7 @@ using Xunit.Priority;
 namespace Cuemon.Runtime.Caching
 {
     [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
-    public class SlimMemoryCacheTest : HostTest<HostFixture>
+    public class SlimMemoryCacheTest : HostTest<ManagedHostFixture>
     {
         private readonly SlimMemoryCache _cache;
         private readonly SlimMemoryCacheOptions _cacheOptions = new SlimMemoryCacheOptions();
@@ -27,9 +27,9 @@ namespace Cuemon.Runtime.Caching
 
         private const int NumberOfItemsToCache = 1000;
 
-        public SlimMemoryCacheTest(HostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
+        public SlimMemoryCacheTest(ManagedHostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
         {
-            _cache = hostFixture.ServiceProvider.GetRequiredService<SlimMemoryCache>();
+            _cache = hostFixture.Host.Services.GetRequiredService<SlimMemoryCache>();
         }
 
         [Fact, Priority(-1)]

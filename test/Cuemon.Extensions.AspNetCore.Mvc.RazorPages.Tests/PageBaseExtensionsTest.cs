@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                    {
                        app.UseRouting();
                        app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/AppUrl");
@@ -71,7 +71,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                    {
                        app.UseRouting();
                        app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/AppUrl");
@@ -103,7 +103,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                    {
                        app.UseRouting();
                        app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/CdnUrl");
@@ -136,7 +136,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                    {
                        app.UseRouting();
                        app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/CdnUrl");

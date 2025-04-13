@@ -32,10 +32,10 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, app =>
                    {
                        app.UseUserAgentSentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var uae = await Assert.ThrowsAsync<UserAgentException>(async () => await pipeline(context));
@@ -62,10 +62,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                    }, app =>
                    {
                        app.UseUserAgentSentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(HeaderNames.UserAgent, "Invalid-Agent");
@@ -96,10 +96,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseUserAgentSentinel();
 
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(HeaderNames.UserAgent, "Invalid-Agent");
@@ -128,10 +128,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseUserAgentSentinel();
 
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);
@@ -159,10 +159,10 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, app =>
                    {
                        app.UseUserAgentSentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(HeaderNames.UserAgent, "Invalid-Agent");
@@ -190,10 +190,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                     context.Response.StatusCode = 200;
                     return Task.CompletedTask;
                 });
-            }, hostFixture: null))
+            }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);
@@ -222,10 +222,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(HeaderNames.UserAgent, "Cuemon-Agent");

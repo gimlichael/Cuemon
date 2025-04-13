@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var wf = new WeatherForecast();
                 var formatter = new XmlFormatter(o => o.Settings.Writer.Indent = true);

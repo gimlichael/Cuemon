@@ -48,7 +48,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                           {
                               app.UseRouting();
                               app.UseEndpoints(routes => { routes.MapControllers(); });
-                          }, hostFixture: null))
+                          }))
             {
                 var client = filter.Host.GetTestClient();
 
@@ -99,7 +99,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                           {
                               app.UseRouting();
                               app.UseEndpoints(routes => { routes.MapControllers(); });
-                          }, hostFixture: null))
+                          }))
             {
                 var client = filter.Host.GetTestClient();
 
@@ -116,7 +116,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                     result = await client.GetAsync("/fake/it");
                 });
 
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>().Value;
+                var options = filter.Host.Services.GetRequiredService<IOptions<ThrottlingSentinelOptions>>().Value;
 
                 var ratelimitReset = result.Headers.GetValues("RateLimit-Reset").Single().As<int>();
                 Assert.Null(result.Headers.RetryAfter);
