@@ -253,11 +253,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();
 
-            if (DigestAlgorithm == DigestCryptoAlgorithm.Sha512Slash256 || DigestAlgorithm == DigestCryptoAlgorithm.Sha512Slash256Session)
-            {
-                ha1 = ha1.Substring(0, 64);
-            }
-
             switch (DigestAlgorithm)
             {
                 case DigestCryptoAlgorithm.Md5Session:

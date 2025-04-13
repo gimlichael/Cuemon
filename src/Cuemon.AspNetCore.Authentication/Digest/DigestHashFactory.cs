@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     return UnkeyedHashFactory.CreateCrypto(UnkeyedCryptoAlgorithm.Sha256);
                 case DigestCryptoAlgorithm.Sha512Slash256:
                 case DigestCryptoAlgorithm.Sha512Slash256Session:
-                    return UnkeyedHashFactory.CreateCrypto(UnkeyedCryptoAlgorithm.Sha512);
+                    return UnkeyedHashFactory.CreateCrypto(UnkeyedCryptoAlgorithm.Sha512Slash256);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(algorithm), algorithm, $"The specified {nameof(algorithm)} is not supported.");
             }
