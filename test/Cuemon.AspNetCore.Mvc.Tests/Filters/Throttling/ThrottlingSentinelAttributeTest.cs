@@ -17,13 +17,13 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
 {
-    public class ThrottlingSentinelAttributeTest : AspNetCoreHostTest<AspNetCoreHostFixture>
+    public class ThrottlingSentinelAttributeTest : WebHostTest<ManagedWebHostFixture>
     {
         private readonly IServiceProvider _provider;
 
-        public ThrottlingSentinelAttributeTest(AspNetCoreHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
+        public ThrottlingSentinelAttributeTest(ManagedWebHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
-            _provider = hostFixture.ServiceProvider;
+            _provider = hostFixture.Host.Services;
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = filter.Host.GetTestClient();
 

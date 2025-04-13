@@ -50,7 +50,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                         Thread.Sleep(400);
                         return context.Response.WriteAsync("Hello World!");
                     });
-                }, hostFixture: null).ConfigureAwait(false);
+                }).ConfigureAwait(false);
 
             Assert.StartsWith("use-middleware;dur=", response.Headers.Single(kvp => kvp.Key == ServerTiming.HeaderName).Value.FirstOrDefault());
         }
@@ -74,7 +74,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 });
 
                 app.UseServerTiming();
-            }, hostFixture: null).ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
             var header = response.Headers.GetValues(ServerTiming.HeaderName).ToArray();
 
@@ -103,9 +103,9 @@ namespace Cuemon.AspNetCore.Diagnostics
                     await next(context);
                 });
                 app.UseServerTiming();
-            }, hostFixture: null);
+            });
             {
-                var logger = webApp.ServiceProvider.GetRequiredService<ILogger<ServerTimingMiddleware>>();
+                var logger = webApp.Host.Services.GetRequiredService<ILogger<ServerTimingMiddleware>>();
                 var loggerStore = logger.GetTestStore();
 
                 var client = webApp.Host.GetTestClient();
@@ -139,7 +139,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                     await next(context);
                 });
                 //app.UseServerTiming();
-            }, hostFixture: null).ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
             response.Headers.TryGetValues(ServerTiming.HeaderName, out var serverTimingHeader);
 

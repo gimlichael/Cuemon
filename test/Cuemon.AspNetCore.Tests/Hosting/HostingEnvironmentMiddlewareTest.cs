@@ -12,15 +12,15 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Hosting
 {
-    public class HostingEnvironmentMiddlewareTest : AspNetCoreHostTest<AspNetCoreHostFixture>
+    public class HostingEnvironmentMiddlewareTest : WebHostTest<ManagedWebHostFixture>
     {
         private readonly IServiceProvider _provider;
         private readonly IApplicationBuilder _pipeline;
 
-        public HostingEnvironmentMiddlewareTest(AspNetCoreHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
+        public HostingEnvironmentMiddlewareTest(ManagedWebHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
             _pipeline = hostFixture.Application;
-            _provider = hostFixture.ServiceProvider;
+            _provider = hostFixture.Host.Services;
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Cuemon.AspNetCore.Hosting
             await pipeline(context);
 
             Assert.True(context.Response.Headers.TryGetValue(options.Value.HeaderName, out var xHostingEnvironmentHeader));
-            Assert.Equal(HostingEnvironment.EnvironmentName, xHostingEnvironmentHeader.Single());
+            Assert.Equal(Environment.EnvironmentName, xHostingEnvironmentHeader.Single());
         }
 
         public override void ConfigureServices(IServiceCollection services)

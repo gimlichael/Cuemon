@@ -60,7 +60,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = webApp.Host.GetTestClient();
 
@@ -126,9 +126,9 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(AuthenticationScheme);
+                var options = webApp.Host.Services.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(AuthenticationScheme);
                 var client = webApp.Host.GetTestClient();
 
                 client.DefaultRequestHeaders.Add(HeaderNames.Date, DateTime.UtcNow.ToString("R"));
@@ -183,7 +183,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                        app.UseAuthorization();
 
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, hostFixture: null))
+                   }))
             {
                 var client = webApp.Host.GetTestClient();
 

@@ -29,10 +29,10 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = WebHostTestFactory.Create(pipelineSetup: app =>
             {
                 app.UseApiKeySentinel();
-            }, hostFixture: null))
+            }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var uae = await Assert.ThrowsAsync<ApiKeyException>(async () => await pipeline(context));
@@ -55,10 +55,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                    }, app =>
                    {
                        app.UseApiKeySentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(options.Value.HeaderName, "Invalid-Key");
@@ -86,10 +86,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                               app.UseFaultDescriptorExceptionHandler();
                               app.UseApiKeySentinel();
 
-                          }, hostFixture: null))
+                          }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(options.Value.HeaderName, "Invalid-Key");
@@ -112,10 +112,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseApiKeySentinel();
 
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);
@@ -140,10 +140,10 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, app =>
                    {
                        app.UseApiKeySentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(options.Value.HeaderName, "Invalid-Key");
@@ -171,10 +171,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                     context.Response.StatusCode = 200;
                     return Task.CompletedTask;
                 });
-            }, hostFixture: null))
+            }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);
@@ -201,10 +201,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 context.Request.Headers.Add(options.Value.HeaderName, allowedKey);

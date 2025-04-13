@@ -13,14 +13,14 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Runtime.Caching
 {
-    public class CacheEnumerableExtensionsTest : HostTest<HostFixture>
+    public class CacheEnumerableExtensionsTest : HostTest<ManagedHostFixture>
     {
         private readonly SlimMemoryCache _cache;
         private readonly SlimMemoryCacheOptions _cacheOptions = new SlimMemoryCacheOptions();
 
-        public CacheEnumerableExtensionsTest(HostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
+        public CacheEnumerableExtensionsTest(ManagedHostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
         {
-            _cache = hostFixture.ServiceProvider.GetRequiredService<SlimMemoryCache>();
+            _cache = hostFixture.Host.Services.GetRequiredService<SlimMemoryCache>();
         }
 
         [Fact]

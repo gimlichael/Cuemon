@@ -66,7 +66,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
                     return client.GetAsync("/");
-                }, hostFixture: null);
+                });
 
             var body = await response.Content.ReadAsStringAsync();
 
@@ -342,7 +342,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
                     return client.GetAsync("/");
-                }, hostFixture: null);
+                });
 
             var body = await response.Content.ReadAsStringAsync();
 
@@ -600,7 +600,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/xml"));
                     return client.GetAsync("/");
-                }, hostFixture: null);
+                });
 
             var body = await response.Content.ReadAsStringAsync();
 
@@ -690,7 +690,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 {
                     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/xml"));
                     return client.GetAsync("/");
-                }, hostFixture: null);
+                });
 
             var body = await response.Content.ReadAsStringAsync();
 

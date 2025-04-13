@@ -16,7 +16,7 @@ namespace Cuemon.Data.SqlClient
 
         public SqlInOperatorTest(UserSecretsHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
-            _manager = hostFixture.ServiceProvider.GetRequiredService<SqlDataManager>();
+            _manager = hostFixture.Host.Services.GetRequiredService<SqlDataManager>();
         }
 
         [Fact]

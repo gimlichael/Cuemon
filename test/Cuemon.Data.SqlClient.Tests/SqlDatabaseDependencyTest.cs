@@ -22,7 +22,7 @@ namespace Cuemon.Data.SqlClient
 
         public SqlDatabaseDependencyTest(UserSecretsHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
-            _connection = hostFixture.ServiceProvider.GetRequiredService<SqlConnection>();
+            _connection = hostFixture.Host.Services.GetRequiredService<SqlConnection>();
         }
 
         [Fact]

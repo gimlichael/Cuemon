@@ -20,8 +20,8 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         [Fact]
         public void Build_ShouldGenerateValidAuthorizationHeader()
         {
-            using var mw = WebHostTestFactory.Create(hostFixture: null);
-            var context = mw.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
+            using var mw = WebHostTestFactory.Create();
+            var context = mw.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
 
             var timestamp = DateTime.Parse("2022-07-10T12:50:42.2737531Z", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
 

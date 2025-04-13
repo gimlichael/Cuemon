@@ -14,15 +14,15 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {
-    public class RequestIdentifierMiddlewareTest : AspNetCoreHostTest<AspNetCoreHostFixture>
+    public class RequestIdentifierMiddlewareTest : WebHostTest<ManagedWebHostFixture>
     {
         private readonly IServiceProvider _provider;
         private readonly IApplicationBuilder _pipeline;
 
-        public RequestIdentifierMiddlewareTest(AspNetCoreHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
+        public RequestIdentifierMiddlewareTest(ManagedWebHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
             _pipeline = hostFixture.Application;
-            _provider = hostFixture.ServiceProvider;
+            _provider = hostFixture.Host.Services;
         }
 
         [Fact]

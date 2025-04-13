@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Hosting
 {
-    public class HostEnvironmentExtensionsTest : HostTest<HostFixture>
+    public class HostEnvironmentExtensionsTest : HostTest<ManagedHostFixture>
     {
-        public HostEnvironmentExtensionsTest(HostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
+        public HostEnvironmentExtensionsTest(ManagedHostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
         {
         }
 
@@ -25,30 +25,30 @@ namespace Cuemon.Extensions.Hosting
         public void IsLocalDevelopment_VerifyEnvironmentEqualsLocalDevelopment()
         {
 #if NET8_0_OR_GREATER
-            Assert.True(HostingEnvironment.IsLocalDevelopment());
-            Assert.False(HostingEnvironment.IsProduction());
-            Assert.False(HostingEnvironment.IsStaging());
-            Assert.False(HostingEnvironment.IsDevelopment());
+            Assert.True(Environment.IsLocalDevelopment());
+            Assert.False(Environment.IsProduction());
+            Assert.False(Environment.IsStaging());
+            Assert.False(Environment.IsDevelopment());
 #else
-            Assert.True(HostingEnvironment.IsLocalDevelopment());
-            Assert.False(HostingEnvironment.IsProduction());
-            Assert.False(HostingEnvironment.IsStaging());
-            Assert.False(HostingEnvironment.IsDevelopment());
+            Assert.True(Environment.IsLocalDevelopment());
+            Assert.False(Environment.IsProduction());
+            Assert.False(Environment.IsStaging());
+            Assert.False(Environment.IsDevelopment());
 #endif
-            TestOutput.WriteLine(HostingEnvironment.EnvironmentName);
+            TestOutput.WriteLine(Environment.EnvironmentName);
         }
 
         [Fact]
         public void IsLocalDevelopment_VerifyEnvironmentIsNonProduction()
         {
 #if NET8_0_OR_GREATER
-            Assert.True(HostingEnvironment.IsNonProduction());
-            Assert.False(HostingEnvironment.IsProduction());
+            Assert.True(Environment.IsNonProduction());
+            Assert.False(Environment.IsProduction());
 #else
-            Assert.True(HostingEnvironment.IsNonProduction());
-            Assert.False(HostingEnvironment.IsProduction());
+            Assert.True(Environment.IsNonProduction());
+            Assert.False(Environment.IsProduction());
 #endif
-            TestOutput.WriteLine(HostingEnvironment.EnvironmentName);
+            TestOutput.WriteLine(Environment.EnvironmentName);
         }
     }
 }

@@ -50,10 +50,10 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<HmacAuthenticationOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<HmacAuthenticationOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));

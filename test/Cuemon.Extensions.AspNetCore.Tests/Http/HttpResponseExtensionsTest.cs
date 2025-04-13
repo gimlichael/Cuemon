@@ -16,15 +16,15 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Http
 {
-    public class HttpResponseExtensionsTest : AspNetCoreHostTest<AspNetCoreHostFixture>
+    public class HttpResponseExtensionsTest : WebHostTest<ManagedWebHostFixture>
     {
         private readonly IServiceProvider _provider;
         private readonly IApplicationBuilder _pipeline;
 
-        public HttpResponseExtensionsTest(AspNetCoreHostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
+        public HttpResponseExtensionsTest(ManagedWebHostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
         {
             _pipeline = hostFixture.Application;
-            _provider = hostFixture.ServiceProvider;
+            _provider = hostFixture.Host.Services;
         }
 
         [Fact]

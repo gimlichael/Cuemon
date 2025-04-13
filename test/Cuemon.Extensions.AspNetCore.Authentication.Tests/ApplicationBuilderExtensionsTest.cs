@@ -29,9 +29,9 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                            o.Authenticator = (username, password) => ClaimsPrincipal.Current;
                            o.RequireSecureConnection = false;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = host.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();
+                var options = host.Host.Services.GetRequiredService<IOptions<BasicAuthenticationOptions>>();
                 var middleware = host.Application.Build();
 
                 Assert.NotNull(options);
@@ -55,9 +55,9 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                            };
                            o.RequireSecureConnection = false;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = host.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
+                var options = host.Host.Services.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
                 var middleware = host.Application.Build();
 
                 Assert.NotNull(options);
@@ -81,9 +81,9 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                            };
                            o.RequireSecureConnection = false;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var options = host.ServiceProvider.GetRequiredService<IOptions<HmacAuthenticationOptions>>();
+                var options = host.Host.Services.GetRequiredService<IOptions<HmacAuthenticationOptions>>();
                 var middleware = host.Application.Build();
 
                 Assert.NotNull(options);

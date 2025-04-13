@@ -54,7 +54,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 
                     return Task.CompletedTask;
                 });
-            }, hostFixture: null);
+            });
 
             Assert.Equal("no-transform, public, must-revalidate, max-age=604800", cacheControlHeaderValue);
 
@@ -90,7 +90,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 
                     return Task.CompletedTask;
                 });
-            }, hostFixture: null);
+            });
 
             Assert.Equal("no-transform, public, must-revalidate, max-age=604800", cacheControlHeaderValue);
 
@@ -130,7 +130,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 
                     return Task.CompletedTask;
                 });
-            }, hostFixture: null);
+            });
 
             Assert.Null(cacheControlHeaderValue);
 
@@ -153,9 +153,9 @@ namespace Cuemon.AspNetCore.Http.Headers
                 {
                     await context.Response.WriteAsync("This is a test.");
                 });
-            }, hostFixture: null))
+            }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);
@@ -195,9 +195,9 @@ namespace Cuemon.AspNetCore.Http.Headers
                     context.Request.Headers.Add(HeaderNames.IfNoneMatch, "\"88b96039b6d7d57e7c7f30f4198882d5\"");
                     await context.Response.WriteAsync("This is a test.");
                 });
-            }, hostFixture: null))
+            }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var pipeline = middleware.Application.Build();
 
                 await pipeline(context);

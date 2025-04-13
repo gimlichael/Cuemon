@@ -35,11 +35,11 @@ namespace Cuemon.AspNetCore.Http.Throttling
             }, app =>
                    {
                        app.UseThrottlingSentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
-                var cache = middleware.ServiceProvider.GetRequiredService<IThrottlingCache>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
+                var cache = middleware.Host.Services.GetRequiredService<IThrottlingCache>();
                 var pipeline = middleware.Application.Build();
 
                 var te = await Assert.ThrowsAsync<ThrottlingException>(async () =>
@@ -76,11 +76,11 @@ namespace Cuemon.AspNetCore.Http.Throttling
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseThrottlingSentinel();
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
-                var cache = middleware.ServiceProvider.GetRequiredService<IThrottlingCache>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
+                var cache = middleware.Host.Services.GetRequiredService<IThrottlingCache>();
                 var pipeline = middleware.Application.Build();
 
                 for (var i = 0; i < 15; i++)
@@ -123,10 +123,10 @@ namespace Cuemon.AspNetCore.Http.Throttling
                            context.Response.StatusCode = 200;
                            return Task.CompletedTask;
                        });
-                   }, hostFixture: null))
+                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
+                var context = middleware.Host.Services.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var options = middleware.Host.Services.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 for (var i = 0; i < 10; i++)
