@@ -12,6 +12,16 @@ namespace Cuemon.Security.Cryptography
         }
 
         [Fact]
+        public void CreateCryptoSha512256_ShouldBeValidHashResult()
+        {
+            var h = UnkeyedHashFactory.CreateCryptoSha512Slash256();
+            Assert.Equal("cdf1cc0effe26ecc0c13758f7b4a48e000615df241284185c39eb05d355bb9c8", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
+            Assert.Equal("d48b2aa4a50d1c3e324a1a762d3b2165244661ef80e004dd3669a77e02c489d8", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
+            Assert.Equal("e41c9660b04714cdf7249f0fd6e6c5556f54a7e04d299958b69a877e0fada2fb", h.ComputeHash(Guid.Empty.ToByteArray()).ToHexadecimalString());
+            Assert.Equal("0ac561fac838104e3f2e4ad107b4bee3e938bf15f2b15f009ccccd61a913f017", h.ComputeHash("hello world").ToHexadecimalString());
+        }
+
+        [Fact]
         public void CreateCryptoSha512_ShouldBeValidHashResult()
         {
             var h = UnkeyedHashFactory.CreateCryptoSha512();

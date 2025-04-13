@@ -209,7 +209,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                                {
                                    if (username == "Agent")
                                    {
-                                       password = "64d7c739de5dc6b5149de600751c413ef74fab0419e5a656e9f5ead5b98105b8";
+                                       password = "7a0adced41ceeaf77c95a4bb382a80303536fd3ee166a3a67a2dc9c100a9d7be";
                                        var cp = new ClaimsPrincipal();
                                        cp.AddIdentity(new ClaimsIdentity(Arguments.Yield(new Claim("Name", "Test Agent")), DigestAuthorizationHeader.Scheme));
                                        return cp;
