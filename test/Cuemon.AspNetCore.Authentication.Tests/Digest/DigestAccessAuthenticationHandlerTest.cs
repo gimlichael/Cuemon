@@ -25,8 +25,14 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         {
         }
 
-        [Fact]
-        public async Task HandleAuthenticateAsync_ShouldReturnContent_WithQopAuthentication()
+        [Theory]
+        [InlineData(DigestCryptoAlgorithm.Sha256)]
+        [InlineData(DigestCryptoAlgorithm.Sha256Session)]
+        [InlineData(DigestCryptoAlgorithm.Sha512Slash256)]
+        [InlineData(DigestCryptoAlgorithm.Sha512Slash256Session)]
+        [InlineData(DigestCryptoAlgorithm.Md5)]
+        [InlineData(DigestCryptoAlgorithm.Md5Session)]
+        public async Task HandleAuthenticateAsync_ShouldReturnContent_WithQopAuthentication(DigestCryptoAlgorithm algorithm)
         {
             using (var webApp = WebHostTestFactory.Create(services =>
                    {
@@ -49,6 +55,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                                    return null;
                                };
                                o.RequireSecureConnection = false;
+                               o.DigestAlgorithm = algorithm;
                            });
                    }, app =>
                    {
@@ -72,7 +79,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 TestOutput.WriteLine("WWW-Authenticate:");
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.DigestAlgorithm)
                     .AddRealm(options.Realm)
                     .AddUserName("Agent")
                     .AddUri("/")
@@ -101,8 +108,14 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             }
         }
 
-        [Fact]
-        public async Task HandleAuthenticateAsync_ShouldReturnContent_QopAuthenticationIntegrity()
+        [Theory]
+        [InlineData(DigestCryptoAlgorithm.Sha256)]
+        [InlineData(DigestCryptoAlgorithm.Sha256Session)]
+        [InlineData(DigestCryptoAlgorithm.Sha512Slash256)]
+        [InlineData(DigestCryptoAlgorithm.Sha512Slash256Session)]
+        [InlineData(DigestCryptoAlgorithm.Md5)]
+        [InlineData(DigestCryptoAlgorithm.Md5Session)]
+        public async Task HandleAuthenticateAsync_ShouldReturnContent_QopAuthenticationIntegrity(DigestCryptoAlgorithm algorithm)
         {
             using (var webApp = WebHostTestFactory.Create(services =>
                    {
@@ -125,6 +138,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                                    return null;
                                };
                                o.RequireSecureConnection = false;
+                               o.DigestAlgorithm = algorithm;
                            });
                    }, app =>
                    {
@@ -148,7 +162,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 TestOutput.WriteLine("WWW-Authenticate:");
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.DigestAlgorithm)
                     .AddRealm(options.Realm)
                     .AddUserName("Agent")
                     .AddUri("/")
@@ -189,13 +203,13 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                            .AddAuthentication(DigestAuthorizationHeader.Scheme)
                            .AddDigestAccess(o =>
                            {
-                               o.Algorithm = UnkeyedCryptoAlgorithm.Sha512;
+                               o.DigestAlgorithm = DigestCryptoAlgorithm.Sha512Slash256;
                                o.UseServerSideHa1Storage = true;
                                o.Authenticator = (string username, out string password) =>
                                {
                                    if (username == "Agent")
                                    {
-                                       password = "64d7c739de5dc6b5149de600751c413ef74fab0419e5a656e9f5ead5b98105b8c75ba6e18850ccd7ef2a3a13517520e158181bd34a4b68e2ab3b728acd7d066b";
+                                       password = "7a0adced41ceeaf77c95a4bb382a80303536fd3ee166a3a67a2dc9c100a9d7be";
                                        var cp = new ClaimsPrincipal();
                                        cp.AddIdentity(new ClaimsIdentity(Arguments.Yield(new Claim("Name", "Test Agent")), DigestAuthorizationHeader.Scheme));
                                        return cp;
@@ -227,7 +241,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 TestOutput.WriteLine("WWW-Authenticate:");
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.DigestAlgorithm)
                     .AddRealm(options.Realm)
                     .AddUserName("Agent")
                     .AddUri("/")
@@ -253,7 +267,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
                 result = await client.GetAsync("/fake");
 
-                Assert.Equal(UnkeyedCryptoAlgorithm.Sha512, options.Algorithm);
+                Assert.Equal(DigestCryptoAlgorithm.Sha512Slash256, options.DigestAlgorithm);
                 Assert.True(options.UseServerSideHa1Storage);
                 Assert.False(options.RequireSecureConnection);
 

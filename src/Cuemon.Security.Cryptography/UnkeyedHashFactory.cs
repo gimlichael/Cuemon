@@ -25,9 +25,21 @@ namespace Cuemon.Security.Cryptography
                     return CreateCryptoSha384(setup);
                 case UnkeyedCryptoAlgorithm.Sha512:
                     return CreateCryptoSha512(setup);
+                case UnkeyedCryptoAlgorithm.Sha512Slash256:
+                    return CreateCryptoSha512Slash256(setup);
                 default:
                     return CreateCryptoSha256(setup);
             }
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="SecureHashAlgorithm512256"/>.
+        /// </summary>
+        /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>
+        /// <returns>A <see cref="Hash"/> implementation of <see cref="SecureHashAlgorithm512256"/>.</returns>
+        public static Hash CreateCryptoSha512Slash256(Action<ConvertibleOptions> setup = null)
+        {
+            return new SecureHashAlgorithm512256(setup);
         }
 
         /// <summary>

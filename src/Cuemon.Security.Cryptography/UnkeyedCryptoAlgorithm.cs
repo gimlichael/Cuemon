@@ -24,6 +24,10 @@
         /// <summary>
         /// The Secure Hashing Algorithm (SHA512) algorithm (512 bits).
         /// </summary>
-        Sha512 = 2
+        Sha512 = 2,
+        /// <summary>
+        /// The Secure Hashing Algorithm (SHA512/256) algorithm (256 bits).
+        /// </summary>
+        Sha512Slash256 = 3
     }
 }
