@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
@@ -16,13 +17,43 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <summary>
         /// Initializes a new instance of the <see cref="DigestAuthorizationHeaderBuilder"/> class.
         /// </summary>
+        public DigestAuthorizationHeaderBuilder() : this(DigestCryptoAlgorithm.Sha256)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DigestAuthorizationHeaderBuilder"/> class.
+        /// </summary>
         /// <param name="algorithm">The algorithm to use when computing HA1, HA2 and/or RESPONSE value(s).</param>
         /// <remarks>Allowed values for <paramref name="algorithm"/> are: <see cref="UnkeyedCryptoAlgorithm.Md5"/>, <see cref="UnkeyedCryptoAlgorithm.Sha256"/> and <see cref="UnkeyedCryptoAlgorithm.Sha512"/>.</remarks>
-        public DigestAuthorizationHeaderBuilder(UnkeyedCryptoAlgorithm algorithm = UnkeyedCryptoAlgorithm.Sha256) : base(DigestAuthorizationHeader.Scheme)
+        [Obsolete("This constructor is obsolete and will be removed in a future version. Use DigestAlgorithm variant instead.")]
+        public DigestAuthorizationHeaderBuilder(UnkeyedCryptoAlgorithm algorithm) : this(Validator.CheckParameter(
+            () =>
+            {
+                Validator.ThrowIfEqual(algorithm, UnkeyedCryptoAlgorithm.Sha1, nameof(algorithm));
+                Validator.ThrowIfEqual(algorithm, UnkeyedCryptoAlgorithm.Sha384, nameof(algorithm));
+                switch (algorithm)
+                {
+                    case UnkeyedCryptoAlgorithm.Md5:
+                        return DigestCryptoAlgorithm.Md5;
+                    case UnkeyedCryptoAlgorithm.Sha256:
+                        return DigestCryptoAlgorithm.Sha256;
+                    case UnkeyedCryptoAlgorithm.Sha512:
+                        return DigestCryptoAlgorithm.Sha512Slash256;
+                    default:
+                        throw new InvalidEnumArgumentException(nameof(algorithm), (int)algorithm, typeof(UnkeyedCryptoAlgorithm));
+                }
+            }))
         {
-            Validator.ThrowIfEqual(algorithm, UnkeyedCryptoAlgorithm.Sha1, nameof(algorithm));
-            Validator.ThrowIfEqual(algorithm, UnkeyedCryptoAlgorithm.Sha384, nameof(algorithm));
-            Algorithm = algorithm;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DigestAuthorizationHeaderBuilder"/> class.
+        /// </summary>
+        /// <param name="algorithm">The algorithm to use when computing HA1, HA2 and/or RESPONSE value(s).</param>
+        public DigestAuthorizationHeaderBuilder(DigestCryptoAlgorithm algorithm) : base(DigestAuthorizationHeader.Scheme)
+        {
+            DigestAlgorithm = algorithm;
             MapRelation(nameof(AddResponse), DigestFields.Response);
             MapRelation(nameof(AddRealm), DigestFields.Realm);
             MapRelation(nameof(AddUserName), DigestFields.UserName);
@@ -40,7 +71,15 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// Gets the algorithm of the HTTP Digest Access Authentication.
         /// </summary>
         /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
-        public UnkeyedCryptoAlgorithm Algorithm { get; private set; }
+
+        [Obsolete("This member is obsolete and will be removed in a future version. Use DigestAlgorithm property instead.")]
+        public UnkeyedCryptoAlgorithm Algorithm { get; }
+
+        /// <summary>
+        /// Gets the algorithm of the HTTP Digest Access Authentication.
+        /// </summary>
+        /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
+        public DigestCryptoAlgorithm DigestAlgorithm { get; private set; }
 
         /// <summary>
         /// Associates the <see cref="DigestFields.Realm"/> field with the specified <paramref name="realm"/>.
@@ -161,7 +200,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         public DigestAuthorizationHeaderBuilder AddFromDigestAuthorizationHeader(DigestAuthorizationHeader header)
         {
             Validator.ThrowIfNull(header);
-            Algorithm = ParseAlgorithm(header.Algorithm);
+            DigestAlgorithm = ParseAlgorithm(header.Algorithm);
             AddUserName(header.UserName);
             AddRealm(header.Realm);
             AddUri(header.Uri);
@@ -172,11 +211,15 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             return this;
         }
 
-        private static UnkeyedCryptoAlgorithm ParseAlgorithm(string algorithm)
+        private static DigestCryptoAlgorithm ParseAlgorithm(string algorithm)
         {
-            if (algorithm.StartsWith("SHA-512", StringComparison.OrdinalIgnoreCase)) { return UnkeyedCryptoAlgorithm.Sha512; }
-            if (algorithm.StartsWith("SHA-256", StringComparison.OrdinalIgnoreCase)) { return UnkeyedCryptoAlgorithm.Sha256; }
-            return UnkeyedCryptoAlgorithm.Md5;
+            if (algorithm.Equals("MD5", StringComparison.OrdinalIgnoreCase)) { return DigestCryptoAlgorithm.Md5; }
+            if (algorithm.Equals("SHA-256", StringComparison.OrdinalIgnoreCase)) { return DigestCryptoAlgorithm.Sha256; }
+            if (algorithm.Equals("SHA-512-256", StringComparison.OrdinalIgnoreCase)) { return DigestCryptoAlgorithm.Sha512Slash256; }
+            if (algorithm.Equals("MD5-sess", StringComparison.OrdinalIgnoreCase)) { return DigestCryptoAlgorithm.Md5Session; }
+            if (algorithm.Equals("SHA-256-sess", StringComparison.OrdinalIgnoreCase)) { return DigestCryptoAlgorithm.Sha256Session; }
+            if (algorithm.Equals("SHA-512-256-sess", StringComparison.OrdinalIgnoreCase)) { return DigestCryptoAlgorithm.Sha512Slash256Session; }
+            throw new NotSupportedException($"The algorithm '{algorithm}' is not supported.");
         }
 
         /// <summary>
@@ -198,15 +241,36 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// Computes a by parameter defined <see cref="UnkeyedCryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA1.
         /// </summary>
         /// <param name="password">The password to include in the HA1 computed value.</param>
-        /// <returns>A <see cref="string"/> in the format of H(<see cref="DigestFields.UserName"/>:<see cref="DigestFields.Realm"/>:<paramref name="password"/>). H is determined by <see cref="Algorithm"/>.</returns>
+        /// <returns>A <see cref="string"/> in the format of H(<see cref="DigestFields.UserName"/>:<see cref="DigestFields.Realm"/>:<paramref name="password"/>). H is determined by <see cref="DigestAlgorithm"/>.</returns>
         public virtual string ComputeHash1(string password)
         {
             Validator.ThrowIfNullOrWhitespace(password);
             ValidateData(DigestFields.UserName, DigestFields.Realm);
-            return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", Data[DigestFields.UserName], Data[DigestFields.Realm], password), o =>
+            var crypto = DigestHashFactory.CreateCrypto(DigestAlgorithm);
+
+            var ha1 = crypto.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", Data[DigestFields.UserName], Data[DigestFields.Realm], password), o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();
+
+            if (DigestAlgorithm == DigestCryptoAlgorithm.Sha512Slash256 || DigestAlgorithm == DigestCryptoAlgorithm.Sha512Slash256Session)
+            {
+                ha1 = ha1.Substring(0, 64);
+            }
+
+            switch (DigestAlgorithm)
+            {
+                case DigestCryptoAlgorithm.Md5Session:
+                case DigestCryptoAlgorithm.Sha256Session:
+                case DigestCryptoAlgorithm.Sha512Slash256Session:
+                    ha1 = crypto.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", ha1, Data[DigestFields.Nonce], Data[DigestFields.ClientNonce]), o =>
+                    {
+                        o.Encoding = Encoding.UTF8;
+                    }).ToHexadecimalString();
+                    break;
+            }
+
+            return ha1;
         }
 
         /// <summary>
@@ -214,7 +278,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         /// <param name="method">The HTTP method to include in the HA2 computed value.</param>
         /// <param name="entityBody">The entity body to apply in the signature when qop is set to auth-int.</param>
-        /// <returns>A <see cref="string"/> in the format of H(<paramref name="method"/>:<see cref="DigestFields.DigestUri"/>) OR H(<paramref name="method"/>:<see cref="DigestFields.DigestUri"/>:H(<paramref name="entityBody"/>)). H is determined by <see cref="Algorithm"/>.</returns>
+        /// <returns>A <see cref="string"/> in the format of H(<paramref name="method"/>:<see cref="DigestFields.DigestUri"/>) OR H(<paramref name="method"/>:<see cref="DigestFields.DigestUri"/>:H(<paramref name="entityBody"/>)). H is determined by <see cref="DigestAlgorithm"/>.</returns>
         public virtual string ComputeHash2(string method, string entityBody = null)
         {
             Validator.ThrowIfNullOrWhitespace(method);
@@ -226,8 +290,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
             var hashFields = !hasIntegrityProtection
                 ? string.Create(CultureInfo.InvariantCulture, $"{method}:{Data[DigestFields.DigestUri]}")
-                : string.Create(CultureInfo.InvariantCulture, $"{method}:{Data[DigestFields.DigestUri]}:{UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(entityBody, o => o.Encoding = Encoding.UTF8).ToHexadecimalString()}");
-            return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(hashFields, o =>
+                : string.Create(CultureInfo.InvariantCulture, $"{method}:{Data[DigestFields.DigestUri]}:{DigestHashFactory.CreateCrypto(DigestAlgorithm).ComputeHash(entityBody, o => o.Encoding = Encoding.UTF8).ToHexadecimalString()}");
+            return DigestHashFactory.CreateCrypto(DigestAlgorithm).ComputeHash(hashFields, o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();
@@ -238,13 +302,13 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         /// <param name="hash1">The HA1 to include in the RESPONSE computed value.</param>
         /// <param name="hash2">The HA2 to include in the RESPONSE computed value.</param>
-        /// <returns>A <see cref="string"/> in the format of H(<paramref name="hash1"/>:<see cref="DigestFields.Nonce"/>:<see cref="DigestFields.NonceCount"/>:<see cref="DigestFields.ClientNonce"/>:<see cref="DigestFields.QualityOfProtection"/>:<paramref name="hash2"/>). H is determined by <see cref="Algorithm"/>.</returns>
+        /// <returns>A <see cref="string"/> in the format of H(<paramref name="hash1"/>:<see cref="DigestFields.Nonce"/>:<see cref="DigestFields.NonceCount"/>:<see cref="DigestFields.ClientNonce"/>:<see cref="DigestFields.QualityOfProtection"/>:<paramref name="hash2"/>). H is determined by <see cref="DigestAlgorithm"/>.</returns>
         public virtual string ComputeResponse(string hash1, string hash2)
         {
             Validator.ThrowIfNullOrWhitespace(hash1);
             Validator.ThrowIfNullOrWhitespace(hash2);
             ValidateData(DigestFields.Nonce, DigestFields.NonceCount, DigestFields.ClientNonce, DigestFields.QualityOfProtection);
-            return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(string.Create(CultureInfo.InvariantCulture, $"{hash1}:{Data[DigestFields.Nonce]}:{Data[DigestFields.NonceCount]}:{Data[DigestFields.ClientNonce]}:{Data[DigestFields.QualityOfProtection]}:{hash2}"), o =>
+            return DigestHashFactory.CreateCrypto(DigestAlgorithm).ComputeHash(string.Create(CultureInfo.InvariantCulture, $"{hash1}:{Data[DigestFields.Nonce]}:{Data[DigestFields.NonceCount]}:{Data[DigestFields.ClientNonce]}:{Data[DigestFields.QualityOfProtection]}:{hash2}"), o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();

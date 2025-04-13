@@ -103,7 +103,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
         /// <remarks>Allowed values are: <see cref="UnkeyedCryptoAlgorithm.Md5"/>, <see cref="UnkeyedCryptoAlgorithm.Sha256"/> and <see cref="UnkeyedCryptoAlgorithm.Sha512"/>.</remarks>
-        [Obsolete("Use DigestAlgorithm property instead. This property will be removed in a future version.")]
+        [Obsolete("This member is obsolete and will be removed in a future version. Use DigestAlgorithm property instead.")]
         public UnkeyedCryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// Gets or sets a value indicating whether the server should bypass the calculation of HA1 password representation.
         /// </summary>
         /// <value><c>true</c> if the server should bypass the calculation of HA1 password representation; otherwise, <c>false</c>.</value>
-        /// <remarks>When enabled, the server reads the HA1 value directly from a secured storage.</remarks>
+        /// <remarks>When enabled, the server reads the HA1 value directly from a secured storage, hence this cannot be used in combination with session variants of <see cref="DigestCryptoAlgorithm"/>.</remarks>
         public bool UseServerSideHa1Storage { get; set; }
 
         /// <summary>
