@@ -117,7 +117,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.Value.DigestAlgorithm)
                     .AddRealm(options.Value.Realm)
                     .AddUserName("Agent")
                     .AddUri("/")
@@ -193,7 +193,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.Value.DigestAlgorithm)
                     .AddRealm(options.Value.Realm)
                     .AddUserName("Agent")
                     .AddUri("/")
@@ -268,7 +268,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.Value.DigestAlgorithm)
                     .AddRealm(options.Value.Realm)
                     .AddUserName("Agent")
                     .AddUri("/")

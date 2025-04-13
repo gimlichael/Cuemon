@@ -546,7 +546,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 
             var result = await client.GetAsync("/");
 
-            var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+            var db = new DigestAuthorizationHeaderBuilder(options.DigestAlgorithm)
                 .AddRealm(options.Realm)
                 .AddUserName("Agent")
                 .AddUri("/")
@@ -594,7 +594,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                             password = null;
                             return null;
                         };
-                        o.Algorithm = UnkeyedCryptoAlgorithm.Sha512;
+                        o.DigestAlgorithm = DigestCryptoAlgorithm.Sha512Slash256;
                     });
                 services.AddAuthorization(o =>
                 {
@@ -623,7 +623,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 
             var result = await client.GetAsync("/");
 
-            var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+            var db = new DigestAuthorizationHeaderBuilder(options.DigestAlgorithm)
                 .AddRealm(options.Realm)
                 .AddUserName("Agent")
                 .AddUri("/")
@@ -702,7 +702,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
             var result = await client.GetAsync("/");
             var options = startup.Host.Services.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 
-            var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
+            var db = new DigestAuthorizationHeaderBuilder(options.DigestAlgorithm)
                 .AddRealm(options.Realm)
                 .AddUserName("Agent")
                 .AddUri("/")

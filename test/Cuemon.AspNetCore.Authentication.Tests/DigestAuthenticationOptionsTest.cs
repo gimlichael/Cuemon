@@ -179,7 +179,7 @@ namespace Cuemon.AspNetCore.Authentication
         {
             var sut = new DigestAuthenticationOptions();
 
-            Assert.Equal(UnkeyedCryptoAlgorithm.Sha256, sut.Algorithm);
+            Assert.Equal(DigestCryptoAlgorithm.Sha256, sut.DigestAlgorithm);
             Assert.NotNull(sut.OpaqueGenerator);
             Assert.NotNull(sut.NonceExpiredParser);
             Assert.NotNull(sut.NonceGenerator);
