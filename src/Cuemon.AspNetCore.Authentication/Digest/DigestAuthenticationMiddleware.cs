@@ -7,7 +7,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 using Cuemon.IO;
-using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -61,7 +60,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     var nonceSecret = Options.NonceSecret;
                     var nonceGenerator = Options.NonceGenerator;
                     var staleNonce = dc.Items[DigestFields.Stale] as string ?? "false";
-                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale={staleNonce}, algorithm={ParseAlgorithm(Options.Algorithm)}"));
+                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale={staleNonce}, algorithm={ParseAlgorithm(Options.DigestAlgorithm)}"));
                 }).ConfigureAwait(false);
             }
 
@@ -138,14 +137,22 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             return DigestAuthorizationHeader.Create(authorizationHeader);
         }
 
-        internal static string ParseAlgorithm(UnkeyedCryptoAlgorithm algorithm)
+        internal static string ParseAlgorithm(DigestCryptoAlgorithm algorithm)
         {
             switch (algorithm)
             {
-                case UnkeyedCryptoAlgorithm.Sha256:
+                case DigestCryptoAlgorithm.Md5:
+                    return "MD5";
+                case DigestCryptoAlgorithm.Md5Session:
+                    return "MD5-sess";
+                case DigestCryptoAlgorithm.Sha256:
                     return "SHA-256";
-                case UnkeyedCryptoAlgorithm.Sha512:
+                case DigestCryptoAlgorithm.Sha256Session:
+                    return "SHA-256-sess";
+                case DigestCryptoAlgorithm.Sha512Slash256:
                     return "SHA-512-256";
+                case DigestCryptoAlgorithm.Sha512Slash256Session:
+                    return "SHA-512-256-sess";
                 default:
                     return "MD5";
             }

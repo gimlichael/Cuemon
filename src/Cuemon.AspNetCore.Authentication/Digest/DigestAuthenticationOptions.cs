@@ -23,12 +23,12 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="Algorithm"/></term>
-        ///         <description><see cref="UnkeyedCryptoAlgorithm.Sha256"/></description>
-        ///     </item>
-        ///     <item>
         ///         <term><see cref="Authenticator"/></term>
         ///         <description><c>null</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="DigestAlgorithm"/></term>
+        ///         <description><see cref="DigestCryptoAlgorithm.Sha256"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="NonceGenerator"/></term>
@@ -58,7 +58,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </remarks>
         public DigestAuthenticationOptions()
         {
-            Algorithm = UnkeyedCryptoAlgorithm.Sha256;
+            DigestAlgorithm = DigestCryptoAlgorithm.Sha256;
             OpaqueGenerator = () => Generate.RandomString(32, Alphanumeric.Hexadecimal).ToLowerInvariant();
             NonceExpiredParser = (nonce, timeToLive) =>
             {
@@ -103,7 +103,13 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
         /// <remarks>Allowed values are: <see cref="UnkeyedCryptoAlgorithm.Md5"/>, <see cref="UnkeyedCryptoAlgorithm.Sha256"/> and <see cref="UnkeyedCryptoAlgorithm.Sha512"/>.</remarks>
+        [Obsolete("Use DigestAlgorithm property instead. This property will be removed in a future version.")]
         public UnkeyedCryptoAlgorithm Algorithm { get; set; }
+
+        /// <summary>
+        /// Specifies the cryptographic algorithm used in HTTP Digest Access Authentication. Default is <see cref="DigestCryptoAlgorithm.Sha256"/>.
+        /// </summary>
+        public DigestCryptoAlgorithm DigestAlgorithm { get; set; }
 
         /// <summary>
         /// Gets the realm that defines the protection space.
