@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [9.0.5] - 2025-05-13
+
+This is a service update that focuses on package dependencies and a few bug fixes.
+
+### Added
+
+- SecureHashAlgorithm512256 class in the Cuemon.Security.Cryptography namespace that provides a SHA-512-256 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 512-bit hash values
+- SHA512256 class in the Cuemon.Security.Cryptography namespace that represents the SHA-512/256 cryptographic hash algorithm, which produces a 256-bit hash value using the SHA-512 algorithm as its base
+- DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace that specifies the supported digest algorithms for HTTP Digest Access Authentication
+- DigestHashFactory class in the Cuemon.AspNetCore.Authentication.Digest namespace that provides access to factory methods for creating and configuring Hash instances based on UnkeyedCryptoHash{TAlgorithm}
+
+### Changed
+
+- UnkeyedCryptoAlgorithm enum in the Cuemon.Security.Cryptography namespace was extended with a new value: Sha512Slash256
+- UnkeyedHashFactory class in the Cuemon.Security.Cryptography namespace was extended with a new method: CreateCryptoSha512Slash256
+- DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace was extended with a property named DigestAlgorithm that specifies the digest algorithm to use for HTTP Digest Access Authentication; default is DigestCryptoAlgorithm.Sha256
+
+### Fixed
+
+- DigestAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Digest namespace to use newly added DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace
+- DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to use newly added DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace
+- DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to use newly added DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace
+
 ## [9.0.4] - 2025-04-10
 
 This is a service update that focuses on package dependencies and a few bug fixes.

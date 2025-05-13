@@ -1,4 +1,26 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------------
+//  SHA512/256 Implementation for .NET - Cuemon.Security.Cryptography
+// -----------------------------------------------------------------------------
+//  This implementation provides a pure .NET version of SHA-512/256
+//  (as defined in NIST FIPS PUB 180-4, Section 5.3.6.2) with no external
+//  dependencies, suitable for use via the abstract HashAlgorithm base class.
+//
+//  References:
+//  - NIST FIPS PUB 180-4: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
+//  - .NET Runtime (SHA512Managed): https://github.com/dotnet/runtime
+//  - Conceptual structure inspired by BouncyCastle and OpenSSL (no code copied)
+//
+//  Author: ChatGPT (OpenAI) — Composed from scratch using official specifications
+//  Library Integration: Cuemon.Security.Cryptography (v9.0.5+)
+//  URL: https://www.nuget.org/packages/Cuemon.Security.Cryptography
+//
+//  Special thanks to:
+//  - The .NET cryptography reference source for guidance on HashAlgorithm integration
+//  - BouncyCastle and OpenSSL for helping shape best practices in crypto implementations
+//  - The Free and Open Source Software (FOSS) community for collaboration and inspiration
+// -----------------------------------------------------------------------------
+
+using System;
 using System.Security.Cryptography;
 
 namespace Cuemon.Security.Cryptography
