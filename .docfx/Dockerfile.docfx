@@ -1,14 +1,14 @@
-﻿FROM nginx:1.27.3-alpine AS base
+﻿FROM --platform=$BUILDPLATFORM nginx:1.27.4-alpine AS base
 RUN rm -rf /usr/share/nginx/html/*
 
-FROM codebeltnet/docfx:2.77.0 AS build
+FROM --platform=$BUILDPLATFORM codebeltnet/docfx:2.78.3 AS build
 
 ADD [".", "docfx"]
 
 RUN cd docfx; \
     docfx build
 
-FROM base AS final
+FROM nginx:1.27.4-alpine AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=build /build/docfx/wwwroot /usr/share/nginx/html
 

@@ -18,10 +18,13 @@ on:
           - Debug
           - Release
 
+permissions:
+  contents: read
+
 jobs:
   prepare_linux:
     name: 🐧 Prepare Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
@@ -63,7 +66,7 @@ jobs:
 
   build:
     name: 🛠️ Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       matrix:
@@ -156,7 +159,7 @@ jobs:
 
   pack:
     name: 📦 Pack
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       matrix:
@@ -185,7 +188,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.build.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
@@ -232,7 +235,7 @@ jobs:
   sonarcloud:
     name: 🔬 Code Quality Analysis
     needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout
@@ -278,25 +281,20 @@ jobs:
           token: ${{ secrets.SONAR_TOKEN }}
 
   codecov:
-    name: 📊 Code Coverage Analysis
-    needs: [build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Run CodeCov Analysis
-        uses: codebeltnet/codecov-scan@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          repository: gimlichael/Cuemon
+    name: call-codecov
+    needs: [build,test]
+    uses: codebeltnet/jobs-codecov/.github/workflows/default.yml@v1
+    with:
+      repository: gimlichael/Cuemon
+    secrets: inherit
 
   codeql:
     name: 🛡️ Security Analysis
     needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
+    permissions:
+      security-events: write
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -332,13 +330,14 @@ jobs:
 
   deploy:
     if: github.event_name != 'pull_request'
-    name: 🚀 Deploy v${{ needs.build.outputs.version }}
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    needs: [build, pack, test, sonarcloud, codecov, codeql]
-    environment: Production
-    steps:
-      - uses: codebeltnet/nuget-push@v1
-        with:
-          token: ${{ secrets.NUGET_TOKEN }}
-          configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
+    name: call-nuget
+    needs: [build,pack,test,sonarcloud,codecov,codeql]
+    uses: codebeltnet/jobs-nuget/.github/workflows/default.yml@v1
+    with:
+      version: ${{ needs.build.outputs.version }}
+      environment: Production
+      configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
+    permissions:
+      contents: write
+      packages: write
+    secrets: inherit
