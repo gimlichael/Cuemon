@@ -1,4 +1,22 @@
-﻿Version 9.0.4
+﻿Version 9.0.5
+Availability: .NET 9 and .NET 8
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace that specifies the supported digest algorithms for HTTP Digest Access Authentication
+- ADDED DigestHashFactory class in the Cuemon.AspNetCore.Authentication.Digest namespace that provides access to factory methods for creating and configuring Hash instances based on UnkeyedCryptoHash{TAlgorithm}
+ 
+# Improvements
+- EXTENDED DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace with a property named DigestAlgorithm that specifies the digest algorithm to use for HTTP Digest Access Authentication; default is DigestCryptoAlgorithm.Sha256
+ 
+# Bug Fixes
+- FIXED DigestAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Digest namespace to use newly added DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace
+- FIXED DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to use newly added DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace
+- FIXED DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to use newly added DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace
+ 
+Version 9.0.4
 Availability: .NET 9 and .NET 8
  
 # ALM
