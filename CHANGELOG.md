@@ -12,7 +12,7 @@ This is a service update that focuses on package dependencies and a few bug fixe
 
 ### Added
 
-- SecureHashAlgorithm512256 class in the Cuemon.Security.Cryptography namespace that provides a a SHA-512-256 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 512-bit hash values
+- SecureHashAlgorithm512256 class in the Cuemon.Security.Cryptography namespace that provides a SHA-512-256 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 512-bit hash values
 - SHA512256 class in the Cuemon.Security.Cryptography namespace that represents the SHA-512/256 cryptographic hash algorithm, which produces a 256-bit hash value using the SHA-512 algorithm as its base
 - DigestCryptoAlgorithm enum in the Cuemon.AspNetCore.Authentication.Digest namespace that specifies the supported digest algorithms for HTTP Digest Access Authentication
 - DigestHashFactory class in the Cuemon.AspNetCore.Authentication.Digest namespace that provides access to factory methods for creating and configuring Hash instances based on UnkeyedCryptoHash{TAlgorithm}
