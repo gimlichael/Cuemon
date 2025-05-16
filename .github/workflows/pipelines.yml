@@ -240,7 +240,8 @@ jobs:
       organization: geekle
       projectKey: Cuemon
       version: ${{ needs.build.outputs.version }}
-    secrets: inherit
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   codecov:
     name: call-codecov
@@ -248,7 +249,8 @@ jobs:
     uses: codebeltnet/jobs-codecov/.github/workflows/default.yml@v1
     with:
       repository: gimlichael/Cuemon
-    secrets: inherit
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   codeql:
     name: call-codeql
@@ -269,4 +271,5 @@ jobs:
     permissions:
       contents: write
       packages: write
-    secrets: inherit
+    secrets:
+      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
