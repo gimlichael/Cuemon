@@ -90,6 +90,7 @@ jobs:
     with:
       configuration: ${{ matrix.configuration }}
       restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      strong-name-key-filename: cuemon.snk
     secrets:
       GCP_TOKEN: ${{ secrets.GCP_TOKEN }}
       GCP_BUCKETNAME: ${{ secrets.GCP_BUCKETNAME }}
