@@ -64,98 +64,35 @@ jobs:
         with:
           useRestoreCache: true
 
-  build:
-    name: 🛠️ Build
+  prepare_test:
+    name: 📜 Prepare Test
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-        framework: [net9.0, net8.0, netstandard2.1, netstandard2.0]
-    needs: [prepare_linux]
+    timeout-minutes: 5
     outputs:
-      version: ${{ steps.minver-calculate.outputs.version }}
-      projects: ${{ steps.projects.outputs.result }}
-      testProjects: ${{ steps.test-projects.outputs.result }}
+      json: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
-      
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Install MinVer
-        uses: codebeltnet/dotnet-tool-install-minver@v1
-
-      - id: minver-calculate
-        name: Calculate Version
-        uses: codebeltnet/minver-calculate@v2
-
-      - name: Download cuemon.snk file
-        uses: codebeltnet/gcp-download-file@v1
-        with:
-          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
-          bucketName: ${{ secrets.GCP_BUCKETNAME }}
-          objectName: cuemon.snk
-
-      - id: projects
-        name: Set environment variable for projects
-        run: |
-          if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
-            echo "result=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_OUTPUT
-          elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
-            projects=(
-              "src/**/Cuemon.Core.csproj"
-              "src/**/Cuemon.Data.csproj"
-              "src/**/Cuemon.Data.Integrity.csproj"
-              "src/**/Cuemon.Data.SqlClient.csproj"
-              "src/**/Cuemon.Diagnostics.csproj"
-              "src/**/Cuemon.Extensions.Collections.Generic.csproj"
-              "src/**/Cuemon.Extensions.Collections.Specialized.csproj"
-              "src/**/Cuemon.Extensions.Core.csproj"
-              "src/**/Cuemon.Extensions.Data.csproj"
-              "src/**/Cuemon.Extensions.Data.Integrity.csproj"
-              "src/**/Cuemon.Extensions.DependencyInjection.csproj"
-              "src/**/Cuemon.Extensions.Diagnostics.csproj"
-              "src/**/Cuemon.Extensions.Hosting.csproj"
-              "src/**/Cuemon.Extensions.IO.csproj"
-              "src/**/Cuemon.Extensions.Net.csproj"
-              "src/**/Cuemon.Extensions.Reflection.csproj"
-              "src/**/Cuemon.Extensions.Runtime.Caching.csproj"
-              "src/**/Cuemon.Extensions.Text.csproj"
-              "src/**/Cuemon.Extensions.Text.Json.csproj"
-              "src/**/Cuemon.Extensions.Threading.csproj"
-              "src/**/Cuemon.Extensions.Xml.csproj"
-              "src/**/Cuemon.IO.csproj"
-              "src/**/Cuemon.Net.csproj"
-              "src/**/Cuemon.Resilience.csproj"
-              "src/**/Cuemon.Runtime.Caching.csproj"
-              "src/**/Cuemon.Security.Cryptography.csproj"
-              "src/**/Cuemon.Threading.csproj"
-              "src/**/Cuemon.Xml.csproj"
-            )
-            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
-          else
-            echo "result=src/**/*.csproj" >> $GITHUB_OUTPUT
-          fi
-        shell: bash
-
-      - id: dotnet-build
-        name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
-        uses: codebeltnet/dotnet-build@v2
-        with:
-          projects: ${{ steps.projects.outputs.result }}
-          configuration: ${{ matrix.configuration }}
-          framework: ${{ matrix.framework }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
       - id: test-projects
         name: Generate matrix for test projects
         uses: codebeltnet/shell-globbing@v1
         with:
           pattern: test/**/*.csproj
+
+  build:
+    name: call-build
+    needs: [prepare_linux]
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    uses: codebeltnet/jobs-dotnet/.github/workflows/build.yml@v1
+    with:
+      configuration: ${{ matrix.configuration }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+    secrets:
+      GCP_TOKEN: ${{ secrets.GCP_TOKEN }}
+      GCP_BUCKETNAME: ${{ secrets.GCP_BUCKETNAME }}
 
   pack:
     name: 📦 Pack
@@ -184,13 +121,13 @@ jobs:
 
   test:
     name: 🧪 Test
-    needs: [build, prepare_linux, prepare_windows]
+    needs: [build, prepare_test, prepare_linux, prepare_windows]
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
-        project: ${{ fromJson(needs.build.outputs.testProjects) }}
+        project: ${{ fromJson(needs.prepare_test.outputs.json) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
