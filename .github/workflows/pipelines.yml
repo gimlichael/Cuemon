@@ -172,7 +172,7 @@ jobs:
 
   sonarcloud:
     name: call-sonarcloud
-    needs: [build,test]
+    needs: [build,test,integration_test]
     uses: codebeltnet/jobs-sonarcloud/.github/workflows/default.yml@v1
     with:
       organization: geekle
@@ -183,7 +183,7 @@ jobs:
 
   codecov:
     name: call-codecov
-    needs: [build,test]
+    needs: [build,test,integration_test]
     uses: codebeltnet/jobs-codecov/.github/workflows/default.yml@v1
     with:
       repository: gimlichael/Cuemon
@@ -192,7 +192,7 @@ jobs:
 
   codeql:
     name: call-codeql
-    needs: [build,test]
+    needs: [build,test,integration_test]
     uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v1
     permissions:
       security-events: write
