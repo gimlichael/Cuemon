@@ -106,7 +106,7 @@ jobs:
       configuration: ${{ matrix.configuration }}
       upload-packed-artifact: true
       version: ${{ needs.build.outputs.version }}
-      restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
   test:
     name: 🧪 Test
