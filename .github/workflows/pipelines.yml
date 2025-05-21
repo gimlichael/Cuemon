@@ -78,7 +78,12 @@ jobs:
         name: Generate matrix for test projects
         uses: codebeltnet/shell-globbing@v1
         with:
-          pattern: test/**/*.csproj
+          pattern: |
+            test/**/*.csproj
+            !test/**/Cuemon.Data.SqlClient.Tests.csproj
+
+      - name: JSON output
+        run: echo "${{ steps.test-projects.outputs.result }}"
 
   build:
     name: call-build
@@ -109,7 +114,7 @@ jobs:
       restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
   test:
-    name: 🧪 Test
+    name: call-test
     needs: [build, prepare_test, prepare_linux, prepare_windows]
     strategy:
       fail-fast: false
@@ -117,22 +122,33 @@ jobs:
         os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.prepare_test.outputs.json) }}
-    runs-on: ${{ matrix.os }}
+    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v1
+    with:
+      configuration: ${{ matrix.configuration }}
+      projects: ${{ matrix.project }}
+      restore-cache-key: ${{ matrix.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
+
+  integration_test:
+    name: ⚗️ Integration Test
+    needs: [build, prepare_test, prepare_linux]
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+        project: [ test/**/Cuemon.Data.SqlClient.Tests.csproj ]
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
 
       - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
+        uses: codebeltnet/install-dotnet@v2
 
       - name: Install .NET Tool - Report Generator
         uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
 
       - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/docker-compose@v1
         with:
           command: up
@@ -141,19 +157,15 @@ jobs:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
       - name: Test with ${{ matrix.configuration }} build
-        if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/dotnet-test@v3
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          buildSwitches: ${{ contains(matrix.project, 'Cuemon.Extensions.Globalization.Tests') && '-p:SkipSignAssembly=false' || '-p:SkipSignAssembly=true' }}
-          testArguments: -- RunConfiguration.DisableAppDomain=true
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
       - name: Take down SQL Server test dependency for ${{ matrix.configuration }} build
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/docker-compose@v1
         with:
           command: down
