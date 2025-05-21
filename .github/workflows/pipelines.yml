@@ -86,7 +86,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    uses: codebeltnet/jobs-dotnet/.github/workflows/build.yml@v1
+    uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v1
     with:
       configuration: ${{ matrix.configuration }}
       restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
@@ -96,29 +96,17 @@ jobs:
       GCP_BUCKETNAME: ${{ secrets.GCP_BUCKETNAME }}
 
   pack:
-    name: 📦 Pack
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    name: call-pack
+    needs: [prepare_linux, build]
     strategy:
       matrix:
         configuration: [Debug, Release]
-    needs: [prepare_linux, build]
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Pack for ${{ matrix.configuration }}
-        uses: codebeltnet/dotnet-pack@v2
-        with:
-          configuration: ${{ matrix.configuration }}
-          uploadPackedArtifact: true
-          version: ${{ needs.build.outputs.version }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+    uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v1
+    with:
+      configuration: ${{ matrix.configuration }}
+      uploadPackedArtifact: true
+      version: ${{ needs.build.outputs.version }}
+      restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
   test:
     name: 🧪 Test
@@ -201,7 +189,7 @@ jobs:
     if: github.event_name != 'pull_request'
     name: call-nuget
     needs: [build,pack,test,sonarcloud,codecov,codeql]
-    uses: codebeltnet/jobs-nuget/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-nuget-push/.github/workflows/default.yml@v1
     with:
       version: ${{ needs.build.outputs.version }}
       environment: Production
