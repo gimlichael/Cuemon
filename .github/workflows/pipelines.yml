@@ -76,7 +76,7 @@ jobs:
 
       - id: test-projects
         name: Generate matrix for test projects
-        uses: codebeltnet/shell-globbing@v1
+        uses: codebeltnet/shell-globbing@v2
         with:
           pattern: |
             test/**/*.csproj
