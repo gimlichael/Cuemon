@@ -104,7 +104,7 @@ jobs:
     uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v1
     with:
       configuration: ${{ matrix.configuration }}
-      uploadPackedArtifact: true
+      upload-packed-artifact: true
       version: ${{ needs.build.outputs.version }}
       restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
