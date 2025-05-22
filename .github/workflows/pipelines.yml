@@ -130,7 +130,7 @@ jobs:
 
   integration_test:
     name: ⚗️ Integration Test
-    needs: [build, test, prepare_linux]
+    needs: [build, prepare_linux]
     strategy:
       fail-fast: false
       matrix:
