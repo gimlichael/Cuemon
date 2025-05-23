@@ -124,6 +124,7 @@ jobs:
         project: ${{ fromJson(needs.prepare_test.outputs.json) }}
     uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v1
     with:
+      runs-on: ${{ matrix.os }}
       configuration: ${{ matrix.configuration }}
       projects: ${{ matrix.project }}
       restore-cache-key: ${{ matrix.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
