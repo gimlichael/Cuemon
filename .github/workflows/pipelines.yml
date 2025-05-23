@@ -127,7 +127,7 @@ jobs:
       runs-on: ${{ matrix.os }}
       configuration: ${{ matrix.configuration }}
       projects: ${{ matrix.project }}
-      restore-cache-key: ${{ matrix.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
 
   integration_test:
     name: ⚗️ Integration Test
