@@ -18,10 +18,13 @@ on:
           - Debug
           - Release
 
+permissions:
+  contents: read
+
 jobs:
   prepare_linux:
     name: 🐧 Prepare Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
@@ -61,149 +64,93 @@ jobs:
         with:
           useRestoreCache: true
 
-  build:
-    name: 🛠️ Build
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-        framework: [net9.0, net8.0, netstandard2.1, netstandard2.0]
-    needs: [prepare_linux]
+  prepare_test:
+    name: 📜 Prepare Test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
     outputs:
-      version: ${{ steps.minver-calculate.outputs.version }}
-      projects: ${{ steps.projects.outputs.result }}
-      testProjects: ${{ steps.test-projects.outputs.result }}
+      json: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
-      
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Install MinVer
-        uses: codebeltnet/dotnet-tool-install-minver@v1
-
-      - id: minver-calculate
-        name: Calculate Version
-        uses: codebeltnet/minver-calculate@v2
-
-      - name: Download cuemon.snk file
-        uses: codebeltnet/gcp-download-file@v1
-        with:
-          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
-          bucketName: ${{ secrets.GCP_BUCKETNAME }}
-          objectName: cuemon.snk
-
-      - id: projects
-        name: Set environment variable for projects
-        run: |
-          if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
-            echo "result=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_OUTPUT
-          elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
-            projects=(
-              "src/**/Cuemon.Core.csproj"
-              "src/**/Cuemon.Data.csproj"
-              "src/**/Cuemon.Data.Integrity.csproj"
-              "src/**/Cuemon.Data.SqlClient.csproj"
-              "src/**/Cuemon.Diagnostics.csproj"
-              "src/**/Cuemon.Extensions.Collections.Generic.csproj"
-              "src/**/Cuemon.Extensions.Collections.Specialized.csproj"
-              "src/**/Cuemon.Extensions.Core.csproj"
-              "src/**/Cuemon.Extensions.Data.csproj"
-              "src/**/Cuemon.Extensions.Data.Integrity.csproj"
-              "src/**/Cuemon.Extensions.DependencyInjection.csproj"
-              "src/**/Cuemon.Extensions.Diagnostics.csproj"
-              "src/**/Cuemon.Extensions.Hosting.csproj"
-              "src/**/Cuemon.Extensions.IO.csproj"
-              "src/**/Cuemon.Extensions.Net.csproj"
-              "src/**/Cuemon.Extensions.Reflection.csproj"
-              "src/**/Cuemon.Extensions.Runtime.Caching.csproj"
-              "src/**/Cuemon.Extensions.Text.csproj"
-              "src/**/Cuemon.Extensions.Text.Json.csproj"
-              "src/**/Cuemon.Extensions.Threading.csproj"
-              "src/**/Cuemon.Extensions.Xml.csproj"
-              "src/**/Cuemon.IO.csproj"
-              "src/**/Cuemon.Net.csproj"
-              "src/**/Cuemon.Resilience.csproj"
-              "src/**/Cuemon.Runtime.Caching.csproj"
-              "src/**/Cuemon.Security.Cryptography.csproj"
-              "src/**/Cuemon.Threading.csproj"
-              "src/**/Cuemon.Xml.csproj"
-            )
-            echo "result=$(IFS=' '; echo "${projects[*]}")" >> $GITHUB_OUTPUT
-          else
-            echo "result=src/**/*.csproj" >> $GITHUB_OUTPUT
-          fi
-        shell: bash
-
-      - id: dotnet-build
-        name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
-        uses: codebeltnet/dotnet-build@v2
-        with:
-          projects: ${{ steps.projects.outputs.result }}
-          configuration: ${{ matrix.configuration }}
-          framework: ${{ matrix.framework }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
       - id: test-projects
         name: Generate matrix for test projects
-        uses: codebeltnet/shell-globbing@v1
+        uses: codebeltnet/shell-globbing@v2
         with:
-          pattern: test/**/*.csproj
+          pattern: |
+            test/**/*.csproj
+            !test/**/Cuemon.Data.SqlClient.Tests.csproj
 
-  pack:
-    name: 📦 Pack
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
+      - name: JSON output
+        run: echo "${{ steps.test-projects.outputs.result }}"
+
+  build:
+    name: call-build
+    needs: [prepare_linux]
     strategy:
       matrix:
         configuration: [Debug, Release]
+    uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v1
+    with:
+      configuration: ${{ matrix.configuration }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      strong-name-key-filename: cuemon.snk
+    secrets:
+      GCP_TOKEN: ${{ secrets.GCP_TOKEN }}
+      GCP_BUCKETNAME: ${{ secrets.GCP_BUCKETNAME }}
+
+  pack:
+    name: call-pack
     needs: [prepare_linux, build]
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Pack for ${{ matrix.configuration }}
-        uses: codebeltnet/dotnet-pack@v2
-        with:
-          configuration: ${{ matrix.configuration }}
-          uploadPackedArtifact: true
-          version: ${{ needs.build.outputs.version }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v1
+    with:
+      configuration: ${{ matrix.configuration }}
+      upload-packed-artifact: true
+      version: ${{ needs.build.outputs.version }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
   test:
-    name: 🧪 Test
-    needs: [build, prepare_linux, prepare_windows]
+    name: call-test
+    needs: [build, prepare_test, prepare_linux, prepare_windows]
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
-        project: ${{ fromJson(needs.build.outputs.testProjects) }}
-    runs-on: ${{ matrix.os }}
+        project: ${{ fromJson(needs.prepare_test.outputs.json) }}
+    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v1
+    with:
+      runs-on: ${{ matrix.os }}
+      configuration: ${{ matrix.configuration }}
+      projects: ${{ matrix.project }}
+      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
+      test-arguments: -- RunConfiguration.DisableAppDomain=true
+
+  integration_test:
+    name: ⚗️ Integration Test
+    needs: [build, prepare_linux]
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+        project: [ test/**/Cuemon.Data.SqlClient.Tests.csproj ]
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
 
       - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
+        uses: codebeltnet/install-dotnet@v2
 
       - name: Install .NET Tool - Report Generator
         uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
 
       - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/docker-compose@v1
         with:
           command: up
@@ -212,133 +159,57 @@ jobs:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
       - name: Test with ${{ matrix.configuration }} build
-        if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/dotnet-test@v3
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
-          buildSwitches: ${{ contains(matrix.project, 'Cuemon.Extensions.Globalization.Tests') && '-p:SkipSignAssembly=false' || '-p:SkipSignAssembly=true' }}
-          testArguments: -- RunConfiguration.DisableAppDomain=true
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
       - name: Take down SQL Server test dependency for ${{ matrix.configuration }} build
-        if: ${{ (runner.os == 'Linux' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/docker-compose@v1
         with:
           command: down
 
   sonarcloud:
-    name: 🔬 Code Quality Analysis
-    needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 25
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Install .NET Tool - Sonar Scanner
-        uses: codebeltnet/dotnet-tool-install-sonarscanner@v1
-
-      - name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-
-      - name: Download cuemon.snk file
-        uses: codebeltnet/gcp-download-file@v1
-        with:
-          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
-          bucketName: ${{ secrets.GCP_BUCKETNAME }}
-          objectName: cuemon.snk
-
-      - name: Run SonarCloud Analysis
-        uses: codebeltnet/sonarcloud-scan@v1
-        with:
-          token: ${{ secrets.SONAR_TOKEN }}
-          organization: geekle
-          projectKey: Cuemon
-          version: ${{ needs.build.outputs.version }}
-
-      - name: Build
-        uses: codebeltnet/dotnet-build@v2
-        with:
-          uploadBuildArtifact: false
-
-      - name: Finalize SonarCloud Analysis
-        uses: codebeltnet/sonarcloud-scan-finalize@v1
-        with:
-          token: ${{ secrets.SONAR_TOKEN }}
+    name: call-sonarcloud
+    needs: [build,test,integration_test]
+    uses: codebeltnet/jobs-sonarcloud/.github/workflows/default.yml@v1
+    with:
+      organization: geekle
+      projectKey: Cuemon
+      version: ${{ needs.build.outputs.version }}
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   codecov:
-    name: 📊 Code Coverage Analysis
-    needs: [build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Run CodeCov Analysis
-        uses: codebeltnet/codecov-scan@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          repository: gimlichael/Cuemon
+    name: call-codecov
+    needs: [build,test,integration_test]
+    uses: codebeltnet/jobs-codecov/.github/workflows/default.yml@v1
+    with:
+      repository: gimlichael/Cuemon
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   codeql:
-    name: 🛡️ Security Analysis
-    needs: [prepare_linux, build, test]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-
-      - name: Prepare CodeQL SAST Analysis
-        uses: codebeltnet/codeql-scan@v1
-
-      - name: Download cuemon.snk file
-        uses: codebeltnet/gcp-download-file@v1
-        with:
-          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
-          bucketName: ${{ secrets.GCP_BUCKETNAME }}
-          objectName: cuemon.snk
-
-      - name: Build
-        uses: codebeltnet/dotnet-build@v2
-        with:
-          uploadBuildArtifact: false
-
-      - name: Finalize CodeQL SAST Analysis
-        uses: codebeltnet/codeql-scan-finalize@v1
+    name: call-codeql
+    needs: [build,test,integration_test]
+    uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v1
+    permissions:
+      security-events: write
 
   deploy:
     if: github.event_name != 'pull_request'
-    name: 🚀 Deploy v${{ needs.build.outputs.version }}
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    needs: [build, pack, test, sonarcloud, codecov, codeql]
-    environment: Production
-    steps:
-      - uses: codebeltnet/nuget-push@v1
-        with:
-          token: ${{ secrets.NUGET_TOKEN }}
-          configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
+    name: call-nuget
+    needs: [build,pack,test,sonarcloud,codecov,codeql]
+    uses: codebeltnet/jobs-nuget-push/.github/workflows/default.yml@v1
+    with:
+      version: ${{ needs.build.outputs.version }}
+      environment: Production
+      configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
+    permissions:
+      contents: write
+      packages: write
+    secrets:
+      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
