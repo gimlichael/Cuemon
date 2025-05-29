@@ -135,7 +135,7 @@ jobs:
             ${{ github.workspace }}
             !${{ github.workspace }}/.git
             ~/.nuget/packages
-          key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
           restore-keys: |
             dotnet-restore-
           enableCrossOsArchive: true
