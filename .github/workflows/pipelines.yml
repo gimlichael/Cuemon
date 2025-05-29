@@ -23,46 +23,17 @@ permissions:
 
 jobs:
   prepare_linux:
-    name: 🐧 Prepare Linux
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
+    name: call-restore-linux
+    uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
+    with:
+      use-restore-cache: true
 
   prepare_windows:
-    name: 🪟 Prepare Windows
-    runs-on: windows-2022
-    timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
+    name: call-restore-windows
+    uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
+    with:
+      use-restore-cache: true
+      runs-on: windows-2022
 
   prepare_test:
     name: 📜 Prepare Test
@@ -127,7 +98,7 @@ jobs:
       runs-on: ${{ matrix.os }}
       configuration: ${{ matrix.configuration }}
       projects: ${{ matrix.project }}
-      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restore-cache-key || needs.prepare_windows.outputs.restore-cache-key }}
       test-arguments: -- RunConfiguration.DisableAppDomain=true
 
   integration_test:
@@ -202,7 +173,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     name: call-nuget
-    needs: [build,pack,test,sonarcloud,codecov,codeql]
+    needs: [build, pack, test, integration_test, sonarcloud, codecov, codeql]
     uses: codebeltnet/jobs-nuget-push/.github/workflows/default.yml@v1
     with:
       version: ${{ needs.build.outputs.version }}
