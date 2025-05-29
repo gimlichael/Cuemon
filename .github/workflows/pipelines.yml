@@ -141,6 +141,12 @@ jobs:
           enableCrossOsArchive: true
           fail-on-cache-miss: true
 
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ matrix.configuration }}'
+          merge-multiple: true
+
       - name: Test with ${{ matrix.configuration }} build
         uses: codebeltnet/dotnet-test@v4
         with:
