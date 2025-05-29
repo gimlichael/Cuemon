@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   prepare_linux:
-    name: call-restore-linux
+    name: 🐧 Prepare Linux
     uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
     with:
       use-restore-cache: true
