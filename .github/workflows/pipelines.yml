@@ -92,7 +92,7 @@ jobs:
         os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.prepare_test.outputs.json) }}
-    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v2
     with:
       runs-on: ${{ matrix.os }}
       configuration: ${{ matrix.configuration }}
