@@ -65,7 +65,7 @@ jobs:
     uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v1
     with:
       configuration: ${{ matrix.configuration }}
-      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
       strong-name-key-filename: cuemon.snk
     secrets:
       GCP_TOKEN: ${{ secrets.GCP_TOKEN }}
@@ -82,7 +82,7 @@ jobs:
       configuration: ${{ matrix.configuration }}
       upload-packed-artifact: true
       version: ${{ needs.build.outputs.version }}
-      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
 
   test:
     name: call-test
