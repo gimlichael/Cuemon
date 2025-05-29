@@ -129,11 +129,11 @@ jobs:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
       - name: Test with ${{ matrix.configuration }} build
-        uses: codebeltnet/dotnet-test@v3
+        uses: codebeltnet/dotnet-test@v4
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
