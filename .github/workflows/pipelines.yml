@@ -62,7 +62,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v2
     with:
       configuration: ${{ matrix.configuration }}
       restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
@@ -77,7 +77,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v2
     with:
       configuration: ${{ matrix.configuration }}
       upload-packed-artifact: true
