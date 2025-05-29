@@ -128,12 +128,24 @@ jobs:
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
+      - name: Restore Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ${{ github.workspace }}
+            !${{ github.workspace }}/.git
+            ~/.nuget/packages
+          key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+          restore-keys: |
+            dotnet-restore-
+          enableCrossOsArchive: true
+          fail-on-cache-miss: true
+
       - name: Test with ${{ matrix.configuration }} build
         uses: codebeltnet/dotnet-test@v4
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
