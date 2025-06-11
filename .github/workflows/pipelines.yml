@@ -24,45 +24,16 @@ permissions:
 jobs:
   prepare_linux:
     name: 🐧 Prepare Linux
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
+    uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
+    with:
+      use-restore-cache: true
 
   prepare_windows:
     name: 🪟 Prepare Windows
-    runs-on: windows-2022
-    timeout-minutes: 15
-    outputs:
-      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-    steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
-      - name: Install .NET
-        uses: codebeltnet/install-dotnet@v1
-        with:
-          includePreview: true
-
-      - id: dotnet-restore
-        name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v2
-        with:
-          useRestoreCache: true
+    uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
+    with:
+      use-restore-cache: true
+      runs-on: windows-2022
 
   prepare_test:
     name: 📜 Prepare Test
@@ -91,10 +62,10 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-dotnet-build/.github/workflows/default.yml@v2
     with:
       configuration: ${{ matrix.configuration }}
-      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
       strong-name-key-filename: cuemon.snk
     secrets:
       GCP_TOKEN: ${{ secrets.GCP_TOKEN }}
@@ -106,12 +77,11 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-dotnet-pack/.github/workflows/default.yml@v2
     with:
       configuration: ${{ matrix.configuration }}
-      upload-packed-artifact: true
       version: ${{ needs.build.outputs.version }}
-      restore-cache-key: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
 
   test:
     name: call-test
@@ -122,12 +92,12 @@ jobs:
         os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.prepare_test.outputs.json) }}
-    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v2
     with:
       runs-on: ${{ matrix.os }}
       configuration: ${{ matrix.configuration }}
       projects: ${{ matrix.project }}
-      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
+      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restore-cache-key || needs.prepare_windows.outputs.restore-cache-key }}
       test-arguments: -- RunConfiguration.DisableAppDomain=true
 
   integration_test:
@@ -158,12 +128,30 @@ jobs:
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
+      - name: Restore Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ${{ github.workspace }}
+            !${{ github.workspace }}/.git
+            ~/.nuget/packages
+          key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
+          restore-keys: |
+            dotnet-restore-
+          enableCrossOsArchive: true
+          fail-on-cache-miss: true
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ matrix.configuration }}'
+          merge-multiple: true
+
       - name: Test with ${{ matrix.configuration }} build
-        uses: codebeltnet/dotnet-test@v3
+        uses: codebeltnet/dotnet-test@v4
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
@@ -202,7 +190,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     name: call-nuget
-    needs: [build,pack,test,sonarcloud,codecov,codeql]
+    needs: [build, pack, test, integration_test, sonarcloud, codecov, codeql]
     uses: codebeltnet/jobs-nuget-push/.github/workflows/default.yml@v1
     with:
       version: ${{ needs.build.outputs.version }}
