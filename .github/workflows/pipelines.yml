@@ -29,7 +29,7 @@ jobs:
       use-restore-cache: true
 
   prepare_windows:
-    name: call-restore-windows
+    name: 🪟 Prepare Windows
     uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
     with:
       use-restore-cache: true
