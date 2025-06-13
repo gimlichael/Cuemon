@@ -10,7 +10,7 @@ namespace Cuemon.Threading
     public class AwaiterTest : Test
     {
         [Fact]
-        public async Task RunUntilSucceededOrTimeoutAsync_ShouldReturnOnImmediateSuccess()
+        public async Task RunUntilSuccessfulOrTimeoutAsync_ShouldReturnOnImmediateSuccess()
         {
             // Arrange
             var callCount = 0;
@@ -21,7 +21,7 @@ namespace Cuemon.Threading
             }
 
             // Act
-            var result = await Awaiter.RunUntilSucceededOrTimeoutAsync(Method);
+            var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -29,7 +29,7 @@ namespace Cuemon.Threading
         }
 
         [Fact]
-        public async Task RunUntilSucceededOrTimeoutAsync_ShouldRetryUntilSuccess()
+        public async Task RunUntilSuccessfulOrTimeoutAsync_ShouldRetryUntilSuccess()
         {
             // Arrange
             var callCount = 0;
@@ -42,7 +42,7 @@ namespace Cuemon.Threading
             }
 
             // Act
-            var result = await Awaiter.RunUntilSucceededOrTimeoutAsync(Method, o =>
+            var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method, o =>
             {
                 o.Timeout = TimeSpan.FromSeconds(2);
                 o.Delay = TimeSpan.FromMilliseconds(10);
@@ -54,13 +54,13 @@ namespace Cuemon.Threading
         }
 
         [Fact]
-        public async Task RunUntilSucceededOrTimeoutAsync_ShouldReturnUnsuccessfulOnTimeout_NoExceptions()
+        public async Task RunUntilSuccessfulOrTimeoutAsync_ShouldReturnUnsuccessfulOnTimeout_NoExceptions()
         {
             // Arrange
             Task<ConditionalValue> Method() => Task.FromResult<ConditionalValue>(new UnsuccessfulValue());
 
             // Act
-            var result = await Awaiter.RunUntilSucceededOrTimeoutAsync(Method, o =>
+            var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method, o =>
             {
                 o.Timeout = TimeSpan.FromMilliseconds(50);
                 o.Delay = TimeSpan.FromMilliseconds(10);
@@ -72,7 +72,7 @@ namespace Cuemon.Threading
         }
 
         [Fact]
-        public async Task RunUntilSucceededOrTimeoutAsync_ShouldReturnUnsuccessfulWithSingleException()
+        public async Task RunUntilSuccessfulOrTimeoutAsync_ShouldReturnUnsuccessfulWithSingleException()
         {
             // Arrange
             var ct = new CancellationTokenSource(TimeSpan.FromMilliseconds(25)).Token;
@@ -80,7 +80,7 @@ namespace Cuemon.Threading
             ;
 
             // Act
-            var result = await Awaiter.RunUntilSucceededOrTimeoutAsync(() => Task.FromResult<ConditionalValue>(new UnsuccessfulValue()), o =>
+            var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(() => Task.FromResult<ConditionalValue>(new UnsuccessfulValue()), o =>
             {
                 o.Timeout = TimeSpan.FromMilliseconds(75);
                 o.Delay = TimeSpan.FromMilliseconds(50);
@@ -93,7 +93,7 @@ namespace Cuemon.Threading
         }
 
         [Fact]
-        public async Task RunUntilSucceededOrTimeoutAsync_ShouldReturnUnsuccessfulWithAggregateException()
+        public async Task RunUntilSuccessfulOrTimeoutAsync_ShouldReturnUnsuccessfulWithAggregateException()
         {
             // Arrange
             var exceptions = new List<Exception>
@@ -108,7 +108,7 @@ namespace Cuemon.Threading
             }
 
             // Act
-            var result = await Awaiter.RunUntilSucceededOrTimeoutAsync(Method, o =>
+            var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method, o =>
             {
                 o.Timeout = TimeSpan.FromMilliseconds(50);
                 o.Delay = TimeSpan.FromMilliseconds(10);

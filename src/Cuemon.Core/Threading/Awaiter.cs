@@ -26,7 +26,7 @@ namespace Cuemon.Threading
             /// 2: One caught exception; initialized with caught exception,<br/>
             /// 3: Two or more exceptions; initialized with <see cref="AggregateException"/> containing all exceptions.
             /// </remarks>
-        public static async Task<ConditionalValue> RunUntilSucceededOrTimeoutAsync(Func<Task<ConditionalValue>> method, Action<AsyncRunOptions> setup = null)
+        public static async Task<ConditionalValue> RunUntilSuccessfulOrTimeoutAsync(Func<Task<ConditionalValue>> method, Action<AsyncRunOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
             var stopwatch = Stopwatch.StartNew();
