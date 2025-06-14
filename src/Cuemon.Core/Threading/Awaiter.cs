@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cuemon.Threading
@@ -57,7 +58,7 @@ namespace Cuemon.Threading
         private static ConditionalValue GetUnsuccessfulValue(IList<Exception> exceptions)
         {
             if (exceptions.Count == 0) { return new UnsuccessfulValue(); }
-            if (exceptions.Count == 1) { return new UnsuccessfulValue(exceptions[0]); }
+            if (exceptions.Count == 1) { return new UnsuccessfulValue(exceptions.Single()); }
             return new UnsuccessfulValue(new AggregateException(exceptions));
         }
     }
