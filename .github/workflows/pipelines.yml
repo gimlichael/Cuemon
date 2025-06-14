@@ -28,12 +28,12 @@ jobs:
     with:
       use-restore-cache: true
 
-  prepare_windows:
-    name: 🪟 Prepare Windows
-    uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
-    with:
-      use-restore-cache: true
-      runs-on: windows-2022
+  # prepare_windows:
+  #   name: 🪟 Prepare Windows
+  #   uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
+  #   with:
+  #     use-restore-cache: true
+  #     runs-on: windows-2022
 
   prepare_test:
     name: 📜 Prepare Test
@@ -100,7 +100,7 @@ jobs:
 
   test_windows:
     name: call-test
-    needs: [build, prepare_test, prepare_windows]
+    needs: [build, prepare_test]
     strategy:
       fail-fast: false
       matrix:
