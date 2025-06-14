@@ -177,7 +177,7 @@ jobs:
 
   sonarcloud:
     name: call-sonarcloud
-    needs: [build,test,integration_test]
+    needs: [build, test_linux, test_windows, integration_test]
     uses: codebeltnet/jobs-sonarcloud/.github/workflows/default.yml@v1
     with:
       organization: geekle
@@ -188,7 +188,7 @@ jobs:
 
   codecov:
     name: call-codecov
-    needs: [build,test,integration_test]
+    needs: [build, test_linux, test_windows, integration_test]
     uses: codebeltnet/jobs-codecov/.github/workflows/default.yml@v1
     with:
       repository: gimlichael/Cuemon
@@ -197,7 +197,7 @@ jobs:
 
   codeql:
     name: call-codeql
-    needs: [build,test,integration_test]
+    needs: [build, test_linux, test_windows, integration_test]
     uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v1
     permissions:
       security-events: write
@@ -205,7 +205,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     name: call-nuget
-    needs: [build, pack, test, integration_test, sonarcloud, codecov, codeql]
+    needs: [build, pack, test_linux, test_windows, integration_test, sonarcloud, codecov, codeql]
     uses: codebeltnet/jobs-nuget-push/.github/workflows/default.yml@v1
     with:
       version: ${{ needs.build.outputs.version }}
