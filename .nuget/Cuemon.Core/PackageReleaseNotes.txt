@@ -1,4 +1,13 @@
-﻿Version 9.0.5
+﻿Version 9.0.6
+Availability: .NET 9, .NET 8 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED Awaiter class in the Cuemon.Threading namespace that provides a set of static methods for awaiting asynchronous operations
+ 
+Version 9.0.5
 Availability: .NET 9, .NET 8 and .NET Standard 2.0
  
 # ALM
