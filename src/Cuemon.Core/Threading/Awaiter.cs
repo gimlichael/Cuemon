@@ -52,14 +52,14 @@ namespace Cuemon.Threading
 
             return (conditionalValue?.Succeeded ?? false)
                 ? conditionalValue 
-                : GetUnsuccessfulValue(exceptions);
+                : await GetUnsuccessfulValue(exceptions).ConfigureAwait(false);
         }
 
-        private static ConditionalValue GetUnsuccessfulValue(IList<Exception> exceptions)
+        private static Task<ConditionalValue> GetUnsuccessfulValue(IList<Exception> exceptions)
         {
-            if (exceptions.Count == 0) { return new UnsuccessfulValue(); }
-            if (exceptions.Count == 1) { return new UnsuccessfulValue(exceptions.Single()); }
-            return new UnsuccessfulValue(new AggregateException(exceptions));
+            if (exceptions.Count == 0) { return Task.FromResult<ConditionalValue>(new UnsuccessfulValue()); }
+            if (exceptions.Count == 1) { return Task.FromResult<ConditionalValue>(new UnsuccessfulValue(exceptions.Single())); }
+            return Task.FromResult<ConditionalValue>(new UnsuccessfulValue(new AggregateException(exceptions)));
         }
     }
 }
