@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [9.0.6] - 2025-06-14
+
+This is a service update that focuses on package dependencies and a minor new handy feature; `Cuemon.Threading.Awaiter.RunUntilSuccessfulOrTimeoutAsync` method.
+
+### Added
+
+- Awaiter class in the Cuemon.Threading namespace that provides a set of static methods for awaiting asynchronous operations:
+  - RunUntilSuccessfulOrTimeoutAsync repeatedly invokes a specified asynchronous lambda expression until it succeeds or a configured timeout is reached
+
+
 ## [9.0.5] - 2025-05-13
 
 This is a service update that focuses on package dependencies and a few bug fixes.
