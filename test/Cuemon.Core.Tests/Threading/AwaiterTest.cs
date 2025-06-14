@@ -75,9 +75,11 @@ namespace Cuemon.Threading
         public async Task RunUntilSuccessfulOrTimeoutAsync_ShouldReturnUnsuccessfulWithSingleException()
         {
             // Arrange
-            var ct = new CancellationTokenSource(TimeSpan.FromMilliseconds(0)).Token;
+            var cts = new CancellationTokenSource();
 
-            ;
+            cts.Cancel();
+
+            var ct = cts.Token;
 
             // Act
             var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(() => Task.FromResult<ConditionalValue>(new UnsuccessfulValue()), o =>
