@@ -14,6 +14,7 @@ This is a service update that focuses on package dependencies and a minor new ha
 
 - Awaiter class in the Cuemon.Threading namespace that provides a set of static methods for awaiting asynchronous operations:
   - RunUntilSuccessfulOrTimeoutAsync repeatedly invokes a specified asynchronous lambda expression until it succeeds or a configured timeout is reached
+- AsyncRunOptions class in the Cuemon.Threading namespace that provides configuration options for the RunUntilSuccessfulOrTimeoutAsync method
 
 
 ## [9.0.5] - 2025-05-13
