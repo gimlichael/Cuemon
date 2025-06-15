@@ -34,7 +34,7 @@ namespace Cuemon.Threading
         /// </remarks>
         public AsyncOptions()
         {
-            CancellationToken = default;
+            CancellationToken = CancellationToken.None;
         }
 
         /// <summary>

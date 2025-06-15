@@ -28,12 +28,12 @@ jobs:
     with:
       use-restore-cache: true
 
-  prepare_windows:
-    name: 🪟 Prepare Windows
-    uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
-    with:
-      use-restore-cache: true
-      runs-on: windows-2022
+  # prepare_windows:
+  #   name: 🪟 Prepare Windows
+  #   uses: codebeltnet/jobs-dotnet-restore/.github/workflows/default.yml@v1
+  #   with:
+  #     use-restore-cache: true
+  #     runs-on: windows-2022
 
   prepare_test:
     name: 📜 Prepare Test
@@ -83,22 +83,37 @@ jobs:
       version: ${{ needs.build.outputs.version }}
       restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
 
-  test:
+  test_linux:
     name: call-test
-    needs: [build, prepare_test, prepare_linux, prepare_windows]
+    needs: [build, prepare_test, prepare_linux]
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.prepare_test.outputs.json) }}
     uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v2
     with:
-      runs-on: ${{ matrix.os }}
+      runs-on: ubuntu-24.04
       configuration: ${{ matrix.configuration }}
       projects: ${{ matrix.project }}
-      restore-cache-key: ${{ matrix.os == 'ubuntu-24.04' && needs.prepare_linux.outputs.restore-cache-key || needs.prepare_windows.outputs.restore-cache-key }}
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
+
+  test_windows:
+    name: call-test
+    needs: [build, prepare_test]
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+        project: ${{ fromJson(needs.prepare_test.outputs.json) }}
+    uses: codebeltnet/jobs-dotnet-test/.github/workflows/default.yml@v2
+    with:
+      runs-on: windows-2022
+      configuration: ${{ matrix.configuration }}
+      projects: ${{ matrix.project }}
       test-arguments: -- RunConfiguration.DisableAppDomain=true
+      build: true # we need to build for .net48
+      restore: true # apparently we need to restore for .net48
 
   integration_test:
     name: ⚗️ Integration Test
@@ -162,7 +177,7 @@ jobs:
 
   sonarcloud:
     name: call-sonarcloud
-    needs: [build,test,integration_test]
+    needs: [build, test_linux, test_windows, integration_test]
     uses: codebeltnet/jobs-sonarcloud/.github/workflows/default.yml@v1
     with:
       organization: geekle
@@ -173,7 +188,7 @@ jobs:
 
   codecov:
     name: call-codecov
-    needs: [build,test,integration_test]
+    needs: [build, test_linux, test_windows, integration_test]
     uses: codebeltnet/jobs-codecov/.github/workflows/default.yml@v1
     with:
       repository: gimlichael/Cuemon
@@ -182,7 +197,7 @@ jobs:
 
   codeql:
     name: call-codeql
-    needs: [build,test,integration_test]
+    needs: [build, test_linux, test_windows, integration_test]
     uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v1
     permissions:
       security-events: write
@@ -190,7 +205,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     name: call-nuget
-    needs: [build, pack, test, integration_test, sonarcloud, codecov, codeql]
+    needs: [build, pack, test_linux, test_windows, integration_test, sonarcloud, codecov, codeql]
     uses: codebeltnet/jobs-nuget-push/.github/workflows/default.yml@v1
     with:
       version: ${{ needs.build.outputs.version }}
