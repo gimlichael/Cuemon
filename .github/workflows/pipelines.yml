@@ -96,7 +96,7 @@ jobs:
       runs-on: ubuntu-24.04
       configuration: ${{ matrix.configuration }}
       projects: ${{ matrix.project }}
-      restore-cache-key: needs.prepare_linux.outputs.restore-cache-key
+      restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
 
   test_windows:
     name: call-test
