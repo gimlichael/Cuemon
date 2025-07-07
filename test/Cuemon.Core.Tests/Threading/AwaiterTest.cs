@@ -117,7 +117,7 @@ namespace Cuemon.Threading
             // Act
             var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method, o =>
             {
-                o.Timeout = TimeSpan.FromMilliseconds(100); // Slightly longer to ensure both exceptions are thrown
+                o.Timeout = TimeSpan.FromSeconds(5); // Significantly longer to ensure both exceptions are thrown (CI is slow in GHA)
                 o.Delay = TimeSpan.FromMilliseconds(10);
             });
 
