@@ -219,7 +219,7 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(636, sut6.Length);
         }
 
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
 
         [Fact]
         public void CompressBrotli_ShouldCompressAndDecompress()

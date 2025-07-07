@@ -26,7 +26,7 @@ namespace Cuemon.Extensions.IO
 
             sut2.Dispose();
 
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             await sut3.DisposeAsync();
             await sut4.DisposeAsync();
 #else
