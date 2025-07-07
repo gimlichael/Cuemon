@@ -4,10 +4,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
-    <PackageVersion Include="Backport.System.Threading.Lock" Version="3.1.4" />
-    <PackageVersion Include="Codebelt.Extensions.Xunit" Version="10.0.2" />
-    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting" Version="10.0.2" />
-    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="10.0.2" />
+    <PackageVersion Include="Codebelt.Extensions.Xunit" Version="10.0.3" />
+    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting" Version="10.0.3" />
+    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="10.0.3" />
     <PackageVersion Include="Meziantou.Xunit.ParallelTestFramework" Version="2.3.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.14.1" />
@@ -22,24 +21,17 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.17" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
-  </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('netstandard2'))">
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.17" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.0-preview.5.25277.114" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.6" />
@@ -47,6 +39,12 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.6" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.6" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.6" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net10')) OR $(TargetFramework.StartsWith('netstandard2'))">
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0-preview.5.25277.114" />
   </ItemGroup>
 </Project>
