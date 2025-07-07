@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Cuemon.Data.SqlClient</RootNamespace>
     <UserSecretsId>a3ad04eb-1ef8-4aa4-a20d-cc87b2467342</UserSecretsId>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
