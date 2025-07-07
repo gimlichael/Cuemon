@@ -106,13 +106,18 @@ namespace Cuemon.Threading
             var callCount = 0;
             Task<ConditionalValue> Method()
             {
-                throw exceptions[callCount++];
+                if (callCount < exceptions.Count)
+                {
+                    throw exceptions[callCount++];
+                }
+                // After throwing both exceptions, always return unsuccessful
+                return Task.FromResult<ConditionalValue>(new UnsuccessfulValue());
             }
 
             // Act
             var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method, o =>
             {
-                o.Timeout = TimeSpan.FromMilliseconds(50);
+                o.Timeout = TimeSpan.FromMilliseconds(100); // Slightly longer to ensure both exceptions are thrown
                 o.Delay = TimeSpan.FromMilliseconds(10);
             });
 
