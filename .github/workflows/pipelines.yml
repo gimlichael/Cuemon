@@ -87,7 +87,7 @@ jobs:
       include-preview: true
 
   test_linux:
-    name: call-test
+    name: call-test-linux
     needs: [build, prepare_test, prepare_linux]
     strategy:
       fail-fast: false
@@ -103,7 +103,7 @@ jobs:
       include-preview: true
 
   test_windows:
-    name: call-test
+    name: call-test-windows
     needs: [build, prepare_test]
     strategy:
       fail-fast: false
