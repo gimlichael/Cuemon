@@ -99,10 +99,10 @@ namespace Cuemon.Threading
         {
             // Arrange
             var exceptions = new List<Exception>
-        {
-            new InvalidOperationException("fail1"),
-            new ArgumentException("fail2")
-        };
+            {
+                new InvalidOperationException("fail1"),
+                new ArgumentException("fail2")
+            };
             var callCount = 0;
             Task<ConditionalValue> Method()
             {

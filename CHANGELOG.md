@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [9.0.7] - 2025-07-09
+
+This is a service update that focuses on package dependencies and a few bug fixes.
+
+### Changed
+
+- `System.Data.SqlClient` to `Microsoft.Data.SqlClient` since the former is officially deprecated in `Cuemon.Data.SqlClient` assembly
+
 ## [9.0.6] - 2025-06-14
 
 This is a service update that focuses on package dependencies and a minor new handy feature; `Cuemon.Threading.Awaiter.RunUntilSuccessfulOrTimeoutAsync` method.

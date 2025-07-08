@@ -1,4 +1,6 @@
-﻿FROM --platform=$BUILDPLATFORM nginx:1.28.0-alpine AS base
+﻿ARG NGINX_VERSION=1.29.0-alpine
+
+FROM --platform=$BUILDPLATFORM nginx:${NGINX_VERSION} AS base
 RUN rm -rf /usr/share/nginx/html/*
 
 FROM --platform=$BUILDPLATFORM codebeltnet/docfx:2.78.3 AS build
@@ -8,7 +10,7 @@ ADD [".", "docfx"]
 RUN cd docfx; \
     docfx build
 
-FROM nginx:1.28.0-alpine AS final
+FROM nginx:${NGINX_VERSION} AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=build /build/docfx/wwwroot /usr/share/nginx/html
 
