@@ -5,15 +5,14 @@
   <ItemGroup>
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="Backport.System.Threading.Lock" Version="3.1.4" />
-    <PackageVersion Include="Codebelt.Extensions.Xunit" Version="10.0.2" />
-    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting" Version="10.0.2" />
-    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="10.0.2" />
+    <PackageVersion Include="Codebelt.Extensions.Xunit" Version="10.0.3" />
+    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting" Version="10.0.3" />
+    <PackageVersion Include="Codebelt.Extensions.Xunit.Hosting.AspNetCore" Version="10.0.3" />
     <PackageVersion Include="Meziantou.Xunit.ParallelTestFramework" Version="2.3.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.14.1" />
     <PackageVersion Include="MinVer" Version="6.0.0" />
     <PackageVersion Include="NativeLibraryLoader" Version="1.0.13" />
-    <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageVersion Include="Xunit.Priority" Version="1.1.6" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
@@ -32,21 +31,24 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.3" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.6" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('netstandard2'))">
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.17" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.18" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.6" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('net9'))">
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.0.2" />
   </ItemGroup>
 </Project>
