@@ -12,7 +12,7 @@ This is a service update that focuses on package dependencies and a few bug fixe
 
 ### Changed
 
-- `System.Data.SqlClient` to `Microsoft.Data.SqlClient` since the former is officially deprecated in `Cuemon.Data` assembly
+- `System.Data.SqlClient` to `Microsoft.Data.SqlClient` since the former is officially deprecated in `Cuemon.Data.SqlClient` assembly
 
 ## [9.0.6] - 2025-06-14
 
