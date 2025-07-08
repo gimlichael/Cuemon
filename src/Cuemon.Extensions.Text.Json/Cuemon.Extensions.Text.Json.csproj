@@ -9,7 +9,7 @@
     <PackageTags>extension-methods extensions json-converter json-formatter dynamic-json-converter write-object write-property-name</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
     <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
