@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Data.SqlClient namespace contains types that provide ways for developers to work with Microsoft SQL Server integrations. The namespace is an addition to the System.Data.SqlClient namespace.</Description>
+    <Description>The Cuemon.Data.SqlClient namespace contains types that provide ways for developers to work with Microsoft SQL Server integrations. The namespace is an addition to the Microsoft.Data.SqlClient namespace.</Description>
     <PackageTags>sql sql-in-operator sql-query-builder sql-data-manager transient-fault-handling</PackageTags>
   </PropertyGroup>
 
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
 
 </Project>

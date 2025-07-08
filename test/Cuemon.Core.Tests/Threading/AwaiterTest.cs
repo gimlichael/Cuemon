@@ -99,20 +99,25 @@ namespace Cuemon.Threading
         {
             // Arrange
             var exceptions = new List<Exception>
-        {
-            new InvalidOperationException("fail1"),
-            new ArgumentException("fail2")
-        };
+            {
+                new InvalidOperationException("fail1"),
+                new ArgumentException("fail2")
+            };
             var callCount = 0;
             Task<ConditionalValue> Method()
             {
-                throw exceptions[callCount++];
+                if (callCount < exceptions.Count)
+                {
+                    throw exceptions[callCount++];
+                }
+                // After throwing both exceptions, always return unsuccessful
+                return Task.FromResult<ConditionalValue>(new UnsuccessfulValue());
             }
 
             // Act
             var result = await Awaiter.RunUntilSuccessfulOrTimeoutAsync(Method, o =>
             {
-                o.Timeout = TimeSpan.FromMilliseconds(50);
+                o.Timeout = TimeSpan.FromSeconds(5); // Significantly longer to ensure both exceptions are thrown (CI is slow in GHA)
                 o.Delay = TimeSpan.FromMilliseconds(10);
             });
 

@@ -84,7 +84,7 @@ jobs:
       restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
 
   test_linux:
-    name: call-test
+    name: call-test-linux
     needs: [build, prepare_test, prepare_linux]
     strategy:
       fail-fast: false
@@ -99,7 +99,7 @@ jobs:
       restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
 
   test_windows:
-    name: call-test
+    name: call-test-windows
     needs: [build, prepare_test]
     strategy:
       fail-fast: false
@@ -178,7 +178,7 @@ jobs:
   sonarcloud:
     name: call-sonarcloud
     needs: [build, test_linux, test_windows, integration_test]
-    uses: codebeltnet/jobs-sonarcloud/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-sonarcloud/.github/workflows/default.yml@v2
     with:
       organization: geekle
       projectKey: Cuemon
@@ -198,7 +198,9 @@ jobs:
   codeql:
     name: call-codeql
     needs: [build, test_linux, test_windows, integration_test]
-    uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v1
+    uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v2
+    with:
+      timeout-minutes: 30
     permissions:
       security-events: write
 

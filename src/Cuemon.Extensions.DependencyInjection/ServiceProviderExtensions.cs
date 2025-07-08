@@ -15,8 +15,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// </summary>
         /// <param name="provider">The <see cref="IServiceProvider"/> to extend.</param>
         /// <returns>An enumeration of ALL <see cref="ServiceDescriptor"/> instances from the specified <paramref name="provider"/>.</returns>
-        /// <exception cref="Cuemon.Validator"></exception>
-        /// <exception cref="System.NotSupportedException">This method does not support {providerType.FullName}.</exception>
+        /// <exception cref="NotSupportedException">This method does not support {providerType.FullName}.</exception>
         public static IEnumerable<ServiceDescriptor> GetServiceDescriptors(this IServiceProvider provider)
         {
             Validator.ThrowIfNull(provider);
