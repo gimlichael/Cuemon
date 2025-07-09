@@ -34,15 +34,11 @@
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.3" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.6" />
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.0.2" />
-  </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net10'))">
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.0.2" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net10')) OR $(TargetFramework.StartsWith('netstandard2'))">
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.0-preview.5.25277.114" />
@@ -50,5 +46,8 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0-preview.5.25277.114" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net9')) OR $(TargetFramework.StartsWith('net10'))">
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.0.2" />
   </ItemGroup>
 </Project>
