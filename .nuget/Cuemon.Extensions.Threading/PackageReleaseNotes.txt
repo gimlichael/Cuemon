@@ -1,4 +1,4 @@
-﻿Version 10.0.0
+Version 10.0.0
 Availability: .NET 10, .NET 9 and .NET Standard 2.0
  
 # ALM
@@ -6,6 +6,12 @@ Availability: .NET 10, .NET 9 and .NET Standard 2.0
 - REMOVED Support for TFM .NET 8 (LTS)
 - REMOVED Dependency on Backport.System.Threading.Lock (since System.Threading.Lock is now available in modern TFMs)
 - CHANGED Dependencies have been upgraded to the latest compatible versions for all supported target frameworks (TFMs)
+ 
+Version 9.0.8
+Availability: .NET 9, .NET 8 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
  
 Version 9.0.7
 Availability: .NET 9, .NET 8 and .NET Standard 2.0
