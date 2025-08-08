@@ -99,14 +99,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         public DigestAuthenticator Authenticator { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="UnkeyedCryptoAlgorithm.Sha256"/>.
-        /// </summary>
-        /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
-        /// <remarks>Allowed values are: <see cref="UnkeyedCryptoAlgorithm.Md5"/>, <see cref="UnkeyedCryptoAlgorithm.Sha256"/> and <see cref="UnkeyedCryptoAlgorithm.Sha512"/>.</remarks>
-        [Obsolete("This member is obsolete and will be removed in a future version. Use DigestAlgorithm property instead.")]
-        public UnkeyedCryptoAlgorithm Algorithm { get; set; }
-
-        /// <summary>
         /// Specifies the cryptographic algorithm used in HTTP Digest Access Authentication. Default is <see cref="DigestCryptoAlgorithm.Sha256"/>.
         /// </summary>
         public DigestCryptoAlgorithm DigestAlgorithm { get; set; }

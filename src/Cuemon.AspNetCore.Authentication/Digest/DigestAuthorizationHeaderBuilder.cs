@@ -25,32 +25,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// Initializes a new instance of the <see cref="DigestAuthorizationHeaderBuilder"/> class.
         /// </summary>
         /// <param name="algorithm">The algorithm to use when computing HA1, HA2 and/or RESPONSE value(s).</param>
-        /// <remarks>Allowed values for <paramref name="algorithm"/> are: <see cref="UnkeyedCryptoAlgorithm.Md5"/>, <see cref="UnkeyedCryptoAlgorithm.Sha256"/> and <see cref="UnkeyedCryptoAlgorithm.Sha512"/>.</remarks>
-        [Obsolete("This constructor is obsolete and will be removed in a future version. Use DigestAlgorithm variant instead.")]
-        public DigestAuthorizationHeaderBuilder(UnkeyedCryptoAlgorithm algorithm) : this(Validator.CheckParameter(
-            () =>
-            {
-                Validator.ThrowIfEqual(algorithm, UnkeyedCryptoAlgorithm.Sha1, nameof(algorithm));
-                Validator.ThrowIfEqual(algorithm, UnkeyedCryptoAlgorithm.Sha384, nameof(algorithm));
-                switch (algorithm)
-                {
-                    case UnkeyedCryptoAlgorithm.Md5:
-                        return DigestCryptoAlgorithm.Md5;
-                    case UnkeyedCryptoAlgorithm.Sha256:
-                        return DigestCryptoAlgorithm.Sha256;
-                    case UnkeyedCryptoAlgorithm.Sha512:
-                        return DigestCryptoAlgorithm.Sha512Slash256;
-                    default:
-                        throw new InvalidEnumArgumentException(nameof(algorithm), (int)algorithm, typeof(UnkeyedCryptoAlgorithm));
-                }
-            }))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DigestAuthorizationHeaderBuilder"/> class.
-        /// </summary>
-        /// <param name="algorithm">The algorithm to use when computing HA1, HA2 and/or RESPONSE value(s).</param>
         public DigestAuthorizationHeaderBuilder(DigestCryptoAlgorithm algorithm) : base(DigestAuthorizationHeader.Scheme)
         {
             DigestAlgorithm = algorithm;
@@ -66,14 +40,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             MapRelation(nameof(ComputeHash2), DigestFields.QualityOfProtection, DigestFields.DigestUri);
             MapRelation(nameof(ComputeResponse), DigestFields.Nonce, DigestFields.NonceCount, DigestFields.ClientNonce, DigestFields.QualityOfProtection);
         }
-
-        /// <summary>
-        /// Gets the algorithm of the HTTP Digest Access Authentication.
-        /// </summary>
-        /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
-
-        [Obsolete("This member is obsolete and will be removed in a future version. Use DigestAlgorithm property instead.")]
-        public UnkeyedCryptoAlgorithm Algorithm { get; }
 
         /// <summary>
         /// Gets the algorithm of the HTTP Digest Access Authentication.
@@ -319,7 +285,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             return new DigestAuthorizationHeader(Data[DigestFields.Realm],
                 Data[DigestFields.Nonce],
                 Data[DigestFields.Opaque],
-                Data[DigestFields.Stale],
                 Data[DigestFields.Algorithm],
                 Data[DigestFields.UserName],
                 Data[DigestFields.DigestUri],

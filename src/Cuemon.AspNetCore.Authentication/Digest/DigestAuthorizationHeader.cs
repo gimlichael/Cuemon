@@ -67,36 +67,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DigestAuthorizationHeader"/> class.
-        /// </summary>
-        /// <param name="realm">The realm/credential scope that defines the remote resource.</param>
-        /// <param name="nonce">The unique server generated string.</param>
-        /// <param name="opaque">The string of data specified by the server.</param>
-        /// <param name="stale">The case-insensitive flag indicating if the previous request from the client was rejected because the <paramref name="nonce"/> value was stale.</param>
-        /// <param name="algorithm">The algorithm used to produce the digest and an unkeyed digest.</param>
-        /// <param name="userName">The username of the specified <paramref name="realm"/>.</param>
-        /// <param name="uri">The effective request URI.</param>
-        /// <param name="nc">The hexadecimal count of the number of requests the client has sent with the <paramref name="nonce"/> value.</param>
-        /// <param name="cNonce">The unique client generated string.</param>
-        /// <param name="qop">The "quality of protection" the client has applied to the message.</param>
-        /// <param name="response">The computed response which proves that the user knows a password.</param>
-        [Obsolete("This constructor is obsolete and will be removed in a future version. Use the 'DigestAuthorizationHeader' constructor without the 'stale' parameter instead.")]
-        public DigestAuthorizationHeader(string realm, string nonce, string opaque, string stale, string algorithm, string userName, string uri, string nc, string cNonce, string qop, string response) : base(Scheme)
-        {
-            Realm = realm;
-            Nonce = nonce;
-            Opaque = opaque;
-            Stale = stale;
-            Algorithm = algorithm;
-            UserName = userName;
-            Uri = uri;
-            NC = nc;
-            CNonce = cNonce;
-            Qop = qop;
-            Response = response;
-        }
-
-        /// <summary>
         /// Gets the realm/credential scope that defines the remote resource.
         /// </summary>
         /// <value>The realm/credential scope that defines the remote resource.</value>
@@ -155,13 +125,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </summary>
         /// <value>The hexadecimal count of the number of requests the client has sent with the <see cref="Nonce"/> value.</value>
         public string NC { get; }
-
-        /// <summary>
-        /// Gets the case-insensitive flag indicating if the previous request from the client was rejected because the <see cref="Nonce"/> value was stale.
-        /// </summary>
-        /// <value>The case-insensitive flag indicating if the previous request from the client was rejected because the <see cref="Nonce"/> value was stale.</value>
-        [Obsolete("This property is obsolete and will be removed in a future version.")]
-        public string Stale { get; }
 
         /// <summary>
         /// The core parser that resolves an <see cref="AuthorizationHeader" /> from a set of <paramref name="credentials" />.
