@@ -8,6 +8,12 @@ namespace Cuemon.Resilience
 {
     internal abstract class Transient<TOptions> where TOptions : TransientOperationOptions, new()
     {
+#if NET9_0_OR_GREATER
+        protected readonly System.Threading.Lock _lock = new();
+#else
+        protected readonly object _lock = new();
+#endif
+
         protected Transient(MethodInfo delegateInfo, object[] runtimeArguments, Action<TOptions> setup)
         {
             Validator.ThrowIfInvalidConfigurator(setup, out var options);
@@ -64,7 +70,7 @@ namespace Cuemon.Resilience
                 if (Options is AsyncTransientOperationOptions asyncOptions) { runtimeArguments = Arguments.Concat(RuntimeArguments, Arguments.ToArray(asyncOptions.CancellationToken)); } // we need to match the signature of async methods on TransientOperation
                 var evidence = new TransientFaultEvidence(attempts, LastWaitTime, TotalWaitTime, Latency, new MethodDescriptor(DelegateInfo).AppendRuntimeArguments(runtimeArguments));
                 var transientException = new TransientFaultException("The amount of retry attempts has been reached.", evidence);
-                lock (AggregatedExceptions) { AggregatedExceptions.Insert(0, transientException); }
+                lock (_lock) { AggregatedExceptions.Insert(0, transientException); }
                 TransientOperation.FaultCallback?.Invoke(evidence);
             }
         }

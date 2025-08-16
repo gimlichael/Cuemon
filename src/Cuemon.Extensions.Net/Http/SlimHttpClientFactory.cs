@@ -29,7 +29,11 @@ namespace Cuemon.Extensions.Net.Http
         private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new();
         private readonly ConcurrentQueue<ExpiredHandler> _expiredHandlers = new();
         private readonly Func<HttpClientHandler> _handlerFactory;
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
         private readonly SlimHttpClientFactoryOptions _options;
         internal static readonly TimeSpan ExpirationTimerDueTime = TimeSpan.FromSeconds(15);
         private Timer _expirationTimer;
@@ -70,7 +74,7 @@ namespace Cuemon.Extensions.Net.Http
 
         private void StartExpirationTimer(string name)
         {
-            lock (_locker)
+            lock (_lock)
             {
                 if (_expirationTimer == null)
                 {
@@ -82,7 +86,7 @@ namespace Cuemon.Extensions.Net.Http
 
         private void StopExpirationTimer()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 _expirationTimer.Dispose();
                 _expirationTimer = null;
@@ -112,7 +116,7 @@ namespace Cuemon.Extensions.Net.Http
 
         private void ExpiredHandlersSweep()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 var queueCount = _expiredHandlers.Count;
                 Debug.WriteLine($"{nameof(ExpiredHandlersSweep)} has {queueCount} expired handlers to sweep.");

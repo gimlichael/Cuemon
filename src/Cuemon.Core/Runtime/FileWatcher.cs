@@ -11,7 +11,11 @@ namespace Cuemon.Runtime
     /// <seealso cref="Watcher" />
     public class FileWatcher : Watcher
     {
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly System.Threading.Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class.
@@ -58,7 +62,7 @@ namespace Cuemon.Runtime
         /// </summary>
         protected override Task HandleSignalingAsync()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 var utcLastModified = File.GetLastWriteTimeUtc(Path);
                 if (ReadFile)

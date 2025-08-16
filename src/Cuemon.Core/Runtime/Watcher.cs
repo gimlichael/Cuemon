@@ -10,7 +10,11 @@ namespace Cuemon.Runtime
     /// </summary>
     public abstract class Watcher : Disposable, IWatcher
     {
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
         private Timer _watcherTimer;
         private Timer _watcherPostponingTimer;
 
@@ -68,7 +72,7 @@ namespace Cuemon.Runtime
         /// </summary>
         public void StartMonitoring()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 _watcherTimer ??= TimerFactory.CreateNonCapturingTimer(TimerInvoking, null, DueTime, Period);
             }
@@ -169,7 +173,7 @@ namespace Cuemon.Runtime
             if (_watcherPostponingTimer != null) { return; } // we already have a postponed signaling
             if (DueTimeOnChanged != TimeSpan.Zero)
             {
-                lock (_locker)
+                lock (_lock)
                 {
                     _watcherPostponingTimer ??= TimerFactory.CreateNonCapturingTimer(PostponedHandleSignaling, e, DueTimeOnChanged, Timeout.InfiniteTimeSpan);
                 }

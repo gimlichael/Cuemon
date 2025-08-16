@@ -12,7 +12,11 @@ namespace Cuemon.Runtime
     {
         private IEnumerable<IWatcher> _watchers;
         private readonly Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> _watchersHandler;
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly System.Threading.Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dependency" /> class.
@@ -101,7 +105,7 @@ namespace Cuemon.Runtime
             SetUtcLastModified(utcLastModified);
             if (BreakTieOnChanged && _watchers != null)
             {
-                lock (_locker)
+                lock (_lock)
                 {
                     if (_watchers != null)
                     {
