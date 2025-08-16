@@ -10,6 +10,10 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 This is a major release that focuses on adapting to the latest .NET 10 (LTS) release, while also removing support for .NET 8 (LTS).
 
+### Changed
+
+- Lock statement has been updated to use the new System.Threading.Lock class where applicable
+
 ### Removed
 
 - Backport.System.Threading.Lock (since System.Threading.Lock is now available in modern TFMs) dependency from Cuemon.Extensions.Threading
