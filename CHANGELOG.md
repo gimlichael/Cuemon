@@ -24,6 +24,10 @@ This is a major release that focuses on adapting to the latest .NET 10 (LTS) rel
 > and not relying on 3rd party libraries that are not part of the BCL.<br/><br/>
 > _A warm thank you to [Mark Cilia Vincenti](https://github.com/MarkCiliaVincenti) for his idea and contribution to include [Backport.System.Threading.Lock library](https://www.nuget.org/packages/Backport.System.Threading.Lock) into the Cuemon assembly family._
 
+## [9.0.9] - 2025-09-13
+
+This is a service update that focuses on package dependencies.
+
 ## [9.0.8] - 2025-08-07
 
 This is a service update that focuses on package dependencies.
