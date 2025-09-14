@@ -6,7 +6,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.Reflection;
 using Cuemon.Xml;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xml
 {

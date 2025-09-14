@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Authentication
 {

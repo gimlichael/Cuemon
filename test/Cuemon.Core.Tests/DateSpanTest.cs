@@ -2,7 +2,6 @@
 using System.Globalization;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon
 {

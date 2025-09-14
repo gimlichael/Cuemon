@@ -2,7 +2,6 @@
 using Cuemon.Data.Integrity;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Data.Integrity
 {

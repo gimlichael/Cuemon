@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Net.Http
 {

@@ -4,7 +4,6 @@ using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Http;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {

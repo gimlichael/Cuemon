@@ -5,7 +5,6 @@ using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics
 {

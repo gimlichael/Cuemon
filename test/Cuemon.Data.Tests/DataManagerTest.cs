@@ -10,7 +10,6 @@ using Cuemon.Resilience;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Data
 {

@@ -7,7 +7,6 @@ using Cuemon.Diagnostics;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Resilience.Assets;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Resilience
 {

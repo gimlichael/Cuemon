@@ -12,7 +12,6 @@ using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.DependencyInjection
 {

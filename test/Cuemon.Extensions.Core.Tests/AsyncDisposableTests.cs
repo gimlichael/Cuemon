@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions
 {

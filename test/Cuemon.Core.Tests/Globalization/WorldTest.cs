@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Globalization
 {

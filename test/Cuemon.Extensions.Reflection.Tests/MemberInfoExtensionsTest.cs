@@ -5,7 +5,6 @@ using Cuemon.Extensions.Reflection.Assets;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Reflection
 {

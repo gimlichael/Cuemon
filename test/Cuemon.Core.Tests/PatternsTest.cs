@@ -3,7 +3,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.Text;
 using Cuemon.Threading;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon
 {

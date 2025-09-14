@@ -9,7 +9,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
 using Cuemon.Reflection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Data.Xml
 {

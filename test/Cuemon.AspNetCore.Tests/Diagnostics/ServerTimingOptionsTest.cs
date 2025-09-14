@@ -3,7 +3,6 @@ using Cuemon.Diagnostics;
 using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Diagnostics
 {

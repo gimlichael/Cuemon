@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using Codebelt.Extensions.Xunit;
 using Microsoft.AspNetCore.Http;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Http
 {
