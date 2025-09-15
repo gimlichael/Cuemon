@@ -101,7 +101,6 @@ jobs:
       projects: ${{ matrix.project }}
       restore-cache-key: ${{ needs.prepare_linux.outputs.restore-cache-key }}
       build: true # we need to build due to xUnitv3
-      restore: true # apparently we need to due to xUnitv3
       include-preview: true
 
   test_windows:
@@ -176,6 +175,7 @@ jobs:
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
+          build: true # apparently we need to due to xUnitv3
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
