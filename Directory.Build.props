@@ -74,7 +74,6 @@
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Condition="$(TargetFramework.StartsWith('net4')) AND '$(IsLinux)' == 'true'" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.console" />
     <PackageReference Include="xunit.runner.visualstudio">
