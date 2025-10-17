@@ -6,6 +6,12 @@ Availability: .NET 10, .NET 9, .NET Standard 2.1 and .NET Standard 2.0
 - REMOVED Support for TFM .NET 8 (LTS)
 - CHANGED Dependencies have been upgraded to the latest compatible versions for all supported target frameworks (TFMs)
  
+Version 9.0.10
+Availability: .NET 9, .NET 8, .NET Standard 2.1 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
 Version 9.0.9
 Availability: .NET 9, .NET 8, .NET Standard 2.1 and .NET Standard 2.0
  
