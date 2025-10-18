@@ -18,8 +18,4 @@
       <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(GITHUB_RUN_NUMBER)</FileVersion>
     </PropertyGroup>
   </Target>
-
-  <PropertyGroup>
-    <RestoreEnablePackagePruning Condition="$(TargetFramework.StartsWith('net4'))">false</RestoreEnablePackagePruning>
-  </PropertyGroup>
 </Project>
