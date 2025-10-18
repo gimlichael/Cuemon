@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageReference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 
   <ItemGroup>
