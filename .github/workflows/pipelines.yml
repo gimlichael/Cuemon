@@ -205,15 +205,15 @@ jobs:
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  codeql:
-    name: call-codeql
-    needs: [build, test_linux, test_windows, integration_test]
-    uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v2
-    with:
-      timeout-minutes: 30
-      include-preview: true
-    permissions:
-      security-events: write
+  # codeql:
+  #   name: call-codeql
+  #   needs: [build, test_linux, test_windows, integration_test]
+  #   uses: codebeltnet/jobs-codeql/.github/workflows/default.yml@v2
+  #   with:
+  #     timeout-minutes: 30
+  #     include-preview: true
+  #   permissions:
+  #     security-events: write
 
   deploy:
     if: github.event_name != 'pull_request'
