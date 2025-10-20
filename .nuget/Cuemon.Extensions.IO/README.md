@@ -1,9 +1,13 @@
 ## About
 
-An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
-Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
+An open-source project (MIT license) that enhances and complements the Microsoft .NET platform. It provides powerful capabilities for developers across modern, cross-platform, and legacy environments.
 
-It is, by heart, free, flexible and built to extend and boost your agile codebelt.
+Your versatile companion for:
+- Modern development with `.NET 9` and  `.NET 10`,
+- Cross-platform libraries with `.NET Standard 2` (where applicable),
+- Legacy applications on `.NET Framework 4.6.2` and newer.
+
+It is (by heart) free, flexible and built to extend and boost your agile codebelt.
 
 ## **Cuemon.Extensions.IO** for .NET
 
