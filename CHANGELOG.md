@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [10.0.0] - TBD
+## [10.0.0] - 2025-11-11
 
 This is a major release that focuses on adapting to the latest .NET 10 (LTS) release, while also removing support for .NET 8 (LTS).
 
