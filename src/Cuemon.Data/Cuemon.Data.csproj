@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.Data namespace contains types that provide ways to connect, build and manipulate different data sources. The namespace is an addition to the System.Data namespace.</Description>
-    <PackageTags>database db abstractions dto data-transfer row column bulk-copy dsv csv xml-data-reader dsv-data-reader concurrent-dsv-data-reader in-operator token-builder</PackageTags>
+    <PackageTags>database db abstractions dto data-transfer row column bulk-copy dsv csv data-reader xml-data-reader dsv-data-reader concurrent-dsv-data-reader in-operator token-builder</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
