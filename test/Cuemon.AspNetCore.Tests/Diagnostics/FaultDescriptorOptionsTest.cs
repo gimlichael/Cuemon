@@ -6,7 +6,6 @@ using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.Diagnostics;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Diagnostics
 {

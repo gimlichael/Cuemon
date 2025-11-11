@@ -10,7 +10,6 @@ using Cuemon.Extensions.Assets;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Xml.Serialization;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions
 {

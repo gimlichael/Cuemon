@@ -9,7 +9,6 @@ using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Authentication
 {

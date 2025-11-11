@@ -3,7 +3,6 @@ using Cuemon.Data.Integrity;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Security;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Data.Integrity
 {
@@ -25,7 +24,7 @@ namespace Cuemon.Extensions.AspNetCore.Data.Integrity
             TestOutput.WriteLine(sut2.ToString());
 
             Assert.True(sut2.IsWeak);
-            Assert.Equal($"\"{sut4}\"", sut2.Tag);
+            Assert.Equal<string>($"\"{sut4}\"", sut2.Tag.ToString());
             Assert.Equal($"W/\"{sut4}\"", sut2.ToString());
         }
 
@@ -41,7 +40,7 @@ namespace Cuemon.Extensions.AspNetCore.Data.Integrity
             TestOutput.WriteLine(sut2.ToString());
 
             Assert.False(sut2.IsWeak);
-            Assert.Equal($"\"{sut4}\"", sut2.Tag);
+            Assert.Equal<string>($"\"{sut4}\"", sut2.Tag.ToString());
             Assert.Equal($"\"{sut4}\"", sut2.ToString());
         }
     }

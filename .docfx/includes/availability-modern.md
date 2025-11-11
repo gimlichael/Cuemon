@@ -1,1 +1,1 @@
-Availability: .NET 9 and .NET 8
+Availability: .NET 10 and .NET 9

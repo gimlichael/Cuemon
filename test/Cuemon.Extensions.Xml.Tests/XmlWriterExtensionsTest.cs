@@ -5,7 +5,6 @@ using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xml
 {

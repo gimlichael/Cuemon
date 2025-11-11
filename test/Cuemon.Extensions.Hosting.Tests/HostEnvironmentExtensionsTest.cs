@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Hosting
 {
@@ -24,7 +23,7 @@ namespace Cuemon.Extensions.Hosting
         [Fact]
         public void IsLocalDevelopment_VerifyEnvironmentEqualsLocalDevelopment()
         {
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             Assert.True(Environment.IsLocalDevelopment());
             Assert.False(Environment.IsProduction());
             Assert.False(Environment.IsStaging());
@@ -41,7 +40,7 @@ namespace Cuemon.Extensions.Hosting
         [Fact]
         public void IsLocalDevelopment_VerifyEnvironmentIsNonProduction()
         {
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             Assert.True(Environment.IsNonProduction());
             Assert.False(Environment.IsProduction());
 #else

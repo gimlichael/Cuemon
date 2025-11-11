@@ -8,7 +8,6 @@ using Cuemon.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Net.Http.Headers;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Http
 {

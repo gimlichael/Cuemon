@@ -5,7 +5,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Configuration
 {

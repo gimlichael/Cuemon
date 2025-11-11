@@ -11,7 +11,6 @@ using Codebelt.Extensions.Xunit;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Diagnostics
 {

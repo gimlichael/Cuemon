@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Authentication.Hmac
 {

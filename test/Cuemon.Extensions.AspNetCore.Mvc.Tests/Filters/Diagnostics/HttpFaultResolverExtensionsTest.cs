@@ -6,7 +6,6 @@ using Cuemon.AspNetCore.Http;
 using Codebelt.Extensions.Xunit;
 using Microsoft.AspNetCore.Http;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
 {

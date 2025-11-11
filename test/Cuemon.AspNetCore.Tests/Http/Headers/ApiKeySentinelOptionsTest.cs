@@ -3,7 +3,6 @@ using System.Net;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Net.Http;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {

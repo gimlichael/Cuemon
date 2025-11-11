@@ -11,7 +11,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.IO;
 using Cuemon.Xml.Assets;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Xml.Serialization.Formatters
 {

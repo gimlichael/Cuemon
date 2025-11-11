@@ -7,12 +7,11 @@ using Codebelt.Extensions.Xunit.Hosting;
 using Cuemon.Runtime.Caching.Assets;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Priority;
+using Xunit.v3.Priority;
 
 namespace Cuemon.Runtime.Caching
 {
-    [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
+    [TestCaseOrderer(typeof(PriorityOrderer))]
     public class SlimMemoryCacheTest : HostTest<ManagedHostFixture>
     {
         private readonly SlimMemoryCache _cache;

@@ -4,7 +4,6 @@ using Cuemon.AspNetCore.Authentication.Digest;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Security.Cryptography;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Authentication
 {

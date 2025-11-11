@@ -9,7 +9,6 @@ using Codebelt.Extensions.Xunit.Hosting;
 using Cuemon.Runtime.Caching;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Runtime.Caching
 {

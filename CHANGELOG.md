@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [10.0.0] - 2025-11-11
+
+This is a major release that focuses on adapting to the latest .NET 10 (LTS) release, while also removing support for .NET 8 (LTS).
+
+### Changed
+
+- Lock statement has been updated to use the new System.Threading.Lock class where applicable
+
+### Removed
+
+- Backport.System.Threading.Lock (since System.Threading.Lock is now available in modern TFMs) dependency from Cuemon.Extensions.Threading
+
+> [!NOTE]
+> Although a tough decision (as I love FOSS and the community behind), this is aligned with the original idea and concept behind **Cuemon for .NET**; to enhance the developer experience with additional features,
+> functionality and extensions for namespaces within Base Class Library (BCL) while adhering to Framework Design Guidelines (FDG)
+> and not relying on 3rd party libraries that are not part of the BCL.<br/><br/>
+> _A warm thank you to [Mark Cilia Vincenti](https://github.com/MarkCiliaVincenti) for his idea and contribution to include [Backport.System.Threading.Lock library](https://www.nuget.org/packages/Backport.System.Threading.Lock) into the Cuemon assembly family._
+
 ## [9.0.10] - 2025-10-17
 
 This is a service update that focuses on package dependencies.

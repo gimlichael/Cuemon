@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Xunit.Abstractions;
 using Environments = Cuemon.Extensions.Hosting.Environments;
 
 namespace Cuemon.Extensions.AspNetCore.Hosting

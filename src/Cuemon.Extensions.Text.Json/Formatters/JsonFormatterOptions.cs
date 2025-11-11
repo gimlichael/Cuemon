@@ -16,7 +16,11 @@ namespace Cuemon.Extensions.Text.Json.Formatters
     /// </summary>
     public class JsonFormatterOptions : IContentNegotiation, IExceptionDescriptorOptions, IValidatableParameterObject
     {
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly System.Threading.Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
         private bool _refreshed;
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
 
         internal JsonSerializerOptions RefreshWithConverterDependencies()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 if (!_refreshed)
                 {

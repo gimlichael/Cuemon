@@ -6,7 +6,6 @@ using Cuemon.Assets;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Reflection
 {
@@ -54,7 +53,7 @@ namespace Cuemon.Reflection
 
             TestOutput.WriteLine(v.ToString());
 
-            Assert.Equal("9.0.0.0", v.ToString());
+            Assert.Equal("10.0.0.0", v.ToString());
             Assert.False(v.HasAlphanumericVersion);
             Assert.False(v.IsSemanticVersion());
         }

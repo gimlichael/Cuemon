@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Extensions.Text.Json.Formatters;
@@ -12,7 +12,6 @@ using Codebelt.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.DependencyInjection
 {
@@ -386,7 +385,7 @@ namespace Cuemon.Extensions.DependencyInjection
             Assert.Null(sut9);
         }
 
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
 
         [Fact]
         public void TryConfigure_ShouldAddConfigureOptions()

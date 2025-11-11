@@ -3,7 +3,6 @@ using System.Linq;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Collections.Generic;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Collections.Generic
 {

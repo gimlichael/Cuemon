@@ -4,7 +4,6 @@ using Cuemon.Data.Integrity;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Security;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc
 {

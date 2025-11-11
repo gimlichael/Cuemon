@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ProjectGuid>180bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
@@ -8,13 +8,6 @@
     <Description>The Cuemon.Extensions.Threading namespace contains extension methods that complements the System.Threading namespace.</Description>
     <PackageTags>extension-methods extensions continue-with-captured-context continue-with-suppressed-context</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Backport.System.Threading.Lock" />
-    <Using Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="System.Threading.Lock" />
-    <Using Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="Backport.System.Threading.Lock" />
-    <Using Alias="LockFactory" Include="Backport.System.Threading.LockFactory" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using Codebelt.Extensions.Xunit;
-using Xunit.Abstractions;
 using Xunit;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable

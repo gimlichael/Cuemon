@@ -712,7 +712,11 @@ namespace Cuemon.Extensions.Runtime.Caching
             };
         }
 
-        private static readonly object PadLock = new();
+#if NET9_0_OR_GREATER
+        private readonly static System.Threading.Lock PadLock = new();
+#else
+        private readonly static object PadLock = new();
+#endif
 
         private static TResult Memoize<TKey, TTuple, TResult>(ICacheEnumerable<TKey> cache, string key, CacheInvalidation invalidation, FuncFactory<TTuple, TResult> valueFactory) where TTuple : MutableTuple
         {

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Cuemon.Extensions;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Threading
 {

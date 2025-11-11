@@ -26,7 +26,7 @@ namespace Cuemon.Resilience
 
         private void ResilientCatchInnerTry(int attempts, TimeSpan waitTime, Exception ex, Action awaiter)
         {
-            lock (AggregatedExceptions) { AggregatedExceptions.Insert(0, ex); }
+            lock (_lock) { AggregatedExceptions.Insert(0, ex); }
             IsTransientFault = Options.DetectionStrategy(ex);
             if (attempts >= Options.RetryAttempts) { ExceptionDispatchInfo.Capture(ex).Throw(); }
             if (!IsTransientFault) { ExceptionDispatchInfo.Capture(ex).Throw(); }

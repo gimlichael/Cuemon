@@ -2,7 +2,6 @@
 using Cuemon.AspNetCore.Http.Headers;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http.Throttling
 {

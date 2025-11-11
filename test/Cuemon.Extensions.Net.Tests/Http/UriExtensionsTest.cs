@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Threading;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Net.Http
 {

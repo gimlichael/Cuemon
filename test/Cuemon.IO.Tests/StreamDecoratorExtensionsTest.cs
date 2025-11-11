@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions.IO;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.IO
 {
@@ -17,7 +16,7 @@ namespace Cuemon.IO
         {
         }
 
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
 
         [Fact]
         public void CompressBrotli_ShouldCompressAndDecompress()

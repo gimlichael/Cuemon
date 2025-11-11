@@ -14,7 +14,11 @@ namespace Cuemon.Data
     /// <seealso cref="Watcher" />
     public class DatabaseWatcher : Watcher
     {
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly System.Threading.Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseWatcher"/> class.
@@ -54,7 +58,7 @@ namespace Cuemon.Data
         /// <returns>The task object representing the asynchronous operation.</returns>
         protected override Task HandleSignalingAsync()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 try
                 {

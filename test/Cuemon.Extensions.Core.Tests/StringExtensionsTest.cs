@@ -5,7 +5,6 @@ using System.Linq;
 using Cuemon.Collections.Generic;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions
 {

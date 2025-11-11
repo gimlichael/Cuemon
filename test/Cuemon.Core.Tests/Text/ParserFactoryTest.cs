@@ -4,7 +4,6 @@ using System.Globalization;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Text
 {
@@ -83,7 +82,7 @@ namespace Cuemon.Text
             var sg = Guid.NewGuid();
             Assert.Equal(sg, ParserFactory.FromObject().Parse<Guid>(sg.ToString()));
 
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             var v = new Version();
             Assert.Equal(v, ParserFactory.FromObject().Parse(v.ToString(), typeof(Version)));
 #endif

@@ -7,7 +7,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xml
 {

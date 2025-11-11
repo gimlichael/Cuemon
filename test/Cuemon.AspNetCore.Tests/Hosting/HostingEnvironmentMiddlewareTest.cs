@@ -8,7 +8,6 @@ using Cuemon.Extensions.AspNetCore.Hosting;
 using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Hosting
 {

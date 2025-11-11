@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
-    <TargetFrameworks>net9.0;net8.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0;netstandard2.0</TargetFrameworks>
     <Copyright>Copyright © Geekle 2009-2025. All rights reserved.</Copyright>
     <Authors>gimlichael</Authors>
     <Company>Geekle</Company>
@@ -53,29 +53,32 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'true' AND '$(IsLinux)' == 'true'">
-    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'true' AND '$(IsWindows)' == 'true'">
-    <TargetFrameworks>net9.0;net8.0;net48</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0;net48</TargetFrameworks>
+    <RestoreEnablePackagePruning Condition="$(TargetFramework.StartsWith('net4'))">false</RestoreEnablePackagePruning>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
     <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
     <RunAnalyzers>false</RunAnalyzers>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
     <SonarQubeExclude>true</SonarQubeExclude>
     <WarningLevel>0</WarningLevel>
     <AnalysisLevel>none</AnalysisLevel>
-    <NoWarn>NU1701,NU1903</NoWarn>
+    <NoWarn>NU1701,NU1902,NU1903</NoWarn>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.console" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.v3.runner.console" />
     <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

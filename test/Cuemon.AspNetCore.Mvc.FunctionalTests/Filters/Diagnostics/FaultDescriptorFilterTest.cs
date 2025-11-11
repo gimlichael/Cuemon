@@ -12,7 +12,6 @@ using Codebelt.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {

@@ -1,7 +1,6 @@
 ﻿using Codebelt.Extensions.Xunit;
 using System;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Authentication
 {

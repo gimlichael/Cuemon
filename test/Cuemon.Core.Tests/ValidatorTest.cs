@@ -10,7 +10,6 @@ using Cuemon.Extensions;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon
 {

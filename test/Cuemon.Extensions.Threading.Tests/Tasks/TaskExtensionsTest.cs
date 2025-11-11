@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Threading.Tasks
 {
@@ -23,7 +22,7 @@ namespace Cuemon.Extensions.Threading.Tasks
             var sut = task.ContinueWithCapturedContext();
             var configuredTaskAwaiter = sut.GetType().GetField("m_configuredTaskAwaiter", MemberReflection.Everything).GetValue(sut).As<ConfiguredTaskAwaitable.ConfiguredTaskAwaiter>();
             var continueOnCapturedContext = false;
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_options", MemberReflection.Everything)?.GetValue(configuredTaskAwaiter)?.As<ConfigureAwaitOptions>() == ConfigureAwaitOptions.ContinueOnCapturedContext;
 #else
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_continueOnCapturedContext", MemberReflection.Everything).GetValue(configuredTaskAwaiter).As<bool>();
@@ -45,7 +44,7 @@ namespace Cuemon.Extensions.Threading.Tasks
             var sut = task.ContinueWithSuppressedContext();
             var configuredTaskAwaiter = sut.GetType().GetField("m_configuredTaskAwaiter", MemberReflection.Everything).GetValue(sut).As<ConfiguredTaskAwaitable.ConfiguredTaskAwaiter>();
             var continueOnCapturedContext = true;
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_options", MemberReflection.Everything)?.GetValue(configuredTaskAwaiter)?.As<ConfigureAwaitOptions>() == ConfigureAwaitOptions.ContinueOnCapturedContext;
 #else
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_continueOnCapturedContext", MemberReflection.Everything).GetValue(configuredTaskAwaiter).As<bool>();
@@ -65,7 +64,7 @@ namespace Cuemon.Extensions.Threading.Tasks
             var awaitableTask = sut.ContinueWithCapturedContext();
             var configuredTaskAwaiter = awaitableTask.GetType().GetField("m_configuredTaskAwaiter", MemberReflection.Everything).GetValue(awaitableTask).As<ConfiguredTaskAwaitable<int>.ConfiguredTaskAwaiter>();
             var continueOnCapturedContext = false;
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_options", MemberReflection.Everything)?.GetValue(configuredTaskAwaiter)?.As<ConfigureAwaitOptions>() == ConfigureAwaitOptions.ContinueOnCapturedContext;
 #else
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_continueOnCapturedContext", MemberReflection.Everything).GetValue(configuredTaskAwaiter).As<bool>();
@@ -85,7 +84,7 @@ namespace Cuemon.Extensions.Threading.Tasks
             var sut = task.ContinueWithSuppressedContext();
             var configuredTaskAwaiter = sut.GetType().GetField("m_configuredTaskAwaiter", MemberReflection.Everything).GetValue(sut).As<ConfiguredTaskAwaitable<int>.ConfiguredTaskAwaiter>();
             var continueOnCapturedContext = true;
-#if NET8_0_OR_GREATER
+#if NET9_0_OR_GREATER
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_options", MemberReflection.Everything)?.GetValue(configuredTaskAwaiter)?.As<ConfigureAwaitOptions>() == ConfigureAwaitOptions.ContinueOnCapturedContext;
 #else
             continueOnCapturedContext = configuredTaskAwaiter.GetType().GetField("m_continueOnCapturedContext", MemberReflection.Everything).GetValue(configuredTaskAwaiter).As<bool>();

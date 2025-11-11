@@ -13,7 +13,11 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// </summary>
     public class XmlFormatterOptions : IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
-        private readonly object _locker = new();
+#if NET9_0_OR_GREATER
+        private readonly System.Threading.Lock _lock = new();
+#else
+        private readonly object _lock = new();
+#endif
         private bool _refreshed;
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Cuemon.Xml.Serialization.Formatters
 
         internal XmlSerializerOptions RefreshWithConverterDependencies()
         {
-            lock (_locker)
+            lock (_lock)
             {
                 if (!_refreshed)
                 {

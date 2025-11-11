@@ -3,7 +3,6 @@ using Cuemon.Extensions.Xml.Assets;
 using Codebelt.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xml
 {

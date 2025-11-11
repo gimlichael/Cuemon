@@ -6,7 +6,6 @@ using Codebelt.Extensions.Xunit;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Reflection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Resilience
 {

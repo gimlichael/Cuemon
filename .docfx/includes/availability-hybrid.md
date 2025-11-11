@@ -1,1 +1,1 @@
-Availability: .NET 9, .NET 8 and .NET Standard 2.0 (when applicable) or .NET Standard 2.1 (when applicable)
+Availability: .NET 10, .NET 9 and .NET Standard 2.0 (when applicable) or .NET Standard 2.1 (when applicable)

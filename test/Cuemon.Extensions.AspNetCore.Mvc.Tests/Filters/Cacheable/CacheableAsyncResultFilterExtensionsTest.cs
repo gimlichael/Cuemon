@@ -6,7 +6,6 @@ using Cuemon.Configuration;
 using Cuemon.Extensions.AspNetCore.Mvc.Assets;
 using Codebelt.Extensions.Xunit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
 {

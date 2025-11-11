@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.Resilience;
+using Microsoft.Data.SqlClient;
 
 namespace Cuemon.Data.SqlClient
 {
